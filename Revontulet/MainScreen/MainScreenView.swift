@@ -3,7 +3,7 @@ import SwiftUI
 
 /// "Should I go outside and look?" at a glance (contracts/main-screen-states.md).
 struct MainScreenView: View {
-    @State var model: MainScreenModel
+    let model: MainScreenModel
 
     @State private var isChoosingPlace = false
 
@@ -143,7 +143,8 @@ private struct ResultView: View {
         }
         .scrollBounceBehavior(.always)
         .refreshable { await model.userRefresh() }
-        .sensoryFeedback(.success, trigger: result.computedAt)
+        // Only refreshes the user asked for; the 5-minute background refresh stays silent.
+        .sensoryFeedback(.success, trigger: model.userRefreshesCompleted)
     }
 }
 
@@ -336,6 +337,17 @@ private struct StatusView<Actions: View>: View {
     @ViewBuilder var actions: Actions
 
     var body: some View {
+        // Scrolls rather than truncating when large Dynamic Type makes it taller than the screen.
+        ScrollView {
+            stack
+                .frame(maxWidth: .infinity)
+        }
+        .scrollBounceBehavior(.basedOnSize)
+        // Centred when it fits; taller content starts from the top.
+        .defaultScrollAnchor(.center, for: .alignment)
+    }
+
+    private var stack: some View {
         VStack(spacing: 16) {
             Image(systemName: symbol)
                 .font(.system(size: 52, weight: .light))

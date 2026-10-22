@@ -41,6 +41,8 @@ final class MainScreenModel {
     /// true when the last refresh failed to fetch data from FMI.
     private(set) var isOffline = false
     private(set) var selection: PlaceSelection
+    /// Counts refreshes asked for by the user that ended with a fresh result.
+    private(set) var userRefreshesCompleted = 0
     /// The bundled municipalities, once loaded; the place picker searches them.
     private(set) var placeResolver: PlaceResolver?
 
@@ -132,6 +134,7 @@ final class MainScreenModel {
         let force = lastForcedRefresh.map { date.timeIntervalSince($0) >= Self.manualRefreshDebounce } ?? true
         if force { lastForcedRefresh = date }
         await refresh(force: force)
+        if hasResult, !isOffline { userRefreshesCompleted += 1 }
     }
 
     /// Locates the user (or takes the chosen municipality) and computes a fresh result. A valid
