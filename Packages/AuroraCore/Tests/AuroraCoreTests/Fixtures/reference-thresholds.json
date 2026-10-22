@@ -1,0 +1,42 @@
+{
+ "HAN": {
+  "red": 140,
+  "yellow": 63
+ },
+ "IVA": {
+  "red": 275,
+  "yellow": 72
+ },
+ "KEV": {
+  "red": 165,
+  "yellow": 55
+ },
+ "KIL": {
+  "red": 210,
+  "yellow": 61
+ },
+ "MEK": {
+  "red": 150,
+  "yellow": 64
+ },
+ "MUO": {
+  "red": 300,
+  "yellow": 75
+ },
+ "OUJ": {
+  "red": 200,
+  "yellow": 68
+ },
+ "PEL": {
+  "red": 285,
+  "yellow": 73
+ },
+ "RAN": {
+  "red": 240,
+  "yellow": 70
+ },
+ "TAR": {
+  "red": 100,
+  "yellow": 55
+ }
+}

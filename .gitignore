@@ -9,3 +9,14 @@
 .DS_Store
 .vscode/
 .idea/
+
+# Swift / Xcode
+.build/
+.swiftpm/
+DerivedData/
+xcuserdata/
+*.xcodeproj/
+
+# Development tools
+tools/__pycache__/
+tools/.cache/

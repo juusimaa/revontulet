@@ -106,7 +106,7 @@ fixtures.
 - Data latency is about 1 minute. Refresh every 5 minutes while the app is in the foreground.
 
 **Rationale**: Requesting all stations sends no location information at all (Principle II) and
-lets the app fall back to the next-nearest station with data (FR-005). Estimated size ≈ 0.5 MB
+lets the app fall back to the next-nearest station with data (FR-005). Measured size ≈ 1.5 MB
 uncompressed, tens of KB gzipped (URLSession decompresses automatically).
 
 **Alternatives considered**: requesting only the nearest station's `fmisid` (smaller, but reveals

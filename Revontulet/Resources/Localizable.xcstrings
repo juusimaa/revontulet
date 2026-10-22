@@ -1,0 +1,14 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "Revontulet" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Revontulet" } },
+        "fi" : { "stringUnit" : { "state" : "translated", "value" : "Revontulet" } },
+        "sv" : { "stringUnit" : { "state" : "translated", "value" : "Revontulet" } }
+      }
+    }
+  },
+  "version" : "1.0"
+}

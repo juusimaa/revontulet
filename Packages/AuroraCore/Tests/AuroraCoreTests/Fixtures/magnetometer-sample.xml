@@ -1,0 +1,2861 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wfs:FeatureCollection
+  timeStamp="2026-10-22T16:37:16Z"
+  numberReturned="219"
+  numberMatched="219"
+      xmlns:wfs="http://www.opengis.net/wfs/2.0"
+    xmlns:gml="http://www.opengis.net/gml/3.2"
+    xmlns:BsWfs="http://xml.fmi.fi/schema/wfs/2.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.opengis.net/wfs/2.0 http://schemas.opengis.net/wfs/2.0/wfs.xsd
+                        http://xml.fmi.fi/schema/wfs/2.0 https://xml.fmi.fi/schema/wfs/2.0/fmi_wfs_simplefeature.xsd"
+>
+  	
+<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.439.1">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.439.1" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:23:10Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNX_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>91.2</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.439.2">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.439.2" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:23:10Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNY_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>508.3</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.439.3">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.439.3" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:23:10Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNZ_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>-372.2</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.440.1">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.440.1" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:23:20Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNX_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>91.2</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.440.2">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.440.2" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:23:20Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNY_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>508.4</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.440.3">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.440.3" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:23:20Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNZ_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>-372.0</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.441.1">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.441.1" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:23:30Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNX_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>91.4</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.441.2">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.441.2" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:23:30Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNY_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>508.5</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.441.3">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.441.3" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:23:30Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNZ_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>-372.0</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.442.1">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.442.1" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:23:40Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNX_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>91.5</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.442.2">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.442.2" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:23:40Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNY_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>508.4</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.442.3">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.442.3" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:23:40Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNZ_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>-372.0</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.443.1">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.443.1" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:23:50Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNX_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>91.9</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.443.2">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.443.2" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:23:50Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNY_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>508.4</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.443.3">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.443.3" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:23:50Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNZ_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>-371.9</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.444.1">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.444.1" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:24:00Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNX_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>92.2</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.444.2">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.444.2" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:24:00Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNY_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>508.8</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.444.3">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.444.3" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:24:00Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNZ_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>-372.1</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.445.1">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.445.1" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:24:10Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNX_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>92.6</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.445.2">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.445.2" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:24:10Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNY_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>508.8</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.445.3">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.445.3" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:24:10Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNZ_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>-372.0</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.446.1">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.446.1" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:24:20Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNX_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>93.1</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.446.2">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.446.2" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:24:20Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNY_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>508.4</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.446.3">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.446.3" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:24:20Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNZ_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>-371.8</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.447.1">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.447.1" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:24:30Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNX_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>93.6</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.447.2">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.447.2" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:24:30Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNY_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>508.2</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.447.3">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.447.3" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:24:30Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNZ_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>-371.9</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.448.1">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.448.1" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:24:40Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNX_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>93.9</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.448.2">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.448.2" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:24:40Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNY_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>507.7</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.448.3">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.448.3" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:24:40Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNZ_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>-371.9</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.449.1">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.449.1" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:24:50Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNX_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>94.4</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.449.2">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.449.2" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:24:50Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNY_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>507.0</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.449.3">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.449.3" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:24:50Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNZ_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>-372.0</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.450.1">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.450.1" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:25:00Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNX_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>94.5</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.450.2">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.450.2" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:25:00Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNY_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>506.5</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.450.3">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.450.3" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:25:00Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNZ_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>-372.4</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.451.1">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.451.1" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:25:10Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNX_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>94.3</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.451.2">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.451.2" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:25:10Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNY_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>506.0</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.451.3">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.451.3" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:25:10Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNZ_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>-372.5</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.452.1">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.452.1" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:25:20Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNX_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>94.6</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.452.2">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.452.2" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:25:20Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNY_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>504.7</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.452.3">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.452.3" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:25:20Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNZ_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>-372.6</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.453.1">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.453.1" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:25:30Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNX_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>94.4</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.453.2">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.453.2" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:25:30Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNY_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>504.4</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.453.3">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.453.3" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:25:30Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNZ_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>-373.1</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.454.1">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.454.1" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:25:40Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNX_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>94.2</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.454.2">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.454.2" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:25:40Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNY_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>504.1</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.454.3">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.454.3" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:25:40Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNZ_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>-373.0</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.455.1">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.455.1" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:25:50Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNX_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>94.4</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.455.2">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.455.2" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:25:50Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNY_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>503.4</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.455.3">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.455.3" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:25:50Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNZ_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>-373.3</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.456.1">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.456.1" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:26:00Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNX_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>93.8</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.456.2">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.456.2" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:26:00Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNY_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>503.3</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.456.3">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.456.3" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:26:00Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNZ_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>-373.7</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.457.1">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.457.1" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:26:10Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNX_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>93.6</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.457.2">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.457.2" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:26:10Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNY_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>503.1</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.457.3">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.457.3" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:26:10Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNZ_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>-373.5</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.458.1">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.458.1" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:26:20Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNX_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>93.7</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.458.2">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.458.2" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:26:20Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNY_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>502.6</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.458.3">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.458.3" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:26:20Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNZ_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>-373.9</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.459.1">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.459.1" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:26:30Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNX_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>93.0</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.459.2">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.459.2" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:26:30Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNY_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>502.7</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.459.3">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.459.3" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:26:30Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNZ_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>-374.2</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.460.1">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.460.1" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:26:40Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNX_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>92.7</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.460.2">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.460.2" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:26:40Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNY_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>502.6</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.460.3">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.460.3" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:26:40Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNZ_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>-374.3</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.461.1">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.461.1" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:26:50Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNX_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>92.4</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.461.2">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.461.2" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:26:50Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNY_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>502.6</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.461.3">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.461.3" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:26:50Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNZ_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>-374.4</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.462.1">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.462.1" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:27:00Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNX_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>91.8</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.462.2">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.462.2" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:27:00Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNY_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>502.7</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.462.3">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.462.3" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:27:00Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNZ_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>-374.5</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.463.1">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.463.1" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:27:10Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNX_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>91.7</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.463.2">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.463.2" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:27:10Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNY_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>502.7</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.463.3">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.463.3" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:27:10Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNZ_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>-374.3</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.464.1">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.464.1" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:27:20Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNX_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>91.7</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.464.2">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.464.2" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:27:20Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNY_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>502.9</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.464.3">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.464.3" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:27:20Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNZ_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>-374.3</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.465.1">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.465.1" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:27:30Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNX_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>91.3</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.465.2">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.465.2" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:27:30Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNY_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>503.7</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.465.3">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.465.3" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:27:30Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNZ_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>-374.4</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.466.1">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.466.1" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:27:40Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNX_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>91.1</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.466.2">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.466.2" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:27:40Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNY_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>504.0</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.466.3">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.466.3" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:27:40Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNZ_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>-374.2</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.467.1">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.467.1" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:27:50Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNX_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>91.3</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.467.2">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.467.2" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:27:50Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNY_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>503.9</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.467.3">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.467.3" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:27:50Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNZ_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>-374.0</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.468.1">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.468.1" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:28:00Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNX_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>91.2</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.468.2">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.468.2" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:28:00Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNY_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>504.2</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.468.3">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.468.3" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:28:00Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNZ_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>-374.2</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.469.1">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.469.1" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:28:10Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNX_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>91.2</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.469.2">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.469.2" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:28:10Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNY_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>504.5</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.469.3">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.469.3" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:28:10Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNZ_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>-374.0</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.470.1">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.470.1" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:28:20Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNX_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>91.4</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.470.2">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.470.2" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:28:20Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNY_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>504.8</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.470.3">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.470.3" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:28:20Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNZ_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>-374.0</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.471.1">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.471.1" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:28:30Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNX_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>91.2</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.471.2">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.471.2" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:28:30Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNY_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>505.0</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.471.3">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.471.3" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:28:30Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNZ_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>-374.2</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.472.1">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.472.1" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:28:40Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNX_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>91.2</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.472.2">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.472.2" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:28:40Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNY_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>505.1</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.472.3">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.472.3" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:28:40Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNZ_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>-373.9</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.473.1">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.473.1" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:28:50Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNX_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>91.2</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.473.2">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.473.2" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:28:50Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNY_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>505.5</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.473.3">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.473.3" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:28:50Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNZ_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>-374.1</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.474.1">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.474.1" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:29:00Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNX_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>90.9</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.474.2">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.474.2" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:29:00Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNY_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>505.7</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.474.3">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.474.3" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:29:00Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNZ_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>-374.2</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.475.1">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.475.1" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:29:10Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNX_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>90.6</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.475.2">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.475.2" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:29:10Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNY_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>505.8</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.475.3">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.475.3" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:29:10Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNZ_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>-374.1</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.476.1">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.476.1" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:29:20Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNX_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>90.2</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.476.2">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.476.2" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:29:20Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNY_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>506.4</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.476.3">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.476.3" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:29:20Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNZ_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>-374.3</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.477.1">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.477.1" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:29:30Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNX_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>90.2</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.477.2">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.477.2" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:29:30Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNY_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>507.0</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.477.3">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.477.3" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:29:30Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNZ_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>-374.3</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.478.1">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.478.1" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:29:40Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNX_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>90.3</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.478.2">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.478.2" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:29:40Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNY_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>507.4</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.478.3">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.478.3" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:29:40Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNZ_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>-374.3</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.479.1">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.479.1" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:29:50Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNX_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>90.1</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.479.2">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.479.2" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:29:50Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNY_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>507.6</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.479.3">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.479.3" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:29:50Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNZ_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>-374.4</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.480.1">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.480.1" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:30:00Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNX_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>90.1</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.480.2">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.480.2" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:30:00Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNY_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>507.5</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.480.3">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.480.3" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:30:00Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNZ_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>-374.3</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.481.1">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.481.1" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:30:10Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNX_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>90.0</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.481.2">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.481.2" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:30:10Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNY_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>507.6</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.481.3">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.481.3" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:30:10Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNZ_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>-374.5</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.482.1">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.482.1" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:30:20Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNX_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>89.8</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.482.2">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.482.2" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:30:20Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNY_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>507.8</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.482.3">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.482.3" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:30:20Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNZ_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>-374.6</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.483.1">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.483.1" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:30:30Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNX_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>89.8</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.483.2">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.483.2" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:30:30Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNY_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>507.8</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.483.3">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.483.3" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:30:30Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNZ_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>-374.6</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.484.1">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.484.1" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:30:40Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNX_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>90.0</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.484.2">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.484.2" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:30:40Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNY_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>507.5</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.484.3">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.484.3" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:30:40Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNZ_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>-374.6</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.485.1">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.485.1" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:30:50Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNX_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>90.0</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.485.2">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.485.2" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:30:50Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNY_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>507.5</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.485.3">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.485.3" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:30:50Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNZ_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>-374.8</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.486.1">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.486.1" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:31:00Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNX_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>90.1</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.486.2">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.486.2" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:31:00Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNY_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>507.6</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.486.3">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.486.3" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:31:00Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNZ_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>-374.9</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.487.1">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.487.1" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:31:10Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNX_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>90.2</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.487.2">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.487.2" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:31:10Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNY_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>507.3</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.487.3">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.487.3" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:31:10Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNZ_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>-375.1</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.488.1">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.488.1" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:31:20Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNX_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>90.2</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.488.2">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.488.2" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:31:20Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNY_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>507.1</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.488.3">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.488.3" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:31:20Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNZ_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>-375.3</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.489.1">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.489.1" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:31:30Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNX_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>90.4</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.489.2">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.489.2" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:31:30Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNY_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>506.8</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.489.3">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.489.3" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:31:30Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNZ_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>-375.3</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.490.1">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.490.1" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:31:40Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNX_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>90.8</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.490.2">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.490.2" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:31:40Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNY_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>506.7</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.490.3">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.490.3" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:31:40Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNZ_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>-375.5</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.491.1">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.491.1" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:31:50Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNX_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>90.9</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.491.2">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.491.2" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:31:50Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNY_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>506.6</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.491.3">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.491.3" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:31:50Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNZ_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>-375.9</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.492.1">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.492.1" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:32:00Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNX_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>91.0</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.492.2">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.492.2" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:32:00Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNY_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>506.4</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.492.3">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.492.3" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:32:00Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNZ_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>-375.9</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.493.1">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.493.1" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:32:10Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNX_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>91.2</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.493.2">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.493.2" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:32:10Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNY_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>506.2</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.493.3">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.493.3" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:32:10Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNZ_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>-376.2</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.494.1">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.494.1" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:32:20Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNX_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>91.1</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.494.2">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.494.2" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:32:20Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNY_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>506.2</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.494.3">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.494.3" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:32:20Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNZ_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>-376.5</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.495.1">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.495.1" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:32:30Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNX_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>91.2</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.495.2">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.495.2" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:32:30Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNY_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>506.1</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.495.3">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.495.3" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:32:30Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNZ_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>-376.6</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.496.1">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.496.1" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:32:40Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNX_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>91.3</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.496.2">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.496.2" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:32:40Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNY_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>506.1</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.496.3">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.496.3" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:32:40Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNZ_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>-376.8</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.497.1">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.497.1" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:32:50Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNX_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>91.2</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.497.2">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.497.2" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:32:50Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNY_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>506.3</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.497.3">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.497.3" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:32:50Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNZ_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>-377.0</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.498.1">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.498.1" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:33:00Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNX_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>91.0</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.498.2">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.498.2" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:33:00Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNY_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>506.5</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.498.3">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.498.3" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:33:00Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNZ_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>-377.1</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.499.1">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.499.1" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:33:10Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNX_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>91.0</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.499.2">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.499.2" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:33:10Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNY_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>506.4</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.499.3">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.499.3" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:33:10Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNZ_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>-377.2</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.500.1">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.500.1" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:33:20Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNX_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>90.8</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.500.2">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.500.2" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:33:20Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNY_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>506.4</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.500.3">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.500.3" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:33:20Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNZ_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>-377.4</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.501.1">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.501.1" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:33:30Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNX_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>90.9</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.501.2">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.501.2" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:33:30Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNY_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>506.5</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.501.3">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.501.3" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:33:30Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNZ_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>-377.4</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.502.1">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.502.1" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:33:40Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNX_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>91.2</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.502.2">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.502.2" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:33:40Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNY_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>506.5</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.502.3">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.502.3" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:33:40Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNZ_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>-377.3</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.503.1">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.503.1" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:33:50Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNX_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>91.2</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.503.2">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.503.2" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:33:50Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNY_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>506.7</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.503.3">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.503.3" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:33:50Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNZ_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>-377.4</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.504.1">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.504.1" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:34:00Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNX_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>91.3</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.504.2">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.504.2" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:34:00Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNY_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>506.6</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.504.3">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.504.3" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:34:00Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNZ_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>-377.4</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.505.1">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.505.1" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:34:10Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNX_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>91.3</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.505.2">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.505.2" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:34:10Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNY_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>506.6</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.505.3">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.505.3" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:34:10Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNZ_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>-377.5</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.506.1">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.506.1" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:34:20Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNX_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>91.3</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.506.2">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.506.2" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:34:20Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNY_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>506.5</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.506.3">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.506.3" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:34:20Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNZ_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>-377.4</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.507.1">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.507.1" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:34:30Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNX_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>91.6</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.507.2">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.507.2" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:34:30Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNY_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>506.5</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.507.3">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.507.3" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:34:30Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNZ_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>-377.3</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.508.1">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.508.1" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:34:40Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNX_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>91.9</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.508.2">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.508.2" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:34:40Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNY_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>506.4</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.508.3">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.508.3" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:34:40Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNZ_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>-377.3</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.509.1">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.509.1" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:34:50Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNX_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>92.1</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.509.2">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.509.2" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:34:50Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNY_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>506.5</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.509.3">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.509.3" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:34:50Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNZ_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>-377.3</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.510.1">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.510.1" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:35:00Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNX_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>92.2</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.510.2">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.510.2" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:35:00Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNY_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>506.6</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.510.3">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.510.3" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:35:00Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNZ_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>-377.3</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.511.1">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.511.1" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:35:10Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNX_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>92.4</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.511.2">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.511.2" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:35:10Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNY_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>506.2</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	<wfs:member>
+            <BsWfs:BsWfsElement gml:id="BsWfsElement.1.511.3">
+                <BsWfs:Location>
+                    <gml:Point gml:id="BsWfsElementP.1.511.3" srsDimension="2" srsName="http://www.opengis.net/def/crs/EPSG/0/4258">
+                        <gml:pos>62.25400 26.59650 </gml:pos>
+                    </gml:Point>
+                </BsWfs:Location>
+                <BsWfs:Time>2026-10-22T16:35:10Z</BsWfs:Time>
+                <BsWfs:ParameterName>MAGNZ_PT10S_AVG</BsWfs:ParameterName>
+                <BsWfs:ParameterValue>-377.3</BsWfs:ParameterValue>
+            </BsWfs:BsWfsElement>
+	</wfs:member>
+	
+	</wfs:FeatureCollection>

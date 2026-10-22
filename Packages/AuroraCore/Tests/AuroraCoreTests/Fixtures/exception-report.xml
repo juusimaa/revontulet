@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ExceptionReport xmlns="http://www.opengis.net/ows/1.1" version="2.0.0" xml:lang="eng">
+  <Exception exceptionCode="OperationParsingFailed">
+    <ExceptionText>Invalid time interval!</ExceptionText>
+    <ExceptionText>The start time is later than the end time.</ExceptionText>
+  </Exception>
+</ExceptionReport>
