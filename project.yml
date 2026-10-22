@@ -67,6 +67,11 @@ schemes:
       targets:
         Revontulet: all
         RevontuletUITests: [test]
+    run:
+      # Simulator location on every run; switch via Debug → Simulate Location.
+      simulateLocation:
+        allow: true
+        defaultLocation: Revontulet/Locations/Oulu.gpx
     test:
       targets:
         - RevontuletUITests
