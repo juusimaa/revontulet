@@ -1,52 +1,76 @@
 {
-  "sourceLanguage": "en",
-  "strings": {
-    "CFBundleDisplayName": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Revontulet"
+  "sourceLanguage" : "en",
+  "strings" : {
+    "CFBundleDisplayName" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Revontulet"
           }
         },
-        "fi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Revontulet"
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Revontulet"
           }
         },
-        "sv": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Revontulet"
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Revontulet"
           }
         }
       }
     },
-    "NSLocationWhenInUseUsageDescription": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Your location is used only on this device to find the nearest measurement station and your municipality. It is never sent anywhere."
+    "CFBundleName" : {
+      "comment" : "Bundle name",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Revontulet"
           }
         },
-        "fi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sijaintiasi käytetään vain tällä laitteella lähimmän mittausaseman ja kuntasi selvittämiseen. Sitä ei lähetetä minnekään."
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Revontulet"
           }
         },
-        "sv": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Din plats används endast på den här enheten för att hitta närmaste mätstation och din kommun. Den skickas aldrig någonstans."
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Revontulet"
+          }
+        }
+      }
+    },
+    "NSLocationWhenInUseUsageDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your location is used only on this device to find the nearest measurement station and your municipality. It is never sent anywhere."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sijaintiasi käytetään vain tällä laitteella lähimmän mittausaseman ja kuntasi selvittämiseen. Sitä ei lähetetä minnekään."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Din plats används endast på den här enheten för att hitta närmaste mätstation och din kommun. Den skickas aldrig någonstans."
           }
         }
       }
     }
   },
-  "version": "1.0"
+  "version" : "1.0"
 }
