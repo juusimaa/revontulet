@@ -41,7 +41,7 @@ python3 tools/record-fixtures.py           # records new magnetometer + referenc
 
 ```sh
 xcodebuild test -project Revontulet.xcodeproj -scheme Revontulet \
-  -destination 'platform=iOS Simulator,name=iPhone 16'
+  -destination 'platform=iOS Simulator,name=iPhone 17'
 ```
 
 UI tests run against a stubbed HTTP client and fixed location, and cover: result state, offline

@@ -6,6 +6,7 @@ import Synchronization
 final class StubHTTPClient: HTTPClient {
     enum Response: Sendable {
         case fixture(String, status: Int = 200)
+        case data(Data, status: Int = 200)
         case failure
     }
 
@@ -30,6 +31,8 @@ final class StubHTTPClient: HTTPClient {
         switch responses[query] {
         case .fixture(let name, let status):
             return (try Fixtures.data(name), status)
+        case .data(let data, let status):
+            return (data, status)
         case .failure, nil:
             throw StubError()
         }

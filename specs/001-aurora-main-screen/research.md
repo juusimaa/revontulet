@@ -32,6 +32,11 @@ noise-floor subtraction. Negative results are clamped to 0. The exact noise floo
 UNVERIFIED; the scale factor and offset are constants in one place and are re-fitted from recorded
 reference data (see R2).
 
+Verified in `RIndexTests` (2026-10-22, 350 points, 10 stations, 3 h): RMSE 1.36, max error 2.7,
+with `scale = 45` and `offset = 1.5` unchanged. Time alignment: FMI labels R with the end of the
+last 10 s averaging interval, so R at time T uses the 61 samples at T − 610 s … T − 10 s (ending
+the window at T itself gives max error 14). The app shows R's time as the newest sample + 10 s.
+
 **Rationale**: Principle I (open data only). The user chose this over FMI's undocumented chart
 endpoint (see R2).
 
