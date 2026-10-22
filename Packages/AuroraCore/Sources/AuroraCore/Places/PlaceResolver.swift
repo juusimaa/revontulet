@@ -14,6 +14,8 @@ public struct PlaceResolver: Sendable {
 
     public let municipalities: [Municipality]
     private let byCode: [String: Municipality]
+    /// Municipalities in Finnish alphabetical order with their names folded for search.
+    private let searchIndex: [SearchEntry]
 
     public init() throws {
         self.init(municipalities: try ReferenceData.loadMunicipalities())
@@ -22,6 +24,10 @@ public struct PlaceResolver: Sendable {
     init(municipalities: [Municipality]) {
         self.municipalities = municipalities
         byCode = Dictionary(uniqueKeysWithValues: municipalities.map { ($0.code, $0) })
+        let finnish = Locale(identifier: "fi_FI")
+        searchIndex = municipalities
+            .sorted { $0.nameFi.compare($1.nameFi, locale: finnish) == .orderedAscending }
+            .map { SearchEntry(municipality: $0, names: [$0.nameFi, $0.nameSv].compactMap { $0.map(Self.fold) }) }
     }
 
     /// The municipality containing the position, else the nearest one within 15 km, else outside
@@ -51,5 +57,40 @@ public struct PlaceResolver: Sendable {
 
     public func municipality(code: String) -> Municipality? {
         byCode[code]
+    }
+
+    /// Municipalities whose Finnish or Swedish name contains `text`, ignoring case and diacritics
+    /// (FR-010). Names starting with the text come first; each group is in Finnish alphabetical
+    /// order. An empty query lists all municipalities alphabetically.
+    public func search(_ text: String, limit: Int) -> [Municipality] {
+        let query = Self.fold(text.trimmingCharacters(in: .whitespacesAndNewlines))
+        guard !query.isEmpty else { return searchIndex.prefix(limit).map(\.municipality) }
+        var prefixMatches: [Municipality] = []
+        var substringMatches: [Municipality] = []
+        for entry in searchIndex {
+            if entry.names.contains(where: { $0.hasPrefix(query) }) {
+                prefixMatches.append(entry.municipality)
+            } else if entry.names.contains(where: { $0.contains(query) }) {
+                substringMatches.append(entry.municipality)
+            }
+        }
+        return Array((prefixMatches + substringMatches).prefix(limit))
+    }
+
+    private static func fold(_ name: String) -> String {
+        name.folding(options: [.caseInsensitive, .diacriticInsensitive], locale: nil)
+    }
+
+    private struct SearchEntry: Sendable {
+        let municipality: Municipality
+        let names: [String]
+    }
+}
+
+extension Place {
+    /// A manually chosen municipality, located at its representative point.
+    public init(manual municipality: Municipality) {
+        self.init(
+            coordinate: municipality.representativePoint, municipalityCode: municipality.code, source: .manual)
     }
 }

@@ -5,6 +5,8 @@ import SwiftUI
 struct MainScreenView: View {
     @State var model: MainScreenModel
 
+    @State private var isChoosingPlace = false
+
     @Environment(\.colorScheme) private var systemColorScheme
     @Environment(\.scenePhase) private var scenePhase
 
@@ -14,6 +16,10 @@ struct MainScreenView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .background { SkyBackground(level: level).environment(\.colorScheme, systemColorScheme) }
                 .toolbar {
+                    ToolbarItem(placement: .topBarLeading) {
+                        Button("Change place", systemImage: "mappin.and.ellipse") { isChoosingPlace = true }
+                            .accessibilityIdentifier("changePlaceButton")
+                    }
                     ToolbarItem(placement: .topBarTrailing) {
                         Button {
                             Task { await model.userRefresh() }
@@ -33,6 +39,20 @@ struct MainScreenView: View {
             if scenePhase == .active { await model.runWhileActive() }
         }
         .sensoryFeedback(.warning, trigger: model.isOffline) { _, offline in offline }
+        .sensoryFeedback(.selection, trigger: model.selection)
+        .sheet(isPresented: $isChoosingPlace) {
+            PlacePickerView(
+                resolver: model.placeResolver, selection: model.selection,
+                preferSwedish: MainScreenModel.prefersSwedish
+            ) { selection in
+                Task { await model.choose(selection) }
+            }
+        }
+    }
+
+    private var chooseMunicipalityButton: some View {
+        Button("Choose municipality") { isChoosingPlace = true }
+            .accessibilityIdentifier("chooseMunicipalityButton")
     }
 
     private var level: ChanceLevel? {
@@ -47,7 +67,10 @@ struct MainScreenView: View {
                 .transition(.opacity.combined(with: .scale(scale: 0.98)))
         case .determiningLocation:
             StatusView(symbol: "location.circle", title: "Finding your location",
-                       message: "Your location stays on this device.", showsProgress: true)
+                       message: "Your location stays on this device.", showsProgress: true) {
+                chooseMunicipalityButton
+                    .buttonStyle(.glass)
+            }
         case .loading:
             StatusView(symbol: "sparkles", title: "Fetching aurora data",
                        message: "Magnetometer and cloud observations from FMI.", showsProgress: true)
@@ -68,13 +91,21 @@ struct MainScreenView: View {
             }
         case .locationDenied:
             StatusView(symbol: "location.slash", title: "Location access is off",
-                       message: "Allow location access in Settings to see the chance where you are.") {
-                OpenSettingsButton()
+                       message: "Choose a municipality, or allow location access in Settings to see the chance where you are.") {
+                VStack(spacing: 12) {
+                    chooseMunicipalityButton
+                        .buttonStyle(.glassProminent)
+                    OpenSettingsButton()
+                }
             }
+            .accessibilityIdentifier("locationDenied")
         case .outsideCoverage:
             StatusView(symbol: "globe.europe.africa", title: "Outside coverage area",
-                       message: "Revontulet covers Finland only.")
-                .accessibilityIdentifier("outsideCoverage")
+                       message: "Revontulet covers Finland only. Choose a Finnish municipality to see its chance.") {
+                chooseMunicipalityButton
+                    .buttonStyle(.glassProminent)
+            }
+            .accessibilityIdentifier("outsideCoverage")
         }
     }
 }

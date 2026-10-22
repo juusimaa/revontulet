@@ -14,7 +14,8 @@ struct RevontuletApp: App {
 
 /// Builds the app's object graph. UI tests swap in stubs with launch arguments:
 /// `-uiTestStubs` (synthetic FMI responses), `-uiTestOffline` (every request fails),
-/// `-uiTestResetCache` (start without a cached result) and `-uiTestLocation lat,lon` (fixed position).
+/// `-uiTestResetCache` (start without a cached result or chosen municipality),
+/// `-uiTestLocation lat,lon` (fixed position) and `-uiTestLocationDenied` (no location access).
 @MainActor
 enum AppDependencies {
     static func makeMainScreenModel(arguments: [String] = ProcessInfo.processInfo.arguments) -> MainScreenModel {
@@ -23,13 +24,19 @@ enum AppDependencies {
             else if arguments.contains("-uiTestStubs") { UITestHTTPClient() }
             else { URLSessionHTTPClient() }
         let cache = FileResultCache()
-        if arguments.contains("-uiTestResetCache") { cache.clear() }
+        let placeStore = PlaceSelectionStore()
+        if arguments.contains("-uiTestResetCache") {
+            cache.clear()
+            placeStore.clear()
+        }
         // The bundled station table is part of the app; failing to load it is a build error.
         let service = try! AuroraService(http: http, cache: cache)
-        return MainScreenModel(service: service, location: locationProvider(arguments: arguments))
+        return MainScreenModel(
+            service: service, location: locationProvider(arguments: arguments), placeStore: placeStore)
     }
 
     private static func locationProvider(arguments: [String]) -> any LocationProviding {
+        if arguments.contains("-uiTestLocationDenied") { return FixedLocationProvider(.denied) }
         if let index = arguments.firstIndex(of: "-uiTestLocation"), index + 1 < arguments.count {
             let parts = arguments[index + 1].split(separator: ",").compactMap { Double($0) }
             if parts.count == 2 {

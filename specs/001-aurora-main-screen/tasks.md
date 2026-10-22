@@ -152,16 +152,16 @@ chance for it based on its nearest station; relaunch and verify the choice is re
 
 ### Tests for User Story 3 (write first, must fail)
 
-- [ ] T047 [P] [US3] Search tests in `Packages/AuroraCore/Tests/AuroraCoreTests/MunicipalitySearchTests.swift`: "hels" → Helsinki; "helsingf" → Helsinki (Swedish name); "jyvaskyla" → Jyväskylä (diacritic-insensitive); "Mariehamn" and "Maarianhamina" both match; prefix matches rank before substring matches; `limit` respected; empty query returns an alphabetical list
-- [ ] T048 [P] [US3] UI test in `RevontuletUITests/ManualPlaceUITests.swift`: with location denied (launch argument `-uiTestLocationDenied`), the location-denied state offers "Choose municipality"; searching "Utsj" and selecting Utsjoki shows the result marked as manually chosen; after relaunch Utsjoki is still used; switching back to current location works
+- [X] T047 [P] [US3] Search tests in `Packages/AuroraCore/Tests/AuroraCoreTests/MunicipalitySearchTests.swift`: "hels" → Helsinki; "helsingf" → Helsinki (Swedish name); "jyvaskyla" → Jyväskylä (diacritic-insensitive); "Mariehamn" and "Maarianhamina" both match; prefix matches rank before substring matches; `limit` respected; empty query returns an alphabetical list
+- [X] T048 [P] [US3] UI test in `RevontuletUITests/ManualPlaceUITests.swift`: with location denied (launch argument `-uiTestLocationDenied`), the location-denied state offers "Choose municipality"; searching "Utsj" and selecting Utsjoki shows the result marked as manually chosen; after relaunch Utsjoki is still used; switching back to current location works
 
 ### Implementation for User Story 3
 
-- [ ] T049 [US3] Implement `PlaceResolver.search(_:limit:)` (Finnish and Swedish names, case- and diacritic-insensitive, prefix before substring) in `Packages/AuroraCore/Sources/AuroraCore/Places/PlaceResolver.swift`; manual `Place` uses the municipality's representative point (makes T047 pass)
-- [ ] T050 [P] [US3] Implement `PlaceSelectionStore` (UserDefaults, `currentLocation | municipality(code)`) in `Revontulet/Platform/PlaceSelectionStore.swift`
-- [ ] T051 [P] [US3] Build `PlacePickerView` in `Revontulet/PlacePicker/PlacePickerView.swift` with the `ios-ui-craft` skill: searchable list (no network), display name in Swedish when the app language is Swedish and a Swedish name exists, a "Use current location" row
-- [ ] T052 [US3] Extend `MainScreenModel` and `MainScreenView` (`Revontulet/MainScreen/`): read `PlaceSelectionStore` on launch; manual place bypasses location; add `locationDenied` state with "Choose municipality" and "Open Settings"; add "Choose municipality" to the outside-coverage state; show a "Chosen manually" indicator; a toolbar control to change place
-- [ ] T053 [US3] Add en, fi and sv strings for US3 keys (picker, search prompt, location denied, open settings, chosen manually, use current location) to `Revontulet/Resources/Localizable.xcstrings`; add `-uiTestLocationDenied` handling in `Revontulet/App/RevontuletApp.swift`
+- [X] T049 [US3] Implement `PlaceResolver.search(_:limit:)` (Finnish and Swedish names, case- and diacritic-insensitive, prefix before substring) in `Packages/AuroraCore/Sources/AuroraCore/Places/PlaceResolver.swift`; manual `Place` uses the municipality's representative point (makes T047 pass)
+- [X] T050 [P] [US3] Implement `PlaceSelectionStore` (UserDefaults, `currentLocation | municipality(code)`) in `Revontulet/Platform/PlaceSelectionStore.swift`
+- [X] T051 [P] [US3] Build `PlacePickerView` in `Revontulet/PlacePicker/PlacePickerView.swift` with the `ios-ui-craft` skill: searchable list (no network), display name in Swedish when the app language is Swedish and a Swedish name exists, a "Use current location" row
+- [X] T052 [US3] Extend `MainScreenModel` and `MainScreenView` (`Revontulet/MainScreen/`): read `PlaceSelectionStore` on launch; manual place bypasses location; add `locationDenied` state with "Choose municipality" and "Open Settings"; add "Choose municipality" to the outside-coverage state; show a "Chosen manually" indicator; a toolbar control to change place
+- [X] T053 [US3] Add en, fi and sv strings for US3 keys (picker, search prompt, location denied, open settings, chosen manually, use current location) to `Revontulet/Resources/Localizable.xcstrings`; add `-uiTestLocationDenied` handling in `Revontulet/App/RevontuletApp.swift`
 
 **Checkpoint**: All user stories work independently
 

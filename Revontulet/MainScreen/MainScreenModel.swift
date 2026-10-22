@@ -7,6 +7,7 @@ import Observation
 ///
 /// The cached result is shown before any location or network work; while the app is active the
 /// result is refreshed every 5 minutes, and the service fetches only the data that is due.
+/// A municipality chosen by the user replaces the device's position until the user switches back.
 @Observable
 @MainActor
 final class MainScreenModel {
@@ -39,24 +40,34 @@ final class MainScreenModel {
     private(set) var isRefreshing = false
     /// true when the last refresh failed to fetch data from FMI.
     private(set) var isOffline = false
+    private(set) var selection: PlaceSelection
+    /// The bundled municipalities, once loaded; the place picker searches them.
+    private(set) var placeResolver: PlaceResolver?
 
     private let service: AuroraService
     private let location: any LocationProviding
+    private let placeStore: PlaceSelectionStore
     private let resolver: Task<PlaceResolver?, Never>
     private let now: @Sendable () -> Date
     private var lastForcedRefresh: Date?
+    private var refreshTask: Task<Void, Never>?
 
     init(
         service: AuroraService,
         location: any LocationProviding,
+        placeStore: PlaceSelectionStore = PlaceSelectionStore(),
         loadResolver: @escaping @Sendable () throws -> PlaceResolver = { try PlaceResolver() },
         now: @escaping @Sendable () -> Date = { Date() }
     ) {
         self.service = service
         self.location = location
+        self.placeStore = placeStore
+        selection = placeStore.selection
         // Loading the municipality boundaries takes a moment; start it right away, off the main actor.
-        resolver = Task.detached(priority: .userInitiated) { try? loadResolver() }
+        let resolver = Task.detached(priority: .userInitiated) { try? loadResolver() }
+        self.resolver = resolver
         self.now = now
+        Task { [weak self] in self?.placeResolver = await resolver.value }
     }
 
     var hasResult: Bool {
@@ -84,11 +95,34 @@ final class MainScreenModel {
 
     /// Shows the last stored result, if nothing is shown yet. No location or network work (FR-008).
     func showCachedResult() async {
-        guard !hasResult, let cached = await service.cachedResult() else { return }
+        guard !hasResult, let cached = await service.cachedResult(), matchesSelection(cached.place) else { return }
         let name = await resolver.value?.municipality(code: cached.place.municipalityCode)?
             .displayName(preferSwedish: Self.prefersSwedish)
-        guard !hasResult, let name else { return }
+        guard !hasResult, matchesSelection(cached.place), let name else { return }
         state = .result(cached, placeName: name)
+    }
+
+    /// Switches to another place, remembers it across launches and computes its result. Data
+    /// fetched in the last few minutes is reused, so a switch usually needs no network.
+    func choose(_ newSelection: PlaceSelection) async {
+        guard newSelection != selection else { return }
+        selection = newSelection
+        placeStore.selection = newSelection
+        // The result shown is for the previous place.
+        if case .result(let result, _) = state, !matchesSelection(result.place) {
+            state = newSelection == .currentLocation ? .determiningLocation : .loading
+        }
+        // A refresh for the previous place, e.g. one waiting for a location fix, is abandoned.
+        refreshTask?.cancel()
+        refreshTask = nil
+        await refresh()
+    }
+
+    private func matchesSelection(_ place: Place) -> Bool {
+        switch selection {
+        case .currentLocation: place.source == .currentLocation
+        case .municipality(let code): place.source == .manual && place.municipalityCode == code
+        }
     }
 
     /// Refresh asked for by the user: forces new fetches, at most once per 30 seconds. A refresh
@@ -100,50 +134,80 @@ final class MainScreenModel {
         await refresh(force: force)
     }
 
-    /// Locates the user and computes a fresh result. A valid result is never replaced by an
-    /// empty state when a later step fails.
+    /// Locates the user (or takes the chosen municipality) and computes a fresh result. A valid
+    /// result is never replaced by an empty state when a later step fails.
+    /// A refresh asked for while one is running waits for that one instead of starting another.
     func refresh(force: Bool = false) async {
-        guard !isRefreshing else { return }
-        isRefreshing = true
-        defer { isRefreshing = false }
-
-        if !hasResult { state = .determiningLocation }
-        let position: (latitude: Double, longitude: Double)
-        switch await location.currentLocation() {
-        case .location(let latitude, let longitude):
-            position = (latitude, longitude)
-        case .denied:
-            state = .locationDenied
-            return
-        case .unavailable:
-            if !hasResult { state = .noData }
+        if let running = refreshTask {
+            await running.value
             return
         }
+        let task = Task { await refreshOnce(force: force) }
+        refreshTask = task
+        isRefreshing = true
+        await task.value
+        // A place change may have replaced this refresh with a new one.
+        if refreshTask == task {
+            refreshTask = nil
+            isRefreshing = false
+        }
+    }
+
+    private func refreshOnce(force: Bool) async {
+        let selection = self.selection
+        // The user may pick another place while this refresh waits; its outcome is then dropped.
+        var isStale: Bool { Task.isCancelled || selection != self.selection }
 
         guard let resolver = await resolver.value else {
             if !hasResult { state = .noData }
             return
         }
-        let resolution = await Task.detached {
-            resolver.resolve(latitude: position.latitude, longitude: position.longitude)
-        }.value
-        guard case .inside(let municipality) = resolution else {
-            state = .outsideCoverage
-            return
+        let place: Place
+        let municipality: Municipality
+        if case .municipality(let code) = selection, let chosen = resolver.municipality(code: code) {
+            municipality = chosen
+            place = Place(manual: chosen)
+        } else {
+            if !hasResult { state = .determiningLocation }
+            let position: (latitude: Double, longitude: Double)
+            let outcome = await location.currentLocation()
+            guard !isStale else { return }
+            switch outcome {
+            case .location(let latitude, let longitude):
+                position = (latitude, longitude)
+            case .denied:
+                state = .locationDenied
+                return
+            case .unavailable:
+                if !hasResult { state = .noData }
+                return
+            }
+            let resolution = await Task.detached {
+                resolver.resolve(latitude: position.latitude, longitude: position.longitude)
+            }.value
+            guard !isStale else { return }
+            guard case .inside(let found) = resolution else {
+                state = .outsideCoverage
+                return
+            }
+            municipality = found
+            place = Place(
+                coordinate: Coordinate(latitude: position.latitude, longitude: position.longitude),
+                municipalityCode: found.code, source: .currentLocation)
         }
 
-        let place = Place(
-            coordinate: Coordinate(latitude: position.latitude, longitude: position.longitude),
-            municipalityCode: municipality.code, source: .currentLocation)
         if !hasResult { state = .loading }
         do {
             let result = try await service.refresh(for: place, at: now(), force: force)
+            guard !isStale else { return }
             isOffline = false
             state = .result(result, placeName: municipality.displayName(preferSwedish: Self.prefersSwedish))
         } catch AuroraServiceError.offline {
+            guard !isStale else { return }
             isOffline = true
             if !hasResult { state = .noData }
         } catch {
+            guard !isStale else { return }
             isOffline = false
             if !hasResult { state = .noData }
         }

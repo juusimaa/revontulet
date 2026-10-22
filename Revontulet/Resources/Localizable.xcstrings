@@ -93,29 +93,6 @@
         }
       }
     },
-    "Allow location access in Settings to see the chance where you are.": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Allow location access in Settings to see the chance where you are."
-          }
-        },
-        "fi": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Salli sijainnin käyttö Asetuksissa, niin näet mahdollisuuden siellä missä olet."
-          }
-        },
-        "sv": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Tillåt platsåtkomst i Inställningar för att se chansen där du är."
-          }
-        }
-      }
-    },
     "Aurora data from FMI is needed to show a chance. Connect to the internet and try again.": {
       "extractionState": "manual",
       "localizations": {
@@ -181,6 +158,98 @@
           "stringUnit": {
             "state": "translated",
             "value": "Chans att se norrsken"
+          }
+        }
+      }
+    },
+    "Change place": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Change place"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vaihda paikkaa"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Byt plats"
+          }
+        }
+      }
+    },
+    "Choose a municipality, or allow location access in Settings to see the chance where you are.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose a municipality, or allow location access in Settings to see the chance where you are."
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Valitse kunta tai salli sijainnin käyttö asetuksissa, niin näet mahdollisuuden siellä, missä olet."
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Välj en kommun, eller tillåt platsåtkomst i Inställningar för att se chansen där du är."
+          }
+        }
+      }
+    },
+    "Choose municipality": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose municipality"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Valitse kunta"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Välj kommun"
+          }
+        }
+      }
+    },
+    "Choose place": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose place"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Valitse paikka"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Välj plats"
           }
         }
       }
@@ -530,6 +599,29 @@
         }
       }
     },
+    "Municipalities": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Municipalities"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kunnat"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kommuner"
+          }
+        }
+      }
+    },
     "Municipality boundaries: Statistics Finland, CC BY 4.0": {
       "extractionState": "manual",
       "localizations": {
@@ -549,6 +641,29 @@
           "stringUnit": {
             "state": "translated",
             "value": "Kommungränser: Statistikcentralen, CC BY 4.0"
+          }
+        }
+      }
+    },
+    "Municipality in Finnish or Swedish": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Municipality in Finnish or Swedish"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kunta suomeksi tai ruotsiksi"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kommun på finska eller svenska"
           }
         }
       }
@@ -737,25 +852,25 @@
         }
       }
     },
-    "Revontulet covers Finland only.": {
+    "Revontulet covers Finland only. Choose a Finnish municipality to see its chance.": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Revontulet covers Finland only."
+            "value": "Revontulet covers Finland only. Choose a Finnish municipality to see its chance."
           }
         },
         "fi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Revontulet kattaa vain Suomen."
+            "value": "Revontulet kattaa vain Suomen. Valitse suomalainen kunta nähdäksesi sen mahdollisuuden."
           }
         },
         "sv": {
           "stringUnit": {
             "state": "translated",
-            "value": "Revontulet täcker endast Finland."
+            "value": "Revontulet täcker endast Finland. Välj en finländsk kommun för att se chansen där."
           }
         }
       }
@@ -825,6 +940,29 @@
           "stringUnit": {
             "state": "translated",
             "value": "Närmaste station har inga färska data, så en station längre bort används."
+          }
+        }
+      }
+    },
+    "Use current location": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Use current location"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Käytä nykyistä sijaintia"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Använd nuvarande plats"
           }
         }
       }
