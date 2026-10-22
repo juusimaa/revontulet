@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="Revontulet/Resources/Assets.xcassets/AppIcon.appiconset/AppIcon.png" alt="Revontulet app icon" width="160" height="160" />
+</p>
+
 # Revontulet
 
 Revontulet ("northern lights" in Finnish) is a native iOS app that shows the chance of seeing the
