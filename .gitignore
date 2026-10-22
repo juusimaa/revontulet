@@ -20,3 +20,6 @@ xcuserdata/
 # Development tools
 tools/__pycache__/
 tools/.cache/
+
+# Reference R values from FMI's chart endpoint (not open data): kept local only
+Packages/AuroraCore/Tests/AuroraCoreTests/Fixtures/reference-r.json
