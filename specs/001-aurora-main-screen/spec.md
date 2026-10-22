@@ -162,16 +162,16 @@ verify that the choice is remembered.
 - **FR-001e**: Coverage is Finland only. When the user's current location is outside Finland, the
   app MUST NOT show a chance for it, MUST say that the location is outside the coverage area, and
   MUST offer manual municipality selection.
-- **FR-002**: The R value MUST be calculated from FMI's open magnetometer data using the same
-  definition FMI uses, and the result MUST match FMI's published value for the same station and
-  time.
+- **FR-002**: The R value MUST be calculated from FMI's open magnetometer data using FMI's
+  published definition. The result MUST be within ±3 of FMI's published value for the same station
+  and time.
 - **FR-003**: The main screen MUST show the user's current location as a recognisable place name
   (e.g. town or municipality).
 - **FR-004**: The main screen MUST show the measurement station the activity data comes from: its
   name and its distance from the user.
 - **FR-005**: The station used MUST be the nearest station to the user that has recent data.
 - **FR-006**: The main screen MUST always show the time of the measurement the chance is
-  based on, and MUST mark the result as outdated when that measurement is older than 1 hour.
+  based on, and MUST mark the result as outdated when that measurement is older than 30 minutes.
 - **FR-007**: The main screen MUST make the current R value, the data source (FMI) and the
   required data attribution available without navigating away.
 - **FR-008**: On launch, the last known result MUST be shown immediately if one exists, and then
@@ -223,8 +223,9 @@ verify that the choice is remembered.
 - **SC-001**: A first-time user can tell whether it is worth going outside to look within
   5 seconds of the main screen appearing.
 - **SC-002**: On repeat launches, a result is visible within 1 second of opening the app.
-- **SC-003**: For a set of at least 20 recorded historical cases, the geomagnetic activity level
-  shown matches the level fmi.fi showed for the same station and time in 100% of cases.
+- **SC-003**: For a set of at least 20 recorded historical cases where FMI's published R value is
+  more than 3 away from a threshold, the geomagnetic activity level shown matches the level fmi.fi
+  showed for the same station and time in 100% of cases.
 - **SC-003a**: For a set of reference situations (e.g. high activity at noon, high activity under
   full overcast, high activity on a clear dark night), the chance to see follows the documented
   combination rules in 100% of cases, and the limiting factor shown is the correct one.
@@ -239,10 +240,13 @@ verify that the choice is remembered.
 - The R value and the probability levels and thresholds follow FMI's published aurora and space
   weather service; the exact definitions are confirmed from FMI documentation during planning,
   and are not invented by the app.
-- FMI's open magnetometer data is freely available for the stations in its network, is updated
-  at least hourly, and its licence allows use in the app with attribution.
-- The set of stations is the one FMI uses for its own aurora probability service. Coverage is
-  Finland only for now; locations outside Finland's borders are treated as outside coverage.
+- FMI's open magnetometer data is freely available, updated within minutes, and its licence
+  (CC BY 4.0) allows use in the app with attribution. R values are recalculated every 5 minutes.
+- The stations are those FMI uses for its own aurora service that are also in FMI open data
+  (10 of 12; Nurmijärvi and Sodankylä are not). Coverage is Finland only for now; locations
+  outside Finland's borders are treated as outside coverage.
+- Because R is computed from open data rather than taken from FMI's own calculation, the level
+  can occasionally differ from fmi.fi when R is very close to a threshold.
 - FMI's open data includes cloud cover observations and/or forecasts covering all of Finland, free
   to use with attribution; the exact data set is chosen during planning.
 - The combination of activity, darkness and cloud cover is the app's own documented rule, not an
@@ -250,7 +254,8 @@ verify that the choice is remembered.
 - "Nearest" means straight-line distance from the user to the station.
 - The place name is shown at town or municipality level; it is derived in a way that does not
   send precise coordinates off the device.
-- The staleness limit for marking data outdated is 1 hour (FR-006), based on hourly R values.
+- The staleness limit for marking data outdated is 30 minutes (FR-006), six missed 5-minute
+  updates.
 - Manual selection is by municipality; each municipality's representative position (e.g. its
   centre) is used for darkness, cloud cover and the nearest station. The municipality list comes
   from an open official source and is bundled with the app.
