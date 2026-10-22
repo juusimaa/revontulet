@@ -4,6 +4,9 @@ import Observation
 
 /// Drives the main screen (contracts/main-screen-states.md). Core work runs off the main actor:
 /// `AuroraService` is an actor and place resolution runs in a detached task.
+///
+/// The cached result is shown before any location or network work; while the app is active the
+/// result is refreshed every 5 minutes, and the service fetches only the data that is due.
 @Observable
 @MainActor
 final class MainScreenModel {
@@ -19,13 +22,29 @@ final class MainScreenModel {
         case outsideCoverage
     }
 
+    /// How current a shown result is.
+    enum Freshness: Equatable {
+        case current
+        /// The measurement is more than 30 minutes old (FR-006).
+        case outdated
+        /// The last refresh could not fetch data; the result shown is the last known one.
+        case offline
+    }
+
+    static let foregroundRefreshInterval: Duration = .seconds(5 * 60)
+    /// Manual refreshes closer together than this do not force new fetches.
+    static let manualRefreshDebounce: TimeInterval = 30
+
     private(set) var state: State = .determiningLocation
     private(set) var isRefreshing = false
+    /// true when the last refresh failed to fetch data from FMI.
+    private(set) var isOffline = false
 
     private let service: AuroraService
     private let location: any LocationProviding
     private let resolver: Task<PlaceResolver?, Never>
     private let now: @Sendable () -> Date
+    private var lastForcedRefresh: Date?
 
     init(
         service: AuroraService,
@@ -44,9 +63,46 @@ final class MainScreenModel {
         if case .result = state { true } else { false }
     }
 
+    func freshness(of result: AuroraResult, at date: Date) -> Freshness {
+        if isOffline { .offline } else if result.isOutdated(now: date) { .outdated } else { .current }
+    }
+
+    /// Runs while the scene is active: shows the cached result, refreshes, then refreshes every
+    /// 5 minutes until the task is cancelled (the app leaves the foreground).
+    func runWhileActive() async {
+        await showCachedResult()
+        await refresh()
+        while !Task.isCancelled {
+            do {
+                try await Task.sleep(for: Self.foregroundRefreshInterval)
+            } catch {
+                return
+            }
+            await refresh()
+        }
+    }
+
+    /// Shows the last stored result, if nothing is shown yet. No location or network work (FR-008).
+    func showCachedResult() async {
+        guard !hasResult, let cached = await service.cachedResult() else { return }
+        let name = await resolver.value?.municipality(code: cached.place.municipalityCode)?
+            .displayName(preferSwedish: Self.prefersSwedish)
+        guard !hasResult, let name else { return }
+        state = .result(cached, placeName: name)
+    }
+
+    /// Refresh asked for by the user: forces new fetches, at most once per 30 seconds. A refresh
+    /// within that time still re-locates and fetches whatever is due, so the user sees an outcome.
+    func userRefresh() async {
+        let date = now()
+        let force = lastForcedRefresh.map { date.timeIntervalSince($0) >= Self.manualRefreshDebounce } ?? true
+        if force { lastForcedRefresh = date }
+        await refresh(force: force)
+    }
+
     /// Locates the user and computes a fresh result. A valid result is never replaced by an
     /// empty state when a later step fails.
-    func refresh() async {
+    func refresh(force: Bool = false) async {
         guard !isRefreshing else { return }
         isRefreshing = true
         defer { isRefreshing = false }
@@ -81,9 +137,14 @@ final class MainScreenModel {
             municipalityCode: municipality.code, source: .currentLocation)
         if !hasResult { state = .loading }
         do {
-            let result = try await service.refresh(for: place, at: now(), force: false)
+            let result = try await service.refresh(for: place, at: now(), force: force)
+            isOffline = false
             state = .result(result, placeName: municipality.displayName(preferSwedish: Self.prefersSwedish))
+        } catch AuroraServiceError.offline {
+            isOffline = true
+            if !hasResult { state = .noData }
         } catch {
+            isOffline = false
             if !hasResult { state = .noData }
         }
     }

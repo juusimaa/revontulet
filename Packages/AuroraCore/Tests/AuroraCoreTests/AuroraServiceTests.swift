@@ -12,7 +12,7 @@ struct AuroraServiceTests {
 
     private func service(_ responses: [String: StubHTTPClient.Response]) throws -> (AuroraService, StubHTTPClient) {
         let http = StubHTTPClient(responses)
-        return (try AuroraService(http: http), http)
+        return (try AuroraService(http: http, cache: InMemoryResultCache()), http)
     }
 
     private func recordedResponses() throws -> [String: StubHTTPClient.Response] {

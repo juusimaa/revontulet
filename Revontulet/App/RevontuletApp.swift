@@ -13,13 +13,19 @@ struct RevontuletApp: App {
 }
 
 /// Builds the app's object graph. UI tests swap in stubs with launch arguments:
-/// `-uiTestStubs` (synthetic FMI responses) and `-uiTestLocation lat,lon` (fixed position).
+/// `-uiTestStubs` (synthetic FMI responses), `-uiTestOffline` (every request fails),
+/// `-uiTestResetCache` (start without a cached result) and `-uiTestLocation lat,lon` (fixed position).
 @MainActor
 enum AppDependencies {
     static func makeMainScreenModel(arguments: [String] = ProcessInfo.processInfo.arguments) -> MainScreenModel {
-        let http: any HTTPClient = arguments.contains("-uiTestStubs") ? UITestHTTPClient() : URLSessionHTTPClient()
+        let http: any HTTPClient =
+            if arguments.contains("-uiTestOffline") { OfflineHTTPClient() }
+            else if arguments.contains("-uiTestStubs") { UITestHTTPClient() }
+            else { URLSessionHTTPClient() }
+        let cache = FileResultCache()
+        if arguments.contains("-uiTestResetCache") { cache.clear() }
         // The bundled station table is part of the app; failing to load it is a build error.
-        let service = try! AuroraService(http: http)
+        let service = try! AuroraService(http: http, cache: cache)
         return MainScreenModel(service: service, location: locationProvider(arguments: arguments))
     }
 

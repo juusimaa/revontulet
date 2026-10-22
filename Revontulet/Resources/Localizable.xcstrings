@@ -47,6 +47,29 @@
         }
       }
     },
+    "%@, %@, outdated": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@, %2$@, outdated"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@, %2$@, vanhentunut"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@, %2$@, inaktuell"
+          }
+        }
+      }
+    },
     "%@, %lld/8": {
       "extractionState": "manual",
       "localizations": {
@@ -89,6 +112,52 @@
           "stringUnit": {
             "state": "translated",
             "value": "Tillåt platsåtkomst i Inställningar för att se chansen där du är."
+          }
+        }
+      }
+    },
+    "Aurora data from FMI is needed to show a chance. Connect to the internet and try again.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aurora data from FMI is needed to show a chance. Connect to the internet and try again."
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Todennäköisyyden näyttämiseen tarvitaan Ilmatieteen laitoksen revontulitietoja. Yhdistä verkkoon ja yritä uudelleen."
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Norrskensdata från Meteorologiska institutet behövs för att visa en chans. Anslut till internet och försök igen."
+          }
+        }
+      }
+    },
+    "Can't fetch new data": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Can't fetch new data"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uutta tietoa ei saada"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kan inte hämta nya data"
           }
         }
       }
@@ -530,6 +599,29 @@
         }
       }
     },
+    "Outdated": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Outdated"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vanhentunut"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inaktuell"
+          }
+        }
+      }
+    },
     "Outside coverage area": {
       "extractionState": "manual",
       "localizations": {
@@ -668,6 +760,29 @@
         }
       }
     },
+    "Showing the last known result. Check your connection.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Showing the last known result. Check your connection."
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Näytetään viimeisin tiedossa oleva tulos. Tarkista verkkoyhteys."
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Visar det senast kända resultatet. Kontrollera anslutningen."
+          }
+        }
+      }
+    },
     "Source: Finnish Meteorological Institute (FMI), CC BY 4.0": {
       "extractionState": "manual",
       "localizations": {
@@ -733,6 +848,29 @@
           "stringUnit": {
             "state": "translated",
             "value": "Väderstation %@ bort"
+          }
+        }
+      }
+    },
+    "You're offline": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You're offline"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ei verkkoyhteyttä"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ingen anslutning"
           }
         }
       }

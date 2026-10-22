@@ -9,7 +9,8 @@ refined during implementation. All types are `Sendable`. Types are described in
 
 ```swift
 public actor AuroraService {
-    public init(http: any HTTPClient, cache: any ResultCache, clock: any Clock<Duration> = .continuous)
+    /// Due times are measured from the `date` passed to `refresh`, so tests need no clock.
+    public init(http: any HTTPClient, cache: any ResultCache) throws
 
     /// Last stored result, if any. Never touches the network (FR-008).
     public func cachedResult() async -> AuroraResult?
@@ -17,7 +18,18 @@ public actor AuroraService {
     /// Fetches what is due (magnetometer ≤ every 5 min, clouds ≤ every 10 min, or `force`),
     /// computes a new result for `place`, stores it and returns it.
     /// Throws only when there is no data at all; partial failures are reflected in the result.
+    /// A failed refresh leaves the stored result unchanged.
     public func refresh(for place: Place, at date: Date, force: Bool) async throws -> AuroraResult
+}
+
+public enum AuroraServiceError: Error {
+    case offline   // magnetometer data could not be fetched
+    case noData    // fetched, but no station has a valid R
+}
+
+extension AuroraResult {
+    /// now − reading.measuredAt > 30 min (FR-006).
+    public func isOutdated(now: Date) -> Bool
 }
 ```
 

@@ -126,17 +126,17 @@ appears immediately, marked as not current, with an offline message.
 
 ### Tests for User Story 2 (write first, must fail)
 
-- [ ] T039 [P] [US2] Cache and due-time tests in `Packages/AuroraCore/Tests/AuroraCoreTests/AuroraServiceCachingTests.swift` using an in-memory `ResultCache` and a test clock: `cachedResult()` makes no network calls; `refresh` saves the result; magnetometer is re-fetched only when ≥ 5 min old and clouds only when ≥ 10 min old unless `force`; a failed refresh keeps the cached result and reports offline; `isOutdated` is true when "now − measuredAt > 30 min"
-- [ ] T040 [P] [US2] `AuroraResult` round-trip test (encode/decode equals) in `Packages/AuroraCore/Tests/AuroraCoreTests/AuroraResultCodingTests.swift`
+- [X] T039 [P] [US2] Cache and due-time tests in `Packages/AuroraCore/Tests/AuroraCoreTests/AuroraServiceCachingTests.swift` using an in-memory `ResultCache` and a test clock: `cachedResult()` makes no network calls; `refresh` saves the result; magnetometer is re-fetched only when ≥ 5 min old and clouds only when ≥ 10 min old unless `force`; a failed refresh keeps the cached result and reports offline; `isOutdated` is true when "now − measuredAt > 30 min"
+- [X] T040 [P] [US2] `AuroraResult` round-trip test (encode/decode equals) in `Packages/AuroraCore/Tests/AuroraCoreTests/AuroraResultCodingTests.swift`
 
 ### Implementation for User Story 2
 
-- [ ] T041 [US2] Add the `ResultCache` protocol, `cachedResult()`, due-time logic (5 min magnetometer, 10 min clouds, `force`), in-memory last responses, and an `isOutdated(now:)` helper to `Packages/AuroraCore/Sources/AuroraCore/AuroraService.swift` and `Packages/AuroraCore/Sources/AuroraCore/Model/AuroraResult.swift` (makes T039, T040 pass)
-- [ ] T042 [P] [US2] Implement `FileResultCache` (JSON file in Application Support, written atomically, excluded from backup) in `Revontulet/Platform/FileResultCache.swift`
-- [ ] T043 [US2] Extend `MainScreenModel` in `Revontulet/MainScreen/MainScreenModel.swift`: show `cachedResult()` before any location or network work (SC-002 ≤ 1 s); refresh on launch and when `scenePhase` becomes active; foreground timer every 5 min, cancelled in background; manual refresh debounced to once per 30 s; add states `outdated` and `offline`; never replace a valid result with an empty screen
-- [ ] T044 [US2] Update `MainScreenView` in `Revontulet/MainScreen/MainScreenView.swift` with the `ios-ui-craft` skill: pull to refresh, outdated badge, offline message with Retry, relative data age that updates live
-- [ ] T045 [US2] Add en, fi and sv strings for US2 keys (outdated, offline, retry, refresh, data age formats) to `Revontulet/Resources/Localizable.xcstrings`
-- [ ] T046 [US2] UI test in `RevontuletUITests/MainScreenOfflineUITests.swift`: first launch with stubs stores a result; relaunch with a failing stub client shows the cached result, the outdated badge and the offline message
+- [X] T041 [US2] Add the `ResultCache` protocol, `cachedResult()`, due-time logic (5 min magnetometer, 10 min clouds, `force`), in-memory last responses, and an `isOutdated(now:)` helper to `Packages/AuroraCore/Sources/AuroraCore/AuroraService.swift` and `Packages/AuroraCore/Sources/AuroraCore/Model/AuroraResult.swift` (makes T039, T040 pass)
+- [X] T042 [P] [US2] Implement `FileResultCache` (JSON file in Application Support, written atomically, excluded from backup) in `Revontulet/Platform/FileResultCache.swift`
+- [X] T043 [US2] Extend `MainScreenModel` in `Revontulet/MainScreen/MainScreenModel.swift`: show `cachedResult()` before any location or network work (SC-002 ≤ 1 s); refresh on launch and when `scenePhase` becomes active; foreground timer every 5 min, cancelled in background; manual refresh debounced to once per 30 s; add states `outdated` and `offline`; never replace a valid result with an empty screen
+- [X] T044 [US2] Update `MainScreenView` in `Revontulet/MainScreen/MainScreenView.swift` with the `ios-ui-craft` skill: pull to refresh, outdated badge, offline message with Retry, relative data age that updates live
+- [X] T045 [US2] Add en, fi and sv strings for US2 keys (outdated, offline, retry, refresh, data age formats) to `Revontulet/Resources/Localizable.xcstrings`
+- [X] T046 [US2] UI test in `RevontuletUITests/MainScreenOfflineUITests.swift`: first launch with stubs stores a result; relaunch with a failing stub client shows the cached result, the outdated badge and the offline message
 
 **Checkpoint**: User Stories 1 and 2 both work
 

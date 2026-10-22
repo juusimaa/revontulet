@@ -78,3 +78,13 @@ public struct AuroraResult: Sendable, Hashable, Codable {
         self.computedAt = computedAt
     }
 }
+
+extension AuroraResult {
+    /// A measurement older than this is marked outdated (FR-006).
+    public static let outdatedAfter: TimeInterval = 30 * 60
+
+    /// true when the measurement is more than 30 minutes old at `now`.
+    public func isOutdated(now: Date) -> Bool {
+        now.timeIntervalSince(reading.measuredAt) > Self.outdatedAfter
+    }
+}

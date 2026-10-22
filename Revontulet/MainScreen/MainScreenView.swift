@@ -6,6 +6,7 @@ struct MainScreenView: View {
     @State var model: MainScreenModel
 
     @Environment(\.colorScheme) private var systemColorScheme
+    @Environment(\.scenePhase) private var scenePhase
 
     var body: some View {
         NavigationStack {
@@ -15,7 +16,7 @@ struct MainScreenView: View {
                 .toolbar {
                     ToolbarItem(placement: .topBarTrailing) {
                         Button {
-                            Task { await model.refresh() }
+                            Task { await model.userRefresh() }
                         } label: {
                             Label("Refresh", systemImage: "arrow.clockwise")
                                 .symbolEffect(.rotate, options: .repeat(.continuous), isActive: model.isRefreshing)
@@ -27,7 +28,11 @@ struct MainScreenView: View {
         }
         // Text sits on a night sky in both appearances.
         .environment(\.colorScheme, .dark)
-        .task { await model.refresh() }
+        // Cached result first, then refreshes every 5 minutes; cancelled when the app leaves the foreground.
+        .task(id: scenePhase) {
+            if scenePhase == .active { await model.runWhileActive() }
+        }
+        .sensoryFeedback(.warning, trigger: model.isOffline) { _, offline in offline }
     }
 
     private var level: ChanceLevel? {
@@ -38,7 +43,7 @@ struct MainScreenView: View {
     private var content: some View {
         switch model.state {
         case .result(let result, let placeName):
-            ResultView(result: result, placeName: placeName)
+            ResultView(model: model, result: result, placeName: placeName)
                 .transition(.opacity.combined(with: .scale(scale: 0.98)))
         case .determiningLocation:
             StatusView(symbol: "location.circle", title: "Finding your location",
@@ -46,10 +51,18 @@ struct MainScreenView: View {
         case .loading:
             StatusView(symbol: "sparkles", title: "Fetching aurora data",
                        message: "Magnetometer and cloud observations from FMI.", showsProgress: true)
+        case .noData where model.isOffline:
+            StatusView(symbol: "wifi.slash", title: "You're offline",
+                       message: "Aurora data from FMI is needed to show a chance. Connect to the internet and try again.") {
+                Button("Retry") { Task { await model.userRefresh() } }
+                    .buttonStyle(.glassProminent)
+                    .accessibilityIdentifier("retryButton")
+            }
+            .accessibilityIdentifier("offlineNoData")
         case .noData:
             StatusView(symbol: "antenna.radiowaves.left.and.right.slash", title: "No aurora data right now",
                        message: "FMI's measurements could not be loaded. Try again in a moment.") {
-                Button("Retry") { Task { await model.refresh() } }
+                Button("Retry") { Task { await model.userRefresh() } }
                     .buttonStyle(.glassProminent)
                     .accessibilityIdentifier("retryButton")
             }
@@ -69,24 +82,36 @@ struct MainScreenView: View {
 // MARK: - Result
 
 private struct ResultView: View {
+    let model: MainScreenModel
     let result: AuroraResult
     let placeName: String
 
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 0) {
-                PlaceHeader(name: placeName, source: result.place.source)
-                Hero(result: result)
-                    .padding(.top, 72)
-                MeasurementLine(result: result)
-                    .padding(.top, 28)
-                ChanceDetailsView(result: result)
-                    .padding(.top, 40)
+            // Re-evaluated every 30 s so the data age and the outdated badge stay current.
+            TimelineView(.periodic(from: .now, by: 30)) { context in
+                let freshness = model.freshness(of: result, at: context.date)
+                VStack(alignment: .leading, spacing: 0) {
+                    PlaceHeader(name: placeName, source: result.place.source)
+                    if freshness == .offline {
+                        OfflineNotice { Task { await model.userRefresh() } }
+                            .padding(.top, 24)
+                            .transition(.move(edge: .top).combined(with: .opacity))
+                    }
+                    Hero(result: result, isCurrent: freshness == .current)
+                        .padding(.top, freshness == .offline ? 40 : 72)
+                    MeasurementLine(result: result, freshness: freshness, now: context.date)
+                        .padding(.top, 28)
+                    ChanceDetailsView(result: result)
+                        .padding(.top, 40)
+                }
+                .animation(.bouncy, value: freshness)
             }
             .padding(.horizontal, 24)
             .padding(.bottom, 32)
         }
-        .scrollBounceBehavior(.basedOnSize)
+        .scrollBounceBehavior(.always)
+        .refreshable { await model.userRefresh() }
         .sensoryFeedback(.success, trigger: result.computedAt)
     }
 }
@@ -114,6 +139,8 @@ private struct PlaceHeader: View {
 
 private struct Hero: View {
     let result: AuroraResult
+    /// false when the result is outdated or could not be refreshed; the level is then dimmed.
+    let isCurrent: Bool
 
     /// The level is the largest text on screen at every Dynamic Type size.
     @ScaledMetric(relativeTo: .largeTitle) private var levelSize = 76.0
@@ -136,9 +163,12 @@ private struct Hero: View {
             LevelMeter(level: result.chance.level)
                 .padding(.top, 8)
         }
+        .opacity(isCurrent ? 1 : 0.6)
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(Text("Chance to see the aurora"))
-        .accessibilityValue(Text("\(Text(result.chance.level.title)), \(Text(result.reason.title))"))
+        .accessibilityValue(isCurrent
+            ? Text("\(Text(result.chance.level.title)), \(Text(result.reason.title))")
+            : Text("\(Text(result.chance.level.title)), \(Text(result.reason.title)), outdated"))
         .accessibilityIdentifier("chanceHeadline")
         .animation(.bouncy, value: result.chance.level)
     }
@@ -166,17 +196,23 @@ private struct LevelMeter: View {
 
 private struct MeasurementLine: View {
     let result: AuroraResult
+    let freshness: MainScreenModel.Freshness
+    let now: Date
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            TimelineView(.periodic(from: .now, by: 30)) { context in
+            HStack(alignment: .firstTextBaseline, spacing: 10) {
                 Label {
-                    Text("Measured \(Formatting.age(of: result.reading.measuredAt, now: context.date))")
+                    Text("Measured \(Formatting.age(of: result.reading.measuredAt, now: now))")
                 } icon: {
                     Image(systemName: "clock")
                 }
+                .accessibilityIdentifier("dataAge")
+                if freshness != .current {
+                    OutdatedBadge()
+                        .transition(.scale(scale: 0.8).combined(with: .opacity))
+                }
             }
-            .accessibilityIdentifier("dataAge")
             Label {
                 Text("\(result.reading.station.name) station, \(Formatting.distance(result.distanceToStationKm))")
             } icon: {
@@ -192,6 +228,57 @@ private struct MeasurementLine: View {
         .font(.subheadline)
         .foregroundStyle(.white.opacity(0.8))
         .labelStyle(DataLabelStyle())
+    }
+}
+
+/// Marks a result that is not current: older than 30 minutes, or not refreshable right now.
+private struct OutdatedBadge: View {
+    var body: some View {
+        Label("Outdated", systemImage: "clock.badge.exclamationmark")
+            .labelStyle(.titleAndIcon)
+            .font(.caption.weight(.semibold))
+            .foregroundStyle(Self.amber)
+            .padding(.horizontal, 10)
+            .padding(.vertical, 4)
+            .background(Self.amber.opacity(0.16), in: .capsule)
+            .overlay(Capsule().strokeBorder(Self.amber.opacity(0.35), lineWidth: 0.5))
+            .accessibilityIdentifier("outdatedBadge")
+    }
+
+    static let amber = Color(red: 1.0, green: 0.78, blue: 0.36)
+}
+
+/// Shown above a cached result when new data cannot be fetched.
+private struct OfflineNotice: View {
+    let retry: () -> Void
+
+    var body: some View {
+        // Retry sits under the message so long translations never squeeze the text.
+        HStack(alignment: .firstTextBaseline, spacing: 14) {
+            Image(systemName: "wifi.slash")
+                .font(.title3.weight(.medium))
+                .foregroundStyle(OutdatedBadge.amber)
+                .accessibilityHidden(true)
+            VStack(alignment: .leading, spacing: 12) {
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("Can't fetch new data")
+                        .font(.subheadline.weight(.semibold))
+                    Text("Showing the last known result. Check your connection.")
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
+                }
+                .accessibilityElement(children: .combine)
+                .accessibilityIdentifier("offlineMessage")
+                Button("Retry", action: retry)
+                    .buttonStyle(.glass)
+                    .controlSize(.small)
+                    .accessibilityIdentifier("retryButton")
+            }
+            Spacer(minLength: 0)
+        }
+        .padding(16)
+        .background(.white.opacity(0.06), in: .rect(cornerRadius: 20))
+        .overlay(RoundedRectangle(cornerRadius: 20).strokeBorder(.white.opacity(0.1), lineWidth: 0.5))
     }
 }
 

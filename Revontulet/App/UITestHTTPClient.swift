@@ -72,3 +72,10 @@ struct UITestHTTPClient: HTTPClient {
         date.formatted(.iso8601)
     }
 }
+
+/// Fails every request as if the device had no connection (`-uiTestOffline`).
+struct OfflineHTTPClient: HTTPClient {
+    func get(_ url: URL) async throws -> (Data, Int) {
+        throw URLError(.notConnectedToInternet)
+    }
+}

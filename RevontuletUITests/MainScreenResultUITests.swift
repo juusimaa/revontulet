@@ -9,7 +9,7 @@ final class MainScreenResultUITests: XCTestCase {
     @MainActor
     private func launch(location: String) -> XCUIApplication {
         let app = XCUIApplication()
-        app.launchArguments = ["-uiTestStubs", "-uiTestLocation", location, "-AppleLanguages", "(en)", "-AppleLocale", "en_FI"]
+        app.launchArguments = ["-uiTestStubs", "-uiTestResetCache", "-uiTestLocation", location, "-AppleLanguages", "(en)", "-AppleLocale", "en_FI"]
         app.launch()
         return app
     }

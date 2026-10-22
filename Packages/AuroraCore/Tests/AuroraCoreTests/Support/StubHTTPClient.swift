@@ -12,12 +12,17 @@ final class StubHTTPClient: HTTPClient {
 
     struct StubError: Error {}
 
-    private let responses: [String: Response]
+    private let responses: Mutex<[String: Response]>
     private let requested = Mutex<[URL]>([])
 
     /// - Parameter responses: stored query id (e.g. `fmi::observations::magnetometer::simple`) → response.
     init(_ responses: [String: Response]) {
-        self.responses = responses
+        self.responses = Mutex(responses)
+    }
+
+    /// Changes the response for a stored query, e.g. to simulate going offline.
+    func set(_ query: String, _ response: Response) {
+        responses.withLock { $0[query] = response }
     }
 
     var requestedURLs: [URL] {
@@ -28,7 +33,7 @@ final class StubHTTPClient: HTTPClient {
         requested.withLock { $0.append(url) }
         let query = URLComponents(url: url, resolvingAgainstBaseURL: false)?
             .queryItems?.first { $0.name == "storedquery_id" }?.value ?? ""
-        switch responses[query] {
+        switch responses.withLock({ $0[query] }) {
         case .fixture(let name, let status):
             return (try Fixtures.data(name), status)
         case .data(let data, let status):
