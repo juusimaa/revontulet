@@ -1,0 +1,11 @@
+# Spec Kit: machine-local state is ignored by .specify/.gitignore.
+# Commit .specify/ (templates, scripts, constitution), .claude/skills/speckit-*,
+# and specs/ (feature specs, plans, tasks).
+
+# Claude Code per-user settings
+.claude/settings.local.json
+
+# OS / editor
+.DS_Store
+.vscode/
+.idea/
