@@ -1,0 +1,12 @@
+[
+  {"id": "KEV", "name": "Kevo", "latitude": 69.756, "longitude": 27.007, "yellowThreshold": 55, "redThreshold": 165},
+  {"id": "KIL", "name": "Kilpisjärvi", "latitude": 69.058, "longitude": 20.775, "yellowThreshold": 61, "redThreshold": 210},
+  {"id": "IVA", "name": "Ivalo", "latitude": 68.559, "longitude": 27.289, "yellowThreshold": 72, "redThreshold": 275},
+  {"id": "MUO", "name": "Muonio", "latitude": 68.022, "longitude": 23.520, "yellowThreshold": 75, "redThreshold": 300},
+  {"id": "PEL", "name": "Pello", "latitude": 66.904, "longitude": 24.080, "yellowThreshold": 73, "redThreshold": 285},
+  {"id": "RAN", "name": "Ranua", "latitude": 65.896, "longitude": 26.409, "yellowThreshold": 70, "redThreshold": 240},
+  {"id": "OUJ", "name": "Oulujärvi", "latitude": 64.511, "longitude": 27.227, "yellowThreshold": 68, "redThreshold": 200},
+  {"id": "MEK", "name": "Mekrijärvi", "latitude": 62.774, "longitude": 30.968, "yellowThreshold": 64, "redThreshold": 150},
+  {"id": "HAN", "name": "Hankasalmi", "latitude": 62.254, "longitude": 26.597, "yellowThreshold": 63, "redThreshold": 140},
+  {"id": "TAR", "name": "Tartu", "latitude": 58.264, "longitude": 26.460, "yellowThreshold": 55, "redThreshold": 100}
+]
