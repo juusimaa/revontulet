@@ -1,4 +1,5 @@
 import CoreLocation
+import Synchronization
 
 /// Result of asking for the device's position once.
 enum LocationOutcome: Sendable, Equatable {
@@ -17,11 +18,39 @@ protocol LocationProviding: AnyObject {
 /// station, the municipality and the sun's elevation, all on the device.
 @MainActor
 final class LocationProvider: LocationProviding {
+    /// How long to wait for a fix before giving up. Time spent on the permission prompt does not count.
+    private let timeout: Duration
+
+    init(timeout: Duration = .seconds(15)) {
+        self.timeout = timeout
+    }
+
     func currentLocation() async -> LocationOutcome {
         let session = CLServiceSession(authorization: .whenInUse)
         defer { session.invalidate() }
+        let awaitingPermission = PermissionFlag()
+        let timeout = self.timeout
+        // Without a deadline the update stream can wait forever, e.g. in a simulator with no location set.
+        return await withTaskGroup(of: LocationOutcome.self) { group in
+            group.addTask { await Self.firstFix(awaitingPermission: awaitingPermission) }
+            group.addTask {
+                var waited = Duration.zero
+                while waited < timeout {
+                    do { try await Task.sleep(for: .milliseconds(250)) } catch { break }
+                    if !awaitingPermission.isSet { waited += .milliseconds(250) }
+                }
+                return .unavailable
+            }
+            let outcome = await group.next() ?? .unavailable
+            group.cancelAll()
+            return outcome
+        }
+    }
+
+    private nonisolated static func firstFix(awaitingPermission: PermissionFlag) async -> LocationOutcome {
         do {
             for try await update in CLLocationUpdate.liveUpdates() {
+                awaitingPermission.isSet = update.authorizationRequestInProgress
                 if update.authorizationDenied || update.authorizationDeniedGlobally || update.authorizationRestricted {
                     return .denied
                 }
@@ -47,5 +76,15 @@ final class FixedLocationProvider: LocationProviding {
 
     func currentLocation() async -> LocationOutcome {
         outcome
+    }
+}
+
+/// Whether the permission prompt is showing, shared between the update stream and the timeout.
+private final class PermissionFlag: Sendable {
+    private let value = Mutex(false)
+
+    var isSet: Bool {
+        get { value.withLock { $0 } }
+        set { value.withLock { $0 = newValue } }
     }
 }
