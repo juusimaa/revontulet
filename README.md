@@ -74,6 +74,9 @@ xcodebuild test -project Revontulet.xcodeproj -scheme Revontulet \
   -destination 'platform=iOS Simulator,name=iPhone 16'
 ```
 
+TestFlight builds come from Xcode Cloud. `ci_scripts/ci_post_clone.sh` installs XcodeGen,
+generates the project, and sets the build number from `CI_BUILD_NUMBER`.
+
 For the full validation steps, see the
 [quickstart](specs/001-aurora-main-screen/quickstart.md).
 
