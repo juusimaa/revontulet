@@ -40,6 +40,17 @@ public enum SolarPosition {
         darkness(elevation: elevation(latitude: latitude, longitude: longitude, at: date))
     }
 
+    /// The first time within the next 24 hours, in 5-minute steps, when it is no longer too light.
+    /// nil when the sky stays too light all that time, e.g. near midsummer in Lapland.
+    public static func nextDarkness(latitude: Double, longitude: Double, after date: Date) -> Date? {
+        let step: TimeInterval = 5 * 60
+        for index in 1...288 {
+            let candidate = date.addingTimeInterval(Double(index) * step)
+            if darkness(latitude: latitude, longitude: longitude, at: candidate) != .tooLight { return candidate }
+        }
+        return nil
+    }
+
     /// Above −6° too light, −12° up to −6° twilight, −12° and below dark.
     static func darkness(elevation: Double) -> Darkness {
         if elevation > -6 { return .tooLight }

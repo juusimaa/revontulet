@@ -129,7 +129,7 @@ private struct ResultView: View {
                             .padding(.top, 24)
                             .transition(.move(edge: .top).combined(with: .opacity))
                     }
-                    Hero(result: result, isCurrent: freshness == .current)
+                    Hero(result: result, freshness: freshness)
                         .padding(.top, freshness == .offline ? 40 : 72)
                     MeasurementLine(result: result, freshness: freshness, now: context.date)
                         .padding(.top, 28)
@@ -142,6 +142,8 @@ private struct ResultView: View {
             .padding(.bottom, 32)
         }
         .scrollBounceBehavior(.always)
+        // The soft default is invisible on the night sky; without it the header collides with the toolbar.
+        .scrollEdgeEffectStyle(.hard, for: .top)
         .refreshable { await model.userRefresh() }
         // Only refreshes the user asked for; the 5-minute background refresh stays silent.
         .sensoryFeedback(.success, trigger: model.userRefreshesCompleted)
@@ -171,8 +173,7 @@ private struct PlaceHeader: View {
 
 private struct Hero: View {
     let result: AuroraResult
-    /// false when the result is outdated or could not be refreshed; the level is then dimmed.
-    let isCurrent: Bool
+    let freshness: MainScreenModel.Freshness
 
     /// The level is the largest text on screen at every Dynamic Type size.
     @ScaledMetric(relativeTo: .largeTitle) private var levelSize = 76.0
@@ -184,25 +185,39 @@ private struct Hero: View {
                 .textCase(.uppercase)
                 .tracking(1.2)
                 .foregroundStyle(.secondary)
+                .dynamicTypeSize(...DynamicTypeSize.accessibility2)
             Text(result.chance.level.title)
                 .font(.system(size: levelSize, weight: .bold, design: .rounded))
                 .minimumScaleFactor(0.4)
                 .lineLimit(1)
                 .contentTransition(.numericText())
+                .opacity(levelOpacity)
+            // Capped so the level stays larger: it cannot wrap and shrinks to fit the width instead.
             Text(result.reason.title)
                 .font(.title2.weight(.medium))
                 .foregroundStyle(.white.opacity(0.85))
+                .dynamicTypeSize(...DynamicTypeSize.accessibility2)
             LevelMeter(level: result.chance.level)
                 .padding(.top, 8)
+                .opacity(levelOpacity)
         }
-        .opacity(isCurrent ? 1 : 0.6)
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(Text("Chance to see the aurora"))
-        .accessibilityValue(isCurrent
-            ? Text("\(Text(result.chance.level.title)), \(Text(result.reason.title))")
-            : Text("\(Text(result.chance.level.title)), \(Text(result.reason.title)), outdated"))
+        .accessibilityValue(accessibilityValue)
         .accessibilityIdentifier("chanceHeadline")
         .animation(.bouncy, value: result.chance.level)
+    }
+
+    /// An old measurement dims the level. Offline it stays bright: the notice above already says so.
+    private var levelOpacity: Double { freshness == .outdated ? 0.6 : 1 }
+
+    private var accessibilityValue: Text {
+        let level = Text(result.chance.level.title), reason = Text(result.reason.title)
+        return switch freshness {
+        case .current: Text("\(level), \(reason)")
+        case .outdated: Text("\(level), \(reason), outdated")
+        case .offline: Text("\(level), \(reason), not updating")
+        }
     }
 }
 
@@ -241,7 +256,7 @@ private struct MeasurementLine: View {
                 }
                 .accessibilityIdentifier("dataAge")
                 if freshness != .current {
-                    OutdatedBadge()
+                    OutdatedBadge(isOffline: freshness == .offline)
                         .transition(.scale(scale: 0.8).combined(with: .opacity))
                 }
             }
@@ -251,6 +266,14 @@ private struct MeasurementLine: View {
                 Image(systemName: "antenna.radiowaves.left.and.right")
             }
             .accessibilityIdentifier("station")
+            if result.darkness == .tooLight, let dark = nextDarkness {
+                Label {
+                    Text("Dark enough from \(dark.formatted(date: .omitted, time: .shortened))")
+                } icon: {
+                    Image(systemName: "moon.stars")
+                }
+                .accessibilityIdentifier("darkAfter")
+            }
             if result.usedMoreDistantStation {
                 Label("The nearest station has no recent data, so a more distant one is used.",
                       systemImage: "exclamationmark.triangle")
@@ -261,12 +284,21 @@ private struct MeasurementLine: View {
         .foregroundStyle(.white.opacity(0.8))
         .labelStyle(DataLabelStyle())
     }
+
+    /// When the sky next stops being too light at this place; nil when it stays light all day.
+    private var nextDarkness: Date? {
+        SolarPosition.nextDarkness(
+            latitude: result.place.coordinate.latitude, longitude: result.place.coordinate.longitude, after: now)
+    }
 }
 
 /// Marks a result that is not current: older than 30 minutes, or not refreshable right now.
 private struct OutdatedBadge: View {
+    let isOffline: Bool
+
     var body: some View {
-        Label("Outdated", systemImage: "clock.badge.exclamationmark")
+        Label(isOffline ? "Not updating" : "Outdated",
+              systemImage: isOffline ? "wifi.slash" : "clock.badge.exclamationmark")
             .labelStyle(.titleAndIcon)
             .font(.caption.weight(.semibold))
             .foregroundStyle(Self.amber)

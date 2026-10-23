@@ -34,11 +34,12 @@ final class MainScreenResultUITests: XCTestCase {
         XCTAssertTrue(age.label.hasPrefix("Measured"), age.label)
 
         app.buttons["detailsToggle"].tap()
+        // The licence is written with non-breaking spaces so it never wraps mid-name.
         let attribution = app.descendants(matching: .any)
-            .matching(NSPredicate(format: "label CONTAINS %@", "Finnish Meteorological Institute (FMI), CC BY 4.0"))
+            .matching(NSPredicate(format: "label CONTAINS %@", "Finnish Meteorological Institute (FMI), CC\u{00A0}BY\u{00A0}4.0"))
             .firstMatch
         XCTAssertTrue(attribution.waitForExistence(timeout: 5))
-        XCTAssertTrue(attribution.label.contains("Statistics Finland, CC BY 4.0"), attribution.label)
+        XCTAssertTrue(attribution.label.contains("Statistics Finland, CC\u{00A0}BY\u{00A0}4.0"), attribution.label)
     }
 
     @MainActor

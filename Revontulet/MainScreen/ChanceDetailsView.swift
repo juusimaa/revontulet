@@ -7,6 +7,8 @@ struct ChanceDetailsView: View {
 
     @State private var expanded = false
     @Environment(\.accessibilityReduceTransparency) private var reduceTransparency
+    /// Grows with the text so large symbols never overlap the row titles.
+    @ScaledMetric(relativeTo: .body) private var iconWidth = 24.0
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -21,6 +23,7 @@ struct ChanceDetailsView: View {
                         .font(.subheadline.weight(.semibold))
                         .rotationEffect(.degrees(expanded ? 180 : 0))
                         .foregroundStyle(.secondary)
+                        .accessibilityHidden(true)
                 }
                 .padding(.vertical, 16)
                 .contentShape(.rect)
@@ -100,7 +103,7 @@ struct ChanceDetailsView: View {
             Image(systemName: symbol)
                 .font(.body)
                 .foregroundStyle(Color(red: 0.24, green: 0.96, blue: 0.62).opacity(0.9))
-                .frame(width: 24)
+                .frame(width: iconWidth)
                 .accessibilityHidden(true)
             VStack(alignment: .leading, spacing: 2) {
                 Text(title)

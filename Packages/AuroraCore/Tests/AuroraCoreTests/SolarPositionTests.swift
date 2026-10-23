@@ -56,4 +56,17 @@ struct SolarPositionTests {
         #expect(SolarPosition.darkness(latitude: 69.9078, longitude: 27.0265, at: utc("2026-06-20T22:14:00Z")) == .tooLight)
         #expect(SolarPosition.darkness(latitude: 60.1699, longitude: 24.9384, at: utc("2026-12-20T22:18:00Z")) == .dark)
     }
+
+    @Test func nextDarknessOnAnAutumnAfternoon() throws {
+        // Rovaniemi, 23 October: the sun sets around 14:00 UTC and is 6° down about 45 minutes later.
+        let noon = utc("2026-10-23T10:00:00Z")
+        let dark = try #require(SolarPosition.nextDarkness(latitude: 66.50, longitude: 25.73, after: noon))
+        #expect(dark > utc("2026-10-23T14:00:00Z") && dark < utc("2026-10-23T15:30:00Z"), "\(dark)")
+        #expect(SolarPosition.darkness(latitude: 66.50, longitude: 25.73, at: dark) != .tooLight)
+        #expect(SolarPosition.darkness(latitude: 66.50, longitude: 25.73, at: dark.addingTimeInterval(-5 * 60)) == .tooLight)
+    }
+
+    @Test func noDarknessAtMidsummerInLapland() {
+        #expect(SolarPosition.nextDarkness(latitude: 69.9078, longitude: 27.0265, after: utc("2026-06-20T12:00:00Z")) == nil)
+    }
 }

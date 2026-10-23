@@ -30,9 +30,9 @@ final class MainScreenOfflineUITests: XCTestCase {
         XCTAssertTrue(app.element("placeName").label.contains("Rovaniemi"))
         XCTAssertTrue(app.buttons["retryButton"].exists)
 
-        // Same level and reason as before, now announced as outdated.
+        // Same level and reason as before, now announced as not updating.
         let offlineValue = try XCTUnwrap(app.element("chanceHeadline").value as? String)
-        XCTAssertEqual(offlineValue, onlineValue + ", outdated")
+        XCTAssertEqual(offlineValue, onlineValue + ", not updating")
     }
 
     @MainActor

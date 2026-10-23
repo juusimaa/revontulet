@@ -47,6 +47,29 @@
         }
       }
     },
+    "%@, %@, not updating": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@, %2$@, not updating"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@, %2$@, ei päivity"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@, %2$@, uppdateras inte"
+          }
+        }
+      }
+    },
     "%@, %@, outdated": {
       "extractionState": "manual",
       "localizations": {
@@ -369,6 +392,29 @@
         }
       }
     },
+    "Dark enough from %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dark enough from %@"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Riittävän pimeää klo %@ alkaen"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tillräckligt mörkt från %@"
+          }
+        }
+      }
+    },
     "Darkness": {
       "extractionState": "manual",
       "localizations": {
@@ -628,19 +674,19 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Municipality boundaries: Statistics Finland, CC BY 4.0"
+            "value": "Municipality boundaries: Statistics Finland, CC BY 4.0"
           }
         },
         "fi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Kuntarajat: Tilastokeskus, CC BY 4.0"
+            "value": "Kuntarajat: Tilastokeskus, CC BY 4.0"
           }
         },
         "sv": {
           "stringUnit": {
             "state": "translated",
-            "value": "Kommungränser: Statistikcentralen, CC BY 4.0"
+            "value": "Kommungränser: Statistikcentralen, CC BY 4.0"
           }
         }
       }
@@ -687,6 +733,29 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ingen norrskensdata just nu"
+          }
+        }
+      }
+    },
+    "Not updating": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Not updating"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ei päivity"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uppdateras inte"
           }
         }
       }
@@ -904,19 +973,19 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Source: Finnish Meteorological Institute (FMI), CC BY 4.0"
+            "value": "Source: Finnish Meteorological Institute (FMI), CC BY 4.0"
           }
         },
         "fi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Lähde: Ilmatieteen laitos, CC BY 4.0"
+            "value": "Lähde: Ilmatieteen laitos, CC BY 4.0"
           }
         },
         "sv": {
           "stringUnit": {
             "state": "translated",
-            "value": "Källa: Meteorologiska institutet (FMI), CC BY 4.0"
+            "value": "Källa: Meteorologiska institutet (FMI), CC BY 4.0"
           }
         }
       }

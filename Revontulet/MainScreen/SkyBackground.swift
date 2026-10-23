@@ -5,6 +5,8 @@ import SwiftUI
 /// The sky stays dark in both appearances, like Weather's backgrounds; light mode is a touch bluer.
 struct SkyBackground: View {
     var level: ChanceLevel?
+    /// false for a still sky, e.g. behind a list where the motion would not be seen.
+    var animated = true
 
     @Environment(\.colorScheme) private var colorScheme
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
@@ -14,15 +16,18 @@ struct SkyBackground: View {
             LinearGradient(colors: skyColors, startPoint: .top, endPoint: .bottom)
             Stars()
                 .opacity(colorScheme == .dark ? 0.9 : 0.6)
-            TimelineView(.animation(minimumInterval: 1 / 30, paused: reduceMotion)) { context in
+            // The curtains drift slowly, so 15 frames a second looks as smooth as 30 at half the cost.
+            TimelineView(.animation(minimumInterval: 1 / 15, paused: isStill)) { context in
                 Aurora(intensity: intensity, magenta: level == .high,
-                       phase: reduceMotion ? 0 : context.date.timeIntervalSinceReferenceDate)
+                       phase: isStill ? 0 : context.date.timeIntervalSinceReferenceDate)
             }
             .animation(.smooth(duration: 1.2), value: level)
         }
         .ignoresSafeArea()
         .accessibilityHidden(true)
     }
+
+    private var isStill: Bool { reduceMotion || !animated }
 
     private var skyColors: [Color] {
         colorScheme == .dark

@@ -15,6 +15,8 @@ struct PlacePickerView: View {
     @Environment(\.colorScheme) private var systemColorScheme
 
     var body: some View {
+        // Searched and sorted once per update, not once per use.
+        let results = municipalities
         NavigationStack {
             List {
                 if query.trimmingCharacters(in: .whitespaces).isEmpty {
@@ -23,7 +25,7 @@ struct PlacePickerView: View {
                     }
                 }
                 Section {
-                    ForEach(municipalities) { municipality in
+                    ForEach(results) { municipality in
                         MunicipalityRow(
                             municipality: municipality, preferSwedish: preferSwedish,
                             isSelected: selection == .municipality(code: municipality.code)
@@ -38,16 +40,16 @@ struct PlacePickerView: View {
                 }
             }
             .scrollContentBackground(.hidden)
-            .background { SkyBackground(level: nil).environment(\.colorScheme, systemColorScheme) }
+            .background { SkyBackground(level: nil, animated: false).environment(\.colorScheme, systemColorScheme) }
             .overlay {
                 if resolver == nil {
                     ProgressView()
-                } else if municipalities.isEmpty {
+                } else if results.isEmpty {
                     ContentUnavailableView.search(text: query)
                 }
             }
-            .searchable(text: $query, placement: .navigationBarDrawer(displayMode: .always),
-                        prompt: Text("Municipality in Finnish or Swedish"))
+            // The default placement puts search at the bottom, away from the close button.
+            .searchable(text: $query, prompt: Text("Municipality in Finnish or Swedish"))
             .searchPresentationToolbarBehavior(.avoidHidingContent)
             .navigationTitle("Choose place")
             .navigationBarTitleDisplayMode(.inline)
