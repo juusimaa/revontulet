@@ -4,8 +4,11 @@ import Foundation
 /// Serves synthetic FMI responses for UI tests (`-uiTestStubs`), so tests never touch the network.
 ///
 /// Every station reports a steady oscillation that gives R ≈ 100 (Possible at most stations), and
-/// a few weather stations report light cloud. Times follow the request's time window.
+/// a few weather stations report light cloud. Times follow the request's time window. With
+/// `strongActivity` the oscillation gives R ≈ 310, above every station's red threshold.
 struct UITestHTTPClient: HTTPClient {
+    var strongActivity = false
+
     func get(_ url: URL) async throws -> (Data, Int) {
         let items = URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems ?? []
         func value(_ name: String) -> String? { items.first { $0.name == name }?.value }
@@ -31,7 +34,7 @@ struct UITestHTTPClient: HTTPClient {
             var time = first
             var step = 0
             while time <= last {
-                let x = step.isMultiple(of: 2) ? 0.0 : 2.3
+                let x = step.isMultiple(of: 2) ? 0.0 : (strongActivity ? 6.9 : 2.3)
                 for (name, v) in [("MAGNX_PT10S_AVG", x), ("MAGNY_PT10S_AVG", 120.0), ("MAGNZ_PT10S_AVG", -40.0)] {
                     members += Self.member(station.latitude, station.longitude, Date(timeIntervalSince1970: time), name, v)
                 }
@@ -45,7 +48,7 @@ struct UITestHTTPClient: HTTPClient {
     private func clouds(end: Date) -> String {
         let time = Date(timeIntervalSince1970: (end.timeIntervalSince1970 / 600).rounded(.down) * 600)
         let stations: [(Double, Double, Double)] = [
-            (66.52, 25.70, 2), (60.18, 24.95, 5), (69.90, 27.00, 1), (65.01, 25.47, 3), (62.40, 25.67, 8),
+            (66.52, 25.70, 2), (60.18, 24.95, 5), (69.90, 27.00, 1), (64.93, 25.37, 3), (62.40, 25.67, 8),
         ]
         return Self.collection(stations.map { Self.member($0.0, $0.1, time, "TotalCloudCover", $0.2) }.joined())
     }

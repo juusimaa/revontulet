@@ -50,7 +50,8 @@ final class MainScreenModel {
     private let location: any LocationProviding
     private let placeStore: PlaceSelectionStore
     private let resolver: Task<PlaceResolver?, Never>
-    private let now: @Sendable () -> Date
+    /// The current time; UI tests can shift it.
+    let now: @Sendable () -> Date
     private var lastForcedRefresh: Date?
     private var refreshTask: Task<Void, Never>?
 

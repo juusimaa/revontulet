@@ -120,8 +120,9 @@ private struct ResultView: View {
     var body: some View {
         ScrollView {
             // Re-evaluated every 30 s so the data age and the outdated badge stay current.
-            TimelineView(.periodic(from: .now, by: 30)) { context in
-                let freshness = model.freshness(of: result, at: context.date)
+            TimelineView(.periodic(from: .now, by: 30)) { _ in
+                let now = model.now()
+                let freshness = model.freshness(of: result, at: now)
                 VStack(alignment: .leading, spacing: 0) {
                     PlaceHeader(name: placeName, source: result.place.source)
                     if freshness == .offline {
@@ -131,7 +132,7 @@ private struct ResultView: View {
                     }
                     Hero(result: result, freshness: freshness)
                         .padding(.top, freshness == .offline ? 40 : 72)
-                    MeasurementLine(result: result, freshness: freshness, now: context.date)
+                    MeasurementLine(result: result, freshness: freshness, now: now)
                         .padding(.top, 28)
                     ChanceDetailsView(result: result)
                         .padding(.top, 40)

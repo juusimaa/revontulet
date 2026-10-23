@@ -60,6 +60,7 @@ enum Formatting {
 
     /// "8 min ago", localised; never in the future.
     static func age(of date: Date, now: Date) -> String {
-        min(date, now).formatted(.relative(presentation: .named, unitsStyle: .abbreviated))
+        Date.AnchoredRelativeFormatStyle(anchor: min(date, now), presentation: .named, unitsStyle: .abbreviated)
+            .format(now)
     }
 }

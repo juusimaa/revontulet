@@ -14,6 +14,13 @@ does, and combines it with darkness and cloud cover. The result is one of four l
 Moderate, High) with a short reason, such as "Low – overcast". The main screen also shows your
 location, the nearest measurement station and how recent the data is.
 
+<p align="center">
+  <img src="docs/images/main-screen-oulu.png" alt="Main screen in Oulu on a dark, clear evening: the chance to see the aurora is High, with good conditions, measured at the Oulujärvi station 100 km away. The open details panel shows probable geomagnetic activity (R 309), a dark sky and clear weather" width="300" />
+</p>
+
+<p align="center"><sub>The main screen in Oulu during strong geomagnetic activity. The data in this
+screenshot is synthetic.</sub></p>
+
 > **Status:** early development. The first feature, the aurora main screen, is being built.
 > See [specs/001-aurora-main-screen](specs/001-aurora-main-screen/).
 
