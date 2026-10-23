@@ -172,10 +172,10 @@ chance for it based on its nearest station; relaunch and verify the choice is re
 **Purpose**: Accessibility, privacy declarations, portability and validation across all stories
 
 - [ ] T054 [P] Accessibility pass with the `ios-ui-craft` skill across `Revontulet/MainScreen/` and `Revontulet/PlacePicker/`: VoiceOver labels and reading order (level, reason, place, station, data age), largest Dynamic Type without clipping, Dark Mode, Reduce Motion and Reduce Transparency fallbacks (FR-013); add an accessibility audit (`performAccessibilityAudit`) to `RevontuletUITests/MainScreenResultUITests.swift`
-- [ ] T055 [P] Add `Revontulet/Resources/PrivacyInfo.xcprivacy`: no tracking, no collected data types, required-reason API UserDefaults with reason `CA92.1` (supports "Data Not Collected", SC-006)
-- [ ] T056 [P] Add a portability check script `tools/check-core-portability.sh` that fails if any file under `Packages/AuroraCore/Sources/` imports SwiftUI, UIKit, AppKit, CoreLocation, Combine, OSLog, os or uses `XMLParser`; run it and fix any findings
+- [x] T055 [P] Add `Revontulet/Resources/PrivacyInfo.xcprivacy`: no tracking, no collected data types, required-reason API UserDefaults with reason `CA92.1` (supports "Data Not Collected", SC-006)
+- [x] T056 [P] Add a portability check script `tools/check-core-portability.sh` that fails if any file under `Packages/AuroraCore/Sources/` imports SwiftUI, UIKit, AppKit, CoreLocation, Combine, OSLog, os or uses `XMLParser`; run it and fix any findings
 - [ ] T057 [P] Review all strings in `Revontulet/Resources/Localizable.xcstrings` for complete, natural fi and sv translations (no missing or stale entries)
-- [ ] T058 [P] Write `README.md`: what the app does, how to build (`xcodegen generate`, quickstart link), data sources and attribution (FMI CC BY 4.0, Statistics Finland CC BY 4.0), licence AGPL-3.0
+- [x] T058 [P] Write `README.md`: what the app does, how to build (`xcodegen generate`, quickstart link), data sources and attribution (FMI CC BY 4.0, Statistics Finland CC BY 4.0), licence AGPL-3.0
 - [ ] T059 Measure launch-to-cached-result on a device or simulator with Instruments and confirm ≤ 1 s (SC-002); record the result in `specs/001-aurora-main-screen/quickstart.md`
 - [ ] T060 Run all of [quickstart.md](quickstart.md) (core tests, UI tests, manual checks 1–7 including the network log check for no location data) and fix any failures
 

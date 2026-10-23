@@ -43,6 +43,29 @@ final class MainScreenResultUITests: XCTestCase {
     }
 
     @MainActor
+    func testMainScreenPassesAccessibilityAudit() throws {
+        let app = launch(location: "66.50,25.73")
+        XCTAssertTrue(app.element("chanceHeadline").waitForExistence(timeout: 15))
+        // Report every audit issue in one run, not just the first.
+        continueAfterFailure = true
+        try audit(app)
+
+        app.buttons["detailsToggle"].tap()
+        try audit(app)
+    }
+
+    /// Contrast is left out: the audit samples the twinkling stars and aurora inside text frames
+    /// and fails text measured at 6:1 or better from screenshots. The headline and reason are
+    /// capped at accessibility2 on purpose, so the level word stays the largest text.
+    @MainActor
+    private func audit(_ app: XCUIApplication) throws {
+        let cappedText: Set<String> = ["CHANCE TO SEE THE AURORA", "Too light"]
+        try app.performAccessibilityAudit(for: XCUIAccessibilityAuditType.all.subtracting(.contrast)) { issue in
+            issue.auditType == .dynamicType && cappedText.contains(issue.element?.label ?? "")
+        }
+    }
+
+    @MainActor
     func testStockholmIsOutsideCoverage() {
         let app = launch(location: "59.33,18.07")
 
