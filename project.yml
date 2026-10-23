@@ -16,6 +16,8 @@ settings:
     SWIFT_STRICT_CONCURRENCY: complete
     SWIFT_EMIT_LOC_STRINGS: YES
     LOCALIZATION_PREFERS_STRING_CATALOGS: YES
+    # Strings are looked up by key, not generated symbols; a key like "%@, %@" has no symbol name.
+    STRING_CATALOG_GENERATE_SYMBOLS: NO
     ENABLE_USER_SCRIPT_SANDBOXING: YES
 
 packages:
@@ -35,6 +37,7 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: fi.juusimaa.revontulet
         PRODUCT_NAME: Revontulet
         MARKETING_VERSION: "0.1.0"
+        # Xcode Cloud replaces this with its build number (ci_scripts/ci_post_clone.sh).
         CURRENT_PROJECT_VERSION: "1"
         TARGETED_DEVICE_FAMILY: "1"
         GENERATE_INFOPLIST_FILE: YES
