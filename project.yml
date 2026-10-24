@@ -36,7 +36,7 @@ targets:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: fi.juusimaa.revontulet
         PRODUCT_NAME: Revontulet
-        MARKETING_VERSION: "0.1.0"
+        MARKETING_VERSION: "1.0"
         # Xcode Cloud replaces this with its build number (ci_scripts/ci_post_clone.sh).
         CURRENT_PROJECT_VERSION: "1"
         TARGETED_DEVICE_FAMILY: "1"
