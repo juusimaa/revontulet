@@ -16,6 +16,8 @@ Finnish Meteorological Institute (FMI, fmi.fi). An Android version may follow la
   documented in the feature spec with its licence and terms of use before it is used.
 - Requests to FMI MUST respect its published usage limits and MUST NOT poll more often than the
   data actually updates.
+- These rules apply equally to the alert backend: it MUST use the same open data sources as the
+  app and fetch them once for all users, never per user.
 
 Rationale: the app's value and credibility rest on transparent, reproducible public data.
 
@@ -27,8 +29,17 @@ Rationale: the app's value and credibility rest on transparent, reproducible pub
 - The app MUST request the least location access that works ("When In Use", reduced accuracy
   where sufficient) and MUST still function, with a manually chosen location, if access is denied.
 - No analytics, advertising, tracking or third-party SDKs that collect user data. No accounts.
-- A future backend (e.g. for push notifications) MUST be opt-in, MUST receive only the minimum
-  data needed (coarse region, push token), and MUST be specified and reviewed against this
+- The only permitted backend is the alert backend for push notifications. It MUST be opt-in: off
+  by default, with nothing sent before the user turns it on.
+- The alert backend MUST receive and store only the minimum data needed: a push token, a coarse
+  zone (one per measurement station area or coarser), the user's alert threshold and the time the
+  registration was last confirmed. It MUST NOT store a history of zones, and MUST NOT store or log
+  IP addresses, language, device details or anything else about the user.
+- Turning the feature off MUST delete the registration from the backend. Invalid and abandoned
+  registrations MUST be deleted automatically.
+- The backend MUST be hosted in the EU by a provider named in the privacy policy, and MUST NOT
+  share data with anyone.
+- Any change to what the backend receives or stores MUST be specified and reviewed against this
   principle before it is built.
 - The App Store privacy label MUST be able to state "Data Not Collected", or the deviation MUST be
   justified in the relevant spec.
@@ -44,15 +55,19 @@ Rationale: an app that only needs to know roughly where the user is has no reaso
 - Platform-specific code (UI, location services, notifications, widgets) MUST stay in thin native
   layers that talk to the core through clearly defined interfaces.
 - The core MUST be buildable and testable on its own (`swift build`, `swift test`) without the
-  app target.
+  app target, on both macOS and Linux.
+- The alert backend MUST use the core for all domain logic (data parsing, R value, chance to
+  see), so that an alert and the app agree on the same data. The backend itself is a thin shell,
+  like the app.
 
-Rationale: keeping the core free of UI and Apple-only frameworks lets an Android app reuse it
-(e.g. via Swift on Android) or port it mechanically, while both apps stay fully native.
+Rationale: keeping the core free of UI and Apple-only frameworks lets an Android app and the
+alert backend reuse it, while every shell stays native to its platform.
 
 ### IV. Test-First Where Feasible
 
 - Core domain logic (parsing, R value calculation, probability, caching) MUST be developed
-  test-first: write the test, see it fail, then implement.
+  test-first: write the test, see it fail, then implement. This applies wherever the logic runs,
+  including alert decisions in the backend (thresholds, repeat rules, dropping late alerts).
 - Calculations MUST be verified against known reference values from recorded FMI data; tests MUST
   use recorded fixtures, not live network calls.
 - UI and platform-integration code SHOULD have tests where practical (view models, UI tests for
@@ -97,8 +112,10 @@ understood instantly.
   and other system surfaces are in scope as features, subject to the principles above.
 - Dependencies: Swift Package Manager only. Third-party dependencies MUST be justified in the
   plan and kept to a minimum; none may violate Principle II.
-- Backend: none. The architecture MUST NOT prevent adding a small backend later for push
-  notifications (Principle II applies when it is added).
+- Backend: at most one small alert backend for push notifications (Principles I–IV apply). The
+  app, widgets and every feature other than alerts MUST work identically when the backend is
+  unreachable; if it is down, only alerts stop. Missed alerts MUST NOT be sent late. The backend
+  MUST be monitored so that an outage is noticed, and MUST NOT require accounts.
 - Android: out of scope until the iOS app is released; Principle III keeps the path open.
 - Licence: all code is AGPL-3.0; dependencies MUST have compatible licences.
 
@@ -124,4 +141,4 @@ understood instantly.
 - Compliance is reviewed at every plan (Constitution Check) and, after the initial release, at
   every pull request.
 
-**Version**: 1.0.0 | **Ratified**: 2026-10-22 | **Last Amended**: 2026-10-22
+**Version**: 1.1.0 | **Ratified**: 2026-10-22 | **Last Amended**: 2026-10-24
