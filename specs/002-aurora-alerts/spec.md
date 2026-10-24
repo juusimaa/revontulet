@@ -128,9 +128,11 @@ within one minute and is clearly marked as a test.
 - **FMI data unavailable to the alert service**: no alerts are sent; nothing is shown to users.
 - **The level flickers around the threshold**: repeat rules (FR-008) prevent a notification each
   time it crosses back up.
-- **App deleted, or notifications revoked in iOS Settings**: the registration becomes invalid and
-  is removed by the alert service the next time it tries to send, or by the retention rule
-  (FR-014).
+- **App deleted**: the registration becomes invalid and is removed by the alert service the next
+  time it tries to send, or by the retention rule (FR-014).
+- **Notifications turned off in iOS Settings**: the notification system does not report this, so
+  the app checks permission each time it is opened; if alerts are on and notifications are off,
+  it deletes the registration and shows alerts as off with a way to open Settings.
 - **The user is outside Finland**: zones cover Finland only; with current location outside
   Finland, alerts follow the last zone the user had in Finland, or cannot be turned on if there
   has never been one, with an explanation.
@@ -175,7 +177,8 @@ within one minute and is clearly marked as a test.
   zone when the zone's chance reaches its threshold. After an alert for a level, no further alert
   for the same level and zone MUST be sent until the chance has stayed below that level for at
   least 60 minutes. A rise from Moderate to High MUST trigger one further alert for registrations
-  with threshold Moderate. A registration MUST NOT receive more than 3 alerts per night.
+  with threshold Moderate. A registration MUST NOT receive more than 3 alerts per night from
+  its zone. Repeat and nightly-cap state MUST be kept per zone, not per device.
 - **FR-009**: Alerts MUST NOT be sent late: if the conditions that triggered an alert are older
   than 20 minutes when it would be sent (e.g. after an outage), it MUST be dropped.
 - **FR-010**: The notification MUST state the chance level, the zone's station name and the main
@@ -191,7 +194,8 @@ within one minute and is clearly marked as a test.
 #### Alert service
 
 - **FR-013**: For each registration, the alert service MUST store only: the notification
-  address, the zone, the threshold, and the time the registration was last confirmed. It MUST NOT
+  address (the push token and whether it belongs to a development or a production build), the
+  zone, the threshold, and the time the registration was last confirmed. It MUST NOT
   store or log IP addresses, device or app details, language, or anything derived from the user's
   location beyond the zone.
 - **FR-014**: The alert service MUST delete a registration when the user turns alerts off, when
@@ -225,8 +229,9 @@ within one minute and is clearly marked as a test.
   time of the data it is based on.
 - **Alert registration**: One device's request to be alerted: an anonymous notification address,
   a zone, a threshold and the time it was last confirmed. Not linked to any person or account.
-- **Alert state**: For each zone, which levels have been alerted and when, used for the repeat
-  rules; kept per zone, not per device, except for the nightly count.
+- **Alert state**: For each zone, which levels have been alerted and when, and how many alerts
+  were sent tonight, used for the repeat rules and the nightly cap; kept per zone, never per
+  device.
 - **Alert notification**: The message delivered to a device: level, zone station name and reason
   as identifiers that the device turns into text in its own language.
 
@@ -242,9 +247,12 @@ within one minute and is clearly marked as a test.
 - **No language, IP or device data** is stored or logged (FR-010, FR-013).
 - **Deletion**: turning alerts off deletes the registration; invalid and abandoned registrations
   are deleted automatically (FR-006, FR-014).
-- **App Store label**: "Data Not Collected" may no longer apply, because a zone kept on a server is
-  arguably coarse location. If so, the label declares **Coarse Location – App Functionality – not
-  linked to the user – not used for tracking**. This deviation from the constitution's default
+- **App Store label**: "Data Not Collected" no longer applies: Apple counts data stored on a
+  server beyond the request as collected, so the zone is collected coarse location and the stored
+  push token is best declared as a device ID. Proposed label: **Coarse Location** and **Device
+  ID**, both **App Functionality**, **not used for tracking**, **not linked to the user** (no
+  accounts; nothing ties the token to a person). "Linked to You" remains the conservative
+  alternative (research R11). This deviation from the constitution's default
   label is justified by the alerts' purpose and the opt-in. The final decision is recorded here
   before release (FR-020).
 
@@ -257,7 +265,7 @@ within one minute and is clearly marked as a test.
 - **SC-002**: For a set of at least 20 recorded reference nights, alerts are sent exactly when
   the zone's chance reaches the threshold under the documented rules, in 100% of cases, and never
   in daylight or under the threshold.
-- **SC-003**: No registration receives more than 3 alerts in one night.
+- **SC-003**: No registration receives more than 3 alerts in one night from its zone.
 - **SC-004**: A user can turn alerts on, including the explanation and the notification
   permission prompt, in under 30 seconds.
 - **SC-005**: After the user turns alerts off while online, the alert service no longer holds the
