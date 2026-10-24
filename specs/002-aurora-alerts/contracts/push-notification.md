@@ -14,9 +14,9 @@ app's `Localizable` strings (compiled from `Localizable.xcstrings`) in the devic
 | `apns-expiration` | `dataTime + 20 min` as Unix seconds (FR-009) |
 | `apns-collapse-id` | `<zone>-<level>-<night>`, e.g. `OUJ-high-2026-11-03` |
 
-Endpoint by the registration's `environment`: `production` → `api.push.apple.com`, `sandbox` →
-`api.sandbox.push.apple.com`. TestFlight and App Store builds are production; only builds run
-from Xcode are sandbox.
+Endpoint by the instance's `APNS_ENVIRONMENT`: `production` (default) → `api.push.apple.com`,
+`sandbox` → `api.sandbox.push.apple.com`. The production instance serves TestFlight and App Store
+builds; a separate development instance with `sandbox` serves builds run from Xcode (research R5).
 
 ## Payload
 
@@ -70,7 +70,7 @@ usual and shows the result for the user's own place (US1 scenario 7). No deep li
 | Response | Action |
 |---|---|
 | `200` | Done. |
-| `410 Unregistered` / `410 ExpiredToken` | Delete the registration, unless it was confirmed after the response's `timestamp`. |
-| `400 BadDeviceToken` / `400 DeviceTokenNotForTopic` | Delete the registration, **unless** more than 10 such responses (or 10%) occur in one cycle; then delete nothing, stop sending this cycle and report failure to the heartbeat, because this is almost certainly a configuration error (wrong environment or topic). |
+| `410 Unregistered` / `410 ExpiredToken` | Delete the registration, unless `confirmed_at` ≥ the start of the UTC day of the response's `timestamp` (a re-registration on that day keeps it; `confirmed_at` has day precision). |
+| `400 BadDeviceToken` / `400 DeviceTokenNotForTopic` | Delete the registration, **unless** more than 10 such responses (or 10%) occur in one cycle; then delete nothing, stop sending this cycle and report failure to the heartbeat, because this is almost certainly a configuration error (the instance's `APNS_ENVIRONMENT` or topic does not match the app builds registering with it). |
 | `403 ExpiredProviderToken`, `InvalidProviderToken` | Configuration error: stop sending, report failure. |
 | `429`, `5xx`, network error | Retry once within the cycle; then drop (no replay, FR-009). |

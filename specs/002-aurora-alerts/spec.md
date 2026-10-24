@@ -194,8 +194,7 @@ within one minute and is clearly marked as a test.
 #### Alert service
 
 - **FR-013**: For each registration, the alert service MUST store only: the notification
-  address (the push token and whether it belongs to a development or a production build), the
-  zone, the threshold, and the time the registration was last confirmed. It MUST NOT
+  address (the push token), the zone, the threshold, and the time the registration was last confirmed. It MUST NOT
   store or log IP addresses, device or app details, language, or anything derived from the user's
   location beyond the zone.
 - **FR-014**: The alert service MUST delete a registration when the user turns alerts off, when
@@ -262,7 +261,8 @@ within one minute and is clearly marked as a test.
 
 - **SC-001**: While the alert service is running, at least 95% of alerts reach the device within
   15 minutes of FMI publishing the data that raised the zone's chance to the threshold.
-- **SC-002**: For a set of at least 20 recorded reference nights, alerts are sent exactly when
+- **SC-002**: For a set of at least 20 reference nights, at least 3 of them recorded from FMI data
+  and the rest synthetic sequences of zone conditions, alerts are sent exactly when
   the zone's chance reaches the threshold under the documented rules, in 100% of cases, and never
   in daylight or under the threshold.
 - **SC-003**: No registration receives more than 3 alerts in one night from its zone.
@@ -286,6 +286,8 @@ within one minute and is clearly marked as a test.
   which is why tapping the notification shows the app's own result.
 - **Representative position**: the station's position, unless planning finds that a zone centre
   gives better darkness and cloud results.
+- **Zone names** are station names as FMI publishes them; southern Finland's zone is Tartu
+  (Estonia), matching the station the main screen already shows there.
 - **One zone per device** for this feature; alerts for several places (e.g. a summer cottage)
   belong with a future saved-places feature.
 - **Delivery**: notifications use Apple's push notification service; delivery timing is

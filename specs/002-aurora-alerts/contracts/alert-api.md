@@ -1,8 +1,11 @@
 # Contract: Alert Service HTTP API (v1)
 
 The only interface between the app and the alert service. Base URL
-`https://alerts.<domain>/v1` (the domain is set at deployment; the app reads it from build
-settings). HTTPS only, terminated by the existing reverse proxy. JSON bodies, UTF-8.
+`https://alerts.<domain>/v1` for the production instance (domain chosen in T008a). The app reads
+the base URL from the `AlertsBaseURL` Info.plist key, set from the `ALERTS_BASE_URL` build
+setting: Release builds use the production instance, Debug builds a development instance whose
+APNs environment is sandbox (research R5). HTTPS only, terminated by the existing reverse proxy
+(a local development instance may use plain HTTP on localhost). JSON bodies, UTF-8.
 
 The request and response types are defined once in `AuroraCore` (`RegistrationUpsert`,
 `RegistrationToken`, `AlertAPIError`) and used by both the app and the service.
@@ -25,7 +28,7 @@ Create or update the registration for a token (turn on, change threshold, zone c
 re-confirmation).
 
 ```json
-{ "token": "a1b2…", "environment": "production", "zone": "OUJ", "threshold": "high" }
+{ "token": "a1b2…", "zone": "OUJ", "threshold": "high" }
 ```
 
 | Status | Meaning |
@@ -40,7 +43,7 @@ re-confirmation).
 Delete the registration for a token (turn off, token changed, notification permission revoked).
 
 ```json
-{ "token": "a1b2…", "environment": "production" }
+{ "token": "a1b2…" }
 ```
 
 `204` whether or not a registration existed (idempotent). Errors as above.
@@ -50,7 +53,7 @@ Delete the registration for a token (turn off, token changed, notification permi
 Send a test notification to this token (FR-012). The registration must exist.
 
 ```json
-{ "token": "a1b2…", "environment": "production" }
+{ "token": "a1b2…" }
 ```
 
 | Status | Meaning |

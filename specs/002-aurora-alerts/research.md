@@ -80,9 +80,13 @@ needs a matching swift.org toolchain and Glibc→Musl import changes; revisit if
 - Token-based auth with one `.p8` key (converted to PEM for APNSwift), key ID and team ID from
   environment, key file as a Docker secret. APNSwift refreshes the JWT within Apple's rule
   ("no more than once every 20 minutes and no less than once every 60 minutes").
-- Each registration carries `environment` (`production`/`sandbox`); the service holds a client
-  for each. TestFlight and App Store builds use production; Xcode builds use sandbox. The app
-  sends `sandbox` only in Debug builds.
+- One APNs environment per service instance, set by `APNS_ENVIRONMENT` (`production` by
+  default). TestFlight and App Store builds use production and register with the production
+  instance on the server. Builds run from Xcode get sandbox tokens and register with a separate
+  development instance (`APNS_ENVIRONMENT=sandbox`), run locally in Docker or as a second
+  container when needed. Release builds use the production URL and Debug builds the development
+  URL (build setting, see T037). No registration stores its environment, so the production
+  database holds exactly the four fields Principle II allows.
 - Delete on `410 Unregistered`/`ExpiredToken` unless the registration was confirmed after the
   response's timestamp, and on `400 BadDeviceToken`/`DeviceTokenNotForTopic`, but with a circuit
   breaker: more than 10 (or 10%) such responses in one cycle are treated as a configuration error,
@@ -95,7 +99,8 @@ Sources: developer.apple.com — "Establishing a token-based connection to APNs"
 notification requests to APNs", "Handling notification responses from APNs".
 
 **Alternatives considered**: Certificate-based auth (yearly renewal, one certificate per
-environment); one service instance per environment (doubles the deployment for a debug-only need).
+environment); storing each token's environment in one shared instance (a fifth stored field that
+Principle II does not list, and development registrations mixed into production data).
 
 ## R6. Notification text in the user's language
 

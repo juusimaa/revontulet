@@ -59,7 +59,7 @@ constitution v1.1.0.
 | Principle | Check | Status |
 |---|---|---|
 | I. Open Data Only | Service uses the same FMI open data sets as the app via the same core client, fetched once per cycle for all users (18 requests/hour); no new data source. | Pass |
-| II. Privacy by Design | Off by default; nothing sent before opt-in. Stores token (+ its APNs environment, which is part of the address), zone, threshold, day-rounded confirmation time; no zone history, IP, language or device details; no request/access logs. Deletion on opt-out, on revoked permission, on invalid token, after 180 days. Hosted at UpCloud in Helsinki, named in the privacy policy. Privacy label deviation justified in the spec's Privacy Review. | Pass |
+| II. Privacy by Design | Off by default; nothing sent before opt-in. Stores exactly the four fields Principle II lists: token, zone, threshold, day-rounded confirmation time; no zone history, IP, language or device details; no request/access logs. Deletion on opt-out, on revoked permission, on invalid token, after 180 days. Hosted at UpCloud in Helsinki, named in the privacy policy. Privacy label deviation justified in the spec's Privacy Review. | Pass |
 | III. Shared Core, Native Shells | Zones, zone evaluation, alert rules, message keys, HTTP contract types and device sync are in `AuroraCore`; core verified on Linux; the service and the app are thin shells. Linux build/test added to CI. | Pass |
 | IV. Test-First | `AlertPolicy` reference cases, `ZoneEvaluator` with recorded fixtures, validation and sync logic written test-first in the core; service dispatch rules test-first with fakes. | Pass |
 | V. Performance & Efficiency | No background work for alerts in the app (pushes wake nothing; sync only on foreground); no background location; service polls no faster than FMI publishes. | Pass |
@@ -67,10 +67,11 @@ constitution v1.1.0.
 | Constraints | One alert backend, opt-in; app works identically without it; missed alerts not sent late; monitored; no accounts. Server dependencies justified (R3), licences AGPL-compatible. | Pass |
 | Workflow | Feature branch `002-aurora-alerts` and PR with the Constitution Check, as required after the initial release. | Pass |
 
-**Post-design re-check (after Phase 1)**: Pass. One interpretation is recorded rather than a
-violation: Principle II lists "a push token" among the stored fields; the token's APNs
-environment (`production`/`sandbox`) is stored with it because the same token cannot be used on
-the other endpoint. It says nothing about the user, and the spec's FR-013 now names it.
+**Post-design re-check (after Phase 1)**: Pass. `/speckit-analyze` found that an earlier draft
+stored each token's APNs environment as a fifth field; this was removed. Each service instance
+now sends to one APNs environment set by configuration: the production instance on the server
+for TestFlight and App Store builds, and a separate development instance (sandbox) for builds run
+from Xcode (R5).
 
 ## Spec amendments from research
 
@@ -80,7 +81,8 @@ Applied to [spec.md](spec.md) in this planning step:
   device; the cap is "3 per night from its zone" (R8).
 - **Edge cases**: APNs does not report notifications turned off in iOS Settings; the app checks
   permission on open and deletes the registration (R7).
-- **FR-013**: the notification address is the token plus its APNs environment (R5).
+- **SC-002**: at least 3 of the 20 reference nights are recorded FMI data; the rest are synthetic
+  sequences of zone conditions (from `/speckit-analyze`).
 - **Privacy Review**: label proposal now includes Device ID besides Coarse Location; linked vs not
   linked is left for the release decision (R11).
 

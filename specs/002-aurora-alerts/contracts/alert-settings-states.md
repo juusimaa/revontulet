@@ -13,7 +13,7 @@ The alert settings screen, reached from the main screen. Every state is designed
 | **On** | Confirmed | Zone ("Area: Oulujärvi"), threshold, "Confirmed <relative date>" | Change threshold, send test, turn off |
 | **On, no dark nights** | On, and it is too light at the zone for the next 24 h | As On, plus "Alerts resume when nights get dark again" | As On |
 | **Turning off** | Off chosen, deletion not yet confirmed | Alerts shown **off** immediately (FR-006), small "Removing…" note | Turn on again |
-| **No zone yet** | No place in Finland has ever been resolved (e.g. outside Finland with location only) | "Choose a place in Finland first" | Open place picker |
+| **No zone yet** | No place in Finland has ever been resolved (e.g. location denied and no municipality chosen, or outside Finland with location only) | "Choose a place in Finland first"; turning on is not possible | Open place picker |
 | **Test sent / limited** | After "Send test" | "Test alert sent" or "Try again at 21:40" (429) | — |
 
 Also on the main screen: a toolbar button that opens the settings. It shows a filled bell while

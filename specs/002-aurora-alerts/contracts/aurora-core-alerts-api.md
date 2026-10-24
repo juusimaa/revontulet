@@ -73,9 +73,8 @@ See [push-notification.md](push-notification.md).
 ## HTTP contract types (used by app and service)
 
 ```swift
-public struct RegistrationUpsert: Sendable, Codable, Equatable { token, environment, zone, threshold }
-public struct RegistrationToken: Sendable, Codable, Equatable { token, environment }
-public enum PushEnvironment: String, Sendable, Codable { case production, sandbox }
+public struct RegistrationUpsert: Sendable, Codable, Equatable { token, zone, threshold }
+public struct RegistrationToken: Sendable, Codable, Equatable { token }
 public enum AlertAPIError: String, Sendable, Codable { case invalidToken, invalidZone, invalidThreshold, invalidBody }
 public enum RegistrationValidation {
     public static func validate(_ upsert: RegistrationUpsert, zones: [AlertZone]) -> AlertAPIError?
@@ -102,7 +101,7 @@ public actor AlertSync {
     public var state: AlertSyncState { get }
     public func setDesired(_ desired: AlertSyncState.Desired) async     // on, off, threshold
     public func zoneChanged(to zone: AlertZone.ID) async                 // FR-004
-    public func tokenChanged(_ token: String, environment: PushEnvironment) async
+    public func tokenChanged(_ token: String) async
     /// Sends what is pending; re-confirms if the last confirmation is ≥ 1 day old. Call on foreground.
     public func sync(now: Date) async
 }

@@ -18,6 +18,11 @@ app uses. There is no separate zone table; a zone is identified by its station.
 | `station` | `Station` | Name (shown in alerts and settings, not translated) and position. |
 | `representativePosition` | `Coordinate` | The station's position; used for darkness and cloud cover (research R2). |
 
+**Zone names**: a zone is named after its station as FMI publishes it. Southern Finland's
+nearest station is Tartu (TAR) in Estonia, so alerts there say "near Tartu"; the main screen
+already shows Tartu as the station for that area, so alerts and the app stay consistent. A
+friendlier display name per zone is a possible later improvement.
+
 **Zone of a place**: the station nearest to the place's coordinate by straight-line distance,
 **regardless of whether it currently has data**, so the zone depends only on geography. A
 previous zone is kept until another station is at least 5 km closer (same hysteresis as
@@ -75,14 +80,12 @@ both `moderate` and `high` registrations.
 
 ### Registration request types (HTTP contract)
 
-`RegistrationUpsert { token, environment, zone, threshold }`, `RegistrationToken { token,
-environment }`. Codable, shared by the app's client and the service, so both sides use one
+`RegistrationUpsert { token, zone, threshold }`, `RegistrationToken { token }`. Codable, shared by the app's client and the service, so both sides use one
 definition ([contracts/alert-api.md](contracts/alert-api.md)).
 
 | Field | Validation |
 |---|---|
 | `token` | Lowercase hex, even length, 32–200 bytes when decoded. |
-| `environment` | `production` or `sandbox` (which APNs endpoint the token belongs to). |
 | `zone` | One of the station codes. |
 | `threshold` | `moderate` or `high`. |
 
@@ -95,7 +98,7 @@ What the device wants versus what the service has confirmed; drives retries (FR-
 | `desired` | `enabled(zone, threshold)` or `disabled` | What the user set. |
 | `confirmed` | same, or `nil` | Last state the service acknowledged. |
 | `confirmedAt` | `Date?` | For the once-a-day re-confirmation (FR-014). |
-| `token` | `String?` + environment | Latest APNs token; a changed token is a new registration and the old one is deleted. |
+| `token` | `String?` | Latest APNs token; a changed token is a new registration and the old one is deleted. |
 
 `isPending = desired != confirmed || token changed`. The settings show "not yet confirmed" while
 pending; alerts are shown as off as soon as `desired == disabled` (FR-006).
@@ -107,7 +110,6 @@ pending; alerts are shown as off as soon as `desired == disabled` (FR-006).
 | Column | Type | Notes |
 |---|---|---|
 | `token` | `TEXT PRIMARY KEY` | APNs device token, hex. |
-| `environment` | `TEXT NOT NULL` | `production` / `sandbox`. Part of the notification address. |
 | `zone` | `TEXT NOT NULL` | Station code. Indexed. |
 | `threshold` | `TEXT NOT NULL` | `moderate` / `high`. |
 | `confirmed_at` | `INTEGER NOT NULL` | Unix seconds, day precision is enough; rounded down to the day so the column cannot reveal when the app was opened. |
