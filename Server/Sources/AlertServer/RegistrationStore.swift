@@ -102,6 +102,19 @@ public actor RegistrationStore {
         ).count
     }
 
+    /// Writes a consistent copy of the database to `path`, replacing any previous copy. The copy
+    /// is written next to it first, so a failed backup leaves the previous one in place.
+    public func backup(to path: String) async throws {
+        let partial = path + ".partial"
+        try? FileManager.default.removeItem(atPath: partial)
+        _ = try await connection.query("VACUUM INTO ?", [.text(partial)])
+        if FileManager.default.fileExists(atPath: path) {
+            _ = try FileManager.default.replaceItemAt(URL(fileURLWithPath: path), withItemAt: URL(fileURLWithPath: partial))
+        } else {
+            try FileManager.default.moveItem(atPath: partial, toPath: path)
+        }
+    }
+
     // MARK: Zone alert state
 
     /// The stored state of every zone, decoded from JSON.

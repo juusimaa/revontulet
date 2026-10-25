@@ -20,6 +20,13 @@ public struct Configuration: Sendable, Equatable {
     public var databasePath: String
     public var port: Int
 
+    /// The nightly backup, next to the database: `/data/alerts.db` → `/data/alerts-backup.db`.
+    public var backupPath: String {
+        let database = URL(fileURLWithPath: databasePath)
+        return database.deletingLastPathComponent()
+            .appendingPathComponent(database.deletingPathExtension().lastPathComponent + "-backup.db").path
+    }
+
     /// Fails with the name of the first missing or invalid variable.
     public init(environment: [String: String]) throws(ConfigurationError) {
         func value(_ name: String) -> String? {

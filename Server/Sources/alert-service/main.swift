@@ -25,6 +25,7 @@ let evaluationLoop = EvaluationLoop(
     heartbeat: HealthcheckPinger(url: configuration.healthcheckPingURL, client: httpClient, logger: logger),
     logger: logger
 )
+let maintenance = Maintenance(store: store, backupPath: configuration.backupPath, logger: logger)
 let dependencies = try AppDependencies(
     store: store,
     health: health,
@@ -35,7 +36,7 @@ let dependencies = try AppDependencies(
 )
 
 logger.info("alert-service \(AlertServer.version) starting (APNs \(configuration.apnsEnvironment.rawValue))")
-let app = buildApplication(dependencies: dependencies, port: configuration.port, services: [evaluationLoop], logger: logger)
+let app = buildApplication(dependencies: dependencies, port: configuration.port, services: [evaluationLoop, maintenance], logger: logger)
 try await app.runService()
 
 try? await pushSender.shutdown()

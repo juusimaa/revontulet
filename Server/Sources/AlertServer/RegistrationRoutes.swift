@@ -14,6 +14,18 @@ func addRegistrationRoutes(to group: RouterGroup<BasicRequestContext>, dependenc
             return .apiError(error)
         }
     }
+
+    // 204 whether or not the registration existed, so retries are safe.
+    group.post("delete") { request, _ -> Response in
+        guard let body = try? await request.body.collect(upTo: maxBodySize) else { return .apiError(.invalidBody) }
+        switch RegistrationValidation.decodeToken(Data(body.readableBytesView)) {
+        case .success(let token):
+            try await dependencies.store.delete(token: token.token)
+            return Response(status: .noContent)
+        case .failure(let error):
+            return .apiError(error)
+        }
+    }
 }
 
 /// Registration bodies are under 500 bytes; anything much larger is not a registration.
