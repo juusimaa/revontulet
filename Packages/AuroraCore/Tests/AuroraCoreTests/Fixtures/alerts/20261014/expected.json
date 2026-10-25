@@ -1,0 +1,52 @@
+[
+ {
+  "zone": "MEK",
+  "level": "moderate",
+  "time": "2026-10-14T18:45:00Z"
+ },
+ {
+  "zone": "TAR",
+  "level": "moderate",
+  "time": "2026-10-14T18:45:00Z"
+ },
+ {
+  "zone": "TAR",
+  "level": "high",
+  "time": "2026-10-14T18:50:00Z"
+ },
+ {
+  "zone": "PEL",
+  "level": "moderate",
+  "time": "2026-10-14T19:55:00Z"
+ },
+ {
+  "zone": "KIL",
+  "level": "moderate",
+  "time": "2026-10-14T20:50:00Z"
+ },
+ {
+  "zone": "KIL",
+  "level": "high",
+  "time": "2026-10-14T21:55:00Z"
+ },
+ {
+  "zone": "MUO",
+  "level": "moderate",
+  "time": "2026-10-14T22:00:00Z"
+ },
+ {
+  "zone": "MUO",
+  "level": "high",
+  "time": "2026-10-14T22:55:00Z"
+ },
+ {
+  "zone": "KEV",
+  "level": "moderate",
+  "time": "2026-10-14T23:10:00Z"
+ },
+ {
+  "zone": "KEV",
+  "level": "high",
+  "time": "2026-10-14T23:25:00Z"
+ }
+]
