@@ -174,7 +174,7 @@ of the database is recoverable: active apps re-confirm daily when opened.
 
 ## R11. App Store privacy label
 
-**Decision (proposed; final call recorded in the spec's Privacy Review before release, FR-020)**:
+**Decision (confirmed by the developer on 2026-10-25, recorded in the spec's Privacy Review, FR-020)**:
 Declare **Coarse Location** and **Device ID**, both for **App Functionality**, **not used for
 tracking**, and **not linked to the user's identity**.
 

@@ -254,6 +254,12 @@ within one minute and is clearly marked as a test.
   alternative (research R11). This deviation from the constitution's default
   label is justified by the alerts' purpose and the opt-in. The final decision is recorded here
   before release (FR-020).
+- **Label decision (2026-10-25, developer)**: from version 2.0, declare **Coarse Location** and
+  **Device ID**, both **App Functionality** only, **Data Not Linked to You**, **not used for
+  tracking**. Nothing else is collected. Protections against linking: no accounts, no
+  identifiers besides the push token, no IP addresses or request logs, and deletion on
+  turn-off. Set in App Store Connect (App Privacy) together with the 2.0 submission; 1.x stays
+  "Data Not Collected".
 
 ## Success Criteria *(mandatory)*
 
