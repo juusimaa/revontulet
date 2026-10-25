@@ -1,0 +1,13 @@
+# Build context for Server/Dockerfile is the repository root; send only what the image needs.
+.git
+**/.build
+**/.swiftpm
+build
+Revontulet*
+RevontuletTests
+RevontuletUITests
+specs
+docs
+tools
+ci_scripts
+Packages/AuroraCore/Tests
