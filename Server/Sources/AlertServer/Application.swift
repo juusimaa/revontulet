@@ -2,6 +2,7 @@ import AuroraCore
 import Foundation
 import Hummingbird
 import Logging
+import ServiceLifecycle
 
 /// What the HTTP routes need.
 public struct AppDependencies: Sendable {
@@ -9,12 +10,20 @@ public struct AppDependencies: Sendable {
     public var health: HealthStatus
     public var rateLimiter: RateLimiter
     public var zones: [AlertZone]
+    /// For test notifications.
+    public var pushSender: any PushSender
+    public var apnsTopic: String
+    public var now: @Sendable () -> Date
 
-    public init(store: RegistrationStore, health: HealthStatus, rateLimiter: RateLimiter, zones: [AlertZone]) {
+    public init(store: RegistrationStore, health: HealthStatus, rateLimiter: RateLimiter, zones: [AlertZone],
+                pushSender: any PushSender, apnsTopic: String, now: @escaping @Sendable () -> Date = Date.init) {
         self.store = store
         self.health = health
         self.rateLimiter = rateLimiter
         self.zones = zones
+        self.pushSender = pushSender
+        self.apnsTopic = apnsTopic
+        self.now = now
     }
 }
 
@@ -50,18 +59,22 @@ func buildRouter(dependencies: AppDependencies) -> Router<BasicRequestContext> {
         return .json(#"{"status":"ok"}"#)
     }
 
-    // Registration routes (US1–US3) go in this group so they share the per-address limit.
-    _ = v1.group("registration")
-        .add(middleware: RateLimitMiddleware(limiter: dependencies.rateLimiter))
+    // Registration routes share the per-address limit.
+    let registration = v1.group("registration")
+        .add(middleware: RateLimitMiddleware(limiter: dependencies.rateLimiter, now: dependencies.now))
+    addRegistrationRoutes(to: registration, dependencies: dependencies)
 
     return router
 }
 
-/// The HTTP application, listening on all interfaces inside the container network.
-public func buildApplication(dependencies: AppDependencies, port: Int, logger: Logger = makeLogger()) -> some ApplicationProtocol {
+/// The HTTP application, listening on all interfaces inside the container network, running
+/// `services` (the evaluation loop) alongside.
+public func buildApplication(dependencies: AppDependencies, port: Int, services: [any Service] = [],
+                             logger: Logger = makeLogger()) -> some ApplicationProtocol {
     Application(
         router: buildRouter(dependencies: dependencies),
         configuration: .init(address: .hostname("0.0.0.0", port: port), serverName: "revontulet-alerts"),
+        services: services,
         logger: logger
     )
 }

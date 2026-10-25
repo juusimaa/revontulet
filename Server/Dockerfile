@@ -22,8 +22,9 @@ RUN swift build -c release --static-swift-stdlib --package-path Server \
 # ---- Run ---------------------------------------------------------------------------------------
 FROM ubuntu:noble
 
+# tzdata: alert nights are keyed by the date in Europe/Helsinki.
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends ca-certificates curl \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends ca-certificates curl tzdata \
     && rm -rf /var/lib/apt/lists/*
 
 RUN useradd --user-group --create-home --system --home-dir /app alerts \

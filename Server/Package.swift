@@ -15,6 +15,7 @@ let package = Package(
         .package(url: "https://github.com/vapor/sqlite-nio.git", from: "1.13.2"),
         .package(url: "https://github.com/swift-server/async-http-client.git", from: "1.36.2"),
         .package(url: "https://github.com/apple/swift-http-types.git", from: "1.8.0"),
+        .package(url: "https://github.com/swift-server/swift-service-lifecycle.git", from: "2.13.0"),
         .package(name: "AuroraCore", path: "../Packages/AuroraCore"),
     ],
     targets: [
@@ -27,6 +28,7 @@ let package = Package(
                 .product(name: "SQLiteNIO", package: "sqlite-nio"),
                 .product(name: "AsyncHTTPClient", package: "async-http-client"),
                 .product(name: "HTTPTypes", package: "swift-http-types"),
+                .product(name: "ServiceLifecycle", package: "swift-service-lifecycle"),
             ]
         ),
         .executableTarget(

@@ -13,7 +13,8 @@ struct ApplicationTests {
         let path = FileManager.default.temporaryDirectory.appendingPathComponent("alerts-\(UUID().uuidString).db").path
         let store = try await RegistrationStore.open(path: path)
         let app = try buildApplication(
-            dependencies: AppDependencies(store: store, health: health, rateLimiter: RateLimiter(), zones: AlertZones.all()),
+            dependencies: AppDependencies(store: store, health: health, rateLimiter: RateLimiter(), zones: AlertZones.all(),
+                                          pushSender: FakePushSender(), apnsTopic: "fi.juusimaa.revontulet"),
             port: 0
         )
         do {
