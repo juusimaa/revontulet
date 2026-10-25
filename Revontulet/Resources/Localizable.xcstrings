@@ -185,6 +185,29 @@
         }
       }
     },
+    "An anonymous notification address for this iPhone": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "An anonymous notification address for this iPhone"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tämän iPhonen nimetön ilmoitusosoite"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "En anonym aviseringsadress för den här iPhonen"
+          }
+        }
+      }
+    },
     "Area": {
       "extractionState": "manual",
       "localizations": {
@@ -1220,6 +1243,29 @@
         }
       }
     },
+    "Privacy policy": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Privacy policy"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tietosuojakäytäntö"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Integritetspolicy"
+          }
+        }
+      }
+    },
     "R %lld at %@": {
       "extractionState": "manual",
       "localizations": {
@@ -1262,6 +1308,29 @@
           "stringUnit": {
             "state": "translated",
             "value": "Uppdatera"
+          }
+        }
+      }
+    },
+    "Removing…": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Removing…"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Poistetaan…"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tas bort…"
           }
         }
       }
@@ -1404,6 +1473,29 @@
         }
       }
     },
+    "The level you chose": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The level you chose"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Valitsemasi taso"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nivån du valt"
+          }
+        }
+      }
+    },
     "The nearest station has no recent data, so a more distant one is used.": {
       "extractionState": "manual",
       "localizations": {
@@ -1423,6 +1515,29 @@
           "stringUnit": {
             "state": "translated",
             "value": "Närmaste station har inga färska data, så en station längre bort används."
+          }
+        }
+      }
+    },
+    "They go to the developer's alert service in Finland.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "They go to the developer's alert service in Finland."
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tiedot menevät kehittäjän hälytyspalveluun Suomessa."
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "De skickas till utvecklarens aviseringstjänst i Finland."
           }
         }
       }
@@ -1469,6 +1584,29 @@
           "stringUnit": {
             "state": "translated",
             "value": "Slå på aviseringar"
+          }
+        }
+      }
+    },
+    "Turning alerts off deletes them.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Turning alerts off deletes them."
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kun poistat hälytykset käytöstä, tiedot poistetaan."
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "När du stänger av aviseringarna raderas de."
           }
         }
       }
@@ -1565,6 +1703,29 @@
         }
       }
     },
+    "What is sent": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "What is sent"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mitä lähetetään"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Det här skickas"
+          }
+        }
+      }
+    },
     "You're offline": {
       "extractionState": "manual",
       "localizations": {
@@ -1584,6 +1745,29 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ingen anslutning"
+          }
+        }
+      }
+    },
+    "Your area, not your exact location": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your area, not your exact location"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alueesi, ei tarkkaa sijaintiasi"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ditt område, inte din exakta plats"
           }
         }
       }

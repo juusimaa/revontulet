@@ -22,6 +22,7 @@ final class AlertSettingsModel {
 
     /// How often a pending change is retried while the app is open; `AlertSync` applies the backoff.
     static let retryTick: Duration = .seconds(15)
+    static let privacyPolicyURL = URL(string: "https://github.com/juusimaa/revontulet/blob/main/docs/privacy.md")!
 
     private(set) var syncState = AlertSyncState()
     private(set) var permission: NotificationPermissionStatus = .notDetermined
@@ -54,6 +55,12 @@ final class AlertSettingsModel {
 
     var isOn: Bool { syncState.isOn }
 
+    /// Alerts have never been on: explain what is sent before the first time (FR-002).
+    var isFirstTime: Bool { !syncState.hasEverEnabled }
+
+    /// Turned off, but the service has not confirmed the deletion yet ("Removing…").
+    var isRemoving: Bool { !syncState.isOn && syncState.isPending }
+
     /// The zone's station name, e.g. "Oulujärvi".
     var zoneName: String? {
         syncState.zone.flatMap { id in zones.first { $0.id == id }?.station.name }
@@ -68,7 +75,7 @@ final class AlertSettingsModel {
     /// Runs while the app is in the foreground: re-reads the permission, sends what is pending
     /// (re-confirming once a day) and retries with backoff until cancelled.
     func runWhileActive() async {
-        permission = await permissionProvider.status()
+        await checkPermission()
         await sync.sync(now: now())
         await refresh()
         while !Task.isCancelled {
@@ -80,6 +87,15 @@ final class AlertSettingsModel {
             await sync.retryIfDue(now: now())
             await refresh()
         }
+    }
+
+    /// Notifications turned off in iOS Settings while alerts are on: delete the registration and
+    /// show alerts off with "Notifications are off for Revontulet" (research R7). Turning
+    /// notifications back on does not turn alerts back on.
+    func checkPermission() async {
+        permission = await permissionProvider.status()
+        if permission == .denied { await sync.permissionRevoked() }
+        await refresh()
     }
 
     func turnOn() async {

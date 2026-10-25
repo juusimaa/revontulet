@@ -22,6 +22,7 @@ struct AlertSettingsView: View {
                 .padding(.horizontal, 24)
                 .padding(.bottom, 32)
                 .animation(.bouncy, value: model.phase)
+                .animation(.bouncy, value: model.isRemoving)
             }
             .scrollBounceBehavior(.basedOnSize)
             .background { SkyBackground(level: model.isOn ? .moderate : nil).environment(\.colorScheme, systemColorScheme) }
@@ -47,6 +48,10 @@ struct AlertSettingsView: View {
             NoZoneCard(choosePlace: choosePlace)
         case .off, .askingPermission:
             VStack(alignment: .leading, spacing: 28) {
+                if model.isRemoving {
+                    RemovingNote()
+                        .transition(.blurReplace)
+                }
                 Text("Get a notification when the chance to see the aurora in your area reaches the level you choose.")
                     .font(.body)
                     .foregroundStyle(.white.opacity(0.8))
@@ -55,8 +60,14 @@ struct AlertSettingsView: View {
                 if let zoneName = model.zoneName {
                     AreaLine(zoneName: zoneName)
                 }
-                TurnOnButton(isAsking: model.phase == .askingPermission) {
-                    Task { await model.turnOn() }
+                if model.isFirstTime {
+                    WhatIsSentCard()
+                }
+                VStack(spacing: 16) {
+                    TurnOnButton(isAsking: model.phase == .askingPermission) {
+                        Task { await model.turnOn() }
+                    }
+                    PrivacyPolicyLink()
                 }
             }
         case .permissionDenied:
@@ -273,6 +284,71 @@ private struct StatusCard: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(.white.opacity(0.06), in: .rect(cornerRadius: 24))
         .overlay(RoundedRectangle(cornerRadius: 24).strokeBorder(.white.opacity(0.1), lineWidth: 0.5))
+    }
+}
+
+/// What turning alerts on sends, where, and that turning off deletes it; shown until alerts
+/// have been on once (FR-002).
+private struct WhatIsSentCard: View {
+    var body: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            Text("What is sent")
+                .font(.footnote.weight(.semibold))
+                .textCase(.uppercase)
+                .tracking(1.2)
+                .foregroundStyle(.secondary)
+            VStack(alignment: .leading, spacing: 12) {
+                Label("An anonymous notification address for this iPhone", systemImage: "iphone.radiowaves.left.and.right")
+                Label("Your area, not your exact location", systemImage: "scope")
+                Label("The level you chose", systemImage: "slider.horizontal.3")
+            }
+            .foregroundStyle(.white.opacity(0.85))
+            Divider()
+                .overlay(.white.opacity(0.1))
+            VStack(alignment: .leading, spacing: 12) {
+                Label("They go to the developer's alert service in Finland.", systemImage: "server.rack")
+                Label("Turning alerts off deletes them.", systemImage: "trash")
+            }
+            .foregroundStyle(.secondary)
+        }
+        .font(.subheadline)
+        .labelStyle(DataLabelStyle())
+        .padding(20)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(.white.opacity(0.06), in: .rect(cornerRadius: 24))
+        .overlay(RoundedRectangle(cornerRadius: 24).strokeBorder(.white.opacity(0.1), lineWidth: 0.5))
+        .accessibilityElement(children: .contain)
+        .accessibilityIdentifier("alertsWhatIsSent")
+    }
+}
+
+private struct PrivacyPolicyLink: View {
+    var body: some View {
+        Link(destination: AlertSettingsModel.privacyPolicyURL) {
+            Label("Privacy policy", systemImage: "hand.raised")
+                .font(.footnote.weight(.medium))
+        }
+        .tint(AuroraPalette.green)
+        .frame(maxWidth: .infinity)
+        .accessibilityIdentifier("privacyPolicyLink")
+    }
+}
+
+/// Alerts are already shown off; the service has not confirmed the deletion yet (FR-006).
+private struct RemovingNote: View {
+    var body: some View {
+        Label {
+            Text("Removing…")
+        } icon: {
+            Image(systemName: "arrow.triangle.2.circlepath")
+                .symbolEffect(.rotate, options: .repeat(.continuous))
+        }
+        .font(.footnote.weight(.medium))
+        .foregroundStyle(.secondary)
+        .padding(.horizontal, 12)
+        .padding(.vertical, 6)
+        .background(.white.opacity(0.06), in: .capsule)
+        .accessibilityIdentifier("alertsRemoving")
     }
 }
 
