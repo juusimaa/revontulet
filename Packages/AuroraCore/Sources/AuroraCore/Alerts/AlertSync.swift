@@ -75,7 +75,9 @@ public struct AlertSyncState: Sendable, Hashable, Codable {
         if !staleTokens.isEmpty { return true }
         switch desired {
         case .enabled: return confirmed != desired || confirmedToken != token
-        case .disabled: return confirmed != nil && confirmed != .disabled
+        case .disabled:
+            // An unconfirmed upsert may still have arrived once there was a token to send it with.
+            return confirmed != .disabled && (confirmed != nil || (hasEverEnabled && (confirmedToken ?? token) != nil))
         }
     }
 }
@@ -125,6 +127,14 @@ public actor AlertSync {
         state.rejection = nil
         await update(state)
         await send(now: now())
+    }
+
+    /// Notifications are no longer allowed for the app (research R7): turns alerts off and deletes
+    /// the registration, as if the user had turned them off. Turning notifications back on does
+    /// not turn alerts back on.
+    public func permissionRevoked() async {
+        guard await current().isOn else { return }
+        await setDesired(.disabled)
     }
 
     /// The main screen resolved a place in `zone` (FR-004).
@@ -186,7 +196,7 @@ public actor AlertSync {
                     await update(state)
                 }
             case .disabled:
-                if let token = state.confirmedToken ?? state.token, state.isPending || (state.confirmed == nil && state.hasEverEnabled) {
+                if let token = state.confirmedToken ?? state.token, state.rejection == nil, state.isPending {
                     try await api.delete(RegistrationToken(token: token))
                     state.confirmed = .disabled
                     state.confirmedToken = nil

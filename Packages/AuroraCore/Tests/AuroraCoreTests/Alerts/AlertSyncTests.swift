@@ -255,4 +255,185 @@ struct AlertSyncTests {
 
         #expect(api.calls.isEmpty)
     }
+
+    // MARK: Disabling
+
+    /// On and confirmed with OUJ/high.
+    func enabledSync() async -> AlertSync {
+        let sync = await readySync()
+        await sync.setDesired(.enabled(zone: "OUJ", threshold: .high))
+        return sync
+    }
+
+    @Test func disablingShowsOffAtOnceAndSendsDelete() async {
+        let sync = await enabledSync()
+
+        await sync.setDesired(.disabled)
+
+        #expect(api.calls.dropFirst() == [.delete(Self.token)])
+        let state = await sync.state
+        #expect(state.desired == .disabled)
+        #expect(!state.isOn)
+        #expect(!state.isPending)
+        #expect(state.confirmed == .disabled)
+        #expect(state.threshold == .high)  // kept for turning on again
+    }
+
+    @Test func deleteIsRetriedUntilConfirmed() async {
+        let sync = await enabledSync()
+        api.fail(with: .unreachable)
+
+        await sync.setDesired(.disabled)
+        var state = await sync.state
+        #expect(!state.isOn)  // off at once, "Removing…"
+        #expect(state.isPending)
+
+        clock.advance(30)
+        await sync.retryIfDue(now: clock.now)
+        clock.advance(5)
+        await sync.sync(now: clock.now)
+        #expect(await sync.state.isPending)
+
+        api.fail(with: nil)
+        clock.advance(5)
+        await sync.sync(now: clock.now)
+
+        state = await sync.state
+        #expect(!state.isPending)
+        #expect(Array(api.calls.dropFirst()) == Array(repeating: FakeAlertAPI.Call.delete(Self.token), count: 4))
+
+        clock.advance(3 * 86_400)
+        await sync.sync(now: clock.now)
+        #expect(api.calls.count == 5)
+    }
+
+    @Test func disablingBeforeConfirmationStillDeletes() async {
+        let sync = await readySync()
+        api.fail(with: .unreachable)
+        await sync.setDesired(.enabled(zone: "OUJ", threshold: .high))
+
+        api.fail(with: nil)
+        await sync.setDesired(.disabled)
+
+        #expect(api.calls.last == .delete(Self.token))
+        #expect(await !sync.state.isPending)
+    }
+
+    @Test func disablingUnconfirmedWhileUnreachableIsPending() async {
+        let sync = await readySync()
+        api.fail(with: .unreachable)
+        await sync.setDesired(.enabled(zone: "OUJ", threshold: .high))
+
+        await sync.setDesired(.disabled)
+        #expect(api.calls.last == .delete(Self.token))
+        #expect(await sync.state.isPending)  // "Removing…": the upsert may have arrived
+
+        api.fail(with: nil)
+        await sync.sync(now: clock.now)
+        #expect(await !sync.state.isPending)
+    }
+
+    @Test func disablingBeforeAnyTokenIsNotPending() async {
+        let sync = makeSync()
+        await sync.zoneChanged(to: "OUJ")
+        await sync.setDesired(.enabled(zone: "OUJ", threshold: .high))
+
+        await sync.setDesired(.disabled)
+
+        #expect(api.calls.isEmpty)
+        #expect(await !sync.state.isPending)
+    }
+
+    @Test func turningOnAgainWhileRemovingSendsUpsert() async {
+        let sync = await enabledSync()
+        api.fail(with: .unreachable)
+        await sync.setDesired(.disabled)
+
+        api.fail(with: nil)
+        await sync.setDesired(.enabled(zone: "OUJ", threshold: .moderate))
+
+        #expect(api.calls.last == .upsert(RegistrationUpsert(token: Self.token, zone: "OUJ", threshold: .moderate)))
+        let state = await sync.state
+        #expect(state.isOn)
+        #expect(!state.isPending)
+    }
+
+    // MARK: Threshold
+
+    @Test func thresholdChangeSendsOneUpsert() async {
+        let sync = await enabledSync()
+
+        await sync.setDesired(.enabled(zone: "OUJ", threshold: .moderate))
+        await sync.sync(now: clock.now)
+
+        #expect(api.calls.dropFirst() == [.upsert(RegistrationUpsert(token: Self.token, zone: "OUJ", threshold: .moderate))])
+        let state = await sync.state
+        #expect(state.threshold == .moderate)
+        #expect(!state.isPending)
+    }
+
+    // MARK: Service answers
+
+    @Test func rejectedChangeIsNotRetried() async {
+        let sync = await readySync()
+        api.fail(with: .rejected(.invalidZone))
+
+        await sync.setDesired(.enabled(zone: "OUJ", threshold: .high))
+        #expect(await sync.state.rejection == .invalidZone)
+
+        api.fail(with: nil)
+        for _ in 0..<3 {
+            clock.advance(600)
+            await sync.retryIfDue(now: clock.now)
+            await sync.sync(now: clock.now)
+        }
+        #expect(api.calls.count == 1)
+        #expect(await sync.state.isPending)
+
+        // A different change is sent.
+        await sync.setDesired(.enabled(zone: "OUJ", threshold: .moderate))
+        #expect(api.calls.count == 2)
+        #expect(await sync.state.rejection == nil)
+    }
+
+    @Test func rateLimitedWaitsForRetryAfter() async {
+        let sync = await readySync()
+        api.fail(with: .rateLimited(retryAfter: 300))
+
+        await sync.setDesired(.enabled(zone: "OUJ", threshold: .high))
+        api.fail(with: nil)
+
+        clock.advance(299)
+        await sync.sync(now: clock.now)
+        await sync.retryIfDue(now: clock.now)
+        #expect(api.calls.count == 1)
+
+        clock.advance(1)
+        await sync.retryIfDue(now: clock.now)
+        #expect(api.calls.count == 2)
+        #expect(await !sync.state.isPending)
+    }
+
+    // MARK: Permission revoked
+
+    @Test func permissionRevokedWhileOnDeletesAndDisables() async {
+        let sync = await enabledSync()
+
+        await sync.permissionRevoked()
+
+        #expect(api.calls.dropFirst() == [.delete(Self.token)])
+        let state = await sync.state
+        #expect(state.desired == .disabled)
+        #expect(!state.isOn)
+        #expect(!state.isPending)
+    }
+
+    @Test func permissionRevokedWhileOffSendsNothing() async {
+        let sync = await readySync()
+
+        await sync.permissionRevoked()
+
+        #expect(api.calls.isEmpty)
+        #expect(await sync.state.desired == .disabled)
+    }
 }
