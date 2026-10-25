@@ -26,7 +26,31 @@ func addRegistrationRoutes(to group: RouterGroup<BasicRequestContext>, dependenc
             return .apiError(error)
         }
     }
+
+    // 404 before counting, so a re-registering app is not limited by its failed attempt.
+    group.post("test") { request, _ -> Response in
+        guard let body = try? await request.body.collect(upTo: maxBodySize) else { return .apiError(.invalidBody) }
+        switch RegistrationValidation.decodeToken(Data(body.readableBytesView)) {
+        case .success(let token):
+            guard try await dependencies.store.registration(token: token.token) != nil else {
+                return Response(status: .notFound)
+            }
+            let now = dependencies.now()
+            if case .limited(let retryAfter) = await dependencies.testRateLimiter.check(token.token, now: now) {
+                return Response(status: .tooManyRequests, headers: [.retryAfter: String(retryAfter)])
+            }
+            let push = PushRequest(token: token.token, message: .test, expiration: now.addingTimeInterval(testExpiry),
+                                   collapseID: nil)
+            guard await dependencies.pushSender.send(push) == .delivered else { return Response(status: .serviceUnavailable) }
+            return Response(status: .accepted)
+        case .failure(let error):
+            return .apiError(error)
+        }
+    }
 }
+
+/// A test notification older than this is no use to the user waiting for it.
+private let testExpiry: TimeInterval = 15 * 60
 
 /// Registration bodies are under 500 bytes; anything much larger is not a registration.
 private let maxBodySize = 4_096

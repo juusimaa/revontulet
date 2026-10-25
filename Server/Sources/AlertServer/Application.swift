@@ -9,6 +9,8 @@ public struct AppDependencies: Sendable {
     public var store: RegistrationStore
     public var health: HealthStatus
     public var rateLimiter: RateLimiter
+    /// Test notifications per token (contracts/alert-api.md).
+    public var testRateLimiter: RateLimiter
     public var zones: [AlertZone]
     /// For test notifications.
     public var pushSender: any PushSender
@@ -16,10 +18,13 @@ public struct AppDependencies: Sendable {
     public var now: @Sendable () -> Date
 
     public init(store: RegistrationStore, health: HealthStatus, rateLimiter: RateLimiter, zones: [AlertZone],
-                pushSender: any PushSender, apnsTopic: String, now: @escaping @Sendable () -> Date = Date.init) {
+                pushSender: any PushSender, apnsTopic: String,
+                testRateLimiter: RateLimiter = RateLimiter(limit: 3, window: 3_600),
+                now: @escaping @Sendable () -> Date = Date.init) {
         self.store = store
         self.health = health
         self.rateLimiter = rateLimiter
+        self.testRateLimiter = testRateLimiter
         self.zones = zones
         self.pushSender = pushSender
         self.apnsTopic = apnsTopic
