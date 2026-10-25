@@ -171,9 +171,15 @@ private struct ThresholdOption: View {
     let isSelected: Bool
     let select: () -> Void
 
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+
     var body: some View {
         Button(action: select) {
-            HStack(spacing: 16) {
+            // At accessibility sizes the marks go under the text so words are not broken.
+            let layout = dynamicTypeSize.isAccessibilitySize
+                ? AnyLayout(VStackLayout(alignment: .leading, spacing: 12))
+                : AnyLayout(HStackLayout(spacing: 16))
+            layout {
                 VStack(alignment: .leading, spacing: 4) {
                     Text(option.level.title)
                         .font(.title3.weight(.semibold))
@@ -181,12 +187,14 @@ private struct ThresholdOption: View {
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
                 }
-                Spacer(minLength: 8)
-                LevelBars(level: option.level)
-                Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
-                    .font(.title2)
-                    .foregroundStyle(isSelected ? AnyShapeStyle(AuroraPalette.glow) : AnyShapeStyle(.white.opacity(0.35)))
-                    .contentTransition(.symbolEffect(.replace))
+                .frame(maxWidth: .infinity, alignment: .leading)
+                HStack(spacing: 16) {
+                    LevelBars(level: option.level)
+                    Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
+                        .font(.title2)
+                        .foregroundStyle(isSelected ? AnyShapeStyle(AuroraPalette.glow) : AnyShapeStyle(.white.opacity(0.35)))
+                        .contentTransition(.symbolEffect(.replace))
+                }
             }
             .padding(18)
             .background(.white.opacity(isSelected ? 0.10 : 0.05), in: .rect(cornerRadius: 22))
@@ -269,6 +277,8 @@ private struct StatusCard: View {
     let confirmedAt: Date?
     let hasDarkNights: Bool
 
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
             VStack(alignment: .leading, spacing: 4) {
@@ -297,7 +307,7 @@ private struct StatusCard: View {
             } icon: {
                 Image(systemName: confirming ? "arrow.triangle.2.circlepath" : "checkmark.seal.fill")
                     .foregroundStyle(confirming ? AnyShapeStyle(.secondary) : AnyShapeStyle(AuroraPalette.green))
-                    .symbolEffect(.rotate, options: .repeat(.continuous), isActive: confirming)
+                    .symbolEffect(.rotate, options: .repeat(.continuous), isActive: confirming && !reduceMotion)
             }
             .accessibilityIdentifier("alertConfirmation")
             Label("The area follows the place on the main screen.", systemImage: "location")
@@ -446,12 +456,14 @@ private struct PrivacyPolicyLink: View {
 
 /// Alerts are already shown off; the service has not confirmed the deletion yet (FR-006).
 private struct RemovingNote: View {
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
     var body: some View {
         Label {
             Text("Removing…")
         } icon: {
             Image(systemName: "arrow.triangle.2.circlepath")
-                .symbolEffect(.rotate, options: .repeat(.continuous))
+                .symbolEffect(.rotate, options: .repeat(.continuous), isActive: !reduceMotion)
         }
         .font(.footnote.weight(.medium))
         .foregroundStyle(.secondary)

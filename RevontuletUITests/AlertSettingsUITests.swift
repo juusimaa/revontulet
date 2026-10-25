@@ -191,4 +191,73 @@ final class AlertSettingsUITests: XCTestCase {
 
         XCTAssertFalse(app.element("alertsNoDarkNights").exists)
     }
+
+    // MARK: Accessibility (Principle VI)
+
+    @MainActor
+    func testSettingsPassAccessibilityAudit() throws {
+        let app = openSettings()
+        continueAfterFailure = true
+        try audit(app, "off, first time")
+
+        app.buttons["turnOnAlerts"].tap()
+        XCTAssertTrue(app.buttons["sendTestAlert"].waitForExistence(timeout: 5))
+        try audit(app, "on")
+        app.buttons["sendTestAlert"].tap()
+        XCTAssertTrue(app.element("sendTestResult").waitForLabel(containing: "Test alert sent", timeout: 5))
+        try audit(app, "test sent")
+    }
+
+    @MainActor
+    func testWaitingAndRemovingPassAccessibilityAudit() throws {
+        let app = openSettings(["-uiTestAlertsUnreachable"])
+        continueAfterFailure = true
+        app.buttons["turnOnAlerts"].tap()
+        XCTAssertTrue(app.element("alertConfirmation").waitForLabel(containing: "Waiting to confirm", timeout: 5))
+        try audit(app, "waiting to confirm")
+
+        app.buttons["turnOffAlerts"].tap()
+        XCTAssertTrue(app.element("alertsRemoving").waitForExistence(timeout: 2))
+        try audit(app, "removing")
+    }
+
+    @MainActor
+    func testNoZoneAndNoDarkNightsPassAccessibilityAudit() throws {
+        continueAfterFailure = true
+        let noZone = launch(["-uiTestResetCache", "-uiTestLocationDenied"])
+        XCTAssertTrue(noZone.element("locationDenied").waitForExistence(timeout: 15))
+        noZone.buttons["alertsButton"].tap()
+        XCTAssertTrue(noZone.element("alertsNoZone").waitForExistence(timeout: 5))
+        try audit(noZone, "no zone")
+
+        let lapland = launch(["-uiTestResetCache", "-uiTestLocation", "69.90,27.02", "-uiTestTime", "2026-06-21T20:00:00Z"])
+        XCTAssertTrue(lapland.element("chanceHeadline").waitForExistence(timeout: 15))
+        lapland.buttons["alertsButton"].tap()
+        lapland.buttons["turnOnAlerts"].tap()
+        XCTAssertTrue(lapland.element("alertsNoDarkNights").waitForExistence(timeout: 5))
+        try audit(lapland, "no dark nights")
+    }
+
+    /// The bell's state is in its label and the hero's "On"/"Off" text, never only in the symbol.
+    @MainActor
+    func testAlertStateIsNotBySymbolAlone() throws {
+        let app = openSettings()
+        XCTAssertTrue(app.element("alertsStatus").label.contains("Off"), app.element("alertsStatus").label)
+        app.buttons["turnOnAlerts"].tap()
+        XCTAssertTrue(app.element("alertsStatus").waitForLabel(containing: "On", timeout: 5))
+        app.buttons["alertSettingsDone"].tap()
+        XCTAssertTrue(app.buttons["alertsButton"].waitForLabel(containing: "Aurora alerts, on", timeout: 5))
+    }
+
+    /// Contrast is left out for the same reason as on the main screen: the audit samples the
+    /// moving sky behind the text. The system toolbar's Done button keeps a fixed size by design
+    /// and offers the Large Content Viewer instead, so its Dynamic Type issue is expected.
+    @MainActor
+    private func audit(_ app: XCUIApplication, _ state: String) throws {
+        try app.performAccessibilityAudit(for: XCUIAccessibilityAuditType.all.subtracting(.contrast)) { issue in
+            if issue.auditType == .dynamicType, issue.element?.identifier == "alertSettingsDone" { return true }
+            XCTFail("\(state): \(issue.auditType) \(issue.compactDescription) – \(issue.element?.label ?? "?")")
+            return true
+        }
+    }
 }
