@@ -33,7 +33,7 @@ final class AlertSettingsModel {
 
     /// How often a pending change is retried while the app is open; `AlertSync` applies the backoff.
     static let retryTick: Duration = .seconds(15)
-    static let privacyPolicyURL = URL(string: "https://github.com/juusimaa/revontulet/blob/main/docs/privacy.md")!
+    static let privacyPolicyURL = URL(string: "https://juusimaa.github.io/revontulet/privacy")!
 
     private(set) var syncState = AlertSyncState()
     private(set) var permission: NotificationPermissionStatus = .notDetermined
