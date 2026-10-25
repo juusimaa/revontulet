@@ -48,9 +48,10 @@ its own.
 - [ ] T003 [P] Add a `RevontuletTests` unit test target (bundle.unit-test, iOS, host app Revontulet, bundle id `fi.juusimaa.revontulet.tests`) to `project.yml` and add it to the Revontulet scheme's test targets; create `RevontuletTests/PlaceholderTests.swift`; regenerate with `xcodegen generate`
 - [ ] T004 [P] Enable push in `project.yml`: create `Revontulet/Revontulet.entitlements` with `aps-environment` = `development` (automatic signing switches it to production for TestFlight/App Store exports), set `CODE_SIGN_ENTITLEMENTS` for the Revontulet target; regenerate with `xcodegen generate`
 - [ ] T005 [P] Create `Server/Dockerfile` (research R4): build stage `swift:6.4.1-noble`, copy `Packages/AuroraCore` and `Server`, `swift build -c release --static-swift-stdlib --package-path Server`; run stage `ubuntu:noble` with `ca-certificates`, the `alert-service` binary and `swift-backtrace-static`; non-root user; `EXPOSE 8080`; `HEALTHCHECK` calling `GET /v1/health`; build context is the repository root; add `.dockerignore` at the repository root (the build context) excluding `.build`, `build`, `Revontulet*`
-- [ ] T006 [P] Create `.github/workflows/alert-service.yml`: on pull requests and pushes touching `Packages/AuroraCore/**` or `Server/**`, run `swift test` for `Packages/AuroraCore` and `Server` in the `swift:6.4.1-noble` container; on pushes to `main`, build `Server/Dockerfile` for `linux/amd64` only (server is x86_64) and push `ghcr.io/juusimaa/revontulet-alerts:sha-<short sha>` and `:main` using `GITHUB_TOKEN`
+- [ ] T006 [P] Create `.github/workflows/alert-service.yml`: on pull requests and on pushes to any branch (including feature branches such as `002-aurora-alerts`) touching `Packages/AuroraCore/**` or `Server/**`, run `swift test` for `Packages/AuroraCore` and `Server` in the `swift:6.4.1-noble` container; on pushes to `main`, build `Server/Dockerfile` for `linux/amd64` only (server is x86_64) and push `ghcr.io/juusimaa/revontulet-alerts:sha-<short sha>` and `:main` using `GITHUB_TOKEN`
 - [ ] T007 [P] Create deployment files (research R10): `Server/deploy/compose.yaml` (service `revontulet-alerts`, image `ghcr.io/juusimaa/revontulet-alerts:<tag>`, `restart: unless-stopped`, `mem_limit: 150m`, volume `/var/lib/revontulet-alerts:/data`, secret `apns_key` from `/opt/revontulet-alerts/AuthKey.pem`, `env_file: /opt/revontulet-alerts/alerts.env`, external network `edge`, no published ports) and `Server/deploy/revontulet-alerts.caddy` (`alerts.<domain> { reverse_proxy revontulet-alerts:8080 }` with a comment that `import access_log` must never be added); and `Server/deploy/alerts.env.example` listing `APNS_KEY_ID`, `APNS_TEAM_ID`, `APNS_KEY_PATH`, `APNS_TOPIC=fi.juusimaa.revontulet`, `HEALTHCHECK_PING_URL`, `DATABASE_PATH=/data/alerts.db`, `APNS_ENVIRONMENT=production`
 - [ ] T007a Choose the production subdomain `alerts.<domain>` and create its DNS A record pointing at the UpCloud server; write the domain into `Server/deploy/revontulet-alerts.caddy` (T007) and the Release `ALERTS_BASE_URL` (T037)
+- [ ] T007b Push `002-aurora-alerts` and open a draft pull request to `main` so every later push shows the T006 status checks on the PR; push after each logical group of commits, not after every commit
 
 ---
 
@@ -187,8 +188,8 @@ marked as a test; a fourth request within an hour is refused with a time to try 
 - [ ] T061 [P] Record the App Store privacy label decision (Coarse Location and Device ID, App Functionality, not tracking; linked or not linked) in the Privacy Review of `specs/002-aurora-alerts/spec.md` (FR-020, research R11) — the developer makes the final call
 - [ ] T062 Run every scenario in `specs/002-aurora-alerts/quickstart.md`, including the on-device check of notification text in en, fi and sv (research R6), the service-down check (SC-007) and the 35-minute heartbeat check (SC-008)
 - [ ] T062a Measure alert delivery time against the production instance (SC-001): for every alert during the first strong aurora night after deployment, or for a replay of a recorded strong night with the evaluation clock set to now, compare the notification's arrival time on the device with the FMI data time it was based on; at least 95% within 15 minutes; record the result in `specs/002-aurora-alerts/quickstart.md` §5
-- [ ] T063 Verify with a TestFlight build that production push works end to end (the build registers with the production instance and a test notification arrives)
-- [ ] T064 Open the pull request from `002-aurora-alerts` to `main` with the Constitution Check (v1.1.0) confirmed in the description; all tests pass on macOS and Linux
+- [ ] T063 Verify with a TestFlight build from the feature-branch Xcode Cloud workflow (started manually; `main` is not merged yet) that production push works end to end (the build registers with the production instance and a test notification arrives)
+- [ ] T064 Mark the draft pull request from `002-aurora-alerts` to `main` (T007b) ready for review, with the Constitution Check (v1.1.0) confirmed in the description and `MARKETING_VERSION` bumped to `2.0` in `project.yml`; all tests pass on macOS and Linux
 
 ---
 
@@ -211,7 +212,7 @@ marked as a test; a fourth request within an hour is refused with a time to try 
 
 ### Parallel Opportunities
 
-- Setup: T002–T007 in parallel after T001; T007a any time before T037.
+- Setup: T002–T007 in parallel after T001; T007a any time before T037; T007b after T006.
 - Foundational: T008 ∥ T009, then T010 ∥ T011; T013 ∥ T015 alongside T012.
 - US1: tests T016–T023 in parallel; T024 ∥ T027 ∥ T033 ∥ T034 ∥ T035 ∥ T036 ∥ T037.
 - US2: T044 ∥ T045 ∥ T051 ∥ T052.
