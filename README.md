@@ -14,6 +14,9 @@ does, and combines it with darkness and cloud cover. The result is one of four l
 Moderate, High) with a short reason, such as "Low – overcast". The main screen also shows your
 location, the nearest measurement station and how recent the data is.
 
+Optional aurora alerts send a notification when the chance in your area of Finland reaches the
+level you choose, even when the app is closed. See [Aurora alerts](#aurora-alerts).
+
 <p align="center">
   <img src="docs/images/main-screen-oulu.png" alt="Main screen in Oulu on a dark, clear evening: the chance to see the aurora is High, with good conditions, measured at the Oulujärvi station 100 km away. The open details panel shows probable geomagnetic activity (R 309), a dark sky and clear weather" width="300" />
 </p>
@@ -21,16 +24,19 @@ location, the nearest measurement station and how recent the data is.
 <p align="center"><sub>The main screen in Oulu during strong geomagnetic activity. The data in this
 screenshot is synthetic.</sub></p>
 
-> **Status:** early development. The first feature, the aurora main screen, is being built.
-> See [specs/001-aurora-main-screen](specs/001-aurora-main-screen/).
+> **Status:** version 1.0, the aurora main screen, is on the App Store. Aurora alerts are being
+> built for version 2.0. See [specs/001-aurora-main-screen](specs/001-aurora-main-screen/) and
+> [specs/002-aurora-alerts](specs/002-aurora-alerts/).
 
 ## Principles
 
 - **Open data only.** Science data comes from FMI open data and Statistics Finland (CC BY 4.0).
-  There is no backend and no paid or scraped source.
-- **Privacy by design.** Your location stays on the device. Network requests cover all of Finland
-  and contain nothing derived from you. If you deny location access, you can pick a municipality
-  by hand. No analytics, no tracking, no accounts.
+  There is no paid or scraped source. The app needs no backend; the only server is the optional
+  alert service, which uses the same open data.
+- **Privacy by design.** Your location stays on the device. Network requests for the main screen
+  cover all of Finland and contain nothing derived from you. If you deny location access, you can
+  pick a municipality by hand. No analytics, no tracking, no accounts. Alerts are opt-in and send
+  only a coarse area (see below).
 - **Shared core, native shells.** All domain logic lives in the portable Swift package
   `AuroraCore`, which builds without Apple-only frameworks so that an Android version can follow.
   The SwiftUI app is a thin shell.
@@ -44,7 +50,9 @@ The full set of rules is in the [project constitution](.specify/memory/constitut
 |---|---|
 | `Packages/AuroraCore` | Swift package with fetching, parsing, R calculation, chance rules, solar position, station selection, place resolution and caching |
 | `Revontulet` | SwiftUI iOS app |
-| `RevontuletUITests` | UI tests that run against a stubbed HTTP client |
+| `RevontuletTests` | App unit tests, such as the check that every notification text exists in fi, sv and en |
+| `RevontuletUITests` | UI tests that run against a stubbed HTTP client and a stubbed alert service |
+| `Server` | The alert service: a Swift package (Hummingbird, APNs, SQLite) that runs in Docker on Linux |
 | `tools` | Python scripts that regenerate bundled municipality data and record test fixtures |
 | `specs` | Feature specifications, plans and task lists (Spec Kit) |
 | `project.yml` | XcodeGen project definition |
@@ -55,6 +63,7 @@ The full set of rules is in the [project constitution](.specify/memory/constitut
 - iOS 26 or later (iPhone)
 - [XcodeGen](https://github.com/yonaskolb/XcodeGen)
 - Python 3, only for the scripts in `tools`
+- Docker, only to build the alert service image
 
 ## Getting started
 
@@ -84,8 +93,66 @@ xcodebuild test -project Revontulet.xcodeproj -scheme Revontulet \
 TestFlight builds come from Xcode Cloud. `ci_scripts/ci_post_clone.sh` installs XcodeGen,
 generates the project, and sets the build number from `CI_BUILD_NUMBER`.
 
-For the full validation steps, see the
-[quickstart](specs/001-aurora-main-screen/quickstart.md).
+For the full validation steps, see the quickstarts for the
+[main screen](specs/001-aurora-main-screen/quickstart.md) and
+[alerts](specs/002-aurora-alerts/quickstart.md).
+
+## Aurora alerts
+
+Alerts are off until you turn them on in the app (the bell on the main screen). The alert
+service, in `Server/`, evaluates every zone of Finland every 5 minutes with the same rules as the
+app, from the shared `AuroraCore` package. When a zone's chance reaches a registered threshold
+after dark, it sends a push notification through Apple Push Notification service (APNs). Each
+zone gets at most three alerts a night. The notification carries only text keys and the station
+name; the phone shows the text in its own language. In the settings you can send yourself a test
+notification.
+
+### What the service keeps
+
+- An anonymous push token for the iPhone, one zone out of about ten (the area where one
+  magnetometer station is the nearest), the threshold and the day it was last confirmed.
+- Nothing else: no location, municipality, language, IP address or device details, and no logs
+  of requests.
+- Turning alerts off deletes the registration at once. Registrations not confirmed for 180 days
+  are deleted automatically. A nightly backup copy is kept for one day.
+
+The service runs on a server in Finland. The full text is in the
+[privacy policy](https://juusimaa.github.io/revontulet/privacy).
+
+### Running the service locally
+
+The service needs an APNs key (`.p8`) from the Apple Developer account, converted to PEM:
+
+```sh
+openssl pkcs8 -nocrypt -in AuthKey_ABC123DEFG.p8 -out AuthKey.pem
+```
+
+Run the tests, then start a development instance that sends through the APNs sandbox:
+
+```sh
+swift test --package-path Server
+
+APNS_KEY_ID=ABC123DEFG APNS_TEAM_ID=TEAM123456 APNS_KEY_PATH=$PWD/AuthKey.pem \
+APNS_TOPIC=fi.juusimaa.revontulet APNS_ENVIRONMENT=sandbox DATABASE_PATH=/tmp/alerts.db \
+swift run --package-path Server alert-service
+```
+
+Or build and run the same image as production:
+
+```sh
+docker build -f Server/Dockerfile -t revontulet-alerts .
+docker run --rm -p 8080:8080 \
+  -e APNS_KEY_ID=ABC123DEFG -e APNS_TEAM_ID=TEAM123456 -e APNS_TOPIC=fi.juusimaa.revontulet \
+  -e APNS_ENVIRONMENT=sandbox -e APNS_KEY_PATH=/run/secrets/apns_key -e DATABASE_PATH=/data/alerts.db \
+  -v "$PWD/AuthKey.pem":/run/secrets/apns_key:ro -v /tmp/alerts:/data revontulet-alerts
+```
+
+The service listens on port 8080 (`PORT`). Debug builds of the app use
+`http://localhost:8080/v1`; Release builds use the production instance. `curl
+localhost:8080/v1/health` answers `{"status":"ok"}` once the first evaluation cycle has
+succeeded. The API is described in
+[contracts/alert-api.md](specs/002-aurora-alerts/contracts/alert-api.md), and deployment files
+are in `Server/deploy/`.
 
 ## Data sources
 
