@@ -436,4 +436,53 @@ struct AlertSyncTests {
         #expect(api.calls.isEmpty)
         #expect(await sync.state.desired == .disabled)
     }
+
+    // MARK: Test notification
+
+    @Test func sendTestSendsToCurrentToken() async {
+        let sync = await enabledSync()
+
+        let result = await sync.sendTest()
+
+        #expect(result == .sent)
+        #expect(api.calls.last == .test(Self.token))
+    }
+
+    @Test func sendTestNotRegisteredReRegisters() async {
+        let sync = await enabledSync()
+        api.fail(with: .notRegistered)
+
+        let result = await sync.sendTest()
+
+        #expect(result == .notRegistered)
+        #expect(api.calls.dropFirst() == [.test(Self.token), .upsert(RegistrationUpsert(token: Self.token, zone: "OUJ", threshold: .high))])
+        api.fail(with: nil)
+        await sync.sync(now: clock.now)
+        #expect(api.calls.last == .upsert(RegistrationUpsert(token: Self.token, zone: "OUJ", threshold: .high)))
+        #expect(await !sync.state.isPending)
+    }
+
+    @Test func sendTestRateLimitedGivesTimeToTryAgain() async {
+        let sync = await enabledSync()
+        api.fail(with: .rateLimited(retryAfter: 1_500))
+
+        let result = await sync.sendTest()
+
+        #expect(result == .rateLimited(until: clock.now.addingTimeInterval(1_500)))
+        #expect(api.calls.dropFirst() == [.test(Self.token)])
+    }
+
+    @Test func sendTestUnreachableFails() async {
+        let sync = await enabledSync()
+        api.fail(with: .unreachable)
+
+        #expect(await sync.sendTest() == .failed)
+    }
+
+    @Test func sendTestWhileOffSendsNothing() async {
+        let sync = await readySync()
+
+        #expect(await sync.sendTest() == .failed)
+        #expect(api.calls.isEmpty)
+    }
 }

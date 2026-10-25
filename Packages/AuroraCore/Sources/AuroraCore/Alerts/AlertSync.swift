@@ -18,6 +18,18 @@ public enum AlertAPIFailure: Error, Sendable, Equatable {
     case notRegistered
 }
 
+/// The outcome of "Send test" (US3).
+public enum AlertTestResult: Sendable, Equatable {
+    /// Handed to APNs; it should arrive within a minute.
+    case sent
+    /// Too many tests in the past hour; the user may try again at this time.
+    case rateLimited(until: Date)
+    /// The service had no registration; it has been re-sent and the user may try again.
+    case notRegistered
+    /// Alerts are off, there is no token yet, or the service could not be reached.
+    case failed
+}
+
 /// What the device wants versus what the service has confirmed (data-model.md). Stored on the
 /// device only.
 public struct AlertSyncState: Sendable, Hashable, Codable {
@@ -174,6 +186,31 @@ public actor AlertSync {
     public func retryIfDue(now: Date) async {
         if let retryNotBefore, now < retryNotBefore { return }
         await send(now: now)
+    }
+
+    /// Asks the service for a test notification to the current token (FR-012). A missing
+    /// registration is re-sent at once.
+    public func sendTest() async -> AlertTestResult {
+        var state = await current()
+        guard state.isOn, let token = state.token else { return .failed }
+        do {
+            try await api.sendTest(RegistrationToken(token: token))
+            return .sent
+        } catch {
+            switch error {
+            case .rateLimited(let retryAfter):
+                return .rateLimited(until: now().addingTimeInterval(retryAfter))
+            case .notRegistered:
+                state.confirmed = nil
+                state.confirmedAt = nil
+                await update(state)
+                retryNotBefore = nil
+                await send(now: now())
+                return .notRegistered
+            case .unreachable, .rejected:
+                return .failed
+            }
+        }
     }
 
     // MARK: Sending
