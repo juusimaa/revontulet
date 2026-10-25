@@ -30,9 +30,21 @@ targets:
     platform: iOS
     sources:
       - path: Revontulet
+        excludes:
+          - "Config/*.plist"
     dependencies:
       - package: AuroraCore
     settings:
+      configs:
+        # The alert service (contracts/alert-api.md): Release builds use the production instance,
+        # Debug builds a development instance (APNs sandbox) on localhost. "$()" keeps "//" from
+        # being read as a comment.
+        Debug:
+          ALERTS_BASE_URL: "http:/$()/localhost:8080/v1"
+          INFOPLIST_FILE: Revontulet/Config/Info-Debug.plist
+        Release:
+          ALERTS_BASE_URL: "https:/$()/alerts.revontuletapp.com/v1"
+          INFOPLIST_FILE: Revontulet/Config/Info.plist
       base:
         PRODUCT_BUNDLE_IDENTIFIER: fi.juusimaa.revontulet
         PRODUCT_NAME: Revontulet
