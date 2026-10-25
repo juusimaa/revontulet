@@ -1,9 +1,8 @@
 # Caddy site for the alert service: copy to /opt/edge/sites/ and run `caddy reload`.
 #
 # Never add `import access_log` here: the service must not log requests or IP addresses
-# (constitution Principle II, research R10).
-#
-# The domain is set by T007a.
-alerts.DOMAIN {
+# (constitution Principle II, research R10). For the same reason the Cloudflare DNS record must
+# stay "DNS only" (grey cloud): proxying would route every request through Cloudflare.
+alerts.revontuletapp.com {
 	reverse_proxy revontulet-alerts:8080
 }
