@@ -27,7 +27,10 @@ RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends ca-certificates curl tzdata \
     && rm -rf /var/lib/apt/lists/*
 
-RUN useradd --user-group --create-home --system --home-dir /app alerts \
+# A fixed uid/gid that no account on the host uses, so host files owned by it (the APNs key, the
+# database) are readable by this container only. A system uid (999) collided with a host user.
+RUN groupadd --system --gid 10001 alerts \
+    && useradd --system --uid 10001 --gid alerts --create-home --home-dir /app alerts \
     && mkdir /data && chown alerts:alerts /data
 
 WORKDIR /app
