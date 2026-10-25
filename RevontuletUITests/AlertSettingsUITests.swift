@@ -137,4 +137,58 @@ final class AlertSettingsUITests: XCTestCase {
         XCTAssertTrue(app.element("chanceHeadline").waitForExistence(timeout: 5))
         XCTAssertEqual(app.alerts.count, 0)
     }
+
+    @MainActor
+    func testSendTestShowsSent() throws {
+        let app = openSettings()
+        app.buttons["turnOnAlerts"].tap()
+        let confirmation = app.element("alertConfirmation")
+        XCTAssertTrue(confirmation.waitForLabel(containing: "Confirmed", timeout: 5), confirmation.label)
+
+        let sendTest = app.buttons["sendTestAlert"]
+        XCTAssertTrue(sendTest.waitForExistence(timeout: 5))
+        sendTest.tap()
+
+        let result = app.element("sendTestResult")
+        XCTAssertTrue(result.waitForLabel(containing: "Test alert sent", timeout: 5), result.label)
+        XCTAssertEqual(app.alerts.count, 0)
+    }
+
+    @MainActor
+    func testSendTestRateLimitedShowsTryAgainTime() throws {
+        let app = openSettings(["-uiTestAlertsTestLimited"])
+        app.buttons["turnOnAlerts"].tap()
+        let sendTest = app.buttons["sendTestAlert"]
+        XCTAssertTrue(sendTest.waitForExistence(timeout: 5))
+
+        sendTest.tap()
+
+        let result = app.element("sendTestResult")
+        XCTAssertTrue(result.waitForLabel(containing: "Try again at", timeout: 5), result.label)
+        XCTAssertNotNil(result.label.range(of: #"\d{1,2}[:.]\d{2}"#, options: .regularExpression), result.label)
+    }
+
+    @MainActor
+    func testNoDarkNightsNoteAtMidsummerInLapland() throws {
+        let app = launch(["-uiTestResetCache", "-uiTestLocation", "69.90,27.02", "-uiTestTime", "2026-06-21T20:00:00Z"])
+        XCTAssertTrue(app.element("chanceHeadline").waitForExistence(timeout: 15))
+        app.buttons["alertsButton"].tap()
+        XCTAssertTrue(app.buttons["turnOnAlerts"].waitForExistence(timeout: 5))
+
+        app.buttons["turnOnAlerts"].tap()
+
+        let note = app.element("alertsNoDarkNights")
+        XCTAssertTrue(note.waitForExistence(timeout: 5))
+        XCTAssertTrue(note.label.contains("Alerts resume when nights get dark again"), note.label)
+        XCTAssertTrue(app.element("alertsStatus").label.contains("On"), app.element("alertsStatus").label)
+    }
+
+    @MainActor
+    func testNoDarkNightsNoteNotShownInNovember() throws {
+        let app = openSettings(["-uiTestTime", "2026-11-03T18:00:00Z"])
+        app.buttons["turnOnAlerts"].tap()
+        XCTAssertTrue(app.buttons["sendTestAlert"].waitForExistence(timeout: 5))
+
+        XCTAssertFalse(app.element("alertsNoDarkNights").exists)
+    }
 }

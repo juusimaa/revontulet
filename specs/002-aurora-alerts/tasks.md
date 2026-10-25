@@ -165,15 +165,15 @@ marked as a test; a fourth request within an hour is refused with a time to try 
 
 ### Tests for User Story 3 (write first, must fail)
 
-- [ ] T053 [P] [US3] Write `Server/Tests/AlertServerTests/TestNotificationTests.swift`: `POST /v1/registration/test` → 202 and one push with `alert.title.test` / `alert.body.test`; 404 when not registered; 4th request within an hour → 429 with `Retry-After`
-- [ ] T054 [P] [US3] Write `Packages/AuroraCore/Tests/AuroraCoreTests/Alerts/AlertSeasonTests.swift`: `AlertSeason.hasDarknessWithin24h(zone:from:)` is false at KEV in late June and true in November (checked at 15-minute steps with `SolarPosition.darkness` ≠ `tooLight`); and extend `AlertSyncTests.swift` for `sendTest` mapping `notRegistered` (re-register) and `rateLimited`
+- [X] T053 [P] [US3] Write `Server/Tests/AlertServerTests/TestNotificationTests.swift`: `POST /v1/registration/test` → 202 and one push with `alert.title.test` / `alert.body.test`; 404 when not registered; 4th request within an hour → 429 with `Retry-After`
+- [X] T054 [P] [US3] Write `Packages/AuroraCore/Tests/AuroraCoreTests/Alerts/AlertSeasonTests.swift`: `AlertSeason.hasDarknessWithin24h(zone:from:)` is false at KEV in late June and true in November (checked at 15-minute steps with `SolarPosition.darkness` ≠ `tooLight`); and extend `AlertSyncTests.swift` for `sendTest` mapping `notRegistered` (re-register) and `rateLimited`
 
 ### Implementation for User Story 3
 
-- [ ] T055 [US3] Implement `POST /v1/registration/test` with a per-token limit of 3 per hour (in memory) in `Server/Sources/AlertServer/RegistrationRoutes.swift` using `AlertMessage.test` — makes T053 pass
-- [ ] T056 [US3] Implement `AlertSeason` in `Packages/AuroraCore/Sources/AuroraCore/Alerts/AlertSeason.swift` and `sendTest` in `AlertSync` — makes T054 pass
-- [ ] T057 [US3] Add "Send test", "Test alert sent" / "Try again at <time>", "Confirmed <relative date>" and the **On, no dark nights** note ("Alerts resume when nights get dark again") to `Revontulet/Alerts/AlertSettingsView.swift` and `AlertSettingsModel.swift` — using the `ios-ui-craft` skill
-- [ ] T058 [P] [US3] Extend `RevontuletUITests/AlertSettingsUITests.swift`: send test shows "Test alert sent"; with the stub rate-limited, shows a try-again time
+- [X] T055 [US3] Implement `POST /v1/registration/test` with a per-token limit of 3 per hour (in memory) in `Server/Sources/AlertServer/RegistrationRoutes.swift` using `AlertMessage.test` — makes T053 pass
+- [X] T056 [US3] Implement `AlertSeason` in `Packages/AuroraCore/Sources/AuroraCore/Alerts/AlertSeason.swift` and `sendTest` in `AlertSync` — makes T054 pass
+- [X] T057 [US3] Add "Send test", "Test alert sent" / "Try again at <time>", "Confirmed <relative date>" and the **On, no dark nights** note ("Alerts resume when nights get dark again") to `Revontulet/Alerts/AlertSettingsView.swift` and `AlertSettingsModel.swift` — using the `ios-ui-craft` skill
+- [X] T058 [P] [US3] Extend `RevontuletUITests/AlertSettingsUITests.swift`: send test shows "Test alert sent"; with the stub rate-limited, shows a try-again time
 
 **Checkpoint**: All three stories work on their own and together.
 

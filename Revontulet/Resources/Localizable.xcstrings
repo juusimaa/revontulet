@@ -162,6 +162,29 @@
         }
       }
     },
+    "Alerts resume when nights get dark again.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alerts resume when nights get dark again."
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hälytykset jatkuvat, kun yöt taas pimenevät."
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aviseringarna fortsätter när nätterna blir mörka igen."
+          }
+        }
+      }
+    },
     "Allow notifications in Settings to get aurora alerts.": {
       "extractionState": "manual",
       "localizations": {
@@ -250,6 +273,29 @@
           "stringUnit": {
             "state": "translated",
             "value": "Område: %@"
+          }
+        }
+      }
+    },
+    "Arrives within a minute, marked as a test.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Arrives within a minute, marked as a test."
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Saapuu minuutin kuluessa testiksi merkittynä."
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kommer inom en minut, märkt som test."
           }
         }
       }
@@ -641,6 +687,52 @@
           "stringUnit": {
             "state": "translated",
             "value": "Bekräftad"
+          }
+        }
+      }
+    },
+    "Confirmed %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Confirmed %@"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vahvistettu %@"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bekräftad %@"
+          }
+        }
+      }
+    },
+    "Couldn't send the test. Try again in a moment.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Couldn't send the test. Try again in a moment."
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Testiä ei voitu lähettää. Yritä hetken päästä uudelleen."
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Testet kunde inte skickas. Försök igen om en stund."
           }
         }
       }
@@ -1404,6 +1496,29 @@
         }
       }
     },
+    "Send test": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Send test"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lähetä testi"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Skicka test"
+          }
+        }
+      }
+    },
     "Showing the last known result. Check your connection.": {
       "extractionState": "manual",
       "localizations": {
@@ -1446,6 +1561,29 @@
           "stringUnit": {
             "state": "translated",
             "value": "Källa: Meteorologiska institutet (FMI), CC BY 4.0"
+          }
+        }
+      }
+    },
+    "Test alert sent": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Test alert sent"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Testihälytys lähetetty"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Testavisering skickad"
           }
         }
       }
@@ -1538,6 +1676,29 @@
           "stringUnit": {
             "state": "translated",
             "value": "De skickas till utvecklarens aviseringstjänst i Finland."
+          }
+        }
+      }
+    },
+    "Try again at %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Try again at %@"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yritä uudelleen klo %@"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Försök igen kl. %@"
           }
         }
       }

@@ -28,7 +28,8 @@ struct RevontuletApp: App {
 /// `-uiTestResetCache` (start without a cached result or chosen municipality),
 /// `-uiTestLocation lat,lon` (fixed position), `-uiTestLocationDenied` (no location access) and
 /// `-uiTestAlertsStub` (in-memory alert service, notifications allowed, fixed push token) and
-/// `-uiTestAlertsUnreachable` (with the stub, every alert service call fails).
+/// `-uiTestAlertsUnreachable` (with the stub, every alert service call fails) and
+/// `-uiTestAlertsTestLimited` (with the stub, test notifications are rate limited).
 @MainActor
 enum AppDependencies {
     /// Shared with the app delegate, which receives the push token.
@@ -37,9 +38,10 @@ enum AppDependencies {
     static func makeAlertSettingsModel(arguments: [String] = ProcessInfo.processInfo.arguments) -> AlertSettingsModel {
         if arguments.contains("-uiTestAlertsStub") {
             return AlertSettingsModel(
-                sync: AlertSync(api: UITestAlertAPI(unreachable: arguments.contains("-uiTestAlertsUnreachable")),
-                                store: InMemoryAlertSyncStore()),
-                permission: GrantedNotificationPermission(), push: UITestPushRegistration())
+                sync: AlertSync(api: UITestAlertAPI(unreachable: arguments.contains("-uiTestAlertsUnreachable"),
+                                                    testRateLimited: arguments.contains("-uiTestAlertsTestLimited")),
+                                store: InMemoryAlertSyncStore(), now: clock(arguments: arguments)),
+                permission: GrantedNotificationPermission(), push: UITestPushRegistration(), now: clock(arguments: arguments))
         }
         return AlertSettingsModel(
             sync: AlertSync(api: URLSessionAlertAPI(baseURL: AlertConfiguration.baseURL), store: UserDefaultsAlertSyncStore()),

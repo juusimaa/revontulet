@@ -20,6 +20,17 @@ final class AlertSettingsModel {
         case on(confirming: Bool)
     }
 
+    /// "Send test" and its outcome (US3).
+    enum TestStatus: Hashable {
+        case idle
+        case sending
+        case sent
+        /// Rate limited (429): "Try again at 21:40".
+        case tryAgain(at: Date)
+        /// Unreachable, or the registration was missing and has been re-sent.
+        case failed
+    }
+
     /// How often a pending change is retried while the app is open; `AlertSync` applies the backoff.
     static let retryTick: Duration = .seconds(15)
     static let privacyPolicyURL = URL(string: "https://github.com/juusimaa/revontulet/blob/main/docs/privacy.md")!
@@ -27,6 +38,7 @@ final class AlertSettingsModel {
     private(set) var syncState = AlertSyncState()
     private(set) var permission: NotificationPermissionStatus = .notDetermined
     private(set) var isAskingPermission = false
+    private(set) var testStatus: TestStatus = .idle
     /// The threshold shown in the picker; while on, changing it updates the registration.
     var threshold: AlertThreshold = .default
 
@@ -64,6 +76,16 @@ final class AlertSettingsModel {
     /// The zone's station name, e.g. "Oulujärvi".
     var zoneName: String? {
         syncState.zone.flatMap { id in zones.first { $0.id == id }?.station.name }
+    }
+
+    /// When the service last confirmed the registration ("Confirmed <relative date>").
+    var confirmedAt: Date? { syncState.confirmedAt }
+
+    /// Whether it gets dark enough at the zone within the next 24 hours; false shows the
+    /// "On, no dark nights" note.
+    var hasDarkNights: Bool {
+        guard let zone = syncState.zone.flatMap({ id in zones.first { $0.id == id } }) else { return true }
+        return AlertSeason.hasDarknessWithin24h(zone: zone, from: now())
     }
 
     /// Loads the stored state; call once at launch.
@@ -111,7 +133,19 @@ final class AlertSettingsModel {
     }
 
     func turnOff() async {
+        testStatus = .idle
         await sync.setDesired(.disabled)
+        await refresh()
+    }
+
+    func sendTest() async {
+        guard testStatus != .sending else { return }
+        testStatus = .sending
+        switch await sync.sendTest() {
+        case .sent: testStatus = .sent
+        case .rateLimited(let until): testStatus = .tryAgain(at: until)
+        case .notRegistered, .failed: testStatus = .failed
+        }
         await refresh()
     }
 

@@ -23,6 +23,7 @@ struct AlertSettingsView: View {
                 .padding(.bottom, 32)
                 .animation(.bouncy, value: model.phase)
                 .animation(.bouncy, value: model.isRemoving)
+                .animation(.bouncy, value: model.testStatus)
             }
             .scrollBounceBehavior(.basedOnSize)
             .background { SkyBackground(level: model.isOn ? .moderate : nil).environment(\.colorScheme, systemColorScheme) }
@@ -36,6 +37,13 @@ struct AlertSettingsView: View {
         .environment(\.colorScheme, .dark)
         .sensoryFeedback(.success, trigger: model.isOn) { _, isOn in isOn }
         .sensoryFeedback(.selection, trigger: model.threshold)
+        .sensoryFeedback(trigger: model.testStatus) { _, status in
+            switch status {
+            case .sent: .success
+            case .tryAgain, .failed: .warning
+            case .idle, .sending: nil
+            }
+        }
         .onChange(of: model.threshold) {
             Task { await model.thresholdChanged() }
         }
@@ -74,8 +82,15 @@ struct AlertSettingsView: View {
             PermissionDeniedCard()
         case .on(let confirming):
             VStack(alignment: .leading, spacing: 28) {
-                StatusCard(zoneName: model.zoneName ?? "", confirming: confirming)
+                StatusCard(zoneName: model.zoneName ?? "", confirming: confirming, confirmedAt: model.confirmedAt,
+                           hasDarkNights: model.hasDarkNights)
                 ThresholdPicker(threshold: $model.threshold)
+                if !confirming {
+                    SendTestSection(status: model.testStatus) {
+                        Task { await model.sendTest() }
+                    }
+                    .transition(.blurReplace)
+                }
                 Button(role: .destructive) {
                     Task { await model.turnOff() }
                 } label: {
@@ -251,6 +266,8 @@ private struct TurnOnButton: View {
 private struct StatusCard: View {
     let zoneName: String
     let confirming: Bool
+    let confirmedAt: Date?
+    let hasDarkNights: Bool
 
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
@@ -266,7 +283,17 @@ private struct StatusCard: View {
             .accessibilityElement(children: .combine)
             .accessibilityIdentifier("alertArea")
             Label {
-                Text(confirming ? "Waiting to confirm" : "Confirmed")
+                if confirming {
+                    Text("Waiting to confirm")
+                } else if let confirmedAt {
+                    // Re-rendered every minute so "now" becomes "1 minute ago".
+                    TimelineView(.everyMinute) { context in
+                        Text("Confirmed \(confirmedAt.formatted(.relative(presentation: .named, unitsStyle: .wide)))")
+                            .id(context.date)
+                    }
+                } else {
+                    Text("Confirmed")
+                }
             } icon: {
                 Image(systemName: confirming ? "arrow.triangle.2.circlepath" : "checkmark.seal.fill")
                     .foregroundStyle(confirming ? AnyShapeStyle(.secondary) : AnyShapeStyle(AuroraPalette.green))
@@ -277,6 +304,9 @@ private struct StatusCard: View {
                 .foregroundStyle(.secondary)
             Label("At most three alerts a night.", systemImage: "moon.zzz")
                 .foregroundStyle(.secondary)
+            if !hasDarkNights {
+                NoDarkNightsNote()
+            }
         }
         .font(.subheadline)
         .labelStyle(DataLabelStyle())
@@ -284,6 +314,86 @@ private struct StatusCard: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(.white.opacity(0.06), in: .rect(cornerRadius: 24))
         .overlay(RoundedRectangle(cornerRadius: 24).strokeBorder(.white.opacity(0.1), lineWidth: 0.5))
+    }
+}
+
+/// On, but too light at the zone for the next 24 hours: no alert can come (midsummer in Lapland).
+private struct NoDarkNightsNote: View {
+    var body: some View {
+        Label {
+            Text("Alerts resume when nights get dark again.")
+                .fixedSize(horizontal: false, vertical: true)
+        } icon: {
+            Image(systemName: "sun.horizon.fill")
+                .foregroundStyle(AuroraPalette.dusk)
+        }
+        .foregroundStyle(.white.opacity(0.9))
+        .padding(.horizontal, 14)
+        .padding(.vertical, 12)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(AuroraPalette.dusk.opacity(0.12), in: .rect(cornerRadius: 14))
+        .accessibilityElement(children: .combine)
+        .accessibilityIdentifier("alertsNoDarkNights")
+    }
+}
+
+/// "Send test" and what came of it: sent, try again at a time (429), or could not send.
+private struct SendTestSection: View {
+    let status: AlertSettingsModel.TestStatus
+    let send: () -> Void
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Button(action: send) {
+                HStack(spacing: 10) {
+                    if status == .sending {
+                        ProgressView()
+                    } else {
+                        Image(systemName: "bell.and.waves.left.and.right")
+                            .symbolEffect(.wiggle, value: status == .sent)
+                    }
+                    Text("Send test")
+                }
+                .frame(maxWidth: .infinity)
+            }
+            .buttonStyle(.glass)
+            .controlSize(.large)
+            .disabled(status == .sending)
+            .accessibilityIdentifier("sendTestAlert")
+
+            Group {
+                switch status {
+                case .idle, .sending:
+                    Label("Arrives within a minute, marked as a test.", systemImage: "info.circle")
+                        .foregroundStyle(.secondary)
+                case .sent:
+                    Label {
+                        Text("Test alert sent")
+                    } icon: {
+                        Image(systemName: "checkmark.circle.fill").foregroundStyle(AuroraPalette.green)
+                    }
+                case .tryAgain(let date):
+                    Label {
+                        Text("Try again at \(date.formatted(date: .omitted, time: .shortened))")
+                    } icon: {
+                        Image(systemName: "clock").foregroundStyle(AuroraPalette.dusk)
+                    }
+                case .failed:
+                    Label {
+                        Text("Couldn't send the test. Try again in a moment.")
+                    } icon: {
+                        Image(systemName: "exclamationmark.circle").foregroundStyle(AuroraPalette.dusk)
+                    }
+                }
+            }
+            .font(.footnote)
+            .labelStyle(DataLabelStyle())
+            .contentTransition(.opacity)
+            .transition(.blurReplace)
+            .id(status)
+            .accessibilityElement(children: .combine)
+            .accessibilityIdentifier("sendTestResult")
+        }
     }
 }
 
@@ -400,6 +510,8 @@ private struct PermissionDeniedCard: View {
 
 enum AuroraPalette {
     static let green = Color(red: 0.24, green: 0.96, blue: 0.62)
+    /// Warm accent for notes that are not errors: the light summer night, a time to wait.
+    static let dusk = Color(red: 1.0, green: 0.74, blue: 0.42)
     static let glow = LinearGradient(
         colors: [Color(red: 0.24, green: 0.96, blue: 0.62), Color(red: 0.16, green: 0.80, blue: 0.78)],
         startPoint: .topLeading, endPoint: .bottomTrailing)
