@@ -188,7 +188,7 @@ marked as a test; a fourth request within an hour is refused with a time to try 
 - [ ] T061 [P] Record the App Store privacy label decision (Coarse Location and Device ID, App Functionality, not tracking; linked or not linked) in the Privacy Review of `specs/002-aurora-alerts/spec.md` (FR-020, research R11) — the developer makes the final call
 - [ ] T062 Run every scenario in `specs/002-aurora-alerts/quickstart.md`, including the on-device check of notification text in en, fi and sv (research R6), the service-down check (SC-007) and the 35-minute heartbeat check (SC-008)
 - [ ] T062a Measure alert delivery time against the production instance (SC-001): for every alert during the first strong aurora night after deployment, or for a replay of a recorded strong night with the evaluation clock set to now, compare the notification's arrival time on the device with the FMI data time it was based on; at least 95% within 15 minutes; record the result in `specs/002-aurora-alerts/quickstart.md` §5
-- [ ] T063 Verify with a TestFlight build from the feature-branch Xcode Cloud workflow (started manually; `main` is not merged yet) that production push works end to end (the build registers with the production instance and a test notification arrives)
+- [X] T063 Verify with a TestFlight build from the feature-branch Xcode Cloud workflow (started manually; `main` is not merged yet) that production push works end to end (the build registers with the production instance and a test notification arrives)
 - [ ] T064 Mark the draft pull request from `002-aurora-alerts` to `main` (T007b) ready for review, with the Constitution Check (v1.1.0) confirmed in the description and `MARKETING_VERSION` bumped to `2.0` in `project.yml`; all tests pass on macOS and Linux
 
 ---

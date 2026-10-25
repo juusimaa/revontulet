@@ -86,3 +86,21 @@ cycle sends nothing stale (FR-009).
   window (FR-019).
 - Privacy label decision recorded in the spec's Privacy Review (FR-020, R11).
 - Production instance verified with a TestFlight build and a test notification.
+
+## Results
+
+**2026-10-25, TestFlight build from `002-aurora-alerts` (`663e504`) on an iPhone, production
+instance `alerts-0.2.0`** (§3 steps 1–7 against production; T063):
+
+| Check | Result |
+|---|---|
+| Off, first time: explanation, turn on, permission, "Confirmed", bell | Pass |
+| Privacy link | Failed once with GitHub's error page; link moved to GitHub Pages (`0ba5a02`) |
+| Send test; 4th within an hour shows "Try again at" | Pass |
+| Notification text in fi, sv, en (R6) | Swedish not checked yet |
+| Zone change (Utsjoki → Kevo) and threshold change | Pass |
+| Airplane mode: "Waiting to confirm", no dialogs, confirms when back online | Pass |
+| Turn off; notifications off in iOS Settings → alerts off, row deleted | Pass |
+
+Still open for T062: the language check (sv; fi to confirm), Dynamic Type, VoiceOver and Reduce Motion on the device (T059), the service-down check
+(SC-007) and the 35-minute heartbeat check (SC-008).
