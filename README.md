@@ -18,14 +18,14 @@ Optional aurora alerts send a notification when the chance in your area of Finla
 level you choose, even when the app is closed. See [Aurora alerts](#aurora-alerts).
 
 <p align="center">
-  <img src="docs/images/main-screen-oulu.png" alt="Main screen in Oulu on a dark, clear evening: the chance to see the aurora is High, with good conditions, measured at the Oulujärvi station 100 km away. The open details panel shows probable geomagnetic activity (R 309), a dark sky and clear weather" width="300" />
+  <img src="docs/images/main-screen-oulu.png" alt="Main screen in Oulu on a dark, clear evening: the chance to see the aurora is High, with good conditions, measured at the Oulujärvi station 100 km away. The open details panel shows probable geomagnetic activity (R 309), a dark sky and clear weather. The toolbar has the place, alerts and refresh buttons" width="300" />
 </p>
 
 <p align="center"><sub>The main screen in Oulu during strong geomagnetic activity. The data in this
 screenshot is synthetic.</sub></p>
 
-> **Status:** version 1.0, the aurora main screen, is on the App Store. Aurora alerts are being
-> built for version 2.0. See [specs/001-aurora-main-screen](specs/001-aurora-main-screen/) and
+> **Status:** version 1.0, the aurora main screen, is on the App Store. Version 2.0 adds aurora
+> alerts and is in TestFlight testing. See [specs/001-aurora-main-screen](specs/001-aurora-main-screen/) and
 > [specs/002-aurora-alerts](specs/002-aurora-alerts/).
 
 ## Principles
@@ -106,6 +106,10 @@ after dark, it sends a push notification through Apple Push Notification service
 zone gets at most three alerts a night. The notification carries only text keys and the station
 name; the phone shows the text in its own language. In the settings you can send yourself a test
 notification.
+
+<p align="center">
+  <img src="docs/images/alert-settings-oulu.png" alt="Aurora alerts settings, turned on for the Oulujärvi area and confirmed now. The area follows the place on the main screen, with at most three alerts a night. The threshold is High, for high chances only, and a Send test button is below" width="300" />
+</p>
 
 ### What the service keeps
 
