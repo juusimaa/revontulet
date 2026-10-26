@@ -1,0 +1,88 @@
+# Alert service CI: core and server tests on Linux for every push and pull request that touches
+# them. The container image is built and pushed to GHCR from main, from a pushed `alerts-*` tag
+# (any commit, e.g. a feature branch before it is merged), or when run by hand once this file is
+# on main.
+name: Alert service
+
+on:
+  workflow_dispatch:
+  push:
+    # Path filters do not apply to tag pushes, so an `alerts-*` tag always runs.
+    tags:
+      - "alerts-*"
+    branches:
+      - "**"
+    paths:
+      - "Packages/AuroraCore/**"
+      - "Server/**"
+      - ".dockerignore"
+      - ".github/workflows/alert-service.yml"
+  pull_request:
+    paths:
+      - "Packages/AuroraCore/**"
+      - "Server/**"
+      - ".dockerignore"
+      - ".github/workflows/alert-service.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Test ${{ matrix.package }} (Linux)
+    runs-on: ubuntu-latest
+    container: swift:6.4.1-noble
+    strategy:
+      fail-fast: false
+      matrix:
+        package: [Packages/AuroraCore, Server]
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/cache@v6
+        with:
+          path: ${{ matrix.package }}/.build
+          key: swift-${{ matrix.package }}-${{ hashFiles(format('{0}/Package.swift', matrix.package), format('{0}/Package.resolved', matrix.package)) }}
+          restore-keys: swift-${{ matrix.package }}-
+      - run: swift test --package-path ${{ matrix.package }}
+
+  image:
+    name: Build and push image
+    if: >-
+      github.event_name == 'workflow_dispatch'
+      || (github.event_name == 'push' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/alerts-')))
+    needs: test
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v7
+      - uses: docker/setup-buildx-action@v4
+      - uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - id: meta
+        uses: docker/metadata-action@v6
+        with:
+          images: ghcr.io/juusimaa/revontulet-alerts
+          # sha-<short sha> always; :main only for main; the tag name for `alerts-*` tags.
+          tags: |
+            type=sha,prefix=sha-
+            type=raw,value=main,enable=${{ github.ref == 'refs/heads/main' }}
+            type=ref,event=tag
+      - uses: docker/build-push-action@v7
+        with:
+          context: .
+          file: Server/Dockerfile
+          platforms: linux/amd64
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max

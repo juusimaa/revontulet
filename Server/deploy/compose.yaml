@@ -1,0 +1,33 @@
+# Alert service on the UpCloud server (research R10). Copy to /opt/revontulet-alerts/ with
+# alerts.env and AuthKey.pem next to it, then `docker compose up -d`.
+#
+# The container runs as uid/gid 10001 (alerts), which no host account uses: the data directory and
+# the key must be readable by it and by nothing else on the host (`ls -ln` shows the numbers):
+#   sudo mkdir -p /var/lib/revontulet-alerts && sudo chown 10001:10001 /var/lib/revontulet-alerts
+#   sudo chmod 700 /var/lib/revontulet-alerts
+#   sudo chown 10001:10001 /opt/revontulet-alerts/AuthKey.pem && sudo chmod 400 /opt/revontulet-alerts/AuthKey.pem
+name: revontulet-alerts
+
+services:
+  revontulet-alerts:
+    # Pin a sha-<short sha> tag from GHCR for production; :main follows the latest main build.
+    image: ghcr.io/juusimaa/revontulet-alerts:${ALERTS_IMAGE_TAG:-main}
+    container_name: revontulet-alerts
+    restart: unless-stopped
+    mem_limit: 150m
+    env_file: /opt/revontulet-alerts/alerts.env
+    volumes:
+      - /var/lib/revontulet-alerts:/data
+    secrets:
+      - apns_key
+    networks:
+      - edge
+    # No published ports: only Caddy on the edge network reaches the service.
+
+secrets:
+  apns_key:
+    file: /opt/revontulet-alerts/AuthKey.pem
+
+networks:
+  edge:
+    external: true

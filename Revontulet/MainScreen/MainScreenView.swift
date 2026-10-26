@@ -4,8 +4,10 @@ import SwiftUI
 /// "Should I go outside and look?" at a glance (contracts/main-screen-states.md).
 struct MainScreenView: View {
     let model: MainScreenModel
+    let alerts: AlertSettingsModel
 
     @State private var isChoosingPlace = false
+    @State private var isShowingAlerts = false
 
     @Environment(\.colorScheme) private var systemColorScheme
     @Environment(\.scenePhase) private var scenePhase
@@ -19,6 +21,9 @@ struct MainScreenView: View {
                     ToolbarItem(placement: .topBarLeading) {
                         Button("Change place", systemImage: "mappin.and.ellipse") { isChoosingPlace = true }
                             .accessibilityIdentifier("changePlaceButton")
+                    }
+                    ToolbarItem(placement: .topBarTrailing) {
+                        AlertsButton(isOn: alerts.isOn) { isShowingAlerts = true }
                     }
                     ToolbarItem(placement: .topBarTrailing) {
                         Button {
@@ -40,6 +45,16 @@ struct MainScreenView: View {
         }
         .sensoryFeedback(.warning, trigger: model.isOffline) { _, offline in offline }
         .sensoryFeedback(.selection, trigger: model.selection)
+        // Opening an aurora alert shows this screen with a fresh result (no deep link).
+        .onReceive(NotificationCenter.default.publisher(for: .auroraAlertOpened)) { _ in
+            Task { await model.refresh() }
+        }
+        .sheet(isPresented: $isShowingAlerts) {
+            AlertSettingsView(model: alerts) {
+                isShowingAlerts = false
+                isChoosingPlace = true
+            }
+        }
         .sheet(isPresented: $isChoosingPlace) {
             PlacePickerView(
                 resolver: model.placeResolver, selection: model.selection,
@@ -107,6 +122,22 @@ struct MainScreenView: View {
             }
             .accessibilityIdentifier("outsideCoverage")
         }
+    }
+}
+
+/// Opens the alert settings. The bell is filled while alerts are on, and the label says so in
+/// words, never by the symbol alone.
+private struct AlertsButton: View {
+    let isOn: Bool
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            Label("Aurora alerts", systemImage: isOn ? "bell.fill" : "bell")
+                .contentTransition(.symbolEffect(.replace))
+        }
+        .accessibilityLabel(Text(isOn ? "Aurora alerts, on" : "Aurora alerts, off"))
+        .accessibilityIdentifier("alertsButton")
     }
 }
 

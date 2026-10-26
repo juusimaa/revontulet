@@ -34,10 +34,32 @@ What it records (default output: Packages/AuroraCore/Tests/AuroraCoreTests/Fixtu
 
 The <YYYYMMDDTHHMMZ> stamp is the window end time.
 
+Alert night mode (--alert-night START END, specs/002-aurora-alerts T016) writes to
+Fixtures/alerts/<YYYYMMDD>/, where the date is the local (Europe/Helsinki) date of the
+evening the night belongs to:
+
+  magnetometer-<CODE>.csv
+      As above, for START - 10 min .. END.
+  clouds.csv
+      TotalCloudCover for Finland, START - 30 min .. END, columns
+      time,latitude,longitude,octas (value as FMI gives it; empty for NaN).
+      Compact CSV instead of one XML response per 5-minute cycle (which would be
+      hundreds of MB per night); the tests rebuild each request the service would
+      make from these rows.
+  night.json
+      {"start", "end"} of the night window (UTC).
+  reference-r.json
+      FMI's published R inside the window, only when the FMI chart still covers it
+      (it keeps about the last 24 hours); otherwise not written.
+
+expected.json (the alerts the night must produce) is written separately by
+tools/alert-reference.py, an independent implementation of the alert rules.
+
 Python 3 standard library only (3.9+ for zoneinfo).
 
 Usage:
   python3 tools/record-fixtures.py [--hours 3] [--end 2026-10-22T18:00:00Z] [--out DIR]
+  python3 tools/record-fixtures.py --alert-night 2026-10-24T15:00:00Z 2026-10-25T05:00:00Z
 """
 
 from __future__ import annotations
@@ -165,7 +187,8 @@ def write(path: Path, data: bytes | str, written: list) -> None:
 
 # ---------------------------------------------------------------- magnetometer
 
-def record_magnetometer(start: datetime, end: datetime, out: Path, written: list) -> None:
+def record_magnetometer(start: datetime, end: datetime, out: Path, written: list,
+                        name: str = "magnetometer-{code}-{stamp}.csv") -> None:
     """Write one CSV per station covering [start - LEAD_IN, end]."""
     # per_station[code][time][param] = value text
     per_station: dict[str, dict[str, dict[str, str]]] = {c: {} for c in STATIONS}
@@ -207,7 +230,7 @@ def record_magnetometer(start: datetime, end: datetime, out: Path, written: list
             r = rows[t]
             lines.append(",".join([t] + [cell(r.get(p)) for p in
                                          ("MAGNX_PT10S_AVG", "MAGNY_PT10S_AVG", "MAGNZ_PT10S_AVG")]))
-        write(out / f"magnetometer-{code}-{stamp(end)}.csv", "\n".join(lines) + "\n", written)
+        write(out / name.format(code=code, stamp=stamp(end)), "\n".join(lines) + "\n", written)
 
 
 def record_magnetometer_sample(end: datetime, out: Path, written: list) -> None:
@@ -260,7 +283,8 @@ def chart_ms_to_utc(ms: int, after: datetime | None = None) -> datetime:
     return t
 
 
-def record_reference_r(start: datetime, end: datetime, out: Path, written: list) -> dict[str, int]:
+def record_reference_r(start: datetime, end: datetime, out: Path, written: list,
+                       require_points: bool = False) -> dict[str, int]:
     data = json.loads(fetch(CHART_DATA_URL).decode("utf-8"))
     rows = []
     counts = {}
@@ -280,6 +304,9 @@ def record_reference_r(start: datetime, end: datetime, out: Path, written: list)
                 n += 1
         counts[code] = n
     rows.sort(key=lambda d: (d["station"], d["time"]))
+    if require_points and not rows:
+        print("  FMI chart no longer covers this window; reference-r.json not written", file=sys.stderr)
+        return counts
     write(out / "reference-r.json", json.dumps(rows, indent=1) + "\n", written)
 
     if latest_seen is not None:
@@ -317,6 +344,45 @@ def record_thresholds(out: Path, written: list) -> None:
                   f"FMI now {got['yellow']}/{got['red']}", file=sys.stderr)
 
 
+# ---------------------------------------------------------------- alert nights
+
+def record_clouds_csv(start: datetime, end: datetime, out: Path, written: list) -> None:
+    """TotalCloudCover rows for [start, end], fetched two hours at a time."""
+    rows: set[tuple[str, str, str, str]] = set()
+    chunk_start = start
+    while chunk_start <= end:
+        chunk_end = min(chunk_start + timedelta(hours=2) - timedelta(minutes=1), end)
+        text = fetch_wfs("fmi::observations::weather::simple", "19,59.5,32,70.1",
+                         "TotalCloudCover", chunk_start, chunk_end)
+        for m in MEMBER_RE.finditer(text):
+            block = m.group(0)
+            pm, tm, va = POS_RE.search(block), TIME_RE.search(block), VALUE_RE.search(block)
+            if not (pm and tm and va):
+                continue
+            value = va.group(1).strip()
+            rows.add((tm.group(1).strip(), pm.group(1), pm.group(2), "" if value.lower() == "nan" else value))
+        chunk_start = chunk_end + timedelta(minutes=1)
+    lines = ["# source: FMI open data fmi::observations::weather::simple, CC BY 4.0",
+             "time,latitude,longitude,octas"]
+    lines += [",".join(r) for r in sorted(rows)]
+    write(out / "clouds.csv", "\n".join(lines) + "\n", written)
+
+
+def record_alert_night(start: datetime, end: datetime, out_root: Path, written: list) -> Path:
+    evening = (start.astimezone(HELSINKI) - timedelta(hours=12)).date()
+    out = out_root / "alerts" / evening.strftime("%Y%m%d")
+    out.mkdir(parents=True, exist_ok=True)
+    print(f"Alert night {iso(start)} .. {iso(end)}  ->  {out}", file=sys.stderr)
+    print("Magnetometer (per station)...", file=sys.stderr)
+    record_magnetometer(start, end, out, written, name="magnetometer-{code}.csv")
+    print("Clouds...", file=sys.stderr)
+    record_clouds_csv(start - timedelta(minutes=30), end, out, written)
+    print("Reference R...", file=sys.stderr)
+    record_reference_r(start, end, out, written, require_points=True)
+    write(out / "night.json", json.dumps({"start": iso(start), "end": iso(end)}, indent=1) + "\n", written)
+    return out
+
+
 # ---------------------------------------------------------------- main
 
 def main() -> int:
@@ -327,7 +393,18 @@ def main() -> int:
                     help="window end, ISO 8601 UTC (default: now - 2 min, floored to 10 s)")
     ap.add_argument("--out", type=Path, default=DEFAULT_OUT,
                     help=f"output directory (default: {DEFAULT_OUT.relative_to(REPO_ROOT)})")
+    ap.add_argument("--alert-night", nargs=2, type=parse_utc, metavar=("START", "END"),
+                    help="record one night for the alert tests (ISO 8601 UTC)")
     args = ap.parse_args()
+
+    if args.alert_night:
+        start, end = (floor10(t) for t in args.alert_night)
+        written: list[Path] = []
+        record_alert_night(start, end, args.out, written)
+        print("\nFiles written:")
+        for p in written:
+            print(f"  {p.stat().st_size:>10,d}  {p}")
+        return 0
 
     end = floor10(args.end or (datetime.now(timezone.utc) - timedelta(minutes=2)))
     start = floor10(end - timedelta(hours=args.hours))

@@ -3,11 +3,21 @@ import SwiftUI
 
 @main
 struct RevontuletApp: App {
+    @UIApplicationDelegateAdaptor private var pushRegistration: PushRegistration
     @State private var model = AppDependencies.makeMainScreenModel()
+    @State private var alerts = AppDependencies.alertSettings
+
+    @Environment(\.scenePhase) private var scenePhase
 
     var body: some Scene {
         WindowGroup {
-            MainScreenView(model: model)
+            MainScreenView(model: model, alerts: alerts)
+                .task { await alerts.load() }
+                // Sends pending alert changes on every foreground and retries while open; no
+                // background work (research R13).
+                .task(id: scenePhase) {
+                    if scenePhase == .active { await alerts.runWhileActive() }
+                }
         }
     }
 }
@@ -16,9 +26,28 @@ struct RevontuletApp: App {
 /// `-uiTestStubs` (synthetic FMI responses), `-uiTestStrongActivity` (stubs with high activity),
 /// `-uiTestTime <ISO 8601 date>` (the clock starts at that time), `-uiTestOffline` (every request fails),
 /// `-uiTestResetCache` (start without a cached result or chosen municipality),
-/// `-uiTestLocation lat,lon` (fixed position) and `-uiTestLocationDenied` (no location access).
+/// `-uiTestLocation lat,lon` (fixed position), `-uiTestLocationDenied` (no location access) and
+/// `-uiTestAlertsStub` (in-memory alert service, notifications allowed, fixed push token) and
+/// `-uiTestAlertsUnreachable` (with the stub, every alert service call fails) and
+/// `-uiTestAlertsTestLimited` (with the stub, test notifications are rate limited).
 @MainActor
 enum AppDependencies {
+    /// Shared with the app delegate, which receives the push token.
+    static let alertSettings = makeAlertSettingsModel()
+
+    static func makeAlertSettingsModel(arguments: [String] = ProcessInfo.processInfo.arguments) -> AlertSettingsModel {
+        if arguments.contains("-uiTestAlertsStub") {
+            return AlertSettingsModel(
+                sync: AlertSync(api: UITestAlertAPI(unreachable: arguments.contains("-uiTestAlertsUnreachable"),
+                                                    testRateLimited: arguments.contains("-uiTestAlertsTestLimited")),
+                                store: InMemoryAlertSyncStore(), now: clock(arguments: arguments)),
+                permission: GrantedNotificationPermission(), push: UITestPushRegistration(), now: clock(arguments: arguments))
+        }
+        return AlertSettingsModel(
+            sync: AlertSync(api: URLSessionAlertAPI(baseURL: AlertConfiguration.baseURL), store: UserDefaultsAlertSyncStore()),
+            permission: NotificationPermission(), push: RemoteNotificationRegistration())
+    }
+
     static func makeMainScreenModel(arguments: [String] = ProcessInfo.processInfo.arguments) -> MainScreenModel {
         let http: any HTTPClient =
             if arguments.contains("-uiTestOffline") { OfflineHTTPClient() }
@@ -36,7 +65,8 @@ enum AppDependencies {
         let service = try! AuroraService(http: http, cache: cache)
         return MainScreenModel(
             service: service, location: locationProvider(arguments: arguments), placeStore: placeStore,
-            now: clock(arguments: arguments))
+            now: clock(arguments: arguments),
+            onPlaceResolved: { place in Task { await alertSettings.placeResolved(place) } })
     }
 
     /// The real clock, or one that starts at `-uiTestTime` and runs at normal speed from there.

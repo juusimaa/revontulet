@@ -52,6 +52,8 @@ final class MainScreenModel {
     private let resolver: Task<PlaceResolver?, Never>
     /// The current time; UI tests can shift it.
     let now: @Sendable () -> Date
+    /// Told about every place a result is computed for, so the alert zone follows it (FR-004).
+    private let onPlaceResolved: @MainActor (Place) -> Void
     private var lastForcedRefresh: Date?
     private var refreshTask: Task<Void, Never>?
 
@@ -60,9 +62,11 @@ final class MainScreenModel {
         location: any LocationProviding,
         placeStore: PlaceSelectionStore = PlaceSelectionStore(),
         loadResolver: @escaping @Sendable () throws -> PlaceResolver = { try PlaceResolver() },
-        now: @escaping @Sendable () -> Date = { Date() }
+        now: @escaping @Sendable () -> Date = { Date() },
+        onPlaceResolved: @escaping @MainActor (Place) -> Void = { _ in }
     ) {
         self.service = service
+        self.onPlaceResolved = onPlaceResolved
         self.location = location
         self.placeStore = placeStore
         selection = placeStore.selection
@@ -206,6 +210,7 @@ final class MainScreenModel {
             guard !isStale else { return }
             isOffline = false
             state = .result(result, placeName: municipality.displayName(preferSwedish: Self.prefersSwedish))
+            onPlaceResolved(place)
         } catch AuroraServiceError.offline {
             guard !isStale else { return }
             isOffline = true

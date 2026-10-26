@@ -116,6 +116,282 @@
         }
       }
     },
+    "Alerts are for an area of Finland. Allow location access or choose a municipality, and the area is set from it.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alerts are for an area of Finland. Allow location access or choose a municipality, and the area is set from it."
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hälytykset koskevat aluetta Suomessa. Salli sijainti tai valitse kunta, niin alue määräytyy sen mukaan."
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aviseringar gäller ett område i Finland. Tillåt platstjänster eller välj en kommun så bestäms området utifrån den."
+          }
+        }
+      }
+    },
+    "Alerts are on": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alerts are on"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hälytykset ovat päällä"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aviseringar är på"
+          }
+        }
+      }
+    },
+    "Alerts resume when nights get dark again.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alerts resume when nights get dark again."
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hälytykset jatkuvat, kun yöt taas pimenevät."
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aviseringarna fortsätter när nätterna blir mörka igen."
+          }
+        }
+      }
+    },
+    "Allow notifications in Settings to get aurora alerts.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Allow notifications in Settings to get aurora alerts."
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Salli ilmoitukset Asetuksissa, niin saat revontulihälytyksiä."
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tillåt aviseringar i Inställningar för att få norrskensaviseringar."
+          }
+        }
+      }
+    },
+    "An anonymous notification address for this iPhone": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "An anonymous notification address for this iPhone"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tämän iPhonen nimetön ilmoitusosoite"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "En anonym aviseringsadress för den här iPhonen"
+          }
+        }
+      }
+    },
+    "Area": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Area"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alue"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Område"
+          }
+        }
+      }
+    },
+    "Area: %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Area: %@"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alue: %@"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Område: %@"
+          }
+        }
+      }
+    },
+    "Arrives within a minute, marked as a test.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Arrives within a minute, marked as a test."
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Saapuu minuutin kuluessa testiksi merkittynä."
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kommer inom en minut, märkt som test."
+          }
+        }
+      }
+    },
+    "At most three alerts a night.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "At most three alerts a night."
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enintään kolme hälytystä yössä."
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Högst tre aviseringar per natt."
+          }
+        }
+      }
+    },
+    "Aurora alerts": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aurora alerts"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Revontulihälytykset"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Norrskensaviseringar"
+          }
+        }
+      }
+    },
+    "Aurora alerts, off": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aurora alerts, off"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Revontulihälytykset, pois"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Norrskensaviseringar, av"
+          }
+        }
+      }
+    },
+    "Aurora alerts, on": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aurora alerts, on"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Revontulihälytykset, päällä"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Norrskensaviseringar, på"
+          }
+        }
+      }
+    },
     "Aurora data from FMI is needed to show a chance. Connect to the internet and try again.": {
       "extractionState": "manual",
       "localizations": {
@@ -227,6 +503,29 @@
           "stringUnit": {
             "state": "translated",
             "value": "Välj en kommun, eller tillåt platsåtkomst i Inställningar för att se chansen där du är."
+          }
+        }
+      }
+    },
+    "Choose a place in Finland first": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose a place in Finland first"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Valitse ensin paikka Suomesta"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Välj först en plats i Finland"
           }
         }
       }
@@ -369,6 +668,75 @@
         }
       }
     },
+    "Confirmed": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Confirmed"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vahvistettu"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bekräftad"
+          }
+        }
+      }
+    },
+    "Confirmed %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Confirmed %@"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vahvistettu %@"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bekräftad %@"
+          }
+        }
+      }
+    },
+    "Couldn't send the test. Try again in a moment.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Couldn't send the test. Try again in a moment."
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Testiä ei voitu lähettää. Yritä hetken päästä uudelleen."
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Testet kunde inte skickas. Försök igen om en stund."
+          }
+        }
+      }
+    },
     "Current location": {
       "extractionState": "manual",
       "localizations": {
@@ -457,6 +825,29 @@
           "stringUnit": {
             "state": "translated",
             "value": "Detaljer"
+          }
+        }
+      }
+    },
+    "Done": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Done"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Valmis"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Klar"
           }
         }
       }
@@ -572,6 +963,29 @@
           "stringUnit": {
             "state": "translated",
             "value": "Geomagnetisk aktivitet"
+          }
+        }
+      }
+    },
+    "Get a notification when the chance to see the aurora in your area reaches the level you choose.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Get a notification when the chance to see the aurora in your area reaches the level you choose."
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Saat ilmoituksen, kun mahdollisuus nähdä revontulet alueellasi nousee valitsemallesi tasolle."
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Få en avisering när chansen att se norrsken i ditt område når den nivå du väljer."
           }
         }
       }
@@ -760,6 +1174,98 @@
         }
       }
     },
+    "Notifications are off for Revontulet": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Notifications are off for Revontulet"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Revontulet-sovelluksen ilmoitukset ovat pois päältä"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aviseringar är avstängda för Revontulet"
+          }
+        }
+      }
+    },
+    "Notify me at": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Notify me at"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ilmoita, kun mahdollisuus on"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Avisera mig vid"
+          }
+        }
+      }
+    },
+    "Off": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Off"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pois"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Av"
+          }
+        }
+      }
+    },
+    "On": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "On"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Päällä"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "På"
+          }
+        }
+      }
+    },
     "Open Settings": {
       "extractionState": "manual",
       "localizations": {
@@ -829,6 +1335,29 @@
         }
       }
     },
+    "Privacy policy": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Privacy policy"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tietosuojakäytäntö"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Integritetspolicy"
+          }
+        }
+      }
+    },
     "R %lld at %@": {
       "extractionState": "manual",
       "localizations": {
@@ -871,6 +1400,29 @@
           "stringUnit": {
             "state": "translated",
             "value": "Uppdatera"
+          }
+        }
+      }
+    },
+    "Removing…": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Removing…"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Poistetaan…"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tas bort…"
           }
         }
       }
@@ -944,6 +1496,29 @@
         }
       }
     },
+    "Send test": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Send test"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lähetä testi"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Skicka test"
+          }
+        }
+      }
+    },
     "Showing the last known result. Check your connection.": {
       "extractionState": "manual",
       "localizations": {
@@ -990,6 +1565,75 @@
         }
       }
     },
+    "Test alert sent": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Test alert sent"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Testihälytys lähetetty"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Testavisering skickad"
+          }
+        }
+      }
+    },
+    "The area follows the place on the main screen.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The area follows the place on the main screen."
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alue seuraa pääsivun paikkaa."
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Området följer platsen på huvudskärmen."
+          }
+        }
+      }
+    },
+    "The level you chose": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The level you chose"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Valitsemasi taso"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nivån du valt"
+          }
+        }
+      }
+    },
     "The nearest station has no recent data, so a more distant one is used.": {
       "extractionState": "manual",
       "localizations": {
@@ -1009,6 +1653,121 @@
           "stringUnit": {
             "state": "translated",
             "value": "Närmaste station har inga färska data, så en station längre bort används."
+          }
+        }
+      }
+    },
+    "They go to the developer's alert service in Finland.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "They go to the developer's alert service in Finland."
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tiedot menevät kehittäjän hälytyspalveluun Suomessa."
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "De skickas till utvecklarens aviseringstjänst i Finland."
+          }
+        }
+      }
+    },
+    "Try again at %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Try again at %@"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yritä uudelleen klo %@"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Försök igen kl. %@"
+          }
+        }
+      }
+    },
+    "Turn off alerts": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Turn off alerts"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Poista hälytykset käytöstä"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stäng av aviseringar"
+          }
+        }
+      }
+    },
+    "Turn on alerts": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Turn on alerts"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ota hälytykset käyttöön"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Slå på aviseringar"
+          }
+        }
+      }
+    },
+    "Turning alerts off deletes them.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Turning alerts off deletes them."
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kun poistat hälytykset käytöstä, tiedot poistetaan."
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "När du stänger av aviseringarna raderas de."
           }
         }
       }
@@ -1036,6 +1795,52 @@
         }
       }
     },
+    "Waiting for permission…": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Waiting for permission…"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Odotetaan lupaa…"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Väntar på tillstånd…"
+          }
+        }
+      }
+    },
+    "Waiting to confirm": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Waiting to confirm"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Odottaa vahvistusta"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Väntar på bekräftelse"
+          }
+        }
+      }
+    },
     "Weather station %@ away": {
       "extractionState": "manual",
       "localizations": {
@@ -1059,6 +1864,29 @@
         }
       }
     },
+    "What is sent": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "What is sent"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mitä lähetetään"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Det här skickas"
+          }
+        }
+      }
+    },
     "You're offline": {
       "extractionState": "manual",
       "localizations": {
@@ -1078,6 +1906,29 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ingen anslutning"
+          }
+        }
+      }
+    },
+    "Your area, not your exact location": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your area, not your exact location"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alueesi, ei tarkkaa sijaintiasi"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ditt område, inte din exakta plats"
           }
         }
       }
@@ -1170,6 +2021,305 @@
           "stringUnit": {
             "state": "translated",
             "value": "Norrsken osannolikt"
+          }
+        }
+      }
+    },
+    "alert.body.goodConditions": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Good conditions near %@. Look north now."
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@: hyvät olosuhteet. Katso nyt pohjoiseen."
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Goda förhållanden nära %@. Titta norrut nu."
+          }
+        }
+      }
+    },
+    "alert.body.goodConditions.cloudsUnknown": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Strong activity near %@. Cloud cover is unknown."
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@: voimakasta aktiivisuutta. Pilvisyys ei ole tiedossa."
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stark aktivitet nära %@. Molnigheten är okänd."
+          }
+        }
+      }
+    },
+    "alert.body.partlyCloudy": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Strong activity near %@ with some cloud."
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@: voimakasta aktiivisuutta, osittain pilvistä."
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stark aktivitet nära %@ med visst molntäcke."
+          }
+        }
+      }
+    },
+    "alert.body.someActivity": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Some activity near %@ and a clear, dark sky."
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@: jonkin verran aktiivisuutta, ja taivas on kirkas ja pimeä."
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Viss aktivitet nära %@ och en klar, mörk himmel."
+          }
+        }
+      }
+    },
+    "alert.body.someActivity.cloudsUnknown": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Some activity near %@. Cloud cover is unknown."
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@: jonkin verran aktiivisuutta. Pilvisyys ei ole tiedossa."
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Viss aktivitet nära %@. Molnigheten är okänd."
+          }
+        }
+      }
+    },
+    "alert.body.test": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aurora alerts are working on this iPhone."
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Revontulihälytykset toimivat tässä iPhonessa."
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Norrskensaviseringar fungerar på den här iPhonen."
+          }
+        }
+      }
+    },
+    "alert.body.twilight": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Strong activity near %@, but the sky is not fully dark yet."
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@: voimakasta aktiivisuutta, mutta taivas ei ole vielä täysin pimeä."
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stark aktivitet nära %@, men himlen är inte helt mörk än."
+          }
+        }
+      }
+    },
+    "alert.body.twilight.cloudsUnknown": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Strong activity near %@ in twilight. Cloud cover is unknown."
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@: voimakasta aktiivisuutta hämärässä. Pilvisyys ei ole tiedossa."
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stark aktivitet nära %@ i skymningen. Molnigheten är okänd."
+          }
+        }
+      }
+    },
+    "alert.threshold.high.detail": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "High chances only"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vain suuri"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Endast stor chans"
+          }
+        }
+      }
+    },
+    "alert.threshold.moderate.detail": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Moderate and High chances"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kohtalainen tai suuri"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Måttlig eller stor chans"
+          }
+        }
+      }
+    },
+    "alert.title.high": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "High chance of aurora"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Suuri mahdollisuus nähdä revontulet"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stor chans att se norrsken"
+          }
+        }
+      }
+    },
+    "alert.title.moderate": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Moderate chance of aurora"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kohtalainen mahdollisuus nähdä revontulet"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Måttlig chans att se norrsken"
+          }
+        }
+      }
+    },
+    "alert.title.test": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Test alert"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Testihälytys"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Testavisering"
           }
         }
       }
