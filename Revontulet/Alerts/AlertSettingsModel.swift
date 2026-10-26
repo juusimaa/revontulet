@@ -46,7 +46,7 @@ final class AlertSettingsModel {
     private let permissionProvider: any NotificationPermissionProviding
     private let push: any PushRegistering
     private let zones: [AlertZone]
-    private let now: @Sendable () -> Date
+    let now: @Sendable () -> Date
 
     init(sync: AlertSync, permission: any NotificationPermissionProviding, push: any PushRegistering,
          now: @escaping @Sendable () -> Date = { Date() }) {

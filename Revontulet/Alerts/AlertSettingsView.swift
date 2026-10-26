@@ -83,7 +83,7 @@ struct AlertSettingsView: View {
         case .on(let confirming):
             VStack(alignment: .leading, spacing: 28) {
                 StatusCard(zoneName: model.zoneName ?? "", confirming: confirming, confirmedAt: model.confirmedAt,
-                           hasDarkNights: model.hasDarkNights)
+                           hasDarkNights: model.hasDarkNights, now: model.now)
                 ThresholdPicker(threshold: $model.threshold)
                 if !confirming {
                     SendTestSection(status: model.testStatus) {
@@ -276,6 +276,7 @@ private struct StatusCard: View {
     let confirming: Bool
     let confirmedAt: Date?
     let hasDarkNights: Bool
+    let now: @Sendable () -> Date
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
@@ -298,7 +299,7 @@ private struct StatusCard: View {
                 } else if let confirmedAt {
                     // Re-rendered every minute so "now" becomes "1 minute ago".
                     TimelineView(.everyMinute) { context in
-                        Text("Confirmed \(confirmedAt.formatted(.relative(presentation: .named, unitsStyle: .wide)))")
+                        Text("Confirmed \(Self.age(of: confirmedAt, now: now()))")
                             .id(context.date)
                     }
                 } else {
@@ -324,6 +325,12 @@ private struct StatusCard: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(.white.opacity(0.06), in: .rect(cornerRadius: 24))
         .overlay(RoundedRectangle(cornerRadius: 24).strokeBorder(.white.opacity(0.1), lineWidth: 0.5))
+    }
+
+    /// "5 minutes ago", localised; measured with the model's clock, never in the future.
+    private static func age(of date: Date, now: Date) -> String {
+        Date.AnchoredRelativeFormatStyle(anchor: min(date, now), presentation: .named, unitsStyle: .wide)
+            .format(now)
     }
 }
 
