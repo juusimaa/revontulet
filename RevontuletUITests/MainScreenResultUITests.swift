@@ -45,21 +45,26 @@ final class MainScreenResultUITests: XCTestCase {
     @MainActor
     func testMainScreenPassesAccessibilityAudit() throws {
         let app = launch(location: "66.50,25.73")
-        XCTAssertTrue(app.element("chanceHeadline").waitForExistence(timeout: 15))
+        let headline = app.element("chanceHeadline")
+        XCTAssertTrue(headline.waitForExistence(timeout: 15))
+        // The stubs use the real clock, so the reason changes with the time of day.
+        // The value reads "<level>, <reason>".
+        let value = try XCTUnwrap(headline.value as? String)
+        let reason = try XCTUnwrap(value.range(of: ", ").map { String(value[$0.upperBound...]) }, value)
         // Report every audit issue in one run, not just the first.
         continueAfterFailure = true
-        try audit(app)
+        try audit(app, reason: reason)
 
         app.buttons["detailsToggle"].tap()
-        try audit(app)
+        try audit(app, reason: reason)
     }
 
     /// Contrast is left out: the audit samples the twinkling stars and aurora inside text frames
     /// and fails text measured at 6:1 or better from screenshots. The headline and reason are
     /// capped at accessibility2 on purpose, so the level word stays the largest text.
     @MainActor
-    private func audit(_ app: XCUIApplication) throws {
-        let cappedText: Set<String> = ["CHANCE TO SEE THE AURORA", "Too light"]
+    private func audit(_ app: XCUIApplication, reason: String) throws {
+        let cappedText: Set<String> = ["CHANCE TO SEE THE AURORA", reason]
         try app.performAccessibilityAudit(for: XCUIAccessibilityAuditType.all.subtracting(.contrast)) { issue in
             issue.auditType == .dynamicType && cappedText.contains(issue.element?.label ?? "")
         }
