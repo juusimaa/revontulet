@@ -71,14 +71,18 @@ public actor AuroraService {
         let darkness = SolarPosition.darkness(
             latitude: place.coordinate.latitude, longitude: place.coordinate.longitude, at: date)
         let cloudCover = CloudSelector.select(for: place.coordinate, observations: clouds?.observations ?? [])
+        let moon = MoonPosition.state(
+            latitude: place.coordinate.latitude, longitude: place.coordinate.longitude, at: date)
         let result = AuroraResult(
             place: place,
-            chance: ChanceCalculator.chance(activity: activity, darkness: darkness, clouds: cloudCover.condition),
+            chance: ChanceCalculator.chance(
+                activity: activity, darkness: darkness, moonBright: moon.isBright, clouds: cloudCover.condition),
             reading: selection.reading,
             distanceToStationKm: selection.distanceKm,
             usedMoreDistantStation: selection.usedMoreDistantStation,
             darkness: darkness,
             clouds: cloudCover,
+            moon: moon,
             computedAt: date)
         await cache.save(result)
         return result

@@ -29,7 +29,8 @@ struct RevontuletApp: App {
 /// `-uiTestLocation lat,lon` (fixed position), `-uiTestLocationDenied` (no location access) and
 /// `-uiTestAlertsStub` (in-memory alert service, notifications allowed, fixed push token) and
 /// `-uiTestAlertsUnreachable` (with the stub, every alert service call fails) and
-/// `-uiTestAlertsTestLimited` (with the stub, test notifications are rate limited).
+/// `-uiTestAlertsTestLimited` (with the stub, test notifications are rate limited) and
+/// `-uiTestOutlook <scenario>` (with the stubs, an outlook scenario; see `UITestOutlookScenario`).
 @MainActor
 enum AppDependencies {
     /// Shared with the app delegate, which receives the push token.
@@ -52,7 +53,10 @@ enum AppDependencies {
         let http: any HTTPClient =
             if arguments.contains("-uiTestOffline") { OfflineHTTPClient() }
             else if arguments.contains("-uiTestStubs") {
-                UITestHTTPClient(strongActivity: arguments.contains("-uiTestStrongActivity"))
+                UITestHTTPClient(
+                    strongActivity: arguments.contains("-uiTestStrongActivity")
+                        || UITestOutlookScenario(arguments: arguments)?.strongActivity == true,
+                    outlook: UITestOutlookScenario(arguments: arguments))
             }
             else { URLSessionHTTPClient() }
         let cache = FileResultCache()

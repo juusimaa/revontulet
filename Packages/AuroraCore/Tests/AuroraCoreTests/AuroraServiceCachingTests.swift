@@ -35,6 +35,34 @@ struct AuroraServiceCachingTests {
         #expect(http.requestedURLs.isEmpty)
     }
 
+    /// A cache that stores bytes and decodes on load, as the app's file cache does.
+    private actor DataResultCache: ResultCache {
+        var data: Data?
+        init(_ data: Data?) { self.data = data }
+        func load() -> AuroraResult? { data.flatMap { try? JSONDecoder().decode(AuroraResult.self, from: $0) } }
+        func save(_ result: AuroraResult) { data = try? JSONEncoder().encode(result) }
+    }
+
+    @Test func versionOneCacheIsTreatedAsEmpty() async throws {
+        let stored = try await AuroraService(http: try onlineClient(), cache: InMemoryResultCache())
+            .refresh(for: rovaniemi, at: now, force: false)
+        let cache = DataResultCache(try AuroraResultCodingTests.versionOneData(stored))
+        let service = try AuroraService(http: try onlineClient(), cache: cache)
+
+        #expect(await service.cachedResult() == nil)
+
+        let refreshed = try await service.refresh(for: rovaniemi, at: now, force: false)
+        #expect(await service.cachedResult() == refreshed)
+    }
+
+    @Test func refreshFillsTheMoonForThePlace() async throws {
+        let service = try AuroraService(http: try onlineClient(), cache: InMemoryResultCache())
+
+        let result = try await service.refresh(for: utsjoki, at: now, force: false)
+
+        #expect(result.moon == MoonPosition.state(latitude: 69.9078, longitude: 27.0265, at: now))
+    }
+
     @Test func cachedResultMakesNoNetworkCalls() async throws {
         let cache = InMemoryResultCache()
         let stored = try await AuroraService(http: try onlineClient(), cache: cache)

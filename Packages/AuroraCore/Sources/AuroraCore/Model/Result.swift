@@ -62,11 +62,13 @@ public struct AuroraResult: Sendable, Hashable, Codable {
     public var usedMoreDistantStation: Bool
     public var darkness: Darkness
     public var clouds: CloudCover
+    /// The moon at the place; a result cached without it (2.0) does not decode.
+    public var moon: MoonState
     public var computedAt: Date
 
     public init(
         place: Place, chance: Chance, reading: StationReading, distanceToStationKm: Double,
-        usedMoreDistantStation: Bool, darkness: Darkness, clouds: CloudCover, computedAt: Date
+        usedMoreDistantStation: Bool, darkness: Darkness, clouds: CloudCover, moon: MoonState, computedAt: Date
     ) {
         self.place = place
         self.chance = chance
@@ -75,6 +77,7 @@ public struct AuroraResult: Sendable, Hashable, Codable {
         self.usedMoreDistantStation = usedMoreDistantStation
         self.darkness = darkness
         self.clouds = clouds
+        self.moon = moon
         self.computedAt = computedAt
     }
 }

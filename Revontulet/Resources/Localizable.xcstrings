@@ -116,6 +116,52 @@
         }
       }
     },
+    "%lld %%, %@, below the horizon": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld %%, %2$@, below the horizon"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld %%, %2$@, horisontin alla"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld %%, %2$@, under horisonten"
+          }
+        }
+      }
+    },
+    "%lld %%, %@, up": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld %%, %2$@, up"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld %%, %2$@, taivaalla"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld %%, %2$@, uppe"
+          }
+        }
+      }
+    },
     "Alerts are for an area of Finland. Allow location access or choose a municipality, and the area is set from it.": {
       "extractionState": "manual",
       "localizations": {
@@ -411,6 +457,29 @@
           "stringUnit": {
             "state": "translated",
             "value": "Norrskensdata från Meteorologiska institutet behövs för att visa en chans. Anslut till internet och försök igen."
+          }
+        }
+      }
+    },
+    "Bright enough to hide faint aurora": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bright enough to hide faint aurora"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Niin kirkas, että heikot revontulet jäävät näkymättä"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Så ljus att svagt norrsken inte syns"
           }
         }
       }
@@ -1055,6 +1124,75 @@
           "stringUnit": {
             "state": "translated",
             "value": "Uppmätt %@"
+          }
+        }
+      }
+    },
+    "Moon": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Moon"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kuu"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Månen"
+          }
+        }
+      }
+    },
+    "Moon, %lld percent lit, %@, below the horizon": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Moon, %1$lld percent lit, %2$@, below the horizon"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kuu, %1$lld prosenttia valaistu, %2$@, horisontin alla"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Månen, %1$lld procent belyst, %2$@, under horisonten"
+          }
+        }
+      }
+    },
+    "Moon, %lld percent lit, %@, up": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Moon, %1$lld percent lit, %2$@, up"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kuu, %1$lld prosenttia valaistu, %2$@, taivaalla"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Månen, %1$lld procent belyst, %2$@, uppe"
           }
         }
       }
@@ -2025,6 +2163,52 @@
         }
       }
     },
+    "alert.body.brightMoon": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Strong activity near %@, but the moon is bright."
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@: voimakasta aktiivisuutta, mutta kuu on kirkas."
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stark aktivitet nära %@, men månen är ljus."
+          }
+        }
+      }
+    },
+    "alert.body.brightMoon.cloudsUnknown": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Strong activity near %@ under a bright moon. Cloud cover is unknown."
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@: voimakasta aktiivisuutta kirkkaassa kuutamossa. Pilvisyys ei ole tiedossa."
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stark aktivitet nära %@ under en ljus måne. Molnigheten är okänd."
+          }
+        }
+      }
+    },
     "alert.body.goodConditions": {
       "extractionState": "manual",
       "localizations": {
@@ -2573,6 +2757,213 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ingen"
+          }
+        }
+      }
+    },
+    "moon.phase.firstQuarter": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "first quarter"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ensimmäinen neljännes"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "första kvarteret"
+          }
+        }
+      }
+    },
+    "moon.phase.full": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "full moon"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "täysikuu"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "fullmåne"
+          }
+        }
+      }
+    },
+    "moon.phase.lastQuarter": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "last quarter"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "viimeinen neljännes"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "sista kvarteret"
+          }
+        }
+      }
+    },
+    "moon.phase.new": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "new moon"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "uusikuu"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "nymåne"
+          }
+        }
+      }
+    },
+    "moon.phase.waningCrescent": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "waning crescent"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "vähenevä sirppi"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "avtagande skära"
+          }
+        }
+      }
+    },
+    "moon.phase.waningGibbous": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "waning gibbous"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "vähenevä kuu"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "avtagande måne"
+          }
+        }
+      }
+    },
+    "moon.phase.waxingCrescent": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "waxing crescent"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "kasvava sirppi"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "tilltagande skära"
+          }
+        }
+      }
+    },
+    "moon.phase.waxingGibbous": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "waxing gibbous"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "kasvava kuu"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "tilltagande måne"
+          }
+        }
+      }
+    },
+    "reason.brightMoon": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bright moon"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kirkas kuu"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ljus måne"
           }
         }
       }

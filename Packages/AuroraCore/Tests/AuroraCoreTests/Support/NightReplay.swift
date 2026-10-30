@@ -80,16 +80,21 @@ struct RecordedNight: Sendable {
 
 /// Answers FMI requests from a recorded night, building each response for the request's own
 /// time window, the way FMI would have answered at that time.
+///
+/// With `shift`, the night is replayed that much later: requests and response times are moved by
+/// it, so the same activity and clouds can be evaluated under another sky (e.g. a full moon).
 final class NightReplayHTTPClient: HTTPClient {
     static let magnetometerQuery = "fmi::observations::magnetometer::simple"
     static let cloudsQuery = "fmi::observations::weather::simple"
 
     private let night: RecordedNight
+    private let shift: TimeInterval
     private let stations: [String: Station]
     private let state = Mutex<(requested: [URL], failing: Set<String>, droppedStations: Set<String>)>(([], [], []))
 
-    init(_ night: RecordedNight) throws {
+    init(_ night: RecordedNight, shift: TimeInterval = 0) throws {
         self.night = night
+        self.shift = shift
         stations = Dictionary(uniqueKeysWithValues: try ReferenceData.loadStations().map { ($0.id, $0) })
     }
 
@@ -118,7 +123,9 @@ final class NightReplayHTTPClient: HTTPClient {
             return (state.failing.contains(query), state.droppedStations)
         }
         if failing { throw StubHTTPClient.StubError() }
-        guard let start = Self.item("starttime", in: url).map(utc), let end = Self.item("endtime", in: url).map(utc) else {
+        guard let start = Self.item("starttime", in: url).map(utc)?.addingTimeInterval(-shift),
+              let end = Self.item("endtime", in: url).map(utc)?.addingTimeInterval(-shift)
+        else {
             return (Data(), 400)
         }
         switch query {
@@ -134,7 +141,7 @@ final class NightReplayHTTPClient: HTTPClient {
             guard let station = stations[stationID] else { continue }
             for sample in samples where sample.time >= start && sample.time <= end {
                 for (name, value) in [("MAGNX_PT10S_AVG", sample.x), ("MAGNY_PT10S_AVG", sample.y), ("MAGNZ_PT10S_AVG", sample.z)] {
-                    xml += Self.member(station.coordinate, sample.time, name, value)
+                    xml += Self.member(station.coordinate, sample.time.addingTimeInterval(shift), name, value)
                 }
             }
         }
@@ -144,7 +151,7 @@ final class NightReplayHTTPClient: HTTPClient {
     private func cloudsResponse(start: Date, end: Date) -> Data {
         var xml = Self.header
         for row in night.clouds where row.time >= start && row.time <= end {
-            xml += Self.member(row.coordinate, row.time, "TotalCloudCover", row.value)
+            xml += Self.member(row.coordinate, row.time.addingTimeInterval(shift), "TotalCloudCover", row.value)
         }
         return Data((xml + Self.footer).utf8)
     }

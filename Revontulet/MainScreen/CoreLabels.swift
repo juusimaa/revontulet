@@ -41,6 +41,18 @@ extension Darkness {
     }
 }
 
+extension MoonPhase {
+    /// e.g. "waxing gibbous"; used inside a sentence.
+    var title: LocalizedStringResource {
+        LocalizedStringResource(String.LocalizationValue(key))
+    }
+}
+
+extension MoonState {
+    /// Illuminated part in whole percent.
+    var percentLit: Int { Int((illuminatedFraction * 100).rounded()) }
+}
+
 extension CloudCondition {
     var title: LocalizedStringResource {
         switch self {

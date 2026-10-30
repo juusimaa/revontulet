@@ -22,6 +22,23 @@ struct ConfigurationTests {
         #expect(configuration.apnsEnvironment == .production)
         #expect(configuration.healthcheckPingURL == nil)
         #expect(configuration.port == 8080)
+        #expect(configuration.moonKeys == false)
+    }
+
+    @Test(arguments: [("true", true), ("false", false), (" true ", true)])
+    func readsMoonKeys(value: String, expected: Bool) throws {
+        var environment = required
+        environment["ALERT_MOON_KEYS"] = value
+
+        #expect(try Configuration(environment: environment).moonKeys == expected)
+    }
+
+    @Test(arguments: ["yes", "1", "TRUE", "on"])
+    func invalidMoonKeysFail(value: String) {
+        var environment = required
+        environment["ALERT_MOON_KEYS"] = value
+
+        #expect(throws: ConfigurationError.invalid("ALERT_MOON_KEYS")) { try Configuration(environment: environment) }
     }
 
     @Test func readsOptionalValues() throws {

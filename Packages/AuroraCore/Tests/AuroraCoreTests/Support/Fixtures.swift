@@ -2,10 +2,14 @@ import Foundation
 
 /// Access to recorded test data in `Tests/AuroraCoreTests/Fixtures/`.
 enum Fixtures {
+    /// `name` may include subfolders, e.g. "outlook/kp-forecast.json".
     static func url(_ name: String) -> URL? {
-        let base = (name as NSString).deletingPathExtension
-        let ext = (name as NSString).pathExtension
-        return Bundle.module.url(forResource: base, withExtension: ext, subdirectory: "Fixtures")
+        let folder = (name as NSString).deletingLastPathComponent
+        let file = (name as NSString).lastPathComponent
+        let base = (file as NSString).deletingPathExtension
+        let ext = (file as NSString).pathExtension
+        let subdirectory = folder.isEmpty ? "Fixtures" : "Fixtures/\(folder)"
+        return Bundle.module.url(forResource: base, withExtension: ext, subdirectory: subdirectory)
     }
 
     static func data(_ name: String) throws -> Data {

@@ -39,6 +39,7 @@ struct ChanceDetailsView: View {
                     row(symbol: "moon.stars", title: "Darkness") {
                         Text(result.darkness.title)
                     }
+                    moon
                     clouds
                     attribution
                         .padding(.top, 4)
@@ -68,6 +69,26 @@ struct ChanceDetailsView: View {
                 }
             }
         }
+    }
+
+    /// Illuminated part, phase and whether it is up (FR-004).
+    private var moon: some View {
+        let moon = result.moon
+        return row(symbol: moon.isBright ? "moon.fill" : "moon", title: "Moon") {
+            if moon.altitude > 0 {
+                Text("\(moon.percentLit) %, \(Text(moon.phase.title)), up")
+            } else {
+                Text("\(moon.percentLit) %, \(Text(moon.phase.title)), below the horizon")
+            }
+            if moon.isBright {
+                Text("Bright enough to hide faint aurora")
+                    .foregroundStyle(.secondary)
+            }
+        }
+        .accessibilityLabel(moon.altitude > 0
+            ? Text("Moon, \(moon.percentLit) percent lit, \(Text(moon.phase.title)), up")
+            : Text("Moon, \(moon.percentLit) percent lit, \(Text(moon.phase.title)), below the horizon"))
+        .accessibilityIdentifier("moonDetail")
     }
 
     private var clouds: some View {

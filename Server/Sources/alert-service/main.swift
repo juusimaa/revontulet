@@ -20,7 +20,8 @@ let health = HealthStatus()
 let evaluationLoop = EvaluationLoop(
     source: try ZoneEvaluator(http: AsyncHTTPClientFMI(client: httpClient)),
     store: store,
-    dispatcher: Dispatcher(store: store, sender: pushSender, topic: configuration.apnsTopic),
+    dispatcher: Dispatcher(
+        store: store, sender: pushSender, topic: configuration.apnsTopic, moonKeys: configuration.moonKeys),
     health: health,
     heartbeat: HealthcheckPinger(url: configuration.healthcheckPingURL, client: httpClient, logger: logger),
     logger: logger

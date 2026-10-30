@@ -21,8 +21,15 @@ struct DispatcherTests {
         try await store.upsert(RegistrationUpsert(token: testToken(n), zone: zone, threshold: threshold), now: date ?? now)
     }
 
-    private func dispatcher(_ store: RegistrationStore, _ sender: FakePushSender) -> Dispatcher {
-        Dispatcher(store: store, sender: sender, topic: "fi.juusimaa.revontulet")
+    private func dispatcher(_ store: RegistrationStore, _ sender: FakePushSender, moonKeys: Bool = false) -> Dispatcher {
+        Dispatcher(store: store, sender: sender, topic: "fi.juusimaa.revontulet", moonKeys: moonKeys)
+    }
+
+    private func moonDecision(cloudsIncluded: Bool) -> AlertDecision {
+        let condition = ZoneCondition(
+            zoneID: "OUJ", chance: Chance(level: .moderate, limitingFactor: .moon, cloudsIncluded: cloudsIncluded),
+            reason: .brightMoon, activityStationID: "OUJ", dataTime: dataTime)
+        return AlertDecision(zoneID: "OUJ", level: .moderate, condition: condition)
     }
 
     // MARK: Recipients
@@ -76,6 +83,22 @@ struct DispatcherTests {
                 "apns-collapse-id": "OUJ-high-2026-11-03",
             ])
             #expect(apns.deviceToken == testToken(1))
+        }
+    }
+
+    /// research R9: 2.0 has no moon text, so the moon case gets the twilight key until
+    /// ALERT_MOON_KEYS is switched on.
+    @Test(arguments: [(false, true, "alert.body.twilight"), (false, false, "alert.body.twilight.cloudsUnknown"),
+                      (true, true, "alert.body.brightMoon"), (true, false, "alert.body.brightMoon.cloudsUnknown")])
+    func moonCaseKey(moonKeys: Bool, cloudsIncluded: Bool, key: String) async throws {
+        try await withTemporaryStore { store, _ in
+            try await register(store, 1, threshold: .moderate)
+            let sender = FakePushSender()
+
+            _ = try await dispatcher(store, sender, moonKeys: moonKeys)
+                .dispatch([moonDecision(cloudsIncluded: cloudsIncluded)], now: now)
+
+            #expect(sender.sent.first?.message.bodyKey == key)
         }
     }
 

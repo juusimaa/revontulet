@@ -4,6 +4,7 @@ public enum ChanceReason: String, Sendable, Hashable, Codable, CaseIterable {
     case overcast
     case partlyCloudy
     case twilight
+    case brightMoon
     case lowActivity
     case someActivity
     case goodConditions
@@ -12,9 +13,12 @@ public enum ChanceReason: String, Sendable, Hashable, Codable, CaseIterable {
     public var key: String { "reason.\(rawValue)" }
 }
 
-/// The fixed rule that combines activity, darkness and clouds (contracts/chance-rules.md).
+/// The fixed rule that combines activity, darkness, the moon and clouds
+/// (specs/003-aurora-outlook/contracts/chance-rules.md, v2).
 public enum ChanceCalculator {
-    public static func chance(activity: ActivityLevel, darkness: Darkness, clouds: CloudCondition) -> Chance {
+    public static func chance(
+        activity: ActivityLevel, darkness: Darkness, moonBright: Bool, clouds: CloudCondition
+    ) -> Chance {
         let cloudsIncluded = clouds != .unknown
         if darkness == .tooLight {
             return Chance(level: .none, limitingFactor: .light, cloudsIncluded: cloudsIncluded)
@@ -25,9 +29,10 @@ public enum ChanceCalculator {
 
         var level = startingLevel(activity)
         var limitingFactor: LimitingFactor?
-        if darkness == .twilight {
+        // Sky brightness: twilight or a bright moon lowers by one step, never two.
+        if darkness == .twilight || moonBright {
             level = level.lowered()
-            limitingFactor = .twilight
+            limitingFactor = darkness == .twilight ? .twilight : .moon
         }
         if clouds == .partly {
             level = level.lowered()
@@ -55,6 +60,7 @@ public enum ChanceCalculator {
         case .light: .tooLight
         case .clouds: clouds == .overcast ? .overcast : .partlyCloudy
         case .twilight: .twilight
+        case .moon: .brightMoon
         case .activity: activity == .unlikely ? .lowActivity : .someActivity
         case nil: .goodConditions
         }

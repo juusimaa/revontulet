@@ -64,6 +64,8 @@ public enum ChanceLevel: Int, Sendable, Hashable, Codable, CaseIterable, Compara
 public enum LimitingFactor: String, Sendable, Hashable, Codable, CaseIterable {
     case light
     case twilight
+    /// A bright moon lowered the level (chance-rules v2).
+    case moon
     case clouds
     case activity
 }

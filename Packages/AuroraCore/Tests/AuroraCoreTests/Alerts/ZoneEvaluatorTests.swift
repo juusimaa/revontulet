@@ -84,6 +84,35 @@ struct ZoneEvaluatorTests {
             || http.requestedURLs == [FMIRequests.clouds(now: midnight), FMIRequests.magnetometer(now: midnight)])
     }
 
+    /// The strong night of 2026-10-14 (a thin crescent) replayed 41 days later under the full moon
+    /// of 2026-11-24: every zone that was High under a dark, clear sky, and has the moon up at its
+    /// representative position, becomes Moderate because of the bright moon.
+    @Test func brightMoonAtTheZonePositionLowersHighToModerate() async throws {
+        let shift: TimeInterval = 41 * 86_400
+        let moonlit = midnight.addingTimeInterval(shift)
+        let darkSky = try await ZoneEvaluator(http: NightReplayHTTPClient(strong)).evaluate(at: midnight)
+        let underMoon = try await ZoneEvaluator(http: NightReplayHTTPClient(strong, shift: shift)).evaluate(at: moonlit)
+
+        var checked = 0
+        for station in stations {
+            guard let before = darkSky.first(where: { $0.zoneID == station.id }),
+                  before.chance.level == .high, before.chance.cloudsIncluded,
+                  SolarPosition.darkness(latitude: station.latitude, longitude: station.longitude, at: moonlit) == .dark
+            else { continue }
+            let moon = MoonPosition.state(latitude: station.latitude, longitude: station.longitude, at: moonlit)
+            let after = try #require(underMoon.first { $0.zoneID == station.id })
+            #expect(!MoonPosition.state(latitude: station.latitude, longitude: station.longitude, at: midnight).isBright)
+            if moon.isBright {
+                #expect(after.chance == Chance(level: .moderate, limitingFactor: .moon, cloudsIncluded: true), "\(station.id)")
+                #expect(after.reason == .brightMoon, "\(station.id)")
+                checked += 1
+            } else {
+                #expect(after.chance == before.chance, "\(station.id)")
+            }
+        }
+        #expect(checked > 0)
+    }
+
     /// An alert and the app's own result agree for the same data and position.
     @Test(arguments: ["2026-10-14T18:45:00Z", "2026-10-14T22:00:00Z", "2026-10-15T03:30:00Z"])
     func agreesWithAuroraService(time: String) async throws {

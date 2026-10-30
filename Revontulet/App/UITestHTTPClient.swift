@@ -1,6 +1,20 @@
 import AuroraCore
 import Foundation
 
+/// Outlook scenarios for UI tests (`-uiTestOutlook <scenario>`, specs/003-aurora-outlook quickstart §3).
+enum UITestOutlookScenario: String {
+    /// Strong activity under the full moon; run with `-uiTestTime 2026-11-24T21:00:00Z`.
+    case moon
+
+    init?(arguments: [String]) {
+        guard let index = arguments.firstIndex(of: "-uiTestOutlook"), index + 1 < arguments.count else { return nil }
+        self.init(rawValue: arguments[index + 1])
+    }
+
+    /// Scenarios that need FMI's strong-activity stubs.
+    var strongActivity: Bool { self == .moon }
+}
+
 /// Serves synthetic FMI responses for UI tests (`-uiTestStubs`), so tests never touch the network.
 ///
 /// Every station reports a steady oscillation that gives R ≈ 100 (Possible at most stations), and
@@ -8,6 +22,7 @@ import Foundation
 /// `strongActivity` the oscillation gives R ≈ 310, above every station's red threshold.
 struct UITestHTTPClient: HTTPClient {
     var strongActivity = false
+    var outlook: UITestOutlookScenario?
 
     func get(_ url: URL) async throws -> (Data, Int) {
         let items = URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems ?? []

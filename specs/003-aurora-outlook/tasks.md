@@ -38,7 +38,7 @@ US3 (outlook) build on the Foundational phase. US3 also uses US1's moon and chan
 
 **Purpose**: Recorded test data
 
-- [ ] T001 [P] Write `tools/record-outlook-fixtures.py` (R10). It records into
+- [X] T001 [P] Write `tools/record-outlook-fixtures.py` (R10). It records into
   `Packages/AuroraCore/Tests/AuroraCoreTests/Fixtures/outlook/`:
   - `solar-wind-quiet.json`, `solar-wind-active.json` and `solar-wind-gaps.json` (with nulls) from
     `https://services.swpc.noaa.gov/products/geospace/propagated-solar-wind-1-hour.json`
@@ -52,13 +52,13 @@ US3 (outlook) build on the Foundational phase. US3 also uses US1's moon and chan
   - `noaa-404.txt` and `noaa-malformed.json`
 
   Use only the Python standard library and follow `tools/record-fixtures.py`'s style.
-- [ ] T002 [P] Write `tools/record-moon-reference.py` (R4). It queries JPL Horizons (observer
+- [X] T002 [P] Write `tools/record-moon-reference.py` (R4). It queries JPL Horizons (observer
   table, topocentric, airless apparent altitude, illuminated fraction) for at least 20 times at
   Kevo (KEV), Oulujärvi (OUJ) and Tartu (TAR). The times must include moonrise and moonset,
   polar night, a new moon and a full moon. It writes
   `Packages/AuroraCore/Tests/AuroraCoreTests/Fixtures/outlook/moon-reference.json` as
   `[{latitude, longitude, time (ISO UTC), altitude, illuminatedFraction}]`.
-- [ ] T003 Run T001 and T002 once and commit the fixtures in
+- [X] T003 Run T001 and T002 once and commit the fixtures in
   `Packages/AuroraCore/Tests/AuroraCoreTests/Fixtures/outlook/`. Check that `Package.swift` still
   copies `Fixtures` (it uses `.copy("Fixtures")`, so subfolders are included) and that
   `Fixtures.data("outlook/kp-forecast.json")` resolves in
@@ -136,14 +136,14 @@ moon up in the details.
 
 ### Tests for User Story 1 ⚠️ write first, check that they fail
 
-- [ ] T013 [P] [US1] Write `Packages/AuroraCore/Tests/AuroraCoreTests/MoonPositionTests.swift`:
+- [X] T013 [P] [US1] Write `Packages/AuroraCore/Tests/AuroraCoreTests/MoonPositionTests.swift`:
   - For every entry in `Fixtures/outlook/moon-reference.json` (at least 20),
     `MoonPosition.state(latitude:longitude:at:)` must be within 1° in `altitude` and within 0.02 in
     `illuminatedFraction` (SC-002).
   - `isBright == (altitude > 0 && illuminatedFraction >= 0.5)`.
   - Phase names on the 2026 new and full moon dates (2026-11-09 new, 2026-11-24 full) and one
     quarter.
-- [ ] T014 [P] [US1] Update `Packages/AuroraCore/Tests/AuroraCoreTests/ChanceCalculatorTests.swift`
+- [X] T014 [P] [US1] Update `Packages/AuroraCore/Tests/AuroraCoreTests/ChanceCalculatorTests.swift`
   for chance-rules v2 (contracts/chance-rules.md):
   - Cases 1–12 with `moonBright: false`.
   - New cases 13–22 with level, limiting factor and reason (case 21 has `cloudsIncluded ==
@@ -153,7 +153,7 @@ moon up in the details.
 
   Update the calls in `AuroraServiceTests.swift:41` and `Alerts/AlertPolicyTests.swift` to the new
   signature.
-- [ ] T015 [P] [US1] Update `Packages/AuroraCore/Tests/AuroraCoreTests/Alerts/ZoneEvaluatorTests.swift`:
+- [X] T015 [P] [US1] Update `Packages/AuroraCore/Tests/AuroraCoreTests/Alerts/ZoneEvaluatorTests.swift`:
   - The zone chance uses the moon at the zone's representative position.
   - A Probable zone with a dark sky, a clear sky and a bright moon gives Moderate with reason
     `brightMoon`.
@@ -162,7 +162,7 @@ moon up in the details.
   `alert.body.brightMoon`, and with unknown clouds to `alert.body.brightMoon.cloudsUnknown`. With
   `moonKeys: false`, the same cases map to `alert.body.twilight` and
   `alert.body.twilight.cloudsUnknown`. Both new keys are in `bodyKeys`.
-- [ ] T016 [P] [US1] Update `Packages/AuroraCore/Tests/AuroraCoreTests/AuroraResultCodingTests.swift`
+- [X] T016 [P] [US1] Update `Packages/AuroraCore/Tests/AuroraCoreTests/AuroraResultCodingTests.swift`
   and `AuroraServiceCachingTests.swift`:
   - `AuroraResult.moon` round-trips.
   - A v1 cached result without `moon` fails to decode, and the service treats the cache as empty.
@@ -170,11 +170,11 @@ moon up in the details.
 
 ### Implementation for User Story 1
 
-- [ ] T017 [US1] Refactor `Packages/AuroraCore/Sources/AuroraCore/Sky/SolarPosition.swift`.
+- [X] T017 [US1] Refactor `Packages/AuroraCore/Sources/AuroraCore/Sky/SolarPosition.swift`.
   Expose, as internal helpers, the Julian date/centuries, the sun's apparent ecliptic longitude,
   the mean obliquity, the equatorial-to-horizontal conversion and the local sidereal time, so the
   moon can reuse them (R4). `SolarPositionTests` must still pass unchanged.
-- [ ] T018 [US1] Create `Packages/AuroraCore/Sources/AuroraCore/Sky/MoonPosition.swift` (Meeus,
+- [X] T018 [US1] Create `Packages/AuroraCore/Sources/AuroraCore/Sky/MoonPosition.swift` (Meeus,
   2nd ed.; formulas only, no copied code):
   - `public enum MoonPosition` with `state(latitude:longitude:at:) -> MoonState`.
   - Geocentric longitude, latitude and distance from ch. 47 with the largest periodic terms;
@@ -189,10 +189,10 @@ moon up in the details.
     centred on its nominal phase. Add `key` = `moon.phase.<case>`.
 
   Foundation only (Linux). Make T013 pass.
-- [ ] T019 [US1] Add `case moon` to `LimitingFactor` in
+- [X] T019 [US1] Add `case moon` to `LimitingFactor` in
   `Packages/AuroraCore/Sources/AuroraCore/Model/Levels.swift`, and `case brightMoon` to
   `ChanceReason` in `Packages/AuroraCore/Sources/AuroraCore/Chance/ChanceCalculator.swift`.
-- [ ] T020 [US1] Implement chance-rules v2 in
+- [X] T020 [US1] Implement chance-rules v2 in
   `Packages/AuroraCore/Sources/AuroraCore/Chance/ChanceCalculator.swift`:
   - Replace `chance(activity:darkness:clouds:)` with `chance(activity:darkness:moonBright:clouds:)`;
     remove the v1 signature.
@@ -201,14 +201,14 @@ moon up in the details.
   - `reason(for:activity:clouds:)` maps `.moon` → `.brightMoon`.
 
   Make T014 pass.
-- [ ] T021 [US1] Add `public let moon: MoonState` to `AuroraResult` in
+- [X] T021 [US1] Add `public let moon: MoonState` to `AuroraResult` in
   `Packages/AuroraCore/Sources/AuroraCore/Model/Result.swift`. In
   `Packages/AuroraCore/Sources/AuroraCore/AuroraService.swift`, compute
   `MoonPosition.state` for the place at the result time and pass `moon.isBright` to
   `ChanceCalculator.chance`. Make T016 pass.
-- [ ] T022 [US1] In `Packages/AuroraCore/Sources/AuroraCore/Alerts/ZoneEvaluator.swift`, compute
+- [X] T022 [US1] In `Packages/AuroraCore/Sources/AuroraCore/Alerts/ZoneEvaluator.swift`, compute
   the moon at each zone's representative position and the evaluation time, and pass `moonBright`.
-- [ ] T023 [US1] In `Packages/AuroraCore/Sources/AuroraCore/Alerts/AlertMessage.swift`, change
+- [X] T023 [US1] In `Packages/AuroraCore/Sources/AuroraCore/Alerts/AlertMessage.swift`, change
   `make(for:)` to `make(for:moonKeys: Bool)` (research R9):
   - `moonKeys == true`: `(.moderate, .brightMoon)` → `alert.body.brightMoon`.
   - `moonKeys == false`: `(.moderate, .brightMoon)` → `alert.body.twilight`, because 2.0 has
@@ -217,7 +217,7 @@ moon up in the details.
 
   Add `alert.body.brightMoon` and `alert.body.brightMoon.cloudsUnknown` to `bodyKeys` (and so to
   `allKeys`). Make T015 pass.
-- [ ] T024 [US1] Add the `ALERT_MOON_KEYS` setting to the alert service (R9):
+- [X] T024 [US1] Add the `ALERT_MOON_KEYS` setting to the alert service (R9):
   - Read it in `Server/Sources/AlertServer/Configuration.swift` as a boolean, `false` when unset;
     any value other than `true`/`false` is `.invalid`.
   - Pass it to `AlertMessage.make(for:moonKeys:)` in `Server/Sources/AlertServer/Dispatcher.swift`.
@@ -226,24 +226,24 @@ moon up in the details.
   - Test the parsing in `Server/Tests/AlertServerTests/ConfigurationTests.swift`, and that the
     dispatcher sends the twilight key for a moon case when the setting is off, in
     `DispatcherTests.swift`.
-- [ ] T025 [P] [US1] Add to `Revontulet/Resources/Localizable.xcstrings` (fi, sv, en):
+- [X] T025 [P] [US1] Add to `Revontulet/Resources/Localizable.xcstrings` (fi, sv, en):
   `reason.brightMoon`, the eight `moon.phase.*` names, the moon detail lines ("Moon %d %%, %@,
   up" / "below the horizon") and a VoiceOver label. Also add `alert.body.brightMoon` ("Strong
   activity near %@, but the moon is bright.") and `alert.body.brightMoon.cloudsUnknown` ("Strong
   activity near %@ under a bright moon. Cloud cover is unknown."), so that
   `RevontuletTests/AlertStringsTests.swift` finds them.
-- [ ] T026 [US1] In `Revontulet/MainScreen/CoreLabels.swift`, add labels for
+- [X] T026 [US1] In `Revontulet/MainScreen/CoreLabels.swift`, add labels for
   `LimitingFactor.moon`, `ChanceReason.brightMoon` and `MoonPhase`.
-- [ ] T027 [US1] In `Revontulet/MainScreen/ChanceDetailsView.swift`, add a moon row next to
+- [X] T027 [US1] In `Revontulet/MainScreen/ChanceDetailsView.swift`, add a moon row next to
   darkness showing illuminated percent, phase name and up/below the horizon (FR-004). It must
   work with Dynamic Type and VoiceOver.
-- [ ] T028 [US1] Add a `-uiTestOutlook moon` scenario in `Revontulet/App/RevontuletApp.swift` and
+- [X] T028 [US1] Add a `-uiTestOutlook moon` scenario in `Revontulet/App/RevontuletApp.swift` and
   `Revontulet/App/UITestHTTPClient.swift`. Use `-uiTestStrongActivity` (Probable), a dark clear
   sky and a fixed `-uiTestTime` with a bright moon at the test location (e.g. 2026-11-24T21:00:00Z
   at Oulu). Check the date against `MoonPosition`.
-- [ ] T029 [US1] Create `RevontuletUITests/OutlookUITests.swift` with the moon test: the headline
+- [X] T029 [US1] Create `RevontuletUITests/OutlookUITests.swift` with the moon test: the headline
   shows "Moderate – bright moon" and the details show the moon as up.
-- [ ] T030 [US1] Run the core tests and `cd Server && swift test`. `ZoneEvaluator` changes reach
+- [X] T030 [US1] Run the core tests and `cd Server && swift test`. `ZoneEvaluator` changes reach
   the alert service through the core; the only server source change is T024. Fix any server test
   that hard-codes a v1 chance.
 

@@ -39,17 +39,20 @@ public struct Dispatcher: Sendable {
     let store: RegistrationStore
     let sender: any PushSender
     let topic: String
+    /// Send the bright-moon texts (`ALERT_MOON_KEYS`); otherwise the moon case gets the twilight text.
+    let moonKeys: Bool
 
-    public init(store: RegistrationStore, sender: any PushSender, topic: String) {
+    public init(store: RegistrationStore, sender: any PushSender, topic: String, moonKeys: Bool = false) {
         self.store = store
         self.sender = sender
         self.topic = topic
+        self.moonKeys = moonKeys
     }
 
     public func dispatch(_ decisions: [AlertDecision], now: Date) async throws -> DispatchReport {
         var pushes: [(request: PushRequest, registration: Registration)] = []
         for decision in decisions {
-            let message = AlertMessage.make(for: decision)
+            let message = AlertMessage.make(for: decision, moonKeys: moonKeys)
             let collapseID = "\(decision.zoneID)-\(decision.level.name)-\(ZoneAlertState.nightKey(for: now))"
             let expiration = decision.condition.dataTime.addingTimeInterval(Self.deliveryWindow)
             for registration in try await store.registrations(inZone: decision.zoneID)
