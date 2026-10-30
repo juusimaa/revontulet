@@ -55,6 +55,16 @@ which is newer before release; if they keep diverging, the plan is revisited.
 **Alternatives considered**: `text/3-day-forecast.txt` (fixed-width text, twice daily):
 harder to parse, same information; kept only as a cross-check.
 
+**Cross-check log** (`tools/record-outlook-fixtures.py --compare-kp`, appends to
+`tools/.cache/kp-compare.csv`):
+
+| Fetched (UTC) | Text forecast issued | Predicted blocks compared | Differences |
+|---|---|---|---|
+| 2026-10-30 10:33 | 2026 Oct 30 0030 UTC | 2026-10-31 15 UTC to 2026-11-01 21 UTC | none (all equal) |
+
+To do before release: run it on a few more days, including just after the 1230 UTC text
+issue, and close the open point above.
+
 ## R3. Geomagnetic storm watches
 
 **Decision**: parse watch messages from `products/alerts.json` ([contract](contracts/noaa-data.md#storm-watches-from-alertsjson)).

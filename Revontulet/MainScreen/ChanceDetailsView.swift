@@ -4,6 +4,9 @@ import SwiftUI
 /// What the chance is made of, expandable on the main screen (FR-001a, FR-007).
 struct ChanceDetailsView: View {
     let result: AuroraResult
+    /// The "soon" state, always shown in the details (FR-010); nil before any outlook snapshot.
+    var soon: SoonSignal?
+    var now: Date = .now
 
     @State private var expanded = false
     @Environment(\.accessibilityReduceTransparency) private var reduceTransparency
@@ -41,6 +44,9 @@ struct ChanceDetailsView: View {
                     }
                     moon
                     clouds
+                    if let soon {
+                        solarWind(soon)
+                    }
                     attribution
                         .padding(.top, 4)
                 }
@@ -109,9 +115,39 @@ struct ChanceDetailsView: View {
         }
     }
 
+    /// The "soon" forecast with what it is based on (FR-010, FR-020).
+    private func solarWind(_ soon: SoonSignal) -> some View {
+        row(symbol: "wind", title: "Solar wind") {
+            soon.detail(headlineActivity: result.reading.activity)
+            if soon.state != .unknown, let sample = soon.latest {
+                Text("Bz \(Self.number(sample.bz)) nT, speed \(Self.number(sample.speed)) km/s, density \(Self.number(sample.density)) /cm³")
+                    .foregroundStyle(.secondary)
+            }
+            if let time = soon.dataTime {
+                Group {
+                    if soon.state == .unknown {
+                        Text("Last data \(Formatting.age(of: time, now: now))")
+                    } else {
+                        Text("Observed \(Formatting.age(of: time, now: now))")
+                    }
+                }
+                .foregroundStyle(.secondary)
+            }
+            Text("Solar wind measured between the Sun and Earth, about an hour before it arrives.")
+                .font(.footnote)
+                .foregroundStyle(.secondary)
+        }
+        .accessibilityIdentifier("solarWindDetail")
+    }
+
+    private static func number(_ value: Double?) -> String {
+        value.map { $0.formatted(.number.precision(.fractionLength(0...1))) } ?? "–"
+    }
+
     private var attribution: some View {
         VStack(alignment: .leading, spacing: 4) {
             Text("Source: Finnish Meteorological Institute (FMI), CC BY 4.0")
+            Text("Space weather: NOAA Space Weather Prediction Center")
             Text("Municipality boundaries: Statistics Finland, CC BY 4.0")
         }
         .font(.caption)

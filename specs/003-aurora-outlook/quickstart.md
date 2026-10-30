@@ -25,7 +25,9 @@ Expect all tests to pass, including:
 | `SoonCalculatorTests` | soon-rules reference cases 1–12 |
 | `SoonReplayTests` | recorded storm and quiet nights meet SC-003 |
 | `KpMappingTests` | recorded nights meet SC-004 |
-| `OutlookCalculatorTests` | outlook-rules reference cases 1–10 |
+| `OutlookCalculatorTests` | outlook-rules reference cases 1–11 |
+| `NightsTests` | tonight and tomorrow night, polar night, midsummer, DST changes |
+| `BandTests`, `NOAARequestsTests`, `FMIRequestTests` | bands, fixed NOAA URLs, the shared cloud forecast request |
 | `NOAAParserTests` | recorded NOAA responses, including gaps, fill values and a cancelled watch |
 | `OutlookServiceTests` | fetch cadence (R8), independent failures, cache round trip |
 | `ZoneEvaluatorTests` | zones include the moon; a moonlit Probable zone gives Moderate with reason `brightMoon` |
@@ -43,7 +45,9 @@ Expect the two `alert.body.brightMoon*` keys to exist in fi, sv and en (the test
 
 ## 3. App, with stubbed data
 
-Run the new UI tests, which use `UITestHTTPClient` with recorded NOAA and FMI responses:
+Run the new UI tests, which use `UITestHTTPClient` with synthetic NOAA and FMI responses shifted
+to the test clock (`-uiTestTime`). Each scenario is launched with `-uiTestStubs -uiTestOutlook
+<scenario> -uiTestTime <time> -uiTestLocation 65.01,25.47` (Oulu):
 
 ```sh
 xcodebuild test -scheme Revontulet -only-testing:RevontuletUITests/OutlookUITests \
@@ -52,11 +56,12 @@ xcodebuild test -scheme Revontulet -only-testing:RevontuletUITests/OutlookUITest
 
 | Scenario (launch argument) | Expect |
 |---|---|
-| `-uitest-outlook storm` | Soon line "Activity likely to rise …", outlook "Tonight: High – geomagnetic storm watch" |
-| `-uitest-outlook quiet` | No soon line; details "No sign of rising activity" |
-| `-uitest-outlook moon` | Headline "Moderate – bright moon"; details show the moon as up |
-| `-uitest-outlook noaa-down` | Headline as usual; no soon line; "Outlook unavailable" |
-| `-uitest-outlook summer` | Outlook "None – too light" for both nights |
+| `-uiTestOutlook storm` (2026-11-09T19:00:00Z) | Soon line "Activity likely to rise …", outlook "Tonight: High – geomagnetic storm watch" |
+| `-uiTestOutlook quiet` | No soon line; details "No sign of rising activity" |
+| `-uiTestOutlook moon` (2026-11-24T21:00:00Z) | Headline "Moderate – bright moon"; details show the moon as up |
+| `-uiTestOutlook noaa-down` | Headline as usual; no soon line; "Outlook unavailable" |
+| `-uiTestOutlook summer` (2026-06-21T12:00:00Z) | Outlook "None – too light" for both nights |
+| `-uiTestOffline` relaunch after `storm` | The outlook from cache, recomputed for now |
 
 ## 4. Live check on a device
 

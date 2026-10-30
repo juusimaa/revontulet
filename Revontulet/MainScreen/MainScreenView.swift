@@ -70,6 +70,16 @@ struct MainScreenView: View {
             .accessibilityIdentifier("chooseMunicipalityButton")
     }
 
+    /// The outlook does not need R, so it stays when the headline has no data.
+    @ViewBuilder
+    private var outlookWithoutHeadline: some View {
+        if let outlook = model.outlook {
+            OutlookSectionView(snapshot: outlook, now: model.now())
+                .padding(.top, 24)
+                .multilineTextAlignment(.leading)
+        }
+    }
+
     private var level: ChanceLevel? {
         if case .result(let result, _) = model.state { result.chance.level } else { nil }
     }
@@ -95,6 +105,7 @@ struct MainScreenView: View {
                 Button("Retry") { Task { await model.userRefresh() } }
                     .buttonStyle(.glassProminent)
                     .accessibilityIdentifier("retryButton")
+                outlookWithoutHeadline
             }
             .accessibilityIdentifier("offlineNoData")
         case .noData:
@@ -103,6 +114,7 @@ struct MainScreenView: View {
                 Button("Retry") { Task { await model.userRefresh() } }
                     .buttonStyle(.glassProminent)
                     .accessibilityIdentifier("retryButton")
+                outlookWithoutHeadline
             }
         case .locationDenied:
             StatusView(symbol: "location.slash", title: "Location access is off",
@@ -148,6 +160,8 @@ private struct ResultView: View {
     let result: AuroraResult
     let placeName: String
 
+    private var outlookShown: Bool { model.outlook?.outlook != nil }
+
     var body: some View {
         ScrollView {
             // Re-evaluated every 30 s so the data age and the outdated badge stay current.
@@ -163,12 +177,21 @@ private struct ResultView: View {
                     }
                     Hero(result: result, freshness: freshness)
                         .padding(.top, freshness == .offline ? 40 : 72)
+                    if let soon = model.outlook?.soon {
+                        SoonLine(soon: soon, headline: result)
+                            .padding(.top, 20)
+                    }
                     MeasurementLine(result: result, freshness: freshness, now: now)
                         .padding(.top, 28)
-                    ChanceDetailsView(result: result)
-                        .padding(.top, 40)
+                    if let outlook = model.outlook {
+                        OutlookSectionView(snapshot: outlook, now: now)
+                            .padding(.top, 32)
+                    }
+                    ChanceDetailsView(result: result, soon: model.outlook?.soon, now: now)
+                        .padding(.top, outlookShown ? 16 : 40)
                 }
                 .animation(.bouncy, value: freshness)
+                .animation(.bouncy, value: model.outlook)
             }
             .padding(.horizontal, 24)
             .padding(.bottom, 32)

@@ -343,7 +343,7 @@ leaves the headline unchanged.
   the same place, set `showsOnMainScreen` from `SoonCalculator.showsOnMainScreen`, and store the
   result in the snapshot. Recompute both on every refresh, also from cached samples. Make T036
   pass.
-- [ ] T041 [P] [US2] Add to `Revontulet/Resources/Localizable.xcstrings` (fi, sv, en):
+- [X] T041 [P] [US2] Add to `Revontulet/Resources/Localizable.xcstrings` (fi, sv, en):
   - The "Soon" label.
   - "Activity likely to rise %@", "Activity may rise %@", and for a headline activity of
     Probable: "Activity likely to continue" (Likely) and "Activity may stay high" (Possible).
@@ -352,23 +352,23 @@ leaves the headline unchanged.
   - Details: "No sign of rising activity", "No sign of further rise", "Solar wind data
     unavailable" with age, and Bz/speed/density labels with units.
   - VoiceOver "Forecast: %@".
-- [ ] T042 [US2] In `Revontulet/MainScreen/CoreLabels.swift`, add labels for `SoonState` and the
+- [X] T042 [US2] In `Revontulet/MainScreen/CoreLabels.swift`, add labels for `SoonState` and the
   arrival window (15/30/45 → minutes, ≥ 60 → "about an hour"). Choose the variant text for
   Likely and Possible when the headline activity is Probable (contracts/soon-rules.md Display).
-- [ ] T043 [US2] In `Revontulet/MainScreen/MainScreenView.swift`, add the soon line directly under
+- [X] T043 [US2] In `Revontulet/MainScreen/MainScreenView.swift`, add the soon line directly under
   the headline, visibly secondary and labelled as a forecast (Principle VI; use the
   `ios-ui-craft` skill). Show it only for Possible or Likely when `soon.showsOnMainScreen` is true
   (read from the snapshot; the view does no calculation), with the overcast note when the headline is None
   because of overcast. It must never use the headline's level styling at that size (FR-009).
-- [ ] T044 [US2] In `Revontulet/MainScreen/ChanceDetailsView.swift`, add a solar wind section:
+- [X] T044 [US2] In `Revontulet/MainScreen/ChanceDetailsView.swift`, add a solar wind section:
   state text, Bz, speed, density and data age; "unavailable" with the last data age when Unknown
   (FR-010, FR-020).
-- [ ] T045 [US2] In `Revontulet/App/UITestHTTPClient.swift`, serve
+- [X] T045 [US2] In `Revontulet/App/UITestHTTPClient.swift`, serve
   `services.swpc.noaa.gov/products/geospace/propagated-solar-wind-1-hour.json` for
   `-uiTestOutlook storm` (Ey ≥ the North `likely` threshold), `quiet` (Bz northward) and
   `noaa-down` (HTTP 500). Shift the times to the test clock so the newest sample is about 8 min
   old. Today the client returns 400 for any non-FMI URL; keep that for unknown URLs.
-- [ ] T046 [US2] Add tests to `RevontuletUITests/OutlookUITests.swift`:
+- [X] T046 [US2] Add tests to `RevontuletUITests/OutlookUITests.swift`:
   - storm → the soon line "Activity likely to rise …" with an unchanged headline.
   - quiet → no soon line, and the details say "No sign of rising activity".
   - noaa-down → no soon line, the headline as usual, and the details say "Solar wind data
@@ -502,7 +502,7 @@ the app, `-uiTestOutlook storm` shows "Tonight: High – geomagnetic storm watch
     "tonight" moves on at the end of a dark period without a fetch.
 
   Make T054 pass.
-- [ ] T061 [P] [US3] Add to `Revontulet/Resources/Localizable.xcstrings` (fi, sv, en):
+- [X] T061 [P] [US3] Add to `Revontulet/Resources/Localizable.xcstrings` (fi, sv, en):
   - The "Forecast" heading, "Tonight" and "Tomorrow night".
   - The row format "%@ – %@" and `outlook.reason.stormWatch` ("geomagnetic storm watch").
   - G1–G5 in plain language.
@@ -510,26 +510,26 @@ the app, `-uiTestOutlook storm` shows "Tonight: High – geomagnetic storm watch
   - Details: expected activity, max Kp, darkness, moon, mean cloud cover, "updated %@", "This is
     a forecast, not a measurement" and "cloud cover not included".
   - VoiceOver "Forecast for tonight: %@" and "Forecast for tomorrow night: %@".
-- [ ] T062 [US3] In `Revontulet/MainScreen/CoreLabels.swift`, add labels for `NightKind`,
+- [X] T062 [US3] In `Revontulet/MainScreen/CoreLabels.swift`, add labels for `NightKind`,
   `OutlookAvailability`, `OutlookReason` and G levels.
-- [ ] T063 [US3] Create `Revontulet/MainScreen/OutlookSectionView.swift`: two rows under a
+- [X] T063 [US3] Create `Revontulet/MainScreen/OutlookSectionView.swift`: two rows under a
   "Forecast" heading, or one "Outlook unavailable" row when both nights are unavailable. Levels
   are text, not colour alone, and the styling is visibly secondary to the headline. Tapping
   opens the outlook details. Use the `ios-ui-craft` skill.
-- [ ] T064 [US3] In `Revontulet/MainScreen/MainScreenView.swift`, place `OutlookSectionView`
+- [X] T064 [US3] In `Revontulet/MainScreen/MainScreenView.swift`, place `OutlookSectionView`
   below the headline block. Show it whenever the place is inside coverage, including when the
   headline has no data. Hide it for location denied or outside coverage.
-- [ ] T065 [US3] Add the outlook details (per night: expected activity, max Kp, storm watch
+- [X] T065 [US3] Add the outlook details (per night: expected activity, max Kp, storm watch
   level, darkness, moon, mean cloud cover, Kp and cloud update times, "This is a forecast, not a
   measurement") in `Revontulet/MainScreen/ChanceDetailsView.swift`, or in a sheet that
   `OutlookSectionView` opens (FR-016).
-- [ ] T066 [US3] In `Revontulet/App/UITestHTTPClient.swift`, add stubs for the Kp forecast,
+- [X] T066 [US3] In `Revontulet/App/UITestHTTPClient.swift`, add stubs for the Kp forecast,
   `alerts.json` and the FMI cloud forecast (`storedquery_id`
   `fmi::forecast::edited::weather::scandinavia::point::simple`), shifted to the test clock:
   - storm: Kp 3, a G2 watch for the UTC day and clear clouds
   - summer: run with `-uiTestTime 2026-06-21T12:00:00Z`
   - noaa-down: every NOAA URL returns 500
-- [ ] T067 [US3] Add tests to `RevontuletUITests/OutlookUITests.swift`:
+- [X] T067 [US3] Add tests to `RevontuletUITests/OutlookUITests.swift`:
   - storm → "Tonight: High – geomagnetic storm watch".
   - summer → "None – too light" for both nights.
   - noaa-down → "Outlook unavailable" with the headline unaffected.
@@ -541,14 +541,14 @@ the app, `-uiTestOutlook storm` shows "Tonight: High – geomagnetic storm watch
 
 ## Phase 6: Polish & Cross-Cutting Concerns
 
-- [ ] T068 [P] Add "NOAA Space Weather Prediction Center" to the attribution in
+- [X] T068 [P] Add "NOAA Space Weather Prediction Center" to the attribution in
   `Revontulet/MainScreen/ChanceDetailsView.swift`, next to FMI and Statistics Finland, with no
   logo (FR-021). Add the string in fi, sv and en.
-- [ ] T069 [P] Update `docs/privacy.md` (FR-022): the app contacts `services.swpc.noaa.gov`; the
+- [X] T069 [P] Update `docs/privacy.md` (FR-022): the app contacts `services.swpc.noaa.gov`; the
   requests carry nothing about the user and are identical for every user; the cloud forecast asks
   for all zones at once. Confirm that `Revontulet/Resources/PrivacyInfo.xcprivacy` needs no change
   (R12).
-- [ ] T070 [P] Add a test to `Server/Tests/AlertServerTests/EvaluationLoopTests.swift`: the stub
+- [X] T070 [P] Add a test to `Server/Tests/AlertServerTests/EvaluationLoopTests.swift`: the stub
   HTTP client fails the test on any request to `services.swpc.noaa.gov` (FR-025). Then run `cd
   Server && swift test`.
 - [ ] T071 Deploy the alert service with the updated core, after T024 and T070:
@@ -557,7 +557,7 @@ the app, `-uiTestOutlook storm` shows "Tonight: High – geomagnetic storm watch
   - Check the logs for one evaluation cycle: no NOAA requests, and zone results include the moon.
   - Note the switch to `ALERT_MOON_KEYS=true` (30 days after 3.0 is in the App Store) in the
     release PR description.
-- [ ] T072 Run `tools/check-core-portability.sh` and the Linux core tests (`docker run --rm -v
+- [X] T072 Run `tools/check-core-portability.sh` and the Linux core tests (`docker run --rm -v
   "$PWD":/src -w /src/Packages/AuroraCore swift:6.4.1-noble swift test`). Fix any Apple-only API
   in `MoonPosition`, `NOAAParser` or `OutlookService`.
 - [ ] T073 Resolve the R2 open point: add a `--compare-kp` mode to
@@ -565,7 +565,7 @@ the app, `-uiTestOutlook storm` shows "Tonight: High – geomagnetic storm watch
   `text/3-day-forecast.txt` and logs both predicted blocks to a scratch CSV. Run it over a few days
   before release, then record the finding in `specs/003-aurora-outlook/research.md` R2. Revisit the
   plan if the two keep diverging.
-- [ ] T074 Accessibility and visual pass with the `ios-ui-craft` skill on the soon line, the
+- [X] T074 Accessibility and visual pass with the `ios-ui-craft` skill on the soon line, the
   outlook section and the new details:
   - Dynamic Type up to AX5.
   - VoiceOver reads "Forecast: …" and "Forecast for tonight: …".
@@ -575,15 +575,15 @@ the app, `-uiTestOutlook storm` shows "Tonight: High – geomagnetic storm watch
 - [ ] T075 Measure on device that the cached snapshot appears with the headline within 1 s
   (SC-008), and that `OutlookCalculator` plus `SoonCalculator` run in under 50 ms (plan
   performance goal).
-- [ ] T076 Check that all new string keys exist in fi, sv and en in
+- [X] T076 Check that all new string keys exist in fi, sv and en in
   `Revontulet/Resources/Localizable.xcstrings` with no stale or missing entries, and run
   `RevontuletTests/AlertStringsTests` (quickstart.md §2).
-- [ ] T077 Before the first TestFlight checkpoint, set `MARKETING_VERSION: "3.0"` in `project.yml`
+- [X] T077 Before the first TestFlight checkpoint, set `MARKETING_VERSION: "3.0"` in `project.yml`
   (the Xcode project is generated from it), then regenerate the project.
-- [ ] T078 [P] Update `README.md` with the moon, soon and outlook features and the NOAA data
+- [X] T078 [P] Update `README.md` with the moon, soon and outlook features and the NOAA data
   source.
 - [ ] T079 Run quickstart.md §1–§5 end to end, including the live device check in Oulu.
-- [ ] T080 [P] Update `specs/003-aurora-outlook/quickstart.md`: change the scenario launch
+- [X] T080 [P] Update `specs/003-aurora-outlook/quickstart.md`: change the scenario launch
   argument to `-uiTestOutlook <scenario>` and list the final suites.
 
 ---

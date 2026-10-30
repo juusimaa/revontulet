@@ -116,6 +116,29 @@
         }
       }
     },
+    "%lld %% on average": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld %% on average"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "keskimäärin %lld %%"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "i genomsnitt %lld %%"
+          }
+        }
+      }
+    },
     "%lld %%, %@, below the horizon": {
       "extractionState": "manual",
       "localizations": {
@@ -158,6 +181,144 @@
           "stringUnit": {
             "state": "translated",
             "value": "%1$lld %%, %2$@, uppe"
+          }
+        }
+      }
+    },
+    "Activity likely to continue": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Activity likely to continue"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aktiivisuus todennäköisesti jatkuu"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aktiviteten fortsätter troligen"
+          }
+        }
+      }
+    },
+    "Activity likely to rise": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Activity likely to rise"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aktiivisuus todennäköisesti voimistuu"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aktiviteten ökar troligen"
+          }
+        }
+      }
+    },
+    "Activity likely to rise %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Activity likely to rise %@"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aktiivisuus todennäköisesti voimistuu %@"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aktiviteten ökar troligen %@"
+          }
+        }
+      }
+    },
+    "Activity may rise": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Activity may rise"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aktiivisuus voi voimistua"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aktiviteten kan öka"
+          }
+        }
+      }
+    },
+    "Activity may rise %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Activity may rise %@"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aktiivisuus voi voimistua %@"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aktiviteten kan öka %@"
+          }
+        }
+      }
+    },
+    "Activity may stay high": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Activity may stay high"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aktiivisuus voi pysyä voimakkaana"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aktiviteten kan förbli hög"
           }
         }
       }
@@ -461,6 +622,29 @@
         }
       }
     },
+    "Based on NOAA's Kp forecast and storm watches, FMI's cloud forecast for your area, and the sun and moon where you are.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Based on NOAA's Kp forecast and storm watches, FMI's cloud forecast for your area, and the sun and moon where you are."
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Perustuu NOAA:n Kp-ennusteeseen ja myrskyvaroituksiin, Ilmatieteen laitoksen pilviennusteeseen alueellesi sekä auringon ja kuun asemaan sijainnissasi."
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bygger på NOAA:s Kp-prognos och stormvarningar, Meteorologiska institutets molnprognos för ditt område samt solen och månen där du är."
+          }
+        }
+      }
+    },
     "Bright enough to hide faint aurora": {
       "extractionState": "manual",
       "localizations": {
@@ -480,6 +664,52 @@
           "stringUnit": {
             "state": "translated",
             "value": "Så ljus att svagt norrsken inte syns"
+          }
+        }
+      }
+    },
+    "Bright moon for most of the night": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bright moon for most of the night"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kirkas kuu suurimman osan yöstä"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ljus måne större delen av natten"
+          }
+        }
+      }
+    },
+    "Bz %@ nT, speed %@ km/s, density %@ /cm³": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bz %1$@ nT, speed %2$@ km/s, density %3$@ /cm³"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bz %1$@ nT, nopeus %2$@ km/s, tiheys %3$@ /cm³"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bz %1$@ nT, hastighet %2$@ km/s, täthet %3$@ /cm³"
           }
         }
       }
@@ -714,6 +944,29 @@
         }
       }
     },
+    "Cloud forecast updated %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cloud forecast updated %@"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pilviennuste päivitetty %@"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Molnprognos uppdaterad %@"
+          }
+        }
+      }
+    },
     "Collapsed": {
       "extractionState": "manual",
       "localizations": {
@@ -944,6 +1197,29 @@
         }
       }
     },
+    "Expected activity": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Expected activity"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Odotettu aktiivisuus"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Väntad aktivitet"
+          }
+        }
+      }
+    },
     "FMI's measurements could not be loaded. Try again in a moment.": {
       "extractionState": "manual",
       "localizations": {
@@ -1013,6 +1289,121 @@
         }
       }
     },
+    "Forecast": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Forecast"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ennuste"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prognos"
+          }
+        }
+      }
+    },
+    "Forecast available": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Forecast available"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ennuste saatavilla"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prognos finns"
+          }
+        }
+      }
+    },
+    "Forecast for tomorrow night: %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Forecast for tomorrow night: %@"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ennuste huomisyölle: %@"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prognos för i morgon natt: %@"
+          }
+        }
+      }
+    },
+    "Forecast for tonight: %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Forecast for tonight: %@"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ennuste tälle yölle: %@"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prognos för i natt: %@"
+          }
+        }
+      }
+    },
+    "Forecast: %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Forecast: %@"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ennuste: %@"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prognos: %@"
+          }
+        }
+      }
+    },
     "Geomagnetic activity": {
       "extractionState": "manual",
       "localizations": {
@@ -1055,6 +1446,98 @@
           "stringUnit": {
             "state": "translated",
             "value": "Få en avisering när chansen att se norrsken i ditt område når den nivå du väljer."
+          }
+        }
+      }
+    },
+    "Highest Kp %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Highest Kp %@"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Suurin Kp %@"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Högsta Kp %@"
+          }
+        }
+      }
+    },
+    "Kp forecast updated %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kp forecast updated %@"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kp-ennuste päivitetty %@"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kp-prognos uppdaterad %@"
+          }
+        }
+      }
+    },
+    "Last data %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Last data %@"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Viimeisin tieto %@"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Senaste data %@"
+          }
+        }
+      }
+    },
+    "Last forecast %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Last forecast %@"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Viimeisin ennuste %@"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Senaste prognos %@"
           }
         }
       }
@@ -1289,6 +1772,98 @@
         }
       }
     },
+    "No bright moon": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No bright moon"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ei kirkasta kuuta"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ingen ljus måne"
+          }
+        }
+      }
+    },
+    "No sign of further rise": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No sign of further rise"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ei merkkejä aktiivisuuden voimistumisesta lisää"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inga tecken på ytterligare ökning"
+          }
+        }
+      }
+    },
+    "No sign of rising activity": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No sign of rising activity"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ei merkkejä voimistuvasta aktiivisuudesta"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inga tecken på ökande aktivitet"
+          }
+        }
+      }
+    },
+    "None in effect": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "None in effect"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ei voimassa"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ingen gäller"
+          }
+        }
+      }
+    },
     "Not updating": {
       "extractionState": "manual",
       "localizations": {
@@ -1354,6 +1929,29 @@
           "stringUnit": {
             "state": "translated",
             "value": "Avisera mig vid"
+          }
+        }
+      }
+    },
+    "Observed %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Observed %@"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Havaittu %@"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Observerad %@"
           }
         }
       }
@@ -1450,6 +2048,52 @@
         }
       }
     },
+    "Outlook details": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Outlook details"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ennusteen tiedot"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prognosdetaljer"
+          }
+        }
+      }
+    },
+    "Outlook unavailable": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Outlook unavailable"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ennuste ei saatavilla"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prognos saknas"
+          }
+        }
+      }
+    },
     "Outside coverage area": {
       "extractionState": "manual",
       "localizations": {
@@ -1469,6 +2113,29 @@
           "stringUnit": {
             "state": "translated",
             "value": "Utanför täckningsområdet"
+          }
+        }
+      }
+    },
+    "Overcast now": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Overcast now"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nyt pilvistä"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mulet just nu"
           }
         }
       }
@@ -1680,6 +2347,121 @@
         }
       }
     },
+    "Shows what the forecast is based on": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Shows what the forecast is based on"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Näyttää, mihin ennuste perustuu"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Visar vad prognosen bygger på"
+          }
+        }
+      }
+    },
+    "Solar wind": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Solar wind"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aurinkotuuli"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Solvind"
+          }
+        }
+      }
+    },
+    "Solar wind data unavailable": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Solar wind data unavailable"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aurinkotuulen tietoja ei saatavilla"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Solvindsdata saknas"
+          }
+        }
+      }
+    },
+    "Solar wind measured between the Sun and Earth, about an hour before it arrives.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Solar wind measured between the Sun and Earth, about an hour before it arrives."
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aurinkotuuli mitataan Auringon ja Maan välissä noin tunti ennen kuin se saapuu."
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Solvinden mäts mellan solen och jorden, ungefär en timme innan den når fram."
+          }
+        }
+      }
+    },
+    "Soon": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Soon"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pian"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Snart"
+          }
+        }
+      }
+    },
     "Source: Finnish Meteorological Institute (FMI), CC BY 4.0": {
       "extractionState": "manual",
       "localizations": {
@@ -1699,6 +2481,52 @@
           "stringUnit": {
             "state": "translated",
             "value": "Källa: Meteorologiska institutet (FMI), CC BY 4.0"
+          }
+        }
+      }
+    },
+    "Space weather: NOAA Space Weather Prediction Center": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Space weather: NOAA Space Weather Prediction Center"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Avaruussää: NOAA Space Weather Prediction Center"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rymdväder: NOAA Space Weather Prediction Center"
+          }
+        }
+      }
+    },
+    "Storm watch": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Storm watch"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Myrskyvaroitus"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stormvarning"
           }
         }
       }
@@ -1818,6 +2646,75 @@
         }
       }
     },
+    "This is a forecast, not a measurement": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This is a forecast, not a measurement"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tämä on ennuste, ei mittaus"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Det här är en prognos, inte en mätning"
+          }
+        }
+      }
+    },
+    "Tomorrow night": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tomorrow night"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Huomisyönä"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "I morgon natt"
+          }
+        }
+      }
+    },
+    "Tonight": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tonight"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tänä yönä"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "I natt"
+          }
+        }
+      }
+    },
     "Try again at %@": {
       "extractionState": "manual",
       "localizations": {
@@ -1906,6 +2803,29 @@
           "stringUnit": {
             "state": "translated",
             "value": "När du stänger av aviseringarna raderas de."
+          }
+        }
+      }
+    },
+    "Unknown": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unknown"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ei tiedossa"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Okänd"
           }
         }
       }
@@ -2945,6 +3865,29 @@
         }
       }
     },
+    "outlook.reason.stormWatch": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geomagnetic storm watch"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Magneettimyrskyvaroitus"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Varning för geomagnetisk storm"
+          }
+        }
+      }
+    },
     "reason.brightMoon": {
       "extractionState": "manual",
       "localizations": {
@@ -3125,6 +4068,167 @@
           "stringUnit": {
             "state": "translated",
             "value": "Skymning"
+          }
+        }
+      }
+    },
+    "storm.g1": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "G1 (minor)"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "G1 (heikko)"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "G1 (svag)"
+          }
+        }
+      }
+    },
+    "storm.g2": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "G2 (moderate)"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "G2 (kohtalainen)"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "G2 (måttlig)"
+          }
+        }
+      }
+    },
+    "storm.g3": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "G3 (strong)"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "G3 (voimakas)"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "G3 (stark)"
+          }
+        }
+      }
+    },
+    "storm.g4": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "G4 (severe)"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "G4 (ankara)"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "G4 (kraftig)"
+          }
+        }
+      }
+    },
+    "storm.g5": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "G5 (extreme)"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "G5 (äärimmäinen)"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "G5 (extrem)"
+          }
+        }
+      }
+    },
+    "within about %lld minutes": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "within about %lld minutes"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "noin %lld minuutin kuluessa"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "inom cirka %lld minuter"
+          }
+        }
+      }
+    },
+    "within about an hour": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "within about an hour"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "noin tunnin kuluessa"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "inom cirka en timme"
           }
         }
       }

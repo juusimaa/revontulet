@@ -56,7 +56,7 @@ enum AppDependencies {
                 UITestHTTPClient(
                     strongActivity: arguments.contains("-uiTestStrongActivity")
                         || UITestOutlookScenario(arguments: arguments)?.strongActivity == true,
-                    outlook: UITestOutlookScenario(arguments: arguments))
+                    outlook: UITestOutlookScenario(arguments: arguments), now: clock(arguments: arguments))
             }
             else { URLSessionHTTPClient() }
         let cache = FileResultCache()

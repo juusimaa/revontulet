@@ -191,4 +191,41 @@ struct EvaluationLoopTests {
             #expect(alerts.count == http.expected.count)
         }
     }
+
+    /// FR-025 of spec 003: the alert service never uses NOAA. Its only data source is the core's
+    /// `ZoneEvaluator`; any request to SWPC fails the test.
+    @Test func makesNoNOAARequests() async throws {
+        let http = NOAAGuardHTTPClient(base: try NightReplayHTTPClient(night: "20261014"))
+        try await withTemporaryStore { store, _ in
+            try await store.upsert(RegistrationUpsert(token: testToken(1), zone: "KEV", threshold: .moderate), now: http.base.start)
+            let loop = makeLoop(source: try ZoneEvaluator(http: http), store: store, sender: FakePushSender(),
+                                heartbeat: FakeHeartbeat())
+            for now in http.base.cycles.prefix(24) {
+                _ = await loop.runCycle(now: now)
+            }
+        }
+        #expect(http.requests.count > 0)
+        #expect(http.requests.allSatisfy { $0.host == "opendata.fmi.fi" })
+    }
+}
+
+/// Records every request and fails the test on any request to NOAA SWPC.
+final class NOAAGuardHTTPClient: HTTPClient {
+    let base: NightReplayHTTPClient
+    private let requested = Mutex<[URL]>([])
+
+    init(base: NightReplayHTTPClient) {
+        self.base = base
+    }
+
+    var requests: [URL] { requested.withLock { $0 } }
+
+    func get(_ url: URL) async throws -> (Data, Int) {
+        requested.withLock { $0.append(url) }
+        if url.host == "services.swpc.noaa.gov" {
+            Issue.record("The alert service requested \(url)")
+            return (Data(), 500)
+        }
+        return try await base.get(url)
+    }
 }
