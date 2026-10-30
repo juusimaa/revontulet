@@ -11,8 +11,9 @@ FMI's R value stays the headline. Three additions sit around it, all in `AuroraC
 1. **Moon**: a Meeus-based moon position (topocentric altitude, illuminated fraction, phase)
    computed on the device. The chance rules gain one "sky brightness" step: twilight or a bright
    moon lowers the level by one, never two. The headline, the alert service's zone evaluation
-   and the outlook all use the same rules. A new alert text for "Moderate – bright moon" has to
-   ship in 2.0 before it reaches the App Store (R9).
+   and the outlook all use the same rules. A new alert text for "Moderate – bright moon" ships
+   in 3.0; until 3.0 has been out for 30 days, the alert service sends the twilight text
+   instead (R9).
 2. **Soon**: SWPC's propagated solar wind for the last hour (2 KB). The median dawn–dusk electric
    field over 20 minutes gives Quiet, Possible or Likely per latitude band, and SWPC's modelled
    arrival time gives the window. It never changes the headline.
@@ -77,15 +78,15 @@ constitution v1.1.0.
 | V. Performance & Efficiency | Separate cache shown immediately; no work added to the headline's path. About 36 KB per hour in the foreground, none in the background. Calculations run off the main actor in the service actor. | Pass |
 | VI. Native, Polished UX | Explicit states for each new section ([main-screen-additions.md](contracts/main-screen-additions.md)). The headline stays first and largest, and forecasts are visibly and audibly labelled as forecasts. Dynamic Type, VoiceOver and no colour-only meaning. UI built with `ios-ui-craft`. | Pass |
 | Constraints | No new dependency. The backend is unchanged apart from the shared rules, and the app works without it. AGPL unaffected (formulas, not code). | Pass |
-| Workflow | Feature branch `003-aurora-outlook`, PR with this check. The R9 strings change goes to `main` before 2.0's App Store submission, on its own short branch and PR. | Pass |
+| Workflow | Feature branch `003-aurora-outlook`, PR with this check. 2.0 shipped without the moon alert keys, so the alert service sends the twilight text until `ALERT_MOON_KEYS` is switched on 30 days after 3.0 is in the App Store (R9). | Pass |
 
 **Post-design re-check (after Phase 1)**: Pass. Design choices that came out of Phase 1:
 
 - The cloud forecast became one shared request, improving on Principle II.
 - `OutlookService` stays separate from `AuroraService`, so a NOAA failure cannot reach the
   headline (Principle V and FR-020).
-- The moon alert text is a cross-feature dependency on the 2.0 release (R9), recorded under
-  Spec amendments and in the Workflow row.
+- The moon alert text needs a server-side switch, because 2.0 shipped without the keys (R9).
+  It is recorded under Spec amendments and in the Workflow row.
 
 ## Spec amendments from research
 
@@ -100,7 +101,8 @@ Applied to [spec.md](spec.md) in this planning step:
 - **Assumptions**: NOAA licence wording (public domain, no logo) and product instability (R12, R1).
 
 Not a spec change but a release dependency: **R9**, the alert keys for "Moderate – bright moon"
-must be in 2.0 before App Store submission.
+ship in 3.0, and the alert service switches to them (`ALERT_MOON_KEYS=true`) only 30 days after
+3.0 is in the App Store.
 
 ## Project Structure
 
@@ -147,7 +149,7 @@ Packages/AuroraCore/
 │   ├── AuroraService.swift            # CHANGED: compute the moon, pass to the rules
 │   └── Alerts/
 │       ├── ZoneEvaluator.swift        # CHANGED: moon at zone position
-│       └── AlertMessage.swift         # CHANGED: brightMoon keys (R9)
+│       └── AlertMessage.swift         # CHANGED: brightMoon keys behind moonKeys (R9)
 └── Tests/AuroraCoreTests/
     ├── ChanceCalculatorTests.swift    # CHANGED: v2 cases
     ├── MoonPositionTests.swift        # NEW
@@ -168,7 +170,7 @@ Revontulet/
 
 RevontuletUITests/OutlookUITests.swift # NEW
 
-Server/                                # no source change; rebuilt with the updated core
+Server/                                # rebuilt with the updated core; CHANGED: ALERT_MOON_KEYS setting (R9)
 
 tools/
 ├── record-outlook-fixtures.py         # NEW (R10)
@@ -179,14 +181,14 @@ tools/
 
 **Structure Decision**: Same three-part layout as features 001 and 002. All new domain logic is
 in `AuroraCore` under new `NOAA/` and `Outlook/` folders, with the moon beside the sun in
-`Sky/`. The app adds one view and one cache. The alert service needs no source change because it
-already calls `ZoneEvaluator`.
+`Sky/`. The app adds one view and one cache. The alert service gets the moon through
+`ZoneEvaluator`; its only source change is the `ALERT_MOON_KEYS` setting (R9).
 
 ## Delivery order
 
-1. **R9 strings into 2.0**: a separate branch and PR on `main` before App Store submission.
-2. **P1 Moon**: moon position, chance-rules v2, `AuroraResult.moon`, `ZoneEvaluator`,
-   `AlertMessage`, details. Shippable on its own.
+1. **P1 Moon**: moon position, chance-rules v2, `AuroraResult.moon`, `ZoneEvaluator`,
+   `AlertMessage` with the `ALERT_MOON_KEYS` fallback (R9), details. Shippable on its own.
+2. **Alert service deploy** with the updated core and `ALERT_MOON_KEYS=false`.
 3. **Calibration**: R6 and R7 scripts. Fix the thresholds in the contracts before P2 and P3
    tests are final.
 4. **P2 Soon**: parser, calculator, service, soon line.

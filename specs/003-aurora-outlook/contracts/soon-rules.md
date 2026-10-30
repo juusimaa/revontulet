@@ -65,7 +65,7 @@ The same bands are used by the Kp mapping in [outlook-rules.md](outlook-rules.md
 | State | Main screen | Details |
 |---|---|---|
 | Likely | "Activity likely to rise <window>"; if the headline activity is Probable: "Activity likely to continue" | State, Bz, speed, density, data time |
-| Possible | "Activity may rise <window>" | same |
+| Possible | "Activity may rise <window>"; if the headline activity is Probable: "Activity may stay high" | same |
 | Quiet | nothing | "No sign of rising activity" (if headline activity is Probable: "No sign of further rise") |
 | Unknown | nothing | "Solar wind data unavailable" with the age of the last data, if any |
 

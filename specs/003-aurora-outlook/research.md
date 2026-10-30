@@ -196,17 +196,17 @@ dark, bright moon, clear). Today's `AlertMessage.make` would send `alert.body.so
 ("Some activity near %@ and a clear, dark sky"), which would be wrong. The service sends
 localisation keys, so a new key must exist in every installed app that can receive alerts.
 
-**Decision**:
-1. Add `alert.body.brightMoon` and `alert.body.brightMoon.cloudsUnknown` (fi, sv, en) to the
-   **2.0** app before it is submitted to the App Store. 2.0 is in TestFlight today and is the
-   first version with alerts, so every App Store install that can register will have the keys.
-   This is a strings-only change on `main` (via a short branch and PR), independent of this
-   feature.
-2. This feature changes `AlertMessage.make` to send the new keys and adds them to `allKeys`
-   (the existing `AlertStringsTests` checks them).
-3. If 2.0 ships without the keys, the server maps the moon case to `alert.body.twilight`
-   ("…but the sky is not fully dark yet") until 30 days after the first version with the keys
-   is released, then switches. This is the fallback, not the plan.
+**Decision** (updated 2026-10-30: 2.0 went live on 2026-10-29 without the keys, so the
+fallback below is now the plan):
+1. This feature adds `alert.body.brightMoon` and `alert.body.brightMoon.cloudsUnknown` (fi, sv,
+   en) to the **3.0** app and to `AlertMessage.bodyKeys` (the existing `AlertStringsTests`
+   checks them).
+2. `AlertMessage.make(for:moonKeys:)` sends the new keys only when `moonKeys` is true; otherwise
+   it maps the moon case to `alert.body.twilight` (or `.cloudsUnknown`), whose text ("…but the
+   sky is not fully dark yet") is the closest existing one.
+3. The alert service reads `moonKeys` from the `ALERT_MOON_KEYS` setting, `false` by default.
+   It is switched to `true` 30 days after 3.0 is in the App Store, without a new build. The
+   server still learns nothing about the app version.
 
 **Rationale**: the cheapest way to avoid showing raw keys to users, without the server learning
 the app version (Principle II forbids storing device details).

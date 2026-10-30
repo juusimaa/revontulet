@@ -34,8 +34,10 @@ the factors combine.
 1. **Forecast Kp** = the highest Kp of all blocks that overlap the relevant hours (any kind:
    observed, estimated or predicted). With no overlapping block, expected activity is
    **unknown**.
-2. **Watch Kp** = 4 + the highest G level of the watches whose UTC days overlap the relevant
-   hours (G1 → 5 … G5 → 9). With no watch, none.
+2. **Watch Kp** = 4 + the highest G level of the watches that cover the night (G1 → 5 … G5 → 9).
+   With no watch, none. A watch day covers the night that **starts** on that date in Finnish
+   local time (Europe/Helsinki), so a watch for tomorrow applies to tomorrow night, not to the
+   early hours of tonight. For tonight under way, that is the date on which it started.
 3. **Kp for the night** = the higher of the two (FR-013: a watch only raises it).
 4. **Expected activity** from the band's thresholds:
 
@@ -98,3 +100,4 @@ and moon are computed for the date.
 | 8 | 2026-06-21 at Kevo (KEV) | None – too light, both nights |
 | 9 | 2026-11-10 at 03:00 local (01:00 UTC, night under way), clear; Kp 6 in the 21–24 UTC block of 11-09, Kp 2 from 00 UTC on | Low – low activity (blocks that ended before now are ignored) |
 | 10 | Kp forecast fetch failed, no cache, 2026-11-09 | Outlook unavailable |
+| 11 | 2026-11-09 afternoon, max Kp 3 both nights, G2 watch for 2026-11-10 only | Tonight: Low – low activity, no watch; tomorrow night: High – geomagnetic storm watch |

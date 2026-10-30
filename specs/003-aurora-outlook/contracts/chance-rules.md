@@ -55,8 +55,10 @@ alert service then sends these keys ([push contract of spec 002](../../002-auror
 | Moderate | brightMoon | known | `alert.body.brightMoon` | Strong activity near %@, but the moon is bright. |
 | Moderate | brightMoon | unknown | `alert.body.brightMoon.cloudsUnknown` | Strong activity near %@ under a bright moon. Cloud cover is unknown. |
 
-They are added to `AlertMessage.bodyKeys` and must exist in fi, sv and en in every app build that
-can register for alerts. See [research.md R9](../research.md) for the release order.
+They are added to `AlertMessage.bodyKeys` and exist in fi, sv and en from 3.0. 2.0 does not
+have them, so the service sends them only when `ALERT_MOON_KEYS` is on; until then it sends
+`alert.body.twilight` (or `alert.body.twilight.cloudsUnknown`) for these cases. See
+[research.md R9](../research.md).
 
 ## Reference cases (must pass)
 

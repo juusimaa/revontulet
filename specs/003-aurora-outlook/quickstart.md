@@ -28,9 +28,10 @@ Expect all tests to pass, including:
 | `OutlookCalculatorTests` | outlook-rules reference cases 1–10 |
 | `NOAAParserTests` | recorded NOAA responses, including gaps, fill values and a cancelled watch |
 | `OutlookServiceTests` | fetch cadence (R8), independent failures, cache round trip |
-| `ZoneEvaluatorTests` | zones include the moon; a moonlit Probable zone gives Moderate with `alert.body.brightMoon` |
+| `ZoneEvaluatorTests` | zones include the moon; a moonlit Probable zone gives Moderate with reason `brightMoon` |
+| `AlertMessageTests` | the moon case sends `alert.body.brightMoon*` with `moonKeys`, `alert.body.twilight*` without (R9) |
 
-## 2. Alert strings before 2.0 ships (R9)
+## 2. Alert strings (R9)
 
 ```sh
 xcodebuild test -scheme Revontulet -only-testing:RevontuletTests/AlertStringsTests \
@@ -71,4 +72,5 @@ xcodebuild test -scheme Revontulet -only-testing:RevontuletUITests/OutlookUITest
 
 Run the server tests (`cd Server && swift test`). Expect `ZoneEvaluator` results with the moon
 and no NOAA requests from the service (FR-025): the stub HTTP client fails the test on any
-request to `services.swpc.noaa.gov`.
+request to `services.swpc.noaa.gov`. With `ALERT_MOON_KEYS` unset, a moon case is sent with the
+twilight key; with `ALERT_MOON_KEYS=true`, with `alert.body.brightMoon` (R9).
