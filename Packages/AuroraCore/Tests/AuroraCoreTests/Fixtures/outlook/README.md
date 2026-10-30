@@ -14,8 +14,16 @@ by `tools/record-outlook-fixtures.py` and `tools/record-moon-reference.py` on 20
 | `noaa-malformed.json` | derived | The recorded solar wind file cut off halfway |
 | `moon-reference.json` | JPL Horizons | Moon elevation (topocentric, airless) and illuminated fraction at KEV, OUJ and TAR on 2026-03-15, 11-09 (new), 11-17, 11-24 (full) and 12-21 (polar night): 00/06/12/18 UTC plus the 10-minute step nearest each rise and set |
 
-Calibration fixtures (`soon-nights/`, `kp-nights.json`) are written by `tools/calibrate-soon.py`
-and `tools/calibrate-kp.py`; see research R6 and R7.
+Calibration fixtures are written by `tools/calibrate-soon.py` and `tools/calibrate-kp.py`
+(research R6 and R7):
 
-NOAA SWPC material is public domain; FMI open data is CC BY 4.0; JPL Horizons output is public
-domain.
+- `soon-nights/`: 46 nights (`nights.json`: kind, window and the minute each band rose to
+  Probable) with one CSV of solar wind per night, from NASA OMNI 1-minute data as the propagated
+  product would have given it; `thresholds.json` is the calibration's result.
+- `kp-nights.json`: 1005 station-nights with the observed Kp (GFZ Potsdam) and the night's FMI
+  level; `kp-thresholds.json` is the calibration's result.
+
+NOAA SWPC material and NASA OMNI data are public domain; FMI open data is CC BY 4.0; JPL Horizons
+output is public domain. Kp from GFZ Potsdam, CC BY 4.0: Matzka, J., Stolle, C., Yamazaki, Y.,
+Bronkalla, O. and Morschhauser, A. (2021), The geomagnetic Kp index and derived indices of
+geomagnetic activity, Space Weather, https://doi.org/10.1029/2020SW002641.

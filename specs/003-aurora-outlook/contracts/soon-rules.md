@@ -38,17 +38,17 @@ recorded nights in [research.md R6](../research.md)).
    replaces any estimate from the speed. The density is shown in the details only and is not
    part of the rule (R6).
 
-## Thresholds (initial, calibrated in R6)
+## Thresholds (calibrated in R6, 2026-10-30)
 
 | Band | `possible` (mV/m) | `likely` (mV/m) |
 |---|---|---|
-| North | 1.5 | 3.0 |
+| North | 1.25 | 2.5 |
 | Central | 2.5 | 5.0 |
-| South | 4.0 | 8.0 |
+| South | 2.75 | 5.5 |
 
 For reference: 400 km/s with Bz −5 nT gives 2.0 mV/m, 600 km/s with Bz −10 nT gives 6.0 mV/m.
-The final values are fixed in `SoonCalculator` and this table before release. Any later change
-is a change to the feature.
+The initial values were 1.5/3.0, 2.5/5.0 and 4.0/8.0. These are fixed in `SoonCalculator`; any
+later change is a change to the feature.
 
 ## Bands
 
@@ -80,15 +80,15 @@ minutes valid, and every sample arriving 55 minutes after it was observed, unles
 
 | # | Window | Expected |
 |---|---|---|
-| 1 | Bz −6, speed 450 throughout (Ey 2.7) | Possible; first strong minute arrives 55 − 8 − 19 = 28 min from now → "within about 30 minutes" |
+| 1 | Bz −4, speed 450 throughout (Ey 1.8) | Possible; first strong minute arrives 55 − 8 − 19 = 28 min from now → "within about 30 minutes" |
 | 2 | Bz −8, speed 500 throughout (Ey 4.0) | Likely, "within about 30 minutes" |
 | 3 | Bz +5 throughout | Quiet, no window |
 | 4 | Bz −20 for 5 minutes, +3 for 15 | Quiet (median 0) |
 | 5 | Bz +2 for the first 9 minutes, then Bz −8, speed 500 for 11 | Likely; first strong minute arrives 55 − 8 − 10 = 37 min → "within about 30 minutes" |
 | 6 | Newest sample observed 21 minutes before now | Unknown |
 | 7 | 14 of 20 minutes valid | Unknown |
-| 8 | Same as 2, band South | Possible (4.0 ≥ 4.0, < 8.0) |
-| 9 | Previous Likely, driver 2.4 (≥ 0.75 × 3.0 = 2.25) | Likely (hysteresis) |
-| 10 | Previous Likely, driver 2.0 | Possible |
+| 8 | Same as 2, band South | Possible (4.0 ≥ 2.75, < 5.5) |
+| 9 | Previous Likely, driver 2.4 (≥ 0.75 × 2.5 = 1.875) | Likely (hysteresis) |
+| 10 | Previous Likely, driver 1.6 | Possible |
 | 11 | Same as 2, arrival 30 minutes after observation | 30 − 8 − 19 = 3 min → "within about 15 minutes" (minimum) |
 | 12 | Same as 2, arrival 80 minutes after observation | 80 − 8 − 19 = 53 min → 60 → "within about an hour" |

@@ -1,8 +1,9 @@
 import Foundation
 
-/// URLs for the two FMI open data requests (contracts/fmi-open-data.md).
+/// URLs for the FMI open data requests (contracts/fmi-open-data.md, and the cloud forecast of
+/// specs/003-aurora-outlook/contracts/noaa-data.md).
 ///
-/// Both cover a fixed area and contain nothing derived from the user's location.
+/// All cover a fixed area or fixed positions and contain nothing derived from the user's location.
 public enum FMIRequests {
     static let endpoint = "https://opendata.fmi.fi/wfs"
 
@@ -29,6 +30,24 @@ public enum FMIRequests {
             start: Date(timeIntervalSince1970: end - 30 * 60),
             end: Date(timeIntervalSince1970: end)
         )
+    }
+
+    /// Hourly total cloud cover forecast for every zone's representative position, in one request
+    /// that is the same for every user (research R5 of spec 003).
+    public static func cloudForecast(zones: [AlertZone]) -> URL {
+        var components = URLComponents(string: endpoint)!
+        components.queryItems = [
+            URLQueryItem(name: "service", value: "WFS"),
+            URLQueryItem(name: "version", value: "2.0.0"),
+            URLQueryItem(name: "request", value: "getFeature"),
+            URLQueryItem(name: "storedquery_id", value: "fmi::forecast::edited::weather::scandinavia::point::simple"),
+        ] + zones.map {
+            URLQueryItem(name: "latlon", value: "\($0.representativePosition.latitude),\($0.representativePosition.longitude)")
+        } + [
+            URLQueryItem(name: "parameters", value: "TotalCloudCover"),
+            URLQueryItem(name: "timestep", value: "60"),
+        ]
+        return components.url!
     }
 
     private static func url(storedQuery: String, bbox: String, parameters: String, start: Date, end: Date) -> URL {

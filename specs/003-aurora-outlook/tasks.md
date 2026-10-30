@@ -73,28 +73,28 @@ that US2 and US3 extend. US1 does not need this phase.
 
 **⚠️ CRITICAL**: US2 and US3 cannot start until this phase is complete.
 
-- [ ] T004 [P] Write `Packages/AuroraCore/Tests/AuroraCoreTests/Outlook/BandTests.swift`:
+- [X] T004 [P] Write `Packages/AuroraCore/Tests/AuroraCoreTests/Outlook/BandTests.swift`:
   `Band.of(zoneID:)` gives North for KEV, KIL, IVA, MUO and PEL; Central for RAN, OUJ, MEK and
   HAN; South for TAR; and nil for an unknown code. Check that every station in `stations.json`
   has a band.
-- [ ] T005 [P] Write `Packages/AuroraCore/Tests/AuroraCoreTests/NOAARequestsTests.swift`: the
+- [X] T005 [P] Write `Packages/AuroraCore/Tests/AuroraCoreTests/NOAARequestsTests.swift`: the
   three URLs are exactly the ones in contracts/noaa-data.md and have no query items (FR-018).
-- [ ] T006 [P] Write `Packages/AuroraCore/Tests/AuroraCoreTests/Outlook/OutlookServiceTests.swift`
+- [X] T006 [P] Write `Packages/AuroraCore/Tests/AuroraCoreTests/Outlook/OutlookServiceTests.swift`
   (shell only):
   - `cachedSnapshot()` makes no HTTP call (`StubHTTPClient` records calls).
   - `refresh(for:zoneID:at:force:)` never throws, even when every request fails.
   - The returned snapshot carries the place and is saved to an `InMemoryOutlookCache`.
   - A snapshot round-trips through `JSONEncoder`/`JSONDecoder`.
-- [ ] T007 [P] Create `Packages/AuroraCore/Sources/AuroraCore/Outlook/Band.swift`: `public enum
+- [X] T007 [P] Create `Packages/AuroraCore/Sources/AuroraCore/Outlook/Band.swift`: `public enum
   Band: String, Sendable, Hashable, Codable, CaseIterable { case north, central, south }` with
   `static func of(zoneID: String) -> Band?`, mapped as in contracts/soon-rules.md#bands.
-- [ ] T008 [P] Create `Packages/AuroraCore/Sources/AuroraCore/NOAA/NOAARequests.swift`:
+- [X] T008 [P] Create `Packages/AuroraCore/Sources/AuroraCore/NOAA/NOAARequests.swift`:
   `public enum NOAARequests` with the fixed URLs `propagatedSolarWind`, `kpForecast` and `alerts`
   (contracts/noaa-data.md).
-- [ ] T009 Create `Packages/AuroraCore/Sources/AuroraCore/Outlook/OutlookModels.swift` with
+- [X] T009 Create `Packages/AuroraCore/Sources/AuroraCore/Outlook/OutlookModels.swift` with
   `public struct OutlookSnapshot: Sendable, Hashable, Codable`. It starts with `place: Place`
   only; US2 and US3 add their fields (data-model.md "Service and cache").
-- [ ] T010 Create `Packages/AuroraCore/Sources/AuroraCore/Outlook/OutlookService.swift`:
+- [X] T010 Create `Packages/AuroraCore/Sources/AuroraCore/Outlook/OutlookService.swift`:
   - `public protocol OutlookCache: Sendable` with `load()` and `save(_:)`, plus `public actor
     InMemoryOutlookCache`.
   - `public actor OutlookService` with `init(http:cache:)`, `cachedSnapshot()` and
@@ -104,11 +104,11 @@ that US2 and US3 extend. US1 does not need this phase.
     and is retried on the next refresh, never in a loop.
 
   Make T004–T006 pass.
-- [ ] T011 Create `Revontulet/Platform/FileOutlookCache.swift`, modelled on
+- [X] T011 Create `Revontulet/Platform/FileOutlookCache.swift`, modelled on
   `Revontulet/Platform/FileResultCache.swift`. It stores `OutlookSnapshot` in its own file in
   Application Support, separate from the headline cache; an undecodable file loads as nil. Honour
   `-uiTestResetCache` as `FileResultCache` does, where `Revontulet/App/RevontuletApp.swift` wires it.
-- [ ] T012 Wire `OutlookService` into `Revontulet/MainScreen/MainScreenModel.swift` and
+- [X] T012 Wire `OutlookService` into `Revontulet/MainScreen/MainScreenModel.swift` and
   `Revontulet/App/RevontuletApp.swift`:
   - Create it with the same `HTTPClient` as `AuroraService` and a `FileOutlookCache`.
   - Load `cachedSnapshot()` at launch, next to the cached headline.
@@ -264,7 +264,7 @@ leaves the headline unchanged.
 
 ### Calibration (R6, before the thresholds are final)
 
-- [ ] T031 [US2] Write `tools/calibrate-soon.py` (R6):
+- [X] T031 [US2] Write `tools/calibrate-soon.py` (R6):
   - Load NASA OMNI 1-minute data (offline download, public domain) and FMI magnetometer archives
     for at least 20 nights where a Lapland station reached Probable and 20 quiet nights,
     2024–2026.
@@ -273,7 +273,7 @@ leaves the headline unchanged.
   - Search the `possible`/`likely` threshold pairs per band that meet SC-003 with the fewest false
     Likely hours.
   - Write the chosen nights to `Packages/AuroraCore/Tests/AuroraCoreTests/Fixtures/outlook/soon-nights/`.
-- [ ] T032 [US2] Run T031. Replace the initial thresholds in
+- [X] T032 [US2] Run T031. Replace the initial thresholds in
   `specs/003-aurora-outlook/contracts/soon-rules.md` (Thresholds table) with the calibrated
   values, and record the nights used and the result in `specs/003-aurora-outlook/research.md` R6.
   Recompute the soon-rules reference cases that depend on the thresholds (8–10, and any other
@@ -282,26 +282,26 @@ leaves the headline unchanged.
 
 ### Tests for User Story 2 ⚠️ write first, check that they fail
 
-- [ ] T033 [P] [US2] Write `Packages/AuroraCore/Tests/AuroraCoreTests/NOAAParserTests.swift`
+- [X] T033 [P] [US2] Write `Packages/AuroraCore/Tests/AuroraCoreTests/NOAAParserTests.swift`
   (solar wind part), using the `Fixtures/outlook/solar-wind-*.json` files:
   - Columns are found by name.
   - `null` → nil; rows without `time_tag` are dropped; duplicate minutes keep the last row; the
     result is sorted by time.
   - A header without `time_tag`, `bz`, `speed` or `propagated_time_tag` throws.
   - `noaa-404.txt` and `noaa-malformed.json` throw.
-- [ ] T034 [P] [US2] Write `Packages/AuroraCore/Tests/AuroraCoreTests/Outlook/SoonCalculatorTests.swift`:
+- [X] T034 [P] [US2] Write `Packages/AuroraCore/Tests/AuroraCoreTests/Outlook/SoonCalculatorTests.swift`:
   - All twelve reference cases in contracts/soon-rules.md, with state, driver and
     `arrivalMinutes`.
   - The main-screen visibility rule (FR-010): the line is hidden only when it is too light both
     now and at now + `arrivalMinutes` at the place; it is shown on an overcast night.
-- [ ] T035 [P] [US2] Write `Packages/AuroraCore/Tests/AuroraCoreTests/Outlook/SoonReplayTests.swift`
+- [X] T035 [P] [US2] Write `Packages/AuroraCore/Tests/AuroraCoreTests/Outlook/SoonReplayTests.swift`
   using `Fixtures/outlook/soon-nights/`:
   - In ≥ 70% of the storm nights, the state is Possible or Likely ≥ 15 min before the station
     reached Probable.
   - On the quiet nights, Likely covers ≤ 10% of the dark hours (SC-003).
 
   Use `Support/NightReplay.swift` where it fits.
-- [ ] T036 [P] [US2] Extend `Packages/AuroraCore/Tests/AuroraCoreTests/Outlook/OutlookServiceTests.swift`
+- [X] T036 [P] [US2] Extend `Packages/AuroraCore/Tests/AuroraCoreTests/Outlook/OutlookServiceTests.swift`
   for solar wind:
   - Fetched at most every 5 min unless `force`.
   - A failed fetch keeps the last samples.
@@ -311,7 +311,7 @@ leaves the headline unchanged.
 
 ### Implementation for User Story 2
 
-- [ ] T037 [US2] Add to `Packages/AuroraCore/Sources/AuroraCore/Outlook/OutlookModels.swift`:
+- [X] T037 [US2] Add to `Packages/AuroraCore/Sources/AuroraCore/Outlook/OutlookModels.swift`:
   - `SolarWindSample { time: Date, arrival: Date?, bz: Double?, speed: Double?, density: Double? }`
   - `SoonState { quiet, possible, likely, unknown }`, ordered quiet < possible < likely for
     hysteresis
@@ -320,10 +320,10 @@ leaves the headline unchanged.
 
   Add `soon: SoonSignal` and the raw `samples` with their fetch time to `OutlookSnapshot`
   (data-model.md).
-- [ ] T038 [US2] Create `Packages/AuroraCore/Sources/AuroraCore/NOAA/NOAAParser.swift` with
+- [X] T038 [US2] Create `Packages/AuroraCore/Sources/AuroraCore/NOAA/NOAAParser.swift` with
   `static func propagatedSolarWind(_ data: Data) throws -> [SolarWindSample]` per
   contracts/noaa-data.md. Make T033 pass.
-- [ ] T039 [US2] Create `Packages/AuroraCore/Sources/AuroraCore/Outlook/SoonCalculator.swift`:
+- [X] T039 [US2] Create `Packages/AuroraCore/Sources/AuroraCore/Outlook/SoonCalculator.swift`:
   - `public enum SoonCalculator` with `signal(samples:band:now:previous:) -> SoonSignal`,
     following contracts/soon-rules.md steps 1–7.
   - A 20-minute window ending at the newest sample with Bz and speed.
@@ -337,7 +337,7 @@ leaves the headline unchanged.
   Add `showsOnMainScreen(_:at:now:)`, which uses `SolarPosition` darkness now and at now +
   `arrivalMinutes` (FR-010). Only `OutlookService` calls it (T040), so no calculation runs on the
   main actor (Principle V). Make T034 and T035 pass.
-- [ ] T040 [US2] In `Packages/AuroraCore/Sources/AuroraCore/Outlook/OutlookService.swift`, fetch
+- [X] T040 [US2] In `Packages/AuroraCore/Sources/AuroraCore/Outlook/OutlookService.swift`, fetch
   `NOAARequests.propagatedSolarWind` when due, parse it, keep the last good samples on failure,
   compute `SoonCalculator.signal` with `Band.of(zoneID:)` and the previous snapshot's state for
   the same place, set `showsOnMainScreen` from `SoonCalculator.showsOnMainScreen`, and store the
@@ -391,7 +391,7 @@ the app, `-uiTestOutlook storm` shows "Tonight: High – geomagnetic storm watch
 
 ### Calibration (R7, before the thresholds are final)
 
-- [ ] T047 [US3] Write `tools/calibrate-kp.py` (R7):
+- [X] T047 [US3] Write `tools/calibrate-kp.py` (R7):
   - Load GFZ definitive Kp (offline download, CC BY 4.0, credited in the script header) and FMI
     magnetometer archives for at least 30 nights across all bands, 2024–2026.
   - For each night, compare the band mapping of the observed Kp over the dark hours with the
@@ -399,7 +399,7 @@ the app, `-uiTestOutlook storm` shows "Tonight: High – geomagnetic storm watch
   - Search the `Possible from`/`Probable from` thresholds per band that maximise agreement
     (SC-004 needs ≥ 80%).
   - Write the nights to `Packages/AuroraCore/Tests/AuroraCoreTests/Fixtures/outlook/kp-nights.json`.
-- [ ] T048 [US3] Run T047. Replace the initial values in
+- [X] T048 [US3] Run T047. Replace the initial values in
   `specs/003-aurora-outlook/contracts/outlook-rules.md` §2 (thresholds table) with the calibrated
   values, and record the result in `specs/003-aurora-outlook/research.md` R7. Recompute the
   outlook-rules reference cases that depend on the thresholds (1–3, 5 and 11) so that each still
@@ -407,7 +407,7 @@ the app, `-uiTestOutlook storm` shows "Tonight: High – geomagnetic storm watch
 
 ### Tests for User Story 3 ⚠️ write first, check that they fail
 
-- [ ] T049 [P] [US3] Extend `Packages/AuroraCore/Tests/AuroraCoreTests/NOAAParserTests.swift`.
+- [X] T049 [P] [US3] Extend `Packages/AuroraCore/Tests/AuroraCoreTests/NOAAParserTests.swift`.
 
   Kp forecast:
   - The object shape (`kp-forecast.json`) and the old shape (`kp-forecast-old-shape.json`) give
@@ -423,7 +423,7 @@ the app, `-uiTestOutlook storm` shows "Tonight: High – geomagnetic storm watch
   - Year rollover (a December issue with January days).
   - A WATA message that matches no pattern is skipped without failing the file.
   - Malformed JSON throws.
-- [ ] T050 [P] [US3] Write `Packages/AuroraCore/Tests/AuroraCoreTests/Outlook/NightsTests.swift`
+- [X] T050 [P] [US3] Write `Packages/AuroraCore/Tests/AuroraCoreTests/Outlook/NightsTests.swift`
   (contracts/outlook-rules.md §1):
   - Tonight while dark (the period under way, with relevant hours from now).
   - Tonight in the afternoon (the next dark period within 24 h).
@@ -432,7 +432,7 @@ the app, `-uiTestOutlook storm` shows "Tonight: High – geomagnetic storm watch
   - Polar night at KEV in December: the period is capped at 24 h.
   - Relevant hours are the Dark hours when there are any, otherwise all twilight hours.
   - The DST change nights 2026-10-24/25 and 2026-03-28/29 in Europe/Helsinki.
-- [ ] T051 [P] [US3] Write `Packages/AuroraCore/Tests/AuroraCoreTests/Outlook/OutlookCalculatorTests.swift`:
+- [X] T051 [P] [US3] Write `Packages/AuroraCore/Tests/AuroraCoreTests/Outlook/OutlookCalculatorTests.swift`:
   - All eleven reference cases in contracts/outlook-rules.md (OUJ, band Central, synthetic Kp
     blocks and cloud forecasts). Case 11: a watch covers the night that starts on its date in
     Europe/Helsinki, not the early hours of the night before.
@@ -442,16 +442,16 @@ the app, `-uiTestOutlook storm` shows "Tonight: High – geomagnetic storm watch
     have a value.
   - Moon bright for at least half of the relevant hours.
   - `kpFetchedAt` and `cloudsFetchedAt` are carried.
-- [ ] T052 [P] [US3] Write `Packages/AuroraCore/Tests/AuroraCoreTests/Outlook/KpMappingTests.swift`:
+- [X] T052 [P] [US3] Write `Packages/AuroraCore/Tests/AuroraCoreTests/Outlook/KpMappingTests.swift`:
   apply the band mapping to the observed Kp in `Fixtures/outlook/kp-nights.json` and expect at
   least 80% agreement over at least 30 nights (SC-004).
-- [ ] T053 [P] [US3] Extend `Packages/AuroraCore/Tests/AuroraCoreTests/FMIRequestTests.swift` and
+- [X] T053 [P] [US3] Extend `Packages/AuroraCore/Tests/AuroraCoreTests/FMIRequestTests.swift` and
   `BsWfsParserTests.swift`:
   - `FMIRequests.cloudForecast(zones:)` has all ten `latlon` items from `stations.json`,
     `parameters=TotalCloudCover`, `timestep=60` and nothing user-derived.
   - Parsing `Fixtures/outlook/cloud-forecast.xml` gives one `CloudForecast` per zone, matched to
     the nearest zone position within 1 km, with `NaN` → missing.
-- [ ] T054 [P] [US3] Extend `Packages/AuroraCore/Tests/AuroraCoreTests/Outlook/OutlookServiceTests.swift`:
+- [X] T054 [P] [US3] Extend `Packages/AuroraCore/Tests/AuroraCoreTests/Outlook/OutlookServiceTests.swift`:
   - The Kp forecast and alerts are fetched at most every 60 min, and the cloud forecast at most
     every 3 h.
   - Each fetch fails on its own (a Kp failure leaves the soon signal and the clouds intact).
@@ -461,7 +461,7 @@ the app, `-uiTestOutlook storm` shows "Tonight: High – geomagnetic storm watch
 
 ### Implementation for User Story 3
 
-- [ ] T055 [US3] Add to `Packages/AuroraCore/Sources/AuroraCore/Outlook/OutlookModels.swift`, per
+- [X] T055 [US3] Add to `Packages/AuroraCore/Sources/AuroraCore/Outlook/OutlookModels.swift`, per
   data-model.md:
   - `KpKind { observed, estimated, predicted }`
   - `KpBlock { start, kp (0…9), kind }`, covering `start ..< start + 3 h`
@@ -474,17 +474,17 @@ the app, `-uiTestOutlook storm` shows "Tonight: High – geomagnetic storm watch
   - `NightOutlook` with all fields in data-model.md, and `Outlook { tonight, tomorrow, computedAt }`
 
   Add `outlook: Outlook?`, `forecast`, `watches` and `clouds` (with fetch times) to `OutlookSnapshot`.
-- [ ] T056 [US3] In `Packages/AuroraCore/Sources/AuroraCore/NOAA/NOAAParser.swift`, add
+- [X] T056 [US3] In `Packages/AuroraCore/Sources/AuroraCore/NOAA/NOAAParser.swift`, add
   `kpForecast(_:)` (both shapes) and `stormWatches(_:now:)` per contracts/noaa-data.md
   "Storm watches", steps 1–5. Make T049 pass.
-- [ ] T057 [US3] Add `public static func cloudForecast(zones: [AlertZone]) -> URL` (one request, a
+- [X] T057 [US3] Add `public static func cloudForecast(zones: [AlertZone]) -> URL` (one request, a
   repeated `latlon`) to `Packages/AuroraCore/Sources/AuroraCore/FMI/FMIRequests.swift`. Add
   parsing to `[CloudForecast]` in `Packages/AuroraCore/Sources/AuroraCore/FMI/BsWfsParser.swift`
   (nearest zone within 1 km, `NaN` → missing). Make T053 pass.
-- [ ] T058 [US3] Create `Packages/AuroraCore/Sources/AuroraCore/Outlook/Nights.swift`: find dark
+- [X] T058 [US3] Create `Packages/AuroraCore/Sources/AuroraCore/Outlook/Nights.swift`: find dark
   periods by sampling `SolarPosition` darkness every 5 min (not Too light = sun ≤ −6°), with
   tonight, tomorrow, a 24 h cap and relevant hours (contracts/outlook-rules.md §1). Make T050 pass.
-- [ ] T059 [US3] Create `Packages/AuroraCore/Sources/AuroraCore/Outlook/OutlookCalculator.swift`
+- [X] T059 [US3] Create `Packages/AuroraCore/Sources/AuroraCore/Outlook/OutlookCalculator.swift`
   with `public enum OutlookCalculator` and `outlook(place:band:now:kp:watches:clouds:) -> Outlook`:
   - §2 expected activity: the max Kp over blocks overlapping the relevant hours; watch Kp = 4 +
     G for watches whose day is the night's local start date (Europe/Helsinki); take the higher;
@@ -495,7 +495,7 @@ the app, `-uiTestOutlook storm` shows "Tonight: High – geomagnetic storm watch
     reason.
 
   Keep it well under 50 ms on a device. Make T051 and T052 pass.
-- [ ] T060 [US3] In `Packages/AuroraCore/Sources/AuroraCore/Outlook/OutlookService.swift`:
+- [X] T060 [US3] In `Packages/AuroraCore/Sources/AuroraCore/Outlook/OutlookService.swift`:
   - Fetch `NOAARequests.kpForecast`, `NOAARequests.alerts` and
     `FMIRequests.cloudForecast(zones:)` when due, each keeping its last good input on failure.
   - On every refresh, recompute the outlook from the cached inputs for the place and date, so

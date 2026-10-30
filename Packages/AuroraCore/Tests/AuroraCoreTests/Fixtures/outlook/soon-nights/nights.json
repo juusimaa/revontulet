@@ -1,0 +1,508 @@
+[
+ {
+  "night": "20240905",
+  "kind": "quiet",
+  "start": "2024-09-05T15:00:00Z",
+  "end": "2024-09-06T05:00:00Z",
+  "onset": {
+   "north": null,
+   "central": null,
+   "south": null
+  }
+ },
+ {
+  "night": "20240912",
+  "kind": "storm",
+  "start": "2024-09-12T15:00:00Z",
+  "end": "2024-09-13T05:00:00Z",
+  "onset": {
+   "north": "2024-09-12T19:15:00Z",
+   "central": "2024-09-12T18:43:00Z",
+   "south": "2024-09-12T18:45:00Z"
+  }
+ },
+ {
+  "night": "20240913",
+  "kind": "storm",
+  "start": "2024-09-13T15:00:00Z",
+  "end": "2024-09-14T05:00:00Z",
+  "onset": {
+   "north": "2024-09-13T17:59:00Z",
+   "central": "2024-09-13T20:46:00Z",
+   "south": "2024-09-13T21:41:00Z"
+  }
+ },
+ {
+  "night": "20240916",
+  "kind": "storm",
+  "start": "2024-09-16T15:00:00Z",
+  "end": "2024-09-17T05:00:00Z",
+  "onset": {
+   "north": "2024-09-16T21:05:00Z",
+   "central": "2024-09-16T23:33:00Z",
+   "south": "2024-09-17T01:02:00Z"
+  }
+ },
+ {
+  "night": "20240921",
+  "kind": "quiet",
+  "start": "2024-09-21T15:00:00Z",
+  "end": "2024-09-22T05:00:00Z",
+  "onset": {
+   "north": null,
+   "central": null,
+   "south": null
+  }
+ },
+ {
+  "night": "20241001",
+  "kind": "quiet",
+  "start": "2024-10-01T15:00:00Z",
+  "end": "2024-10-02T05:00:00Z",
+  "onset": {
+   "north": null,
+   "central": null,
+   "south": null
+  }
+ },
+ {
+  "night": "20241002",
+  "kind": "quiet",
+  "start": "2024-10-02T15:00:00Z",
+  "end": "2024-10-03T05:00:00Z",
+  "onset": {
+   "north": "2024-10-02T20:51:00Z",
+   "central": null,
+   "south": null
+  }
+ },
+ {
+  "night": "20241006",
+  "kind": "storm",
+  "start": "2024-10-06T15:00:00Z",
+  "end": "2024-10-07T05:00:00Z",
+  "onset": {
+   "north": "2024-10-06T21:17:00Z",
+   "central": "2024-10-06T21:05:00Z",
+   "south": "2024-10-06T23:57:00Z"
+  }
+ },
+ {
+  "night": "20241007",
+  "kind": "storm",
+  "start": "2024-10-07T15:00:00Z",
+  "end": "2024-10-08T05:00:00Z",
+  "onset": {
+   "north": "2024-10-07T17:04:00Z",
+   "central": "2024-10-07T16:39:00Z",
+   "south": "2024-10-07T18:08:00Z"
+  }
+ },
+ {
+  "night": "20241013",
+  "kind": "quiet",
+  "start": "2024-10-13T15:00:00Z",
+  "end": "2024-10-14T05:00:00Z",
+  "onset": {
+   "north": null,
+   "central": null,
+   "south": null
+  }
+ },
+ {
+  "night": "20241118",
+  "kind": "quiet",
+  "start": "2024-11-18T15:00:00Z",
+  "end": "2024-11-19T05:00:00Z",
+  "onset": {
+   "north": "2024-11-18T21:37:00Z",
+   "central": null,
+   "south": null
+  }
+ },
+ {
+  "night": "20241120",
+  "kind": "quiet",
+  "start": "2024-11-20T15:00:00Z",
+  "end": "2024-11-21T05:00:00Z",
+  "onset": {
+   "north": "2024-11-20T19:32:00Z",
+   "central": null,
+   "south": null
+  }
+ },
+ {
+  "night": "20241206",
+  "kind": "quiet",
+  "start": "2024-12-06T15:00:00Z",
+  "end": "2024-12-07T05:00:00Z",
+  "onset": {
+   "north": null,
+   "central": null,
+   "south": null
+  }
+ },
+ {
+  "night": "20241216",
+  "kind": "storm",
+  "start": "2024-12-16T15:00:00Z",
+  "end": "2024-12-17T05:00:00Z",
+  "onset": {
+   "north": "2024-12-16T18:17:00Z",
+   "central": "2024-12-17T02:59:00Z",
+   "south": null
+  }
+ },
+ {
+  "night": "20241230",
+  "kind": "quiet",
+  "start": "2024-12-30T15:00:00Z",
+  "end": "2024-12-31T05:00:00Z",
+  "onset": {
+   "north": "2024-12-30T20:16:00Z",
+   "central": null,
+   "south": null
+  }
+ },
+ {
+  "night": "20241231",
+  "kind": "storm",
+  "start": "2024-12-31T15:00:00Z",
+  "end": "2025-01-01T05:00:00Z",
+  "onset": {
+   "north": "2024-12-31T16:28:00Z",
+   "central": "2024-12-31T22:27:00Z",
+   "south": null
+  }
+ },
+ {
+  "night": "20250126",
+  "kind": "quiet",
+  "start": "2025-01-26T15:00:00Z",
+  "end": "2025-01-27T05:00:00Z",
+  "onset": {
+   "north": null,
+   "central": null,
+   "south": null
+  }
+ },
+ {
+  "night": "20250129",
+  "kind": "quiet",
+  "start": "2025-01-29T15:00:00Z",
+  "end": "2025-01-30T05:00:00Z",
+  "onset": {
+   "north": null,
+   "central": null,
+   "south": null
+  }
+ },
+ {
+  "night": "20250206",
+  "kind": "quiet",
+  "start": "2025-02-06T15:00:00Z",
+  "end": "2025-02-07T05:00:00Z",
+  "onset": {
+   "north": null,
+   "central": null,
+   "south": null
+  }
+ },
+ {
+  "night": "20250218",
+  "kind": "storm",
+  "start": "2025-02-18T15:00:00Z",
+  "end": "2025-02-19T05:00:00Z",
+  "onset": {
+   "north": "2025-02-18T22:16:00Z",
+   "central": "2025-02-18T21:53:00Z",
+   "south": null
+  }
+ },
+ {
+  "night": "20250227",
+  "kind": "storm",
+  "start": "2025-02-27T15:00:00Z",
+  "end": "2025-02-28T05:00:00Z",
+  "onset": {
+   "north": "2025-02-27T16:07:00Z",
+   "central": "2025-02-27T21:05:00Z",
+   "south": null
+  }
+ },
+ {
+  "night": "20250302",
+  "kind": "quiet",
+  "start": "2025-03-02T15:00:00Z",
+  "end": "2025-03-03T05:00:00Z",
+  "onset": {
+   "north": null,
+   "central": null,
+   "south": null
+  }
+ },
+ {
+  "night": "20250313",
+  "kind": "storm",
+  "start": "2025-03-13T15:00:00Z",
+  "end": "2025-03-14T05:00:00Z",
+  "onset": {
+   "north": "2025-03-13T18:58:00Z",
+   "central": "2025-03-13T18:59:00Z",
+   "south": null
+  }
+ },
+ {
+  "night": "20250321",
+  "kind": "storm",
+  "start": "2025-03-21T15:00:00Z",
+  "end": "2025-03-22T05:00:00Z",
+  "onset": {
+   "north": "2025-03-21T19:59:00Z",
+   "central": "2025-03-21T19:16:00Z",
+   "south": "2025-03-22T02:01:00Z"
+  }
+ },
+ {
+  "night": "20250326",
+  "kind": "storm",
+  "start": "2025-03-26T15:00:00Z",
+  "end": "2025-03-27T05:00:00Z",
+  "onset": {
+   "north": "2025-03-26T19:46:00Z",
+   "central": "2025-03-26T19:45:00Z",
+   "south": "2025-03-26T19:46:00Z"
+  }
+ },
+ {
+  "night": "20250901",
+  "kind": "storm",
+  "start": "2025-09-01T15:00:00Z",
+  "end": "2025-09-02T05:00:00Z",
+  "onset": {
+   "north": "2025-09-01T20:05:00Z",
+   "central": "2025-09-01T21:02:00Z",
+   "south": "2025-09-01T21:01:00Z"
+  }
+ },
+ {
+  "night": "20250914",
+  "kind": "storm",
+  "start": "2025-09-14T15:00:00Z",
+  "end": "2025-09-15T05:00:00Z",
+  "onset": {
+   "north": "2025-09-14T23:28:00Z",
+   "central": "2025-09-14T23:25:00Z",
+   "south": "2025-09-14T23:25:00Z"
+  }
+ },
+ {
+  "night": "20250918",
+  "kind": "quiet",
+  "start": "2025-09-18T15:00:00Z",
+  "end": "2025-09-19T05:00:00Z",
+  "onset": {
+   "north": "2025-09-18T20:07:00Z",
+   "central": null,
+   "south": null
+  }
+ },
+ {
+  "night": "20250929",
+  "kind": "storm",
+  "start": "2025-09-29T15:00:00Z",
+  "end": "2025-09-30T05:00:00Z",
+  "onset": {
+   "north": "2025-09-29T16:43:00Z",
+   "central": "2025-09-29T16:18:00Z",
+   "south": "2025-09-29T16:47:00Z"
+  }
+ },
+ {
+  "night": "20250930",
+  "kind": "storm",
+  "start": "2025-09-30T15:00:00Z",
+  "end": "2025-10-01T05:00:00Z",
+  "onset": {
+   "north": "2025-09-30T17:05:00Z",
+   "central": "2025-09-30T16:41:00Z",
+   "south": "2025-09-30T17:50:00Z"
+  }
+ },
+ {
+  "night": "20251001",
+  "kind": "storm",
+  "start": "2025-10-01T15:00:00Z",
+  "end": "2025-10-02T05:00:00Z",
+  "onset": {
+   "north": "2025-10-01T16:51:00Z",
+   "central": "2025-10-01T16:53:00Z",
+   "south": "2025-10-01T20:19:00Z"
+  }
+ },
+ {
+  "night": "20251025",
+  "kind": "quiet",
+  "start": "2025-10-25T15:00:00Z",
+  "end": "2025-10-26T05:00:00Z",
+  "onset": {
+   "north": null,
+   "central": null,
+   "south": null
+  }
+ },
+ {
+  "night": "20251026",
+  "kind": "quiet",
+  "start": "2025-10-26T15:00:00Z",
+  "end": "2025-10-27T05:00:00Z",
+  "onset": {
+   "north": null,
+   "central": null,
+   "south": null
+  }
+ },
+ {
+  "night": "20251111",
+  "kind": "storm",
+  "start": "2025-11-11T15:00:00Z",
+  "end": "2025-11-12T05:00:00Z",
+  "onset": {
+   "north": "2025-11-11T23:49:00Z",
+   "central": "2025-11-12T00:10:00Z",
+   "south": "2025-11-12T00:11:00Z"
+  }
+ },
+ {
+  "night": "20251114",
+  "kind": "quiet",
+  "start": "2025-11-14T15:00:00Z",
+  "end": "2025-11-15T05:00:00Z",
+  "onset": {
+   "north": "2025-11-15T03:11:00Z",
+   "central": null,
+   "south": null
+  }
+ },
+ {
+  "night": "20260122",
+  "kind": "storm",
+  "start": "2026-01-22T15:00:00Z",
+  "end": "2026-01-23T05:00:00Z",
+  "onset": {
+   "north": "2026-01-22T21:27:00Z",
+   "central": "2026-01-22T22:56:00Z",
+   "south": null
+  }
+ },
+ {
+  "night": "20260131",
+  "kind": "quiet",
+  "start": "2026-01-31T15:00:00Z",
+  "end": "2026-02-01T05:00:00Z",
+  "onset": {
+   "north": "2026-01-31T19:20:00Z",
+   "central": null,
+   "south": null
+  }
+ },
+ {
+  "night": "20260216",
+  "kind": "storm",
+  "start": "2026-02-16T15:00:00Z",
+  "end": "2026-02-17T05:00:00Z",
+  "onset": {
+   "north": "2026-02-16T16:16:00Z",
+   "central": "2026-02-16T17:50:00Z",
+   "south": null
+  }
+ },
+ {
+  "night": "20260303",
+  "kind": "storm",
+  "start": "2026-03-03T15:00:00Z",
+  "end": "2026-03-04T05:00:00Z",
+  "onset": {
+   "north": "2026-03-03T18:51:00Z",
+   "central": "2026-03-03T21:21:00Z",
+   "south": null
+  }
+ },
+ {
+  "night": "20260304",
+  "kind": "quiet",
+  "start": "2026-03-04T15:00:00Z",
+  "end": "2026-03-05T05:00:00Z",
+  "onset": {
+   "north": "2026-03-04T20:45:00Z",
+   "central": null,
+   "south": null
+  }
+ },
+ {
+  "night": "20260313",
+  "kind": "storm",
+  "start": "2026-03-13T15:00:00Z",
+  "end": "2026-03-14T05:00:00Z",
+  "onset": {
+   "north": "2026-03-13T19:14:00Z",
+   "central": "2026-03-13T22:01:00Z",
+   "south": null
+  }
+ },
+ {
+  "night": "20260320",
+  "kind": "storm",
+  "start": "2026-03-20T15:00:00Z",
+  "end": "2026-03-21T05:00:00Z",
+  "onset": {
+   "north": "2026-03-20T20:11:00Z",
+   "central": "2026-03-20T20:56:00Z",
+   "south": "2026-03-20T21:17:00Z"
+  }
+ },
+ {
+  "night": "20260322",
+  "kind": "storm",
+  "start": "2026-03-22T15:00:00Z",
+  "end": "2026-03-23T05:00:00Z",
+  "onset": {
+   "north": "2026-03-22T17:58:00Z",
+   "central": "2026-03-22T17:21:00Z",
+   "south": "2026-03-22T18:13:00Z"
+  }
+ },
+ {
+  "night": "20260901",
+  "kind": "quiet",
+  "start": "2026-09-01T15:00:00Z",
+  "end": "2026-09-02T05:00:00Z",
+  "onset": {
+   "north": null,
+   "central": null,
+   "south": null
+  }
+ },
+ {
+  "night": "20260903",
+  "kind": "quiet",
+  "start": "2026-09-03T15:00:00Z",
+  "end": "2026-09-04T05:00:00Z",
+  "onset": {
+   "north": "2026-09-03T19:25:00Z",
+   "central": null,
+   "south": null
+  }
+ },
+ {
+  "night": "20260929",
+  "kind": "quiet",
+  "start": "2026-09-29T15:00:00Z",
+  "end": "2026-09-30T05:00:00Z",
+  "onset": {
+   "north": null,
+   "central": null,
+   "south": null
+  }
+ }
+]

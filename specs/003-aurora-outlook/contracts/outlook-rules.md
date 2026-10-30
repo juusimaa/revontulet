@@ -43,12 +43,13 @@ the factors combine.
 
 | Band | Possible from Kp | Probable from Kp |
 |---|---|---|
-| North | 3 | 5 |
-| Central | 4 | 6 |
-| South | 5 | 7 |
+| North | 1 | 2.67 (3−) |
+| Central | 2.67 (3−) | 4 |
+| South | 5 | 5.67 (6−) |
 
-Below "Possible from" → Unlikely. These are initial values: they are calibrated per band
-against recorded nights in [research.md R7](../research.md) (SC-004) and then fixed here.
+Below "Possible from" → Unlikely. Calibrated per band against 106 recorded nights in
+[research.md R7](../research.md) (SC-004, 2026-10-30); the initial values were 3/5, 4/6 and 5/7.
+Kp is compared in thirds with a 0.01 tolerance.
 
 ## 3. Sky for the night
 
@@ -90,7 +91,7 @@ and moon are computed for the date.
 
 | # | Situation | Expected tonight |
 |---|---|---|
-| 1 | 2026-11-09 (new moon), max Kp 4 over the dark hours, mean cloud 10% | Moderate – some activity |
+| 1 | 2026-11-09 (new moon), max Kp 3 over the dark hours, mean cloud 10% | Moderate – some activity |
 | 2 | Same, max Kp 6 | High – good conditions |
 | 3 | Same, max Kp 2 | Low – low activity |
 | 4 | 2026-11-24 (moon ~100% and up most of the night), max Kp 6, clear | Moderate – bright moon |
@@ -100,4 +101,4 @@ and moon are computed for the date.
 | 8 | 2026-06-21 at Kevo (KEV) | None – too light, both nights |
 | 9 | 2026-11-10 at 03:00 local (01:00 UTC, night under way), clear; Kp 6 in the 21–24 UTC block of 11-09, Kp 2 from 00 UTC on | Low – low activity (blocks that ended before now are ignored) |
 | 10 | Kp forecast fetch failed, no cache, 2026-11-09 | Outlook unavailable |
-| 11 | 2026-11-09 afternoon, max Kp 3 both nights, G2 watch for 2026-11-10 only | Tonight: Low – low activity, no watch; tomorrow night: High – geomagnetic storm watch |
+| 11 | 2026-11-09 afternoon, max Kp 2 both nights, G2 watch for 2026-11-10 only | Tonight: Low – low activity, no watch; tomorrow night: High – geomagnetic storm watch |

@@ -60,15 +60,18 @@ enum AppDependencies {
             }
             else { URLSessionHTTPClient() }
         let cache = FileResultCache()
+        let outlookCache = FileOutlookCache()
         let placeStore = PlaceSelectionStore()
         if arguments.contains("-uiTestResetCache") {
             cache.clear()
+            outlookCache.clear()
             placeStore.clear()
         }
         // The bundled station table is part of the app; failing to load it is a build error.
         let service = try! AuroraService(http: http, cache: cache)
         return MainScreenModel(
-            service: service, location: locationProvider(arguments: arguments), placeStore: placeStore,
+            service: service, outlookService: OutlookService(http: http, cache: outlookCache),
+            location: locationProvider(arguments: arguments), placeStore: placeStore,
             now: clock(arguments: arguments),
             onPlaceResolved: { place in Task { await alertSettings.placeResolved(place) } })
     }

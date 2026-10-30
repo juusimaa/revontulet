@@ -145,6 +145,42 @@ app (Principle I's licence check is recorded here anyway).
 weak-Bz streams); OVATION model (global, coarse, a large file; rejected for the spec's
 "now/soon" split).
 
+**Result (2026-10-30, `tools/calibrate-soon.py`)**: 24 storm nights (Kp ≥ 5, a station of the
+band reached Probable after the first hour of the night) and 22 quiet nights (Kp ≤ 2 all night),
+September–March 2024–2026, in `Fixtures/outlook/soon-nights/` (`nights.json` lists them).
+
+| Band | `possible` / `likely` (mV/m) | Rises seen coming | Quiet nights: dark time at Likely | at Possible or Likely |
+|---|---|---|---|---|
+| North | 1.25 / 2.5 | 18 of 24 (75%) | 0.1% | 2.0% |
+| Central | 2.5 / 5.0 | 19 of 24 (79%) | 0% | 0.1% |
+| South | 2.75 / 5.5 | 12 of 15 (80%) | 0% | 0% |
+
+A rise counts as seen coming when the state was Possible or Likely at some 5-minute refresh from
+75 to 15 minutes before it. The replay uses what the product would have held: samples observed
+at L1 at least 8 minutes earlier, the last hour only.
+
+How the data were prepared, and why:
+
+- **FMI archive glitches.** Single bad 10 s samples lift R for exactly 10 minutes (R up to 65,842
+  on 2024-09-05, even at Tartu). A level counts only when it is held for 15 consecutive minutes,
+  both for the rise time here and for the night's level in R7.
+- **OMNI timeshift.** OMNI's per-minute timeshift to the bow shock is noisy (5236 s, 1854 s and
+  3674 s on consecutive minutes), so the L1 time is the row time minus the running median of
+  the timeshift over an hour; the row time is used as the arrival.
+- **OMNI plasma gaps.** About a quarter of OMNI's 1-minute speeds are missing (27% in October
+  2025) where the field is present. Speed and density gaps of up to an hour are interpolated for
+  the replay; Bz is never filled. Nights with less than 80% coverage were skipped.
+- **Selection rule.** Per band, the highest `possible` that still sees the rises coming on at
+  least ceil(70%) + 1 of the storm nights, with `likely` twice it as in the initial table. A first
+  ranking by the fewest false Likely steps was rejected: every pair with a low enough `likely` has
+  none, so it chose 1.25/3.12 for every band and ignored latitude.
+- **Rises on quiet nights are left out.** A Lapland station reached Probable for 15 minutes on 9
+  of the 22 quiet nights too. Counting those rises (33 North rises in all), the chosen North pair
+  sees 19 (58%), and no pair meets 70% except the bottom of the grid (0.5/1.0 mV/m), which would
+  say "may rise" on almost every night. Substorms on quiet nights are not predictable from the
+  solar wind with a threshold rule; SC-003 is applied to the storm nights' rises, as this section
+  planned.
+
 ## R7. Kp-to-activity mapping and calibration
 
 **Decision**: per-band Kp thresholds for Possible and Probable
@@ -163,6 +199,24 @@ reuse the soon-rule bands so the user sees one consistent picture.
 **Alternatives considered**: a per-station mapping (ten thresholds pairs, overfits 30 nights);
 OVATION probability at the zone (global model, large file, not designed for a two-night
 outlook).
+
+**Result (2026-10-30, `tools/calibrate-kp.py`)**: 106 nights, September–March 2024–2026: the
+soon calibration's nights plus up to 12 nights per Kp bucket (0–2, 2–3, 3–4, 4–5, 5–6, 6+),
+1005 station-nights in `Fixtures/outlook/kp-nights.json`. Each station-night compares the highest
+observed Kp over the station's relevant hours with the highest FMI level held for 15 consecutive
+minutes in them (see R6 on glitches).
+
+| Band | Possible from | Probable from | Agreement | With the initial values |
+|---|---|---|---|---|
+| North | 1 | 2.67 | 413 of 486 (85.0%) | 46.3% |
+| Central | 2.67 | 4 | 361 of 413 (87.4%) | 57.9% |
+| South | 5 | 5.67 | 83 of 106 (78.3%) | 72.6% |
+| All | | | 857 of 1005 (85.3%) | |
+
+SC-004 (≥ 80% over ≥ 30 nights) is met overall; the South band alone (one station, Tartu) is at
+78%. The thresholds are much lower than the initial ones because, at this solar maximum, Lapland
+stations held Probable for at least 15 minutes on most dark nights: FMI's levels describe the
+most active moment of a long night, which is what the outlook is compared with.
 
 ## R8. Fetch cadence, caching and failures
 

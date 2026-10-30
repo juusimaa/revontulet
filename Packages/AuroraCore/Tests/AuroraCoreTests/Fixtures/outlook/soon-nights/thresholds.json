@@ -1,0 +1,25 @@
+{
+ "north": {
+  "possible": 1.25,
+  "likely": 2.5,
+  "detection": 0.75,
+  "likelyShare": 0.0010944910616563297,
+  "storms": 24,
+  "allRises": 33,
+  "allRisesDetection": 0.5757575757575758
+ },
+ "central": {
+  "possible": 2.5,
+  "likely": 5.0,
+  "detection": 0.7916666666666666,
+  "likelyShare": 0.0,
+  "storms": 24
+ },
+ "south": {
+  "possible": 2.75,
+  "likely": 5.5,
+  "detection": 0.8,
+  "likelyShare": 0.0,
+  "storms": 15
+ }
+}

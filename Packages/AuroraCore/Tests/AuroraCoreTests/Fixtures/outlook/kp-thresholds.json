@@ -1,0 +1,23 @@
+{
+ "north": {
+  "possibleFrom": 1.0,
+  "probableFrom": 2.67,
+  "agree": 413,
+  "of": 486,
+  "initialAgree": 225
+ },
+ "central": {
+  "possibleFrom": 2.67,
+  "probableFrom": 4.0,
+  "agree": 361,
+  "of": 413,
+  "initialAgree": 239
+ },
+ "south": {
+  "possibleFrom": 5.0,
+  "probableFrom": 5.67,
+  "agree": 83,
+  "of": 106,
+  "initialAgree": 77
+ }
+}
