@@ -80,6 +80,9 @@ If expected activity is unknown and the night is not Too light, that night's out
 | Too light | "Tonight: None – too light" | Same, without activity |
 | Unavailable | "Outlook unavailable" (once for both nights if both are) | Age of the last forecast, if any |
 
+Once tonight is under way its title is "Rest of tonight", with a note when the measured activity
+is above the expected activity ([main-screen-additions.md](main-screen-additions.md#content)).
+
 The reason is the chance reason, except that a watch replaces "some activity" or "good
 conditions" with **"geomagnetic storm watch"** (`outlook.reason.stormWatch`) when the watch
 decided the expected activity. Cloud cover not included is shown as for the headline.

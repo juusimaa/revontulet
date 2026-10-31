@@ -21,6 +21,13 @@ Rules:
 - The headline stays the largest and first element; nothing new is placed above it (SC-006).
 - Forecast elements never use the headline's level styling at the same size, so a forecast is
   never mistaken for a measurement (FR-009, SC-005).
+- Once tonight's dark period has started, the row is titled **"Rest of tonight"** (VoiceOver:
+  "Forecast for the rest of tonight: …"), because it covers only the hours from now on
+  ([outlook-rules.md](outlook-rules.md#1-nights)).
+- If that row's expected activity is lower than the headline's measured activity, the row adds
+  **"Activity now is higher than forecast"**. Only that way round: a forecast above the
+  measurement may still come true later in the night. The forecast level itself never takes the
+  measurement into account (FR-009).
 - Levels are text, never colour alone. VoiceOver reads the soon line as "Forecast: …" and each
   outlook row as "Forecast for tonight: …".
 - Each factor row in both details (activity, storm watch, darkness, moon, clouds, solar wind)

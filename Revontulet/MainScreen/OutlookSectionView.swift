@@ -59,6 +59,8 @@ struct SoonLine: View {
 struct OutlookSectionView: View {
     let snapshot: OutlookSnapshot
     let now: Date
+    /// The headline's measured activity, compared with tonight's forecast once the night is under way.
+    var measuredActivity: ActivityLevel?
 
     @State private var isShowingDetails = false
 
@@ -79,9 +81,9 @@ struct OutlookSectionView: View {
                     if outlook.tonight.availability == .unavailable && outlook.tomorrow.availability == .unavailable {
                         UnavailableRow(fetchedAt: outlook.tonight.kpFetchedAt, now: now)
                     } else {
-                        NightRow(night: outlook.tonight)
+                        NightRow(night: outlook.tonight, now: now, measuredActivity: measuredActivity)
                         Divider().overlay(.white.opacity(0.08))
-                        NightRow(night: outlook.tomorrow)
+                        NightRow(night: outlook.tomorrow, now: now)
                     }
                 }
                 .padding(18)
@@ -103,11 +105,13 @@ struct OutlookSectionView: View {
 /// "Tonight" with the level and reason; the level as words and a small meter, never colour alone.
 private struct NightRow: View {
     let night: NightOutlook
+    let now: Date
+    var measuredActivity: ActivityLevel?
 
     var body: some View {
         HStack(alignment: .center, spacing: 12) {
             VStack(alignment: .leading, spacing: 2) {
-                Text(night.which.title)
+                Text(night.title(at: now))
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
                 if night.availability == .unavailable {
@@ -127,6 +131,12 @@ private struct NightRow: View {
                             .font(.caption)
                             .foregroundStyle(.secondary)
                     }
+                    if exceeded {
+                        Text("Activity now is higher than forecast")
+                            .font(.caption.weight(.medium))
+                            .foregroundStyle(ForecastStyle.accent)
+                            .padding(.top, 2)
+                    }
                 }
             }
             Spacer(minLength: 8)
@@ -139,15 +149,24 @@ private struct NightRow: View {
         .accessibilityIdentifier(night.which == .tonight ? "outlookTonight" : "outlookTomorrow")
     }
 
+    private var exceeded: Bool { night.isExceeded(by: measuredActivity, at: now) }
+
     private var label: Text {
-        let value: Text = if night.availability == .unavailable {
+        var value: Text = if night.availability == .unavailable {
             Text("Outlook unavailable")
         } else if let chance = night.chance, let reason = night.reason {
             Text("\(Text(chance.level.title)), \(Text(reason.title))")
         } else {
             Text("Outlook unavailable")
         }
-        return night.which == .tonight ? Text("Forecast for tonight: \(value)") : Text("Forecast for tomorrow night: \(value)")
+        if exceeded {
+            value = Text("\(value). \(Text("Activity now is higher than forecast"))")
+        }
+        return switch night.which {
+        case .tonight where night.isUnderway(at: now): Text("Forecast for the rest of tonight: \(value)")
+        case .tonight: Text("Forecast for tonight: \(value)")
+        case .tomorrow: Text("Forecast for tomorrow night: \(value)")
+        }
     }
 }
 
@@ -221,7 +240,7 @@ private struct NightDetails: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack(alignment: .firstTextBaseline) {
-                Text(night.which.title)
+                Text(night.title(at: now))
                     .font(.title3.weight(.semibold))
                 Spacer()
                 if let chance = night.chance, night.availability != .unavailable {

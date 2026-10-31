@@ -116,6 +116,29 @@
         }
       }
     },
+    "%@. %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@. %2$@"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@. %2$@"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@. %2$@"
+          }
+        }
+      }
+    },
     "%lld %% on average": {
       "extractionState": "manual",
       "localizations": {
@@ -319,6 +342,29 @@
           "stringUnit": {
             "state": "translated",
             "value": "Aktiviteten kan förbli hög"
+          }
+        }
+      }
+    },
+    "Activity now is higher than forecast": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Activity now is higher than forecast"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aktiivisuus on nyt ennustettua korkeampi"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aktiviteten är nu högre än prognosen"
           }
         }
       }
@@ -1335,6 +1381,29 @@
         }
       }
     },
+    "Forecast for the rest of tonight: %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Forecast for the rest of tonight: %@"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ennuste loppuyölle: %@"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prognos för resten av natten: %@"
+          }
+        }
+      }
+    },
     "Forecast for tomorrow night: %@": {
       "extractionState": "manual",
       "localizations": {
@@ -2228,6 +2297,29 @@
           "stringUnit": {
             "state": "translated",
             "value": "Tas bort…"
+          }
+        }
+      }
+    },
+    "Rest of tonight": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rest of tonight"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Loppuyönä"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Resten av natten"
           }
         }
       }

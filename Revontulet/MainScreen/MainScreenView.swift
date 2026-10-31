@@ -184,7 +184,7 @@ private struct ResultView: View {
                     MeasurementLine(result: result, freshness: freshness, now: now)
                         .padding(.top, 28)
                     if let outlook = model.outlook {
-                        OutlookSectionView(snapshot: outlook, now: now)
+                        OutlookSectionView(snapshot: outlook, now: now, measuredActivity: result.reading.activity)
                             .padding(.top, 32)
                     }
                     ChanceDetailsView(result: result, soon: model.outlook?.soon, now: now)

@@ -108,6 +108,28 @@ extension NightKind {
     }
 }
 
+extension NightOutlook {
+    /// Tonight's dark period has started: the outlook covers only the rest of it.
+    func isUnderway(at now: Date) -> Bool {
+        guard which == .tonight, let start = night.start else { return false }
+        return start <= now
+    }
+
+    /// "Tonight", or "Rest of tonight" once the night is under way.
+    func title(at now: Date) -> LocalizedStringResource {
+        isUnderway(at: now) ? "Rest of tonight" : which.title
+    }
+
+    /// The measurement is above this night's expected activity while the night is under way.
+    /// Only that way round: a forecast above the measurement may still come true later.
+    func isExceeded(by measured: ActivityLevel?, at now: Date) -> Bool {
+        guard isUnderway(at: now), availability == .available, let measured, let activity,
+              let measuredRank = ActivityLevel.allCases.firstIndex(of: measured),
+              let expectedRank = ActivityLevel.allCases.firstIndex(of: activity) else { return false }
+        return measuredRank > expectedRank
+    }
+}
+
 extension OutlookReason {
     var title: LocalizedStringResource {
         LocalizedStringResource(String.LocalizationValue(key))

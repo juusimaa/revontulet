@@ -90,7 +90,7 @@ final class OutlookUITests: XCTestCase {
 
         let tonight = app.element("outlookTonight")
         XCTAssertTrue(tonight.waitForExistence(timeout: 15))
-        XCTAssertEqual(tonight.label, "Forecast for tonight: High, Geomagnetic storm watch")
+        XCTAssertEqual(tonight.label, "Forecast for the rest of tonight: High, Geomagnetic storm watch")
     }
 
     @MainActor
@@ -127,6 +127,19 @@ final class OutlookUITests: XCTestCase {
     }
 
     /// A stubbed run, then a relaunch with every request failing: the outlook comes from cache.
+    /// 23:00 local, the night under way: strong measured activity, but NOAA forecasts Kp 2.
+    @MainActor
+    func testMeasurementAboveTheForecastIsNotedForTheRestOfTonight() throws {
+        let app = launch("moon", time: "2026-11-24T21:00:00Z")
+
+        let tonight = app.element("outlookTonight")
+        XCTAssertTrue(tonight.waitForExistence(timeout: 15))
+        XCTAssertEqual(
+            tonight.label,
+            "Forecast for the rest of tonight: None, Low activity. Activity now is higher than forecast")
+        XCTAssertEqual(app.element("outlookTomorrow").label, "Forecast for tomorrow night: None, Low activity")
+    }
+
     @MainActor
     func testOfflineRelaunchShowsTheCachedOutlook() throws {
         let first = launch("storm", time: Self.darkNight)
@@ -141,6 +154,6 @@ final class OutlookUITests: XCTestCase {
         app.launch()
         let tonight = app.element("outlookTonight")
         XCTAssertTrue(tonight.waitForExistence(timeout: 15))
-        XCTAssertEqual(tonight.label, "Forecast for tonight: High, Geomagnetic storm watch")
+        XCTAssertEqual(tonight.label, "Forecast for the rest of tonight: High, Geomagnetic storm watch")
     }
 }
