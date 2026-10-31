@@ -97,10 +97,13 @@ final class OutlookUITests: XCTestCase {
     func testSummerIsTooLightForBothNights() throws {
         let app = launch("summer", time: "2026-06-21T12:00:00Z")
 
-        let tonight = app.element("outlookTonight")
-        XCTAssertTrue(tonight.waitForExistence(timeout: 15))
-        XCTAssertEqual(tonight.label, "Forecast for tonight: None, Too light")
-        XCTAssertEqual(app.element("outlookTomorrow").label, "Forecast for tomorrow night: None, Too light")
+        // One row for both nights, with when dark nights return (late July in Oulu).
+        let row = app.element("outlookTooLight")
+        XCTAssertTrue(row.waitForExistence(timeout: 15))
+        XCTAssertTrue(row.label.hasPrefix(
+            "Forecast for tonight and tomorrow night: None, Too light. Dark nights return around"), row.label)
+        XCTAssertTrue(row.label.contains("July"), row.label)
+        XCTAssertFalse(app.element("outlookTonight").exists)
     }
 
     @MainActor
@@ -110,6 +113,9 @@ final class OutlookUITests: XCTestCase {
         XCTAssertTrue(app.element("outlookUnavailable").waitForExistence(timeout: 15))
         XCTAssertTrue(app.element("chanceHeadline").exists)
         XCTAssertFalse(app.element("outlookTonight").exists)
+        // Nothing more to show, so tapping the card opens no details.
+        app.element("outlookSection").tap()
+        XCTAssertFalse(app.staticTexts["This is a forecast, not a measurement"].waitForExistence(timeout: 2))
     }
 
     @MainActor

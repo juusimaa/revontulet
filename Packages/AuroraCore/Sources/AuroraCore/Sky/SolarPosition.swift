@@ -42,6 +42,17 @@ public enum SolarPosition {
         return nil
     }
 
+    /// The first time it is no longer too light, searching up to `days` days ahead day by day; for
+    /// "dark nights return around …" near midsummer. nil when it stays too light all that time.
+    public static func nextDarkNight(latitude: Double, longitude: Double, after date: Date, days: Int = 120) -> Date? {
+        for day in 0..<days {
+            if let dark = nextDarkness(latitude: latitude, longitude: longitude, after: date.addingTimeInterval(Double(day) * 86_400)) {
+                return dark
+            }
+        }
+        return nil
+    }
+
     /// Above −6° too light, −12° up to −6° twilight, −12° and below dark.
     static func darkness(elevation: Double) -> Darkness {
         if elevation > -6 { return .tooLight }

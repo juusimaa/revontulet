@@ -1151,6 +1151,29 @@
         }
       }
     },
+    "Dark nights return around %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dark nights return around %@"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pimeät yöt palaavat noin %@"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mörka nätter återkommer kring %@"
+          }
+        }
+      }
+    },
     "Darkness": {
       "extractionState": "manual",
       "localizations": {
@@ -1423,6 +1446,29 @@
           "stringUnit": {
             "state": "translated",
             "value": "Prognos för i morgon natt: %@"
+          }
+        }
+      }
+    },
+    "Forecast for tonight and tomorrow night: %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Forecast for tonight and tomorrow night: %@"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ennuste tälle yölle ja huomisyölle: %@"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prognos för i natt och i morgon natt: %@"
           }
         }
       }
@@ -2803,6 +2849,29 @@
           "stringUnit": {
             "state": "translated",
             "value": "I natt"
+          }
+        }
+      }
+    },
+    "Tonight and tomorrow night": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tonight and tomorrow night"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tänä yönä ja huomisyönä"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "I natt och i morgon natt"
           }
         }
       }

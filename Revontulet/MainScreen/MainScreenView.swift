@@ -177,12 +177,13 @@ private struct ResultView: View {
                     }
                     Hero(result: result, freshness: freshness)
                         .padding(.top, freshness == .offline ? 40 : 72)
-                    if let soon = model.outlook?.soon {
-                        SoonLine(soon: soon, headline: result)
-                            .padding(.top, 20)
-                    }
+                    // The data age and station belong to the headline; the forecast comes after them.
                     MeasurementLine(result: result, freshness: freshness, now: now)
                         .padding(.top, 28)
+                    if let soon = model.outlook?.soon {
+                        SoonLine(soon: soon, headline: result)
+                            .padding(.top, 28)
+                    }
                     if let outlook = model.outlook {
                         OutlookSectionView(snapshot: outlook, now: now, measuredActivity: result.reading.activity)
                             .padding(.top, 32)

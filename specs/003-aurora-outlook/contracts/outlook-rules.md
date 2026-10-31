@@ -77,7 +77,7 @@ If expected activity is unknown and the night is not Too light, that night's out
 | Case | Main screen | Details |
 |---|---|---|
 | Available | "Tonight: Moderate – geomagnetic storm watch" or "Tonight: Low – cloudy" | Expected activity, max Kp, watch, darkness, moon, mean cloud cover, update times, "This is a forecast" |
-| Too light | "Tonight: None – too light" | Same, without activity |
+| Too light | "Tonight: None – too light"; both nights too light: one row with "Dark nights return around <date>" | Darkness only (no activity, forecast update times) |
 | Unavailable | "Outlook unavailable" (once for both nights if both are) | Age of the last forecast, if any |
 
 Once tonight is under way its title is "Rest of tonight", with a note when the measured activity

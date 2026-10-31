@@ -9,7 +9,7 @@ each element must show and when. All text exists in fi, sv and en (FR-023).
 | Element | Where | When |
 |---|---|---|
 | Headline, place, station, data age | unchanged | unchanged |
-| **Soon line**: "Activity likely to rise within about 45 minutes" | Directly under the headline, visibly secondary and marked as a forecast (e.g. a "Soon" label) | State Possible or Likely and not hidden by the light rule ([soon-rules.md](soon-rules.md#display-fr-008-to-fr-010)) |
+| **Soon line**: "Activity likely to rise within about 45 minutes" | Under the headline block (after the data age and station, which belong to the headline), a single line without a container, visibly secondary and marked as a forecast (a "Soon" label) | State Possible or Likely and not hidden by the light rule ([soon-rules.md](soon-rules.md#display-fr-008-to-fr-010)) |
 | **Outlook**: two rows, "Tonight" and "Tomorrow night", each "<Level> – <reason>" | Below the headline block, under a "Forecast" heading | A place inside coverage |
 | **Moon** in details: "Moon 85 %, waxing gibbous, up" / "below the horizon" | Details panel, next to darkness | Always with a result |
 | **Solar wind** in details: state, Bz, speed, density, data age | Details panel | Always; "unavailable" when Unknown |
@@ -45,7 +45,8 @@ Rules:
 | Loading (first run) | hidden | hidden |
 | Result, inputs fresh | per rules | per rules |
 | Soon Unknown | hidden; details say "Solar wind data unavailable" | unaffected |
-| Outlook unavailable | unaffected | one row "Outlook unavailable" |
+| Outlook unavailable | unaffected | one row "Outlook unavailable"; the section is not a button (no details to open) |
+| Both nights too light | per rules | one row "Tonight and tomorrow night: None – too light", with "Dark nights return around <date>" (the first time within 120 days that it is no longer too light) |
 | Offline (all fetches failed) | from the cached snapshot if the newest sample is ≤ 20 min old, else hidden | from cached inputs, recomputed for now; "unavailable" if no Kp forecast is cached or it no longer covers tonight |
 | Headline No data (no R) | hidden | still shown (it does not need R) |
 | Location denied / outside coverage | hidden | hidden |
