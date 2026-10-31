@@ -26,12 +26,12 @@ struct ChanceCalculatorTests {
         Case(number: 7, activity: .possible, darkness: .dark, clouds: .clear, level: .moderate, limiting: .activity, reason: .someActivity),
         Case(number: 8, activity: .possible, darkness: .twilight, clouds: .partly, level: .none, limiting: .clouds, reason: .partlyCloudy),
         Case(number: 9, activity: .unlikely, darkness: .dark, clouds: .clear, level: .low, limiting: .activity, reason: .lowActivity),
-        Case(number: 10, activity: .unlikely, darkness: .twilight, clouds: .clear, level: .none, limiting: .twilight, reason: .twilight),
+        Case(number: 10, activity: .unlikely, darkness: .twilight, clouds: .clear, level: .none, limiting: .activity, reason: .lowActivity),
         Case(number: 11, activity: .probable, darkness: .dark, clouds: .unknown, level: .high, limiting: nil, reason: .goodConditions),
         Case(number: 12, activity: .unlikely, darkness: .tooLight, clouds: .overcast, level: .none, limiting: .light, reason: .tooLight),
         Case(number: 13, activity: .probable, darkness: .dark, moonBright: true, clouds: .clear, level: .moderate, limiting: .moon, reason: .brightMoon),
         Case(number: 14, activity: .possible, darkness: .dark, moonBright: true, clouds: .clear, level: .low, limiting: .moon, reason: .brightMoon),
-        Case(number: 15, activity: .unlikely, darkness: .dark, moonBright: true, clouds: .clear, level: .none, limiting: .moon, reason: .brightMoon),
+        Case(number: 15, activity: .unlikely, darkness: .dark, moonBright: true, clouds: .clear, level: .none, limiting: .activity, reason: .lowActivity),
         Case(number: 16, activity: .probable, darkness: .twilight, moonBright: true, clouds: .clear, level: .moderate, limiting: .twilight, reason: .twilight),
         Case(number: 17, activity: .probable, darkness: .dark, moonBright: true, clouds: .partly, level: .low, limiting: .clouds, reason: .partlyCloudy),
         Case(number: 18, activity: .probable, darkness: .twilight, moonBright: true, clouds: .partly, level: .low, limiting: .clouds, reason: .partlyCloudy),
@@ -39,6 +39,8 @@ struct ChanceCalculatorTests {
         Case(number: 20, activity: .probable, darkness: .dark, moonBright: true, clouds: .overcast, level: .none, limiting: .clouds, reason: .overcast),
         Case(number: 21, activity: .probable, darkness: .dark, moonBright: true, clouds: .unknown, level: .moderate, limiting: .moon, reason: .brightMoon),
         Case(number: 22, activity: .possible, darkness: .twilight, moonBright: true, clouds: .clear, level: .low, limiting: .twilight, reason: .twilight),
+        Case(number: 23, activity: .unlikely, darkness: .dark, clouds: .partly, level: .none, limiting: .activity, reason: .lowActivity),
+        Case(number: 24, activity: .unlikely, darkness: .twilight, moonBright: true, clouds: .partly, level: .none, limiting: .activity, reason: .lowActivity),
     ]
 
     @Test(arguments: referenceCases)

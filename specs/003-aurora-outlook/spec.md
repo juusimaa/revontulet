@@ -164,7 +164,9 @@ the documented outlook rule.
   lowers the level by one step, like twilight. Twilight and a bright moon together MUST lower it
   by one step only (one "sky brightness" step). "Too light" and "Overcast" still set the level to
   None. When the moon is the only factor that lowered the level, the limiting factor and reason
-  MUST be "bright moon".
+  MUST be "bright moon", unless activity alone already limits the level to Low: a level lowered
+  from Low to None gives "low activity", so a None is never blamed on the moon, twilight or
+  clouds when the aurora is unlikely anyway.
 - **FR-004**: The details MUST show the moon's phase (as an illuminated percentage and a phase
   name) and whether it is up, in all three languages.
 - **FR-005**: Every place that uses the chance-to-see rules MUST use the extended rules: the main

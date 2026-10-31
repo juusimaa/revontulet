@@ -38,7 +38,11 @@ public enum ChanceCalculator {
             level = level.lowered()
             limitingFactor = .clouds
         }
-        if limitingFactor == nil, level != .high {
+        // Unlikely activity allows Low at best, so a step down to None is not the sky's or the
+        // clouds' doing: "None – bright moon" would suggest aurora hidden by the moon.
+        if activity == .unlikely, level == .none {
+            limitingFactor = .activity
+        } else if limitingFactor == nil, level != .high {
             limitingFactor = .activity
         }
         return Chance(level: level, limitingFactor: limitingFactor, cloudsIncluded: cloudsIncluded)

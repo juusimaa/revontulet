@@ -27,7 +27,11 @@ refraction) **and** its illuminated fraction is at least 0.5 (FR-002).
    Twilight, otherwise **Moon**.
 5. If Clouds is **Partly** → lower by one level (minimum None), limiting factor = Clouds.
 6. Clouds **Unknown** does not change the level; the result carries "cloud cover not included".
-7. Limiting factor when not set in steps 2–5: Activity, unless the level is High, in which case
+7. **New:** if Activity is **Unlikely** and the level is now **None**, the limiting factor is
+   **Activity**. Unlikely activity allows Low at best, so step 4 or 5 lowering it to None
+   does not mean the sky or clouds hide aurora. "None – bright moon" would suggest they do.
+   The details still mark the moon, twilight or clouds as limiting.
+8. Limiting factor when not set in steps 2–7: Activity, unless the level is High, in which case
    there is none.
 
 Twilight is reported over the moon when both apply, because the sun alone already explains the
@@ -62,13 +66,14 @@ have them, so the service sends them only when `ALERT_MOON_KEYS` is on; until th
 
 ## Reference cases (must pass)
 
-Cases 1–12 of v1 hold unchanged with Moon = Not bright. New cases:
+Cases 1–12 of v1 hold with Moon = Not bright, except case 10 (Unlikely, Twilight, Clear), whose
+limiting factor is now Activity (step 7). New cases:
 
 | # | Activity | Darkness | Moon | Clouds | Level | Limiting |
 |---|---|---|---|---|---|---|
 | 13 | Probable | Dark | Bright | Clear | Moderate | Moon |
 | 14 | Possible | Dark | Bright | Clear | Low | Moon |
-| 15 | Unlikely | Dark | Bright | Clear | None | Moon |
+| 15 | Unlikely | Dark | Bright | Clear | None | Activity (step 7) |
 | 16 | Probable | Twilight | Bright | Clear | Moderate | Twilight |
 | 17 | Probable | Dark | Bright | Partly | Low | Clouds |
 | 18 | Probable | Twilight | Bright | Partly | Low | Clouds |
@@ -76,3 +81,5 @@ Cases 1–12 of v1 hold unchanged with Moon = Not bright. New cases:
 | 20 | Probable | Dark | Bright | Overcast | None | Clouds |
 | 21 | Probable | Dark | Bright | Unknown | Moderate | Moon (cloud cover not included) |
 | 22 | Possible | Twilight | Bright | Clear | Low | Twilight |
+| 23 | Unlikely | Dark | Not bright | Partly | None | Activity (step 7) |
+| 24 | Unlikely | Twilight | Bright | Partly | None | Activity (step 7) |
