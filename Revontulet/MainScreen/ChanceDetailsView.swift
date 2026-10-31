@@ -39,7 +39,7 @@ struct ChanceDetailsView: View {
             if expanded {
                 VStack(alignment: .leading, spacing: 18) {
                     activity
-                    row(symbol: "moon.stars", title: "Darkness") {
+                    row(symbol: "moon.stars", title: "Darkness", effect: .of(result.darkness)) {
                         Text(result.darkness.title)
                     }
                     moon
@@ -66,7 +66,7 @@ struct ChanceDetailsView: View {
     @ViewBuilder
     private var activity: some View {
         if let level = result.reading.activity {
-            row(symbol: "waveform.path.ecg", title: "Geomagnetic activity") {
+            row(symbol: "waveform.path.ecg", title: "Geomagnetic activity", effect: .of(level)) {
                 Text(level.title)
                 if let r = result.reading.r {
                     Text("R \(Int(r.rounded())) at \(result.reading.station.name)")
@@ -80,7 +80,7 @@ struct ChanceDetailsView: View {
     /// Illuminated part, phase and whether it is up (FR-004).
     private var moon: some View {
         let moon = result.moon
-        return row(symbol: moon.isBright ? "moon.fill" : "moon", title: "Moon") {
+        return row(symbol: moon.isBright ? "moon.fill" : "moon", title: "Moon", effect: .of(moonBright: moon.isBright)) {
             if moon.altitude > 0 {
                 Text("\(moon.percentLit) %, \(Text(moon.phase.title)), up")
             } else {
@@ -92,14 +92,15 @@ struct ChanceDetailsView: View {
             }
         }
         .accessibilityLabel(moon.altitude > 0
-            ? Text("Moon, \(moon.percentLit) percent lit, \(Text(moon.phase.title)), up")
-            : Text("Moon, \(moon.percentLit) percent lit, \(Text(moon.phase.title)), below the horizon"))
+            ? Text("Moon, \(Text(FactorEffect.of(moonBright: moon.isBright).title)): \(moon.percentLit) percent lit, \(Text(moon.phase.title)), up")
+            : Text("Moon, \(Text(FactorEffect.of(moonBright: moon.isBright).title)): \(moon.percentLit) percent lit, \(Text(moon.phase.title)), below the horizon"))
         .accessibilityIdentifier("moonDetail")
     }
 
     private var clouds: some View {
-        row(symbol: "cloud", title: "Cloud cover") {
-            if result.clouds.condition == .unknown || !result.chance.cloudsIncluded {
+        let included = result.clouds.condition != .unknown && result.chance.cloudsIncluded
+        return row(symbol: "cloud", title: "Cloud cover", effect: included ? .of(result.clouds.condition) : nil) {
+            if !included {
                 Text("Cloud cover not included")
             } else {
                 if let octas = result.clouds.octas {
@@ -117,7 +118,7 @@ struct ChanceDetailsView: View {
 
     /// The "soon" forecast with what it is based on (FR-010, FR-020).
     private func solarWind(_ soon: SoonSignal) -> some View {
-        row(symbol: "wind", title: "Solar wind") {
+        row(symbol: "wind", title: "Solar wind", effect: .of(soon.state)) {
             soon.detail(headlineActivity: result.reading.activity)
             if soon.state != .unknown, let sample = soon.latest {
                 Text("Bz \(Self.number(sample.bz)) nT, speed \(Self.number(sample.speed)) km/s, density \(Self.number(sample.density)) /cm³")
@@ -155,7 +156,9 @@ struct ChanceDetailsView: View {
         .accessibilityElement(children: .combine)
     }
 
-    private func row<Value: View>(symbol: String, title: LocalizedStringKey, @ViewBuilder value: () -> Value) -> some View {
+    private func row<Value: View>(
+        symbol: String, title: LocalizedStringKey, effect: FactorEffect?, @ViewBuilder value: () -> Value
+    ) -> some View {
         HStack(alignment: .firstTextBaseline, spacing: 12) {
             Image(systemName: symbol)
                 .font(.body)
@@ -163,9 +166,7 @@ struct ChanceDetailsView: View {
                 .frame(width: iconWidth)
                 .accessibilityHidden(true)
             VStack(alignment: .leading, spacing: 2) {
-                Text(title)
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
+                FactorTitle(title: title, effect: effect)
                 value()
                     .font(.body)
             }

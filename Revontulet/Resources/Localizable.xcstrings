@@ -1634,48 +1634,48 @@
         }
       }
     },
-    "Moon, %lld percent lit, %@, below the horizon": {
+    "Moon, %@: %lld percent lit, %@, below the horizon": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Moon, %1$lld percent lit, %2$@, below the horizon"
+            "value": "Moon, %1$@: %2$lld percent lit, %3$@, below the horizon"
           }
         },
         "fi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Kuu, %1$lld prosenttia valaistu, %2$@, horisontin alla"
+            "value": "Kuu, %1$@: %2$lld prosenttia valaistu, %3$@, horisontin alla"
           }
         },
         "sv": {
           "stringUnit": {
             "state": "translated",
-            "value": "Månen, %1$lld procent belyst, %2$@, under horisonten"
+            "value": "Månen, %1$@: %2$lld procent belyst, %3$@, under horisonten"
           }
         }
       }
     },
-    "Moon, %lld percent lit, %@, up": {
+    "Moon, %@: %lld percent lit, %@, up": {
       "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Moon, %1$lld percent lit, %2$@, up"
+            "value": "Moon, %1$@: %2$lld percent lit, %3$@, up"
           }
         },
         "fi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Kuu, %1$lld prosenttia valaistu, %2$@, taivaalla"
+            "value": "Kuu, %1$@: %2$lld prosenttia valaistu, %3$@, taivaalla"
           }
         },
         "sv": {
           "stringUnit": {
             "state": "translated",
-            "value": "Månen, %1$lld procent belyst, %2$@, uppe"
+            "value": "Månen, %1$@: %2$lld procent belyst, %3$@, uppe"
           }
         }
       }
@@ -2514,19 +2514,19 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Storm watch"
+            "value": "Geomagnetic storm watch"
           }
         },
         "fi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Myrskyvaroitus"
+            "value": "Magneettimyrskyvaroitus"
           }
         },
         "sv": {
           "stringUnit": {
             "state": "translated",
-            "value": "Stormvarning"
+            "value": "Varning för geomagnetisk storm"
           }
         }
       }
@@ -3585,6 +3585,75 @@
           "stringUnit": {
             "state": "translated",
             "value": "Skymning"
+          }
+        }
+      }
+    },
+    "effect.helps": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Helps"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Suotuisa"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gynnar"
+          }
+        }
+      }
+    },
+    "effect.limits": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Limits"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Heikentää"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Begränsar"
+          }
+        }
+      }
+    },
+    "effect.prevents": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prevents"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Estää"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hindrar"
           }
         }
       }

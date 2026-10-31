@@ -23,6 +23,13 @@ Rules:
   never mistaken for a measurement (FR-009, SC-005).
 - Levels are text, never colour alone. VoiceOver reads the soon line as "Forecast: …" and each
   outlook row as "Forecast for tonight: …".
+- Each factor row in both details (activity, storm watch, darkness, moon, clouds, solar wind)
+  carries an effect badge, a symbol and a word, following [chance-rules.md](chance-rules.md):
+  **Helps** (probable activity, a storm watch, Dark, no bright moon, Clear, soon Possible or
+  Likely), **Limits** (unlikely activity, Twilight, a bright moon, Partly cloudy) or
+  **Prevents** (Too light, Overcast). Possible activity, no watch, Quiet or Unknown solar wind
+  and cloud cover not included show no badge. The storm watch row is titled "Geomagnetic storm
+  watch" so it is not read as a weather warning.
 
 ## States
 

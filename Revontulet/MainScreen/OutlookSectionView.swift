@@ -235,7 +235,7 @@ private struct NightDetails: View {
                     .foregroundStyle(.secondary)
             }
             if night.availability == .available {
-                DetailLine(symbol: "waveform.path.ecg", title: "Expected activity") {
+                DetailLine(symbol: "waveform.path.ecg", title: "Expected activity", effect: .of(night.activity)) {
                     Text(night.activity?.title ?? "Unknown")
                     if let kp = night.maxKp {
                         Text("Highest Kp \(Formatting.kp(kp))").foregroundStyle(.secondary)
@@ -243,16 +243,16 @@ private struct NightDetails: View {
                 }
             }
             if night.availability != .tooLight {
-                DetailLine(symbol: "bolt.horizontal", title: "Storm watch") {
+                DetailLine(symbol: "bolt.horizontal", title: "Storm watch", effect: .of(stormWatch: night.watchLevel)) {
                     if let level = night.watchLevel { Text(StormLevel.title(level)) } else { Text("None in effect") }
                 }
             }
-            DetailLine(symbol: "moon.stars", title: "Darkness") { Text(night.darkness.title) }
+            DetailLine(symbol: "moon.stars", title: "Darkness", effect: .of(night.darkness)) { Text(night.darkness.title) }
             if night.availability != .tooLight {
-                DetailLine(symbol: night.moon ? "moon.fill" : "moon", title: "Moon") {
+                DetailLine(symbol: night.moon ? "moon.fill" : "moon", title: "Moon", effect: .of(moonBright: night.moon)) {
                     Text(night.moon ? "Bright moon for most of the night" : "No bright moon")
                 }
-                DetailLine(symbol: "cloud", title: "Cloud cover") {
+                DetailLine(symbol: "cloud", title: "Cloud cover", effect: night.meanCloudPercent == nil ? nil : .of(night.clouds)) {
                     if let mean = night.meanCloudPercent {
                         Text("\(Text(night.clouds.title)), \(Text("\(Int(mean.rounded())) % on average"))")
                     } else {
@@ -280,6 +280,7 @@ private struct NightDetails: View {
 private struct DetailLine<Value: View>: View {
     let symbol: String
     let title: LocalizedStringKey
+    let effect: FactorEffect?
     @ViewBuilder let value: Value
 
     @ScaledMetric(relativeTo: .body) private var iconWidth = 24.0
@@ -291,9 +292,7 @@ private struct DetailLine<Value: View>: View {
                 .frame(width: iconWidth)
                 .accessibilityHidden(true)
             VStack(alignment: .leading, spacing: 2) {
-                Text(title)
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
+                FactorTitle(title: title, effect: effect)
                 value
             }
         }

@@ -35,6 +35,7 @@ final class OutlookUITests: XCTestCase {
         XCTAssertTrue(moon.waitForExistence(timeout: 5))
         XCTAssertTrue(moon.label.contains("full moon"), moon.label)
         XCTAssertTrue(moon.label.hasSuffix("up"), moon.label)
+        XCTAssertTrue(moon.label.contains("Limits"), moon.label)
     }
 
     // MARK: Soon (US2)
@@ -120,6 +121,9 @@ final class OutlookUITests: XCTestCase {
         section.tap()
         XCTAssertTrue(app.staticTexts["This is a forecast, not a measurement"].waitForExistence(timeout: 5))
         XCTAssertTrue(app.staticTexts["G2 (moderate)"].exists)
+        // The watch is marked as helping, so it does not read as a warning about the weather.
+        XCTAssertTrue(app.staticTexts["Geomagnetic storm watch"].exists)
+        XCTAssertTrue(app.staticTexts["Helps"].exists)
     }
 
     /// A stubbed run, then a relaunch with every request failing: the outlook comes from cache.
