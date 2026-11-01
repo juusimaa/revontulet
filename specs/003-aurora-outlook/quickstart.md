@@ -25,7 +25,7 @@ Expect all tests to pass, including:
 | `SoonCalculatorTests` | soon-rules reference cases 1–12 |
 | `SoonReplayTests` | recorded storm and quiet nights meet SC-003 |
 | `KpMappingTests` | recorded nights meet SC-004 |
-| `OutlookCalculatorTests` | outlook-rules reference cases 1–11 |
+| `OutlookCalculatorTests` | outlook-rules reference cases 1–13 |
 | `NightsTests` | tonight and tomorrow night, polar night, midsummer, DST changes |
 | `BandTests`, `NOAARequestsTests`, `FMIRequestTests` | bands, fixed NOAA URLs, the shared cloud forecast request |
 | `NOAAParserTests` | recorded NOAA responses, including gaps, fill values and a cancelled watch |

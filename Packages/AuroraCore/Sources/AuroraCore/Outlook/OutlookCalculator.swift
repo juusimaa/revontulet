@@ -44,18 +44,22 @@ public enum OutlookCalculator {
         _ which: NightKind, _ night: Night, place: Coordinate, band: Band, kp: KpForecast?, watches: [StormWatch],
         clouds: CloudForecast?
     ) -> NightOutlook {
-        guard let start = night.start, let from = night.relevantStart, let to = night.relevantEnd else {
+        guard night.start != nil, let from = night.relevantStart, let to = night.relevantEnd else {
             return NightOutlook(
                 which: which, night: night, availability: .tooLight, darkness: .tooLight,
                 chance: Chance(level: .none, limitingFactor: .light, cloudsIncluded: true), reason: .chance(.tooLight),
                 kpFetchedAt: kp?.fetchedAt, cloudsFetchedAt: clouds?.fetchedAt)
         }
 
-        // §2 Expected activity: the forecast over the relevant hours, raised by a watch for the
-        // night that starts on the watch's date in Finland.
+        // §2 Expected activity: the forecast over the relevant hours, raised by a watch whose UTC
+        // day overlaps them.
         let forecastKp = kp?.blocks.filter { $0.start < to && $0.end > from }.map(\.kp).max()
-        let localStart = Nights.localDate(start)
-        let watchLevel = watches.filter { $0.days.contains(localStart) }.map(\.level).max()
+        let watchLevel = watches.filter { watch in
+            watch.days.contains { day in
+                guard let dayStart = UTCTime.parse("\(day)T00:00:00Z") else { return false }
+                return dayStart < to && dayStart + 86_400 > from
+            }
+        }.map(\.level).max()
         let watchKp = watchLevel.map { Double(4 + $0) }
 
         // §3 Sky over the relevant hours.

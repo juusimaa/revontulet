@@ -173,8 +173,8 @@ struct OutlookServiceTests {
         #expect(snapshot.clouds?.value.count == 10)
         #expect(outlook.tonight.availability == .available)
         #expect(outlook.tomorrow.availability == .available)
-        // Tomorrow night starts on 2026-10-31, the day of the G1 watch.
-        #expect(outlook.tonight.watchLevel == nil)
+        // The G1 watch days 2026-10-31 and 11-01 cover tonight after midnight UTC and tomorrow night.
+        #expect(outlook.tonight.watchLevel == 1)
         #expect(outlook.tomorrow.watchLevel == 1)
         #expect(outlook.tonight.kpFetchedAt == Self.quietNow)
         #expect(outlook.tonight.cloudsFetchedAt == Self.quietNow)

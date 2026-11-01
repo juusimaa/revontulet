@@ -35,9 +35,12 @@ the factors combine.
    observed, estimated or predicted). With no overlapping block, expected activity is
    **unknown**.
 2. **Watch Kp** = 4 + the highest G level of the watches that cover the night (G1 → 5 … G5 → 9).
-   With no watch, none. A watch day covers the night that **starts** on that date in Finnish
-   local time (Europe/Helsinki), so a watch for tomorrow applies to tomorrow night, not to the
-   early hours of tonight. For tonight under way, that is the date on which it started.
+   With no watch, none. A watch day is a UTC day, as in NOAA's message, and covers a night if
+   it overlaps the night's relevant hours. In Finland a night usually spans two UTC days (the
+   date changes at 02:00 or 03:00 local time), so a watch for tomorrow also covers the end of
+   tonight. For tonight under way, a watch day that has already ended no longer counts.
+   (Changed 2026-11-01: the earlier rule matched a watch day to the night starting on that local
+   date, so a G1 day whose storm came in the early hours still raised the following evening.)
 3. **Kp for the night** = the higher of the two (FR-013: a watch only raises it).
 4. **Expected activity** from the band's thresholds:
 
@@ -104,4 +107,6 @@ and moon are computed for the date.
 | 8 | 2026-06-21 at Kevo (KEV) | None – too light, both nights |
 | 9 | 2026-11-10 at 03:00 local (01:00 UTC, night under way), clear; Kp 6 in the 21–24 UTC block of 11-09, Kp 2 from 00 UTC on | Low – low activity (blocks that ended before now are ignored) |
 | 10 | Kp forecast fetch failed, no cache, 2026-11-09 | Outlook unavailable |
-| 11 | 2026-11-09 afternoon, max Kp 2 both nights, G2 watch for 2026-11-10 only | Tonight: Low – low activity, no watch; tomorrow night: High – geomagnetic storm watch |
+| 11 | 2026-11-09 afternoon, max Kp 2 both nights, G2 watch for 2026-11-10 only | Both nights: High – geomagnetic storm watch (tonight's hours after 00 UTC fall on 11-10) |
+| 12 | 2026-11-10 at 03:00 local (01:00 UTC, night under way), max Kp 2, G2 watch for 2026-11-09 only | Low – low activity, no watch (the watch day ended at 02:00 local) |
+| 13 | 2026-11-09 afternoon, max Kp 2, G2 watch for 2026-11-12 only | Neither night has a watch |

@@ -37,7 +37,7 @@ struct OutlookCalculatorTests {
         OutlookCalculator.outlook(place: place, band: band, now: now, kp: kp, watches: watches, clouds: clouds).tonight
     }
 
-    // MARK: Reference cases 1–11
+    // MARK: Reference cases 1–13
 
     @Test func case1SomeActivity() {
         let night = tonight(kp: Self.kp(3), clouds: Self.clouds(10))
@@ -124,17 +124,35 @@ struct OutlookCalculatorTests {
         }
     }
 
-    /// A watch day covers the night that starts on that date in Finland, not the early hours of
-    /// the night before.
-    @Test func case11WatchForTomorrowOnly() {
+    /// A watch day covers the relevant hours within that UTC day: the watch for 11-10 also covers
+    /// the hours after midnight UTC of the night that starts on 11-09.
+    @Test func case11WatchForTomorrowAlsoCoversTheEndOfTonight() {
         let outlook = OutlookCalculator.outlook(place: Self.ouj, band: .central, now: Self.afternoon, kp: Self.kp(2),
                                                 watches: [Self.watch(2, "2026-11-10")], clouds: Self.clouds(10))
-        #expect(outlook.tonight.chance?.level == .low)
-        #expect(outlook.tonight.reason == .chance(.lowActivity))
-        #expect(outlook.tonight.watchLevel == nil)
+        #expect(outlook.tonight.chance?.level == .high)
+        #expect(outlook.tonight.reason == .stormWatch)
+        #expect(outlook.tonight.watchLevel == 2)
         #expect(outlook.tomorrow.chance?.level == .high)
         #expect(outlook.tomorrow.reason == .stormWatch)
         #expect(outlook.tomorrow.watchLevel == 2)
+    }
+
+    /// 03:00 in Finland on 2026-11-10, the night under way: the watch day 11-09 ended at 02:00.
+    @Test func case12WatchDayThatEndedIsIgnored() {
+        let night = tonight(now: utc("2026-11-10T01:00:00Z"), kp: Self.kp(2), watches: [Self.watch(2, "2026-11-09")],
+                            clouds: Self.clouds(10))
+        #expect(night.watchLevel == nil)
+        #expect(night.maxKp == 2)
+        #expect(night.chance?.level == .low)
+        #expect(night.reason == .chance(.lowActivity))
+    }
+
+    /// A watch for the day after tomorrow covers neither night: tomorrow night ends before it starts.
+    @Test func case13WatchForALaterDayCoversNeitherNight() {
+        let outlook = OutlookCalculator.outlook(place: Self.ouj, band: .central, now: Self.afternoon, kp: Self.kp(2),
+                                                watches: [Self.watch(2, "2026-11-12")], clouds: Self.clouds(10))
+        #expect(outlook.tonight.watchLevel == nil)
+        #expect(outlook.tomorrow.watchLevel == nil)
     }
 
     // MARK: Details
