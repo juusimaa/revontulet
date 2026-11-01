@@ -61,9 +61,13 @@ harder to parse, same information; kept only as a cross-check.
 | Fetched (UTC) | Text forecast issued | Predicted blocks compared | Differences |
 |---|---|---|---|
 | 2026-10-30 10:33 | 2026 Oct 30 0030 UTC | 2026-10-31 15 UTC to 2026-11-01 21 UTC | none (all equal) |
+| 2026-11-01 08:55 | 2026 Nov 01 0030 UTC | 2026-11-02 00 UTC to 2026-11-03 21 UTC | 11 of 16 differ, −1.00 to +0.67, no consistent sign; JSON lower for 2 Nov 18–21 UT (1.67/2.0 vs 2.33/2.67) |
+| 2026-11-01 12:46 | 2026 Nov 01 1230 UTC | 2026-11-02 00 UTC to 2026-11-03 21 UTC | none (all equal); the new text matches what the JSON already gave at 08:55 |
 
-To do before release: run it on a few more days, including just after the 1230 UTC text
-issue, and close the open point above.
+**Open point closed (2026-11-01)**: the JSON leads the text product. It carries the next
+forecast hours before that forecast is issued as text, so the two differ between text issues
+and agree right after one. The 2026-10-26 difference fits this too. The JSON stays the source;
+the text product is not needed.
 
 ## R3. Geomagnetic storm watches
 

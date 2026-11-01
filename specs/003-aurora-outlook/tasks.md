@@ -561,7 +561,7 @@ the app, `-uiTestOutlook storm` shows "Tonight: High – geomagnetic storm watch
 - [X] T072 Run `tools/check-core-portability.sh` and the Linux core tests (`docker run --rm -v
   "$PWD":/src -w /src/Packages/AuroraCore swift:6.4.1-noble swift test`). Fix any Apple-only API
   in `MoonPosition`, `NOAAParser` or `OutlookService`.
-- [ ] T073 Resolve the R2 open point: add a `--compare-kp` mode to
+- [X] T073 Resolve the R2 open point: add a `--compare-kp` mode to
   `tools/record-outlook-fixtures.py`. It fetches the JSON Kp forecast and
   `text/3-day-forecast.txt` and logs both predicted blocks to a scratch CSV. Run it over a few days
   before release, then record the finding in `specs/003-aurora-outlook/research.md` R2. Revisit the
