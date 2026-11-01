@@ -54,7 +54,7 @@ struct SoonLine: View {
     }
 }
 
-/// Tonight and tomorrow night under a "Forecast" heading. Tapping opens the details.
+/// Tonight and tomorrow night under a "Forecast" heading. Tapping a night opens the details at it.
 struct OutlookSectionView: View {
     let snapshot: OutlookSnapshot
     let now: Date
@@ -62,6 +62,7 @@ struct OutlookSectionView: View {
     var measuredActivity: ActivityLevel?
 
     @State private var isShowingDetails = false
+    @State private var detailsNight: NightKind = .tonight
 
     var body: some View {
         if let outlook = snapshot.outlook {
@@ -73,29 +74,39 @@ struct OutlookSectionView: View {
                 .accessibilityElement(children: .contain)
                 .accessibilityIdentifier("outlookSection")
             } else {
-                Button {
-                    isShowingDetails = true
-                } label: {
-                    card(showsChevron: true) {
-                        if Self.bothNights(of: outlook, are: .tooLight) {
-                            TooLightRow(darkAgain: darkAgain)
-                        } else {
-                            NightRow(night: outlook.tonight, now: now, measuredActivity: measuredActivity)
+                Group {
+                    if Self.bothNights(of: outlook, are: .tooLight) {
+                        Button {
+                            showDetails(at: .tonight)
+                        } label: {
+                            card(showsChevron: true) { TooLightRow(darkAgain: darkAgain) }
+                        }
+                        .buttonStyle(.plain)
+                        .accessibilityHint(Text("Shows what the forecast is based on"))
+                    } else {
+                        // Each night is its own button, so the details open at the night tapped.
+                        card(showsChevron: true) {
+                            NightRow(night: outlook.tonight, now: now, measuredActivity: measuredActivity) {
+                                showDetails(at: .tonight)
+                            }
                             Divider().overlay(.white.opacity(0.08))
-                            NightRow(night: outlook.tomorrow, now: now)
+                            NightRow(night: outlook.tomorrow, now: now) { showDetails(at: .tomorrow) }
                         }
                     }
                 }
-                .buttonStyle(.plain)
                 .accessibilityElement(children: .contain)
-                .accessibilityHint(Text("Shows what the forecast is based on"))
                 .accessibilityIdentifier("outlookSection")
                 .sensoryFeedback(.selection, trigger: isShowingDetails) { _, showing in showing }
                 .sheet(isPresented: $isShowingDetails) {
-                    OutlookDetailsSheet(outlook: outlook, now: now)
+                    OutlookDetailsSheet(outlook: outlook, now: now, initialNight: detailsNight)
                 }
             }
         }
+    }
+
+    private func showDetails(at night: NightKind) {
+        detailsNight = night
+        isShowingDetails = true
     }
 
     private func card<Rows: View>(showsChevron: Bool, @ViewBuilder rows: () -> Rows) -> some View {
@@ -174,8 +185,19 @@ private struct NightRow: View {
     let night: NightOutlook
     let now: Date
     var measuredActivity: ActivityLevel?
+    let showDetails: () -> Void
 
     var body: some View {
+        Button(action: showDetails) { content }
+            .buttonStyle(.plain)
+            .accessibilityElement(children: .ignore)
+            .accessibilityLabel(label)
+            .accessibilityHint(Text("Shows what the forecast is based on"))
+            .accessibilityAddTraits(.isButton)
+            .accessibilityIdentifier(night.which == .tonight ? "outlookTonight" : "outlookTomorrow")
+    }
+
+    private var content: some View {
         HStack(alignment: .center, spacing: 12) {
             VStack(alignment: .leading, spacing: 2) {
                 Text(night.title(at: now))
@@ -211,9 +233,7 @@ private struct NightRow: View {
                 ForecastMeter(level: level)
             }
         }
-        .accessibilityElement(children: .ignore)
-        .accessibilityLabel(label)
-        .accessibilityIdentifier(night.which == .tonight ? "outlookTonight" : "outlookTomorrow")
+        .contentShape(.rect)
     }
 
     private var exceeded: Bool { night.isExceeded(by: measuredActivity, at: now) }
@@ -263,8 +283,12 @@ private struct UnavailableRow: View {
 private struct OutlookDetailsSheet: View {
     let outlook: Outlook
     let now: Date
+    /// The night tapped on the main screen. Tonight starts at the top, under the
+    /// "This is a forecast" note.
+    let initialNight: NightKind
 
     @Environment(\.dismiss) private var dismiss
+    @State private var scrolledNight: NightKind?
 
     var body: some View {
         NavigationStack {
@@ -285,6 +309,12 @@ private struct OutlookDetailsSheet: View {
                     .foregroundStyle(.secondary)
                 }
                 .padding(24)
+                .scrollTargetLayout()
+            }
+            .scrollPosition(id: $scrolledNight, anchor: .top)
+            // Set once the sheet is laid out: an initial value is not scrolled to.
+            .task {
+                if initialNight != .tonight { scrolledNight = initialNight }
             }
             .navigationTitle(Text("Outlook details"))
             .navigationBarTitleDisplayMode(.inline)
@@ -354,6 +384,7 @@ private struct NightDetails: View {
         .padding(18)
         .forecastFrame(cornerRadius: 22)
         .accessibilityElement(children: .contain)
+        .accessibilityIdentifier(night.which == .tonight ? "outlookDetailsTonight" : "outlookDetailsTomorrow")
     }
 
     private var updateTimes: some View {

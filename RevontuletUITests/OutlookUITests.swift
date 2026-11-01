@@ -122,14 +122,33 @@ final class OutlookUITests: XCTestCase {
     func testOutlookDetailsOpen() throws {
         let app = launch("storm", time: Self.darkNight)
 
-        let section = app.element("outlookSection")
-        XCTAssertTrue(section.waitForExistence(timeout: 15))
-        section.tap()
+        let tonight = app.element("outlookTonight")
+        XCTAssertTrue(tonight.waitForExistence(timeout: 15))
+        tonight.tap()
         XCTAssertTrue(app.staticTexts["This is a forecast, not a measurement"].waitForExistence(timeout: 5))
         XCTAssertTrue(app.staticTexts["G2 (moderate)"].exists)
         // The watch is marked as helping, so it does not read as a warning about the weather.
         XCTAssertTrue(app.staticTexts["Geomagnetic storm watch"].exists)
         XCTAssertTrue(app.staticTexts["Helps"].exists)
+    }
+
+    /// Tapping tomorrow night opens the details at tomorrow night, not at the top.
+    @MainActor
+    func testTomorrowOpensItsOwnDetails() throws {
+        let app = launch("storm", time: Self.darkNight)
+
+        let tomorrow = app.element("outlookTomorrow")
+        XCTAssertTrue(tomorrow.waitForExistence(timeout: 15))
+        tomorrow.tap()
+        let title = app.element("outlookDetailsTomorrow")
+        XCTAssertTrue(title.waitForExistence(timeout: 5))
+        // The sheet scrolls to it once it has appeared: just under the navigation bar.
+        let bar = app.navigationBars["Outlook details"].firstMatch
+        let deadline = Date().addingTimeInterval(5)
+        while title.frame.minY - bar.frame.maxY > 100, Date() < deadline {
+            RunLoop.current.run(until: Date().addingTimeInterval(0.2))
+        }
+        XCTAssertLessThan(title.frame.minY - bar.frame.maxY, 100, "\(title.frame) \(bar.frame)")
     }
 
     /// A stubbed run, then a relaunch with every request failing: the outlook comes from cache.

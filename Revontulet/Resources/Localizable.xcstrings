@@ -1462,7 +1462,7 @@
         "fi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Ennuste tälle yölle ja huomisyölle: %@"
+            "value": "Ennuste ensi yölle ja huomisyölle: %@"
           }
         },
         "sv": {
@@ -1485,7 +1485,7 @@
         "fi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Ennuste tälle yölle: %@"
+            "value": "Ennuste ensi yölle: %@"
           }
         },
         "sv": {
@@ -2842,7 +2842,7 @@
         "fi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Tänä yönä"
+            "value": "Ensi yönä"
           }
         },
         "sv": {
@@ -2865,7 +2865,7 @@
         "fi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Tänä yönä ja huomisyönä"
+            "value": "Ensi yönä ja huomisyönä"
           }
         },
         "sv": {

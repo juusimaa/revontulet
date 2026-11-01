@@ -13,7 +13,7 @@ each element must show and when. All text exists in fi, sv and en (FR-023).
 | **Outlook**: two rows, "Tonight" and "Tomorrow night", each "<Level> – <reason>" | Below the headline block, under a "Forecast" heading | A place inside coverage |
 | **Moon** in details: "Moon 85 %, waxing gibbous, up" / "below the horizon" | Details panel, next to darkness | Always with a result |
 | **Solar wind** in details: state, Bz, speed, density, data age | Details panel | Always; "unavailable" when Unknown |
-| **Outlook details**: per night expected activity, max Kp, storm watch, darkness, moon, mean cloud cover, update times, "This is a forecast, not a measurement" | Details of the outlook rows | When the outlook is shown |
+| **Outlook details**: per night expected activity, max Kp, storm watch, darkness, moon, mean cloud cover, update times, "This is a forecast, not a measurement" | Details of the outlook rows; tapping a night opens them at that night | When the outlook is shown |
 | **Attribution**: "NOAA Space Weather Prediction Center" added to FMI and Statistics Finland | Details | Always (FR-021) |
 
 Rules:
