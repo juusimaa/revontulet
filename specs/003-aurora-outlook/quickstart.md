@@ -37,7 +37,7 @@ Expect all tests to pass, including:
 
 ```sh
 xcodebuild test -scheme Revontulet -only-testing:RevontuletTests/AlertStringsTests \
-  -destination 'platform=iOS Simulator,name=iPhone 17'
+  -destination 'platform=iOS Simulator,name=Screenshots iPhone-17-Pro'
 ```
 
 Expect the two `alert.body.brightMoon*` keys to exist in fi, sv and en (the test iterates
@@ -51,7 +51,7 @@ to the test clock (`-uiTestTime`). Each scenario is launched with `-uiTestStubs 
 
 ```sh
 xcodebuild test -scheme Revontulet -only-testing:RevontuletUITests/OutlookUITests \
-  -destination 'platform=iOS Simulator,name=iPhone 17'
+  -destination 'platform=iOS Simulator,name=Screenshots iPhone-17-Pro'
 ```
 
 | Scenario (launch argument) | Expect |
