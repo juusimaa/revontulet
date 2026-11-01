@@ -551,8 +551,9 @@ the app, `-uiTestOutlook storm` shows "Tonight: High – geomagnetic storm watch
 - [X] T070 [P] Add a test to `Server/Tests/AlertServerTests/EvaluationLoopTests.swift`: the stub
   HTTP client fails the test on any request to `services.swpc.noaa.gov` (FR-025). Then run `cd
   Server && swift test`.
-- [ ] T071 Deploy the alert service with the updated core, after T024 and T070:
-  - Tag `alerts-0.3.0` so that the `alert-service` workflow builds the image.
+- [X] T071 Deploy the alert service with the updated core, after T024 and T070:
+  - Tag `alerts-0.3.0` so that the `alert-service` workflow builds the image. (Deployed as
+    `alerts-0.3.1` on 2026-11-01, after the `ChanceCalculator` fix in 50b198c.)
   - Deploy to `/opt/revontulet-alerts` with `ALERT_MOON_KEYS=false` in its env file.
   - Check the logs for one evaluation cycle: no NOAA requests, and zone results include the moon.
   - Note the switch to `ALERT_MOON_KEYS=true` (30 days after 3.0 is in the App Store) in the
