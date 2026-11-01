@@ -48,7 +48,9 @@ public actor ZoneEvaluator {
             else { return nil }
             let darkness = SolarPosition.darkness(latitude: station.latitude, longitude: station.longitude, at: date)
             let cloudCover = CloudSelector.select(for: station.coordinate, observations: clouds?.observations ?? [])
-            let chance = ChanceCalculator.chance(activity: activity, darkness: darkness, clouds: cloudCover.condition)
+            let moon = MoonPosition.state(latitude: station.latitude, longitude: station.longitude, at: date)
+            let chance = ChanceCalculator.chance(
+                activity: activity, darkness: darkness, moonBright: moon.isBright, clouds: cloudCover.condition)
             return ZoneCondition(
                 zoneID: station.id,
                 chance: chance,

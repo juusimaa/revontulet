@@ -19,6 +19,9 @@ public struct Configuration: Sendable, Equatable {
     public var healthcheckPingURL: URL?
     public var databasePath: String
     public var port: Int
+    /// Send the bright-moon alert texts. Off until 3.0, which has them, has been in the App Store
+    /// for 30 days; until then the moon case gets the twilight text (research R9 of spec 003).
+    public var moonKeys: Bool
 
     /// The nightly backup, next to the database: `/data/alerts.db` → `/data/alerts-backup.db`.
     public var backupPath: String {
@@ -57,6 +60,12 @@ public struct Configuration: Sendable, Equatable {
 
         guard let port = Int(value("PORT") ?? "8080"), (0...65_535).contains(port) else { throw .invalid("PORT") }
         self.port = port
+
+        switch value("ALERT_MOON_KEYS") ?? "false" {
+        case "true": moonKeys = true
+        case "false": moonKeys = false
+        default: throw .invalid("ALERT_MOON_KEYS")
+        }
     }
 }
 

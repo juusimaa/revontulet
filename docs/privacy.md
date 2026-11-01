@@ -1,6 +1,6 @@
 # Revontulet Privacy Policy
 
-*Last updated: 25 October 2026*
+*Last updated: 30 October 2026*
 
 Revontulet does not collect or share personal data. The only exception is the optional aurora
 alerts: if you turn them on, a minimum of data is stored on the developer's alert service so it
@@ -22,13 +22,21 @@ Settings and choose a municipality by hand instead.
 
 ## Network requests
 
-The app downloads magnetometer and cloud cover observations from FMI's open data service
-(opendata.fmi.fi). Every request covers the same fixed area for all of Finland and contains
-nothing about you or your location. As with any internet request, FMI's servers see your IP
-address; FMI's own privacy notice covers how it handles them.
+The app downloads magnetometer and cloud cover observations, and a cloud cover forecast, from
+FMI's open data service (opendata.fmi.fi). Every observation request covers the same fixed area
+for all of Finland, and the forecast request asks for all ten alert areas at once, so no request
+contains anything about you or your location.
+
+For the "soon" line and the outlook for tonight and tomorrow night, the app downloads solar wind
+data, the Kp forecast and geomagnetic storm watches from the NOAA Space Weather Prediction Center
+(services.swpc.noaa.gov) in the United States. These requests are fixed addresses, identical for
+every user, and carry nothing about you, your location or your area.
+
+As with any internet request, FMI's and NOAA's servers see your IP address; their own privacy
+notices cover how they handle them.
 
 If you turn on aurora alerts, the app also talks to the developer's alert service (see below).
-The app makes no other network requests.
+The app makes no other network requests. The alert service itself does not use NOAA data.
 
 ## Aurora alerts (optional)
 
@@ -77,6 +85,9 @@ The data is not shared with anyone.
 
 - **The last result**, including the position it was calculated for, so it can be shown
   immediately the next time you open the app. It is excluded from device backups.
+- **The last forecast**: the downloaded solar wind, Kp forecast, storm watches and cloud forecast,
+  with the place they were last shown for, so the outlook can be shown immediately and offline.
+  It is excluded from device backups.
 - **Your place choice**: whether you use your current location or a municipality you picked.
 - **Your alert settings**, if you have used aurora alerts: whether they are on, the alert level,
   the alert area and the notification address.

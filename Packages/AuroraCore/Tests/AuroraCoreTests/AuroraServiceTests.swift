@@ -38,8 +38,10 @@ struct AuroraServiceTests {
         #expect(result.reading.measuredAt == utc("2026-10-22T16:35:20Z"))
         #expect(result.darkness == SolarPosition.darkness(latitude: 66.50, longitude: 25.73, at: now))
         #expect(result.clouds.condition != .unknown)
+        #expect(result.moon == MoonPosition.state(latitude: 66.50, longitude: 25.73, at: now))
         #expect(result.chance == ChanceCalculator.chance(
-            activity: try #require(result.reading.activity), darkness: result.darkness, clouds: result.clouds.condition))
+            activity: try #require(result.reading.activity), darkness: result.darkness,
+            moonBright: result.moon.isBright, clouds: result.clouds.condition))
         #expect(result.chance.cloudsIncluded)
         #expect(result.computedAt == now)
     }

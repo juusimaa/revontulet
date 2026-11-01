@@ -150,7 +150,7 @@ struct AlertPolicyTests {
         let oulujarvi = try #require(AlertZones.all().first { $0.id == "OUJ" }).station
         let juneNoon = utc("2026-06-15T10:00:00Z")  // 13:00 Helsinki
         let darkness = SolarPosition.darkness(latitude: oulujarvi.latitude, longitude: oulujarvi.longitude, at: juneNoon)
-        let chance = ChanceCalculator.chance(activity: .probable, darkness: darkness, clouds: .clear)
+        let chance = ChanceCalculator.chance(activity: .probable, darkness: darkness, moonBright: false, clouds: .clear)
         #expect(chance.level == .none)
 
         var state = fresh()
@@ -160,7 +160,7 @@ struct AlertPolicyTests {
     }
 
     @Test func case13OvercastGivesNoAlert() {
-        let chance = ChanceCalculator.chance(activity: .probable, darkness: .dark, clouds: .overcast)
+        let chance = ChanceCalculator.chance(activity: .probable, darkness: .dark, moonBright: false, clouds: .overcast)
         #expect(chance.level == .none)
 
         var state = fresh()
@@ -179,7 +179,7 @@ struct AlertPolicyTests {
     // and EvaluationLoopTests: without a condition the policy is not called.
 
     @Test func case16CloudsUnknownModerate() {
-        let chance = ChanceCalculator.chance(activity: .possible, darkness: .dark, clouds: .unknown)
+        let chance = ChanceCalculator.chance(activity: .possible, darkness: .dark, moonBright: false, clouds: .unknown)
         #expect(chance == Chance(level: .moderate, limitingFactor: .activity, cloudsIncluded: false))
         let reason = ChanceCalculator.reason(for: chance, activity: .possible, clouds: .unknown)
         #expect(reason == .someActivity)
@@ -188,7 +188,7 @@ struct AlertPolicyTests {
         let condition = ZoneCondition(zoneID: "OUJ", chance: chance, reason: reason, activityStationID: "OUJ", dataTime: Self.at(0))
         let (decision, _) = AlertPolicy.decide(condition: condition, state: state, now: Self.at(0))
         #expect(decision?.level == .moderate)
-        #expect(decision.map(AlertMessage.make)?.bodyKey == "alert.body.someActivity.cloudsUnknown")
+        #expect(decision.map { AlertMessage.make(for: $0, moonKeys: true) }?.bodyKey == "alert.body.someActivity.cloudsUnknown")
         Self.step(&state, condition, Self.at(0))
     }
 

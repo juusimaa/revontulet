@@ -124,4 +124,22 @@ struct FMIClientTests {
 
         #expect(http.requestedURLs == [FMIRequests.magnetometer(now: now), FMIRequests.clouds(now: now)])
     }
+
+    /// One request for every zone (research R5): identical for every user, nothing user-derived.
+    @Test func cloudForecastRequest() throws {
+        let zones = try AlertZones.all()
+        let url = FMIRequests.cloudForecast(zones: zones)
+        let components = try #require(URLComponents(url: url, resolvingAgainstBaseURL: false))
+        let items = components.queryItems ?? []
+        func value(_ name: String) -> [String] { items.filter { $0.name == name }.compactMap(\.value) }
+
+        #expect(components.host == "opendata.fmi.fi")
+        #expect(value("storedquery_id") == ["fmi::forecast::edited::weather::scandinavia::point::simple"])
+        #expect(value("parameters") == ["TotalCloudCover"])
+        #expect(value("timestep") == ["60"])
+        #expect(value("latlon") == zones.map { "\($0.station.latitude),\($0.station.longitude)" })
+        #expect(value("latlon").count == 10)
+        #expect(Set(items.map(\.name)) == ["service", "version", "request", "storedquery_id", "latlon", "parameters", "timestep"])
+        #expect(FMIRequests.cloudForecast(zones: zones) == url)
+    }
 }

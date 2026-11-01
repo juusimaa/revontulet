@@ -29,7 +29,8 @@ struct RevontuletApp: App {
 /// `-uiTestLocation lat,lon` (fixed position), `-uiTestLocationDenied` (no location access) and
 /// `-uiTestAlertsStub` (in-memory alert service, notifications allowed, fixed push token) and
 /// `-uiTestAlertsUnreachable` (with the stub, every alert service call fails) and
-/// `-uiTestAlertsTestLimited` (with the stub, test notifications are rate limited).
+/// `-uiTestAlertsTestLimited` (with the stub, test notifications are rate limited) and
+/// `-uiTestOutlook <scenario>` (with the stubs, an outlook scenario; see `UITestOutlookScenario`).
 @MainActor
 enum AppDependencies {
     /// Shared with the app delegate, which receives the push token.
@@ -52,19 +53,25 @@ enum AppDependencies {
         let http: any HTTPClient =
             if arguments.contains("-uiTestOffline") { OfflineHTTPClient() }
             else if arguments.contains("-uiTestStubs") {
-                UITestHTTPClient(strongActivity: arguments.contains("-uiTestStrongActivity"))
+                UITestHTTPClient(
+                    strongActivity: arguments.contains("-uiTestStrongActivity")
+                        || UITestOutlookScenario(arguments: arguments)?.strongActivity == true,
+                    outlook: UITestOutlookScenario(arguments: arguments), now: clock(arguments: arguments))
             }
             else { URLSessionHTTPClient() }
         let cache = FileResultCache()
+        let outlookCache = FileOutlookCache()
         let placeStore = PlaceSelectionStore()
         if arguments.contains("-uiTestResetCache") {
             cache.clear()
+            outlookCache.clear()
             placeStore.clear()
         }
         // The bundled station table is part of the app; failing to load it is a build error.
         let service = try! AuroraService(http: http, cache: cache)
         return MainScreenModel(
-            service: service, location: locationProvider(arguments: arguments), placeStore: placeStore,
+            service: service, outlookService: OutlookService(http: http, cache: outlookCache),
+            location: locationProvider(arguments: arguments), placeStore: placeStore,
             now: clock(arguments: arguments),
             onPlaceResolved: { place in Task { await alertSettings.placeResolved(place) } })
     }

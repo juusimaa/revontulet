@@ -3,7 +3,10 @@ import Foundation
 import Observation
 
 /// Drives the main screen (contracts/main-screen-states.md). Core work runs off the main actor:
-/// `AuroraService` is an actor and place resolution runs in a detached task.
+/// `AuroraService` and `OutlookService` are actors and place resolution runs in a detached task.
+///
+/// The outlook ("soon" line and the nights ahead, spec 003) refreshes next to the headline on the
+/// same triggers, but neither waits for the other.
 ///
 /// The cached result is shown before any location or network work; while the app is active the
 /// result is refreshed every 5 minutes, and the service fetches only the data that is due.
@@ -45,8 +48,14 @@ final class MainScreenModel {
     private(set) var userRefreshesCompleted = 0
     /// The bundled municipalities, once loaded; the place picker searches them.
     private(set) var placeResolver: PlaceResolver?
+    /// The last outlook snapshot for the current place, cached or fresh.
+    private(set) var outlookSnapshot: OutlookSnapshot?
 
     private let service: AuroraService
+    private let outlookService: OutlookService?
+    /// The place the last refresh resolved, so the outlook can be shown even without a headline.
+    private var currentPlace: Place?
+    private let zones = (try? AlertZones.all()) ?? []
     private let location: any LocationProviding
     private let placeStore: PlaceSelectionStore
     private let resolver: Task<PlaceResolver?, Never>
@@ -59,6 +68,7 @@ final class MainScreenModel {
 
     init(
         service: AuroraService,
+        outlookService: OutlookService? = nil,
         location: any LocationProviding,
         placeStore: PlaceSelectionStore = PlaceSelectionStore(),
         loadResolver: @escaping @Sendable () throws -> PlaceResolver = { try PlaceResolver() },
@@ -66,6 +76,7 @@ final class MainScreenModel {
         onPlaceResolved: @escaping @MainActor (Place) -> Void = { _ in }
     ) {
         self.service = service
+        self.outlookService = outlookService
         self.onPlaceResolved = onPlaceResolved
         self.location = location
         self.placeStore = placeStore
@@ -79,6 +90,22 @@ final class MainScreenModel {
 
     var hasResult: Bool {
         if case .result = state { true } else { false }
+    }
+
+    /// The outlook to show: for the current place only, and never when location is denied or the
+    /// place is outside coverage (contracts/main-screen-additions.md, States).
+    var outlook: OutlookSnapshot? {
+        switch state {
+        case .locationDenied, .outsideCoverage, .determiningLocation: return nil
+        case .loading, .noData, .result: break
+        }
+        guard let outlookSnapshot, matchesCurrentPlace(outlookSnapshot.place) else { return nil }
+        return outlookSnapshot
+    }
+
+    /// A new location fix moves the place a little; the outlook stays while the municipality does.
+    private func matchesCurrentPlace(_ place: Place) -> Bool {
+        matchesSelection(place) && (currentPlace.map { $0.municipalityCode == place.municipalityCode } ?? true)
     }
 
     func freshness(of result: AuroraResult, at date: Date) -> Freshness {
@@ -100,13 +127,25 @@ final class MainScreenModel {
         }
     }
 
-    /// Shows the last stored result, if nothing is shown yet. No location or network work (FR-008).
+    /// Shows the last stored result and outlook, if nothing is shown yet. No location or network
+    /// work (FR-008).
     func showCachedResult() async {
+        async let cachedOutlook = outlookService?.cachedSnapshot()
+        await showCachedHeadline()
+        showCachedOutlook(await cachedOutlook)
+    }
+
+    private func showCachedHeadline() async {
         guard !hasResult, let cached = await service.cachedResult(), matchesSelection(cached.place) else { return }
         let name = await resolver.value?.municipality(code: cached.place.municipalityCode)?
             .displayName(preferSwedish: Self.prefersSwedish)
         guard !hasResult, matchesSelection(cached.place), let name else { return }
         state = .result(cached, placeName: name)
+    }
+
+    private func showCachedOutlook(_ cached: OutlookSnapshot?) {
+        guard outlookSnapshot == nil, let cached, matchesSelection(cached.place) else { return }
+        outlookSnapshot = cached
     }
 
     /// Switches to another place, remembers it across launches and computes its result. Data
@@ -204,6 +243,9 @@ final class MainScreenModel {
                 municipalityCode: found.code, source: .currentLocation)
         }
 
+        currentPlace = place
+        refreshOutlook(for: place, force: force)
+
         if !hasResult { state = .loading }
         do {
             let result = try await service.refresh(for: place, at: now(), force: force)
@@ -219,6 +261,19 @@ final class MainScreenModel {
             guard !isStale else { return }
             isOffline = false
             if !hasResult { state = .noData }
+        }
+    }
+
+    /// Refreshes the outlook in its own task, so the headline never waits for NOAA (FR-020).
+    private func refreshOutlook(for place: Place, force: Bool) {
+        guard let outlookService, !zones.isEmpty else { return }
+        let zoneID = AlertZones.zone(for: place.coordinate, previous: outlookSnapshot?.zoneID, in: zones).id
+        let date = now()
+        Task {
+            let snapshot = await outlookService.refresh(for: place, zoneID: zoneID, at: date, force: force)
+            // The user may have moved on to another place meanwhile.
+            guard matchesCurrentPlace(snapshot.place) else { return }
+            outlookSnapshot = snapshot
         }
     }
 

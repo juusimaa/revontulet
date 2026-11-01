@@ -47,6 +47,25 @@ public enum BsWfsParser {
         return elements
     }
 
+    /// The cloud forecast for every zone that has values: each position is matched to the nearest
+    /// zone within 1 km (FMI moves points to its grid); `NaN` hours are left out. In `zones` order.
+    public static func cloudForecasts(_ data: Data, zones: [AlertZone], fetchedAt: Date) throws -> [CloudForecast] {
+        var hourly: [String: [Date: Double]] = [:]
+        for element in try parse(data) where element.parameter == "TotalCloudCover" {
+            guard let value = element.value,
+                  let zone = zones.min(by: {
+                      Geo.distanceKm(element.coordinate, $0.representativePosition)
+                          < Geo.distanceKm(element.coordinate, $1.representativePosition)
+                  }),
+                  Geo.distanceKm(element.coordinate, zone.representativePosition) <= 1
+            else { continue }
+            hourly[zone.id, default: [:]][element.time] = value
+        }
+        return zones.compactMap { zone in
+            hourly[zone.id].map { CloudForecast(zoneID: zone.id, hourly: $0, fetchedAt: fetchedAt) }
+        }
+    }
+
     private static func element(_ body: ArraySlice<UInt8>) throws -> BsWfsElement {
         guard let pos = text(in: body, between: Token.posOpen, and: Token.posClose),
               let timeText = text(in: body, between: Token.timeOpen, and: Token.timeClose),

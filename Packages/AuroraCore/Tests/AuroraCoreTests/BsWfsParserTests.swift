@@ -62,4 +62,47 @@ struct BsWfsParserTests {
             try BsWfsParser.parse(Data("<html>Service unavailable</html>".utf8))
         }
     }
+
+    // MARK: Cloud forecast (spec 003, research R5)
+
+    @Test func cloudForecastGivesOneForecastPerZone() throws {
+        let zones = try AlertZones.all()
+        let fetchedAt = utc("2026-10-30T10:35:00Z")
+        let forecasts = try BsWfsParser.cloudForecasts(
+            Fixtures.data("outlook/cloud-forecast.xml"), zones: zones, fetchedAt: fetchedAt)
+
+        #expect(forecasts.map(\.zoneID) == zones.map(\.id))
+        for forecast in forecasts {
+            #expect(forecast.fetchedAt == fetchedAt)
+            #expect(forecast.hourly.count >= 60, "\(forecast.zoneID)")
+            #expect(forecast.hourly.values.allSatisfy { (0...100).contains($0) })
+            #expect(forecast.hourly.keys.allSatisfy { Int($0.timeIntervalSince1970).isMultiple(of: 3_600) })
+        }
+        #expect(forecasts.first { $0.zoneID == "OUJ" }?.hourly[utc("2026-10-30T11:00:00Z")] == 99.9)
+    }
+
+    @Test func cloudForecastMatchesNearestZoneWithin1KmAndDropsNaN() throws {
+        let zones = try AlertZones.all()
+        let ouj = try #require(zones.first { $0.id == "OUJ" }).station
+        func element(_ lat: Double, _ lon: Double, _ time: String, _ value: String) -> String {
+            """
+            <wfs:member><BsWfs:BsWfsElement gml:id="x"><BsWfs:Location><gml:Point><gml:pos>\(lat) \(lon) </gml:pos>\
+            </gml:Point></BsWfs:Location><BsWfs:Time>\(time)</BsWfs:Time><BsWfs:ParameterName>TotalCloudCover\
+            </BsWfs:ParameterName><BsWfs:ParameterValue>\(value)</BsWfs:ParameterValue></BsWfs:BsWfsElement></wfs:member>
+            """
+        }
+        let xml = #"<wfs:FeatureCollection xmlns:wfs="http://www.opengis.net/wfs/2.0">"#
+            // FMI moves the point to its grid: 0.005° is about 0.5 km.
+            + element(ouj.latitude + 0.005, ouj.longitude, "2026-11-09T18:00:00Z", "12.5")
+            + element(ouj.latitude, ouj.longitude, "2026-11-09T19:00:00Z", "NaN")
+            // 0.05° north is about 5.6 km: no zone.
+            + element(ouj.latitude + 0.05, ouj.longitude, "2026-11-09T18:00:00Z", "80")
+            + "</wfs:FeatureCollection>"
+
+        let forecasts = try BsWfsParser.cloudForecasts(Data(xml.utf8), zones: zones, fetchedAt: .now)
+
+        #expect(forecasts.count == 1)
+        #expect(forecasts.first?.zoneID == "OUJ")
+        #expect(forecasts.first?.hourly == [utc("2026-11-09T18:00:00Z"): 12.5])
+    }
 }

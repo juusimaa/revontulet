@@ -14,6 +14,16 @@ does, and combines it with darkness and cloud cover. The result is one of four l
 Moderate, High) with a short reason, such as "Low – overcast". The main screen also shows your
 location, the nearest measurement station and how recent the data is.
 
+The chance also accounts for the moon: a bright moon, like twilight, lowers it by one step. The
+moon's position and phase are computed on the device.
+
+Two forecasts sit under the measurement and are marked as forecasts:
+
+- **Soon**: whether activity is likely to rise in the next hour, from the solar wind measured
+  between the Sun and Earth (NOAA's propagated solar wind), with NOAA's modelled arrival time.
+- **Tonight and tomorrow night**: an outlook from NOAA's Kp forecast and geomagnetic storm
+  watches, combined with each night's darkness, moon and FMI's cloud forecast.
+
 Optional aurora alerts send a notification when the chance in your area of Finland reaches the
 level you choose, even when the app is closed. See [Aurora alerts](#aurora-alerts).
 
@@ -25,9 +35,11 @@ level you choose, even when the app is closed. See [Aurora alerts](#aurora-alert
 screenshot is synthetic.</sub></p>
 
 > **Status:** version 2.0, with the aurora main screen and aurora alerts, is
-> [on the App Store](https://apps.apple.com/app/id6826496434). See
-> [specs/001-aurora-main-screen](specs/001-aurora-main-screen/) and
-> [specs/002-aurora-alerts](specs/002-aurora-alerts/).
+> [on the App Store](https://apps.apple.com/app/id6826496434). Version 3.0 adds the moon, the
+> "soon" line and the two-night outlook and is in TestFlight testing. See
+> [specs/001-aurora-main-screen](specs/001-aurora-main-screen/),
+> [specs/002-aurora-alerts](specs/002-aurora-alerts/) and
+> [specs/003-aurora-outlook](specs/003-aurora-outlook/).
 
 ## Principles
 
@@ -49,12 +61,12 @@ The full set of rules is in the [project constitution](.specify/memory/constitut
 
 | Path | Contents |
 |---|---|
-| `Packages/AuroraCore` | Swift package with fetching, parsing, R calculation, chance rules, solar position, station selection, place resolution and caching |
+| `Packages/AuroraCore` | Swift package with fetching, parsing, R calculation, chance rules, sun and moon position, station selection, place resolution, the "soon" signal, the outlook and caching |
 | `Revontulet` | SwiftUI iOS app |
 | `RevontuletTests` | App unit tests, such as the check that every notification text exists in fi, sv and en |
 | `RevontuletUITests` | UI tests that run against a stubbed HTTP client and a stubbed alert service |
 | `Server` | The alert service: a Swift package (Hummingbird, APNs, SQLite) that runs in Docker on Linux |
-| `tools` | Python scripts that regenerate bundled municipality data and record test fixtures |
+| `tools` | Python scripts that regenerate bundled municipality data, record test fixtures and calibrate the forecast thresholds |
 | `specs` | Feature specifications, plans and task lists (Spec Kit) |
 | `project.yml` | XcodeGen project definition |
 
@@ -164,6 +176,12 @@ are in `Server/deploy/`.
 - [FMI open data](https://en.ilmatieteenlaitos.fi/open-data): magnetometer and weather
   observations, CC BY 4.0
 - [Statistics Finland](https://stat.fi/): municipality boundaries, CC BY 4.0
+- [NOAA Space Weather Prediction Center](https://www.swpc.noaa.gov/): propagated solar wind, Kp
+  forecast and geomagnetic storm watches; public domain (US government work). No NOAA or NWS
+  logo is used, and no endorsement is implied.
+- Calibration only, not used by the app: [NASA OMNI](https://omniweb.gsfc.nasa.gov/) 1-minute
+  solar wind (public domain), [GFZ Potsdam Kp](https://kp.gfz.de/) (CC BY 4.0) and
+  [JPL Horizons](https://ssd.jpl.nasa.gov/horizons/) moon positions (public domain).
 
 ## License
 

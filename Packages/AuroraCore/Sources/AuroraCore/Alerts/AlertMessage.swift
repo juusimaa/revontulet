@@ -13,10 +13,13 @@ public struct AlertMessage: Sendable, Hashable {
         self.arguments = arguments
     }
 
-    public static func make(for decision: AlertDecision) -> AlertMessage {
+    /// - Parameter moonKeys: send the bright-moon keys. 2.0 does not have them, so until 3.0 has
+    ///   been in the App Store for 30 days the moon case gets the twilight text (research R9).
+    public static func make(for decision: AlertDecision, moonKeys: Bool) -> AlertMessage {
         let condition = decision.condition
         let base: String
         switch (decision.level, condition.reason) {
+        case (.moderate, .brightMoon): base = moonKeys ? "alert.body.brightMoon" : "alert.body.twilight"
         case (.moderate, .twilight): base = "alert.body.twilight"
         case (.moderate, .partlyCloudy): base = "alert.body.partlyCloudy"
         case (.moderate, _): base = "alert.body.someActivity"
@@ -42,6 +45,8 @@ public struct AlertMessage: Sendable, Hashable {
         "alert.body.twilight",
         "alert.body.twilight.cloudsUnknown",
         "alert.body.partlyCloudy",
+        "alert.body.brightMoon",
+        "alert.body.brightMoon.cloudsUnknown",
         "alert.body.test",
     ]
 

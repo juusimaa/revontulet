@@ -66,6 +66,19 @@ struct SolarPositionTests {
         #expect(SolarPosition.darkness(latitude: 66.50, longitude: 25.73, at: dark.addingTimeInterval(-5 * 60)) == .tooLight)
     }
 
+    @Test func darkNightsReturnAfterMidsummer() throws {
+        // Oulu: the sun stays above −6° from late May until late July.
+        let midsummer = utc("2026-06-21T12:00:00Z")
+        let dark = try #require(SolarPosition.nextDarkNight(latitude: 65.01, longitude: 25.47, after: midsummer))
+        #expect(dark > utc("2026-07-15T00:00:00Z") && dark < utc("2026-08-05T00:00:00Z"), "\(dark)")
+        // No darkness in the day before it: it is the first dark night.
+        #expect(SolarPosition.nextDarkness(latitude: 65.01, longitude: 25.47, after: dark.addingTimeInterval(-86_400)) == dark)
+        // Within 24 hours it is the same as nextDarkness.
+        let autumn = utc("2026-10-23T10:00:00Z")
+        #expect(SolarPosition.nextDarkNight(latitude: 66.50, longitude: 25.73, after: autumn)
+            == SolarPosition.nextDarkness(latitude: 66.50, longitude: 25.73, after: autumn))
+    }
+
     @Test func noDarknessAtMidsummerInLapland() {
         #expect(SolarPosition.nextDarkness(latitude: 69.9078, longitude: 27.0265, after: utc("2026-06-20T12:00:00Z")) == nil)
     }
