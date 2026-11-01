@@ -573,9 +573,10 @@ the app, `-uiTestOutlook storm` shows "Tonight: High – geomagnetic storm watch
   - No meaning by colour alone.
   - The headline is still first and largest (SC-006).
   - Simulator screenshots in fi, sv and en.
-- [ ] T075 Measure on device that the cached snapshot appears with the headline within 1 s
+- [X] T075 Measure on device that the cached snapshot appears with the headline within 1 s
   (SC-008), and that `OutlookCalculator` plus `SoonCalculator` run in under 50 ms (plan
-  performance goal).
+  performance goal). (2026-11-01: cached snapshot within 1 s in the offline relaunch of T079;
+  `RevontuletTests/CalculatorTimingTests` on an iPhone: 1.95–2.87 ms over five runs.)
 - [X] T076 Check that all new string keys exist in fi, sv and en in
   `Revontulet/Resources/Localizable.xcstrings` with no stale or missing entries, and run
   `RevontuletTests/AlertStringsTests` (quickstart.md §2).
@@ -583,7 +584,10 @@ the app, `-uiTestOutlook storm` shows "Tonight: High – geomagnetic storm watch
   (the Xcode project is generated from it), then regenerate the project.
 - [X] T078 [P] Update `README.md` with the moon, soon and outlook features and the NOAA data
   source.
-- [ ] T079 Run quickstart.md §1–§5 end to end, including the live device check in Oulu.
+- [X] T079 Run quickstart.md §1–§5 end to end, including the live device check in Oulu.
+  (2026-11-01: all pass. §4.3 showed Kp 5 from the G1 watch for 1 Nov, whose storm came the
+  night before; the watch rule was changed to UTC-day overlap in 0ceba8a and is covered by
+  outlook reference cases 11–13 instead of a second device check.)
 - [X] T080 [P] Update `specs/003-aurora-outlook/quickstart.md`: change the scenario launch
   argument to `-uiTestOutlook <scenario>` and list the final suites.
 
