@@ -24,8 +24,9 @@ level you choose, even when the app is closed. See [Aurora alerts](#aurora-alert
 <p align="center"><sub>The main screen in Oulu during strong geomagnetic activity. The data in this
 screenshot is synthetic.</sub></p>
 
-> **Status:** version 1.0, the aurora main screen, is on the App Store. Version 2.0 adds aurora
-> alerts and is in TestFlight testing. See [specs/001-aurora-main-screen](specs/001-aurora-main-screen/) and
+> **Status:** version 2.0, with the aurora main screen and aurora alerts, is
+> [on the App Store](https://apps.apple.com/app/id6826496434). See
+> [specs/001-aurora-main-screen](specs/001-aurora-main-screen/) and
 > [specs/002-aurora-alerts](specs/002-aurora-alerts/).
 
 ## Principles
