@@ -1,12 +1,16 @@
-// Renders the App Store product page header: the app icon's aurora curtain above a spruce horizon,
-// widened to 21:9, with the app name in the centre.
+// Renders the App Store creative assets: the app icon's aurora curtain above a spruce horizon with the
+// app name in the centre, as the 21:9 product page header and the 3:2 search results image.
 // Development tool only. Usage: swift tools/render-store-header.swift [output directory]
-// Writes store-header.png (3840 × 1646, opaque, Display P3) and a text-free variant. The name is the
-// same in every language, so one image serves all localizations.
+// Writes store-header.png (3840 × 1646) and search-result.png (3840 × 2560), each with a text-free
+// variant; all opaque PNGs in Display P3. The name is the same in every language, so one image per
+// format serves all localizations.
 import AppKit
 import CoreImage
 
-let W: CGFloat = 3840, H: CGFloat = 1646
+/// The canvas being drawn. Vertical sizes are designed for the 1646-pixel-high header and scale with
+/// `k`, so every format keeps the same proportions.
+var W: CGFloat = 3840, H: CGFloat = 1646
+var k: CGFloat { H / 1646 }
 let outDir = CommandLine.arguments.count > 1 ? CommandLine.arguments[1] : "app-store-header"
 let cs = CGColorSpace(name: CGColorSpace.displayP3)!
 let ci = CIContext(options: [.workingColorSpace: cs])
@@ -62,7 +66,7 @@ func stars(_ ctx: CGContext, count: Int, seed: UInt64) {
 func ray(_ ctx: CGContext, x: CGFloat, foot y: CGFloat, height h: CGFloat, width: CGFloat, foot: CGColor, top: CGColor) {
     ctx.saveGState()
     // The foot fades in over a short distance, so the lower edge is soft rather than a drawn line.
-    let lead: CGFloat = 70
+    let lead: CGFloat = 70 * k
     ctx.clip(to: CGRect(x: x - width / 2, y: y - lead, width: width, height: h + lead))
     linear(ctx, [rgb(0, 0, 0, 0), foot, top, rgb(0, 0, 0, 0)], from: CGPoint(x: x, y: y - lead),
            to: CGPoint(x: x, y: y + h), locations: [0, lead / (h + lead), 0.4, 1])
@@ -122,7 +126,7 @@ func patch(_ t: CGFloat) -> CGFloat {
 }
 
 func artwork() -> CGImage {
-    let base = canvas { sky($0); stars($0, count: 160, seed: 11) }
+    let base = canvas { sky($0); stars($0, count: Int(160 * k), seed: 11) }
     let rays = canvas { ctx in
         var r = Random(s: 21)
         var x: CGFloat = -60
@@ -131,7 +135,7 @@ func artwork() -> CGImage {
             let bright = patch(t) * (0.55 + 0.45 * n)
             let foot = rgb(0.24 * (1 - t) + 0.30 * t, 0.96 * (1 - t) + 0.85 * t, 0.62 * (1 - t) + 0.82 * t, bright)
             let crest = rgb(0.16 + 0.5 * t, 0.70, 0.78 + 0.1 * t, 0.45 * bright)
-            ray(ctx, x: x, foot: edge(x), height: (300 + 160 * n) * (0.6 + 0.6 * patch(t)), width: 8 + 12 * n,
+            ray(ctx, x: x, foot: edge(x), height: (300 + 160 * n) * k * (0.6 + 0.6 * patch(t)), width: 8 + 12 * n,
                 foot: foot, top: crest)
             x += 8 + 8 * n
         }
@@ -142,9 +146,9 @@ func artwork() -> CGImage {
         while x <= W + 60 {
             let y = edge(x)
             ctx.saveGState()
-            ctx.clip(to: CGRect(x: x - 5, y: y - 70, width: 10, height: 70))
+            ctx.clip(to: CGRect(x: x - 5, y: y - 70 * k, width: 10, height: 70 * k))
             linear(ctx, [rgb(0.24, 0.96, 0.70, 0.22 * patch(x / W)), rgb(0.16, 0.80, 0.78, 0)],
-                   from: CGPoint(x: x, y: y), to: CGPoint(x: x, y: y - 70))
+                   from: CGPoint(x: x, y: y), to: CGPoint(x: x, y: y - 70 * k))
             ctx.restoreGState()
             x += 9
         }
@@ -152,14 +156,14 @@ func artwork() -> CGImage {
     let violet = canvas { ctx in
         var x: CGFloat = W * 0.35
         while x <= W + 60 {
-            ray(ctx, x: x, foot: edge(x) + 380, height: 300, width: 12,
+            ray(ctx, x: x, foot: edge(x) + 380 * k, height: 300 * k, width: 12,
                 foot: rgb(0.70, 0.40, 0.95, 0.30), top: rgb(0.85, 0.30, 0.75, 0))
             x += 11
         }
     }
     let trees = canvas { ctx in
-        spruces(ctx, seed: 5, ground: 120, minH: 170, varH: 150, color: rgb(0.03, 0.06, 0.09))
-        spruces(ctx, seed: 3, ground: 0, minH: 210, varH: 230, color: rgb(0.005, 0.012, 0.025))
+        spruces(ctx, seed: 5, ground: 120 * k, minH: 170 * k, varH: 150 * k, color: rgb(0.03, 0.06, 0.09))
+        spruces(ctx, seed: 3, ground: 0, minH: 210 * k, varH: 230 * k, color: rgb(0.005, 0.012, 0.025))
     }
     return compose([(base, .normal), (blurred(violet, 55), .screen), (blurred(spill, 14), .screen),
                     (blurred(rays, 40), .screen), (blurred(rays, 5), .screen), (blurred(rays, 5), .screen),
@@ -170,9 +174,9 @@ func artwork() -> CGImage {
 func withTitle(_ art: CGImage, _ text: String) -> CGImage {
     canvas { ctx in
         ctx.draw(art, in: CGRect(x: 0, y: 0, width: W, height: H))
-        let font = NSFont.systemFont(ofSize: 230, weight: .bold)
+        let font = NSFont.systemFont(ofSize: 230 * k, weight: .bold)
         let attributed = NSAttributedString(string: text, attributes: [
-            .font: font, .foregroundColor: NSColor(cgColor: rgb(0.96, 0.98, 1))!, .kern: -3,
+            .font: font, .foregroundColor: NSColor(cgColor: rgb(0.96, 0.98, 1))!, .kern: -3 * k,
         ])
         let line = CTLineCreateWithAttributedString(attributed)
         let bounds = CTLineGetBoundsWithOptions(line, .useOpticalBounds)
@@ -194,6 +198,10 @@ func save(_ image: CGImage, _ name: String) {
     try! rep.representation(using: .png, properties: [:])!.write(to: URL(fileURLWithPath: "\(outDir)/\(name).png"))
 }
 
-let art = artwork()
-save(art, "store-header-textless")
-save(withTitle(art, title), "store-header")
+for (name, width, height) in [("store-header", 3840, 1646), ("search-result", 3840, 2560)] as [(String, CGFloat, CGFloat)] {
+    W = width
+    H = height
+    let art = artwork()
+    save(art, "\(name)-textless")
+    save(withTitle(art, title), name)
+}
