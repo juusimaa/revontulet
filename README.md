@@ -34,9 +34,10 @@ level you choose, even when the app is closed. See [Aurora alerts](#aurora-alert
 <p align="center"><sub>The main screen in Oulu during strong geomagnetic activity. The data in this
 screenshot is synthetic.</sub></p>
 
-> **Status:** version 2.0, with the aurora main screen and aurora alerts, is
-> [on the App Store](https://apps.apple.com/app/id6826496434). Version 3.0 adds the moon, the
-> "soon" line and the two-night outlook and is in TestFlight testing. See
+> **Status:** version 3.0, with the aurora main screen, aurora alerts, the moon, the "soon" line
+> and the two-night outlook, is [on the App Store](https://apps.apple.com/app/id6826496434).
+> Support: [juusimaa.github.io/revontulet/support](https://juusimaa.github.io/revontulet/support).
+> See
 > [specs/001-aurora-main-screen](specs/001-aurora-main-screen/),
 > [specs/002-aurora-alerts](specs/002-aurora-alerts/) and
 > [specs/003-aurora-outlook](specs/003-aurora-outlook/).
