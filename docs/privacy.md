@@ -1,6 +1,6 @@
 # Revontulet Privacy Policy
 
-*Last updated: 30 October 2026*
+*Last updated: 5 November 2026*
 
 Revontulet does not collect or share personal data. The only exception is the optional aurora
 alerts: if you turn them on, a minimum of data is stored on the developer's alert service so it
@@ -113,5 +113,6 @@ If this policy changes, the new version will be published at this address with a
 
 ## Contact
 
-Questions about privacy: open an issue at
+Questions about privacy: email [support@revontuletapp.com](mailto:support@revontuletapp.com) or
+open an issue at
 [github.com/juusimaa/revontulet/issues](https://github.com/juusimaa/revontulet/issues).
