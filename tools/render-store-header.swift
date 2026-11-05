@@ -1,9 +1,20 @@
-// Renders the App Store creative assets: the app icon's aurora curtain above a spruce horizon with the
-// app name in the centre, as the 21:9 product page header and the 3:2 search results image.
+// Renders the App Store creative assets from one artwork, the app icon's aurora curtain above a spruce
+// horizon:
+// - store-header.png (21:9, 3840 × 1646): the product page header, with the app name in the centre.
+//   The name is the same in every language, so one image serves all localizations.
+// - search-result-{fi,sv,en}.png (3:2, 3840 × 2560): the search results image, with a main screen
+//   screenshot in a phone frame and a localized one-liner.
+// Each format also gets a text-free variant. All are opaque PNGs in Display P3.
 // Development tool only. Usage: swift tools/render-store-header.swift [output directory]
-// Writes store-header.png (3840 × 1646) and search-result.png (3840 × 2560), each with a text-free
-// variant; all opaque PNGs in Display P3. The name is the same in every language, so one image per
-// format serves all localizations.
+//
+// The search results image needs main screen screenshots at <output directory>/screenshots/main-<lang>.png
+// (1206 × 2622, iPhone 17 Pro simulator); languages without one are skipped. To capture them, run a
+// Debug build with stub data, for example with lang=fi locale=fi_FI:
+//   xcrun simctl status_bar <device> override --time 9:41 --batteryState discharging --batteryLevel 100
+//   xcrun simctl launch <device> fi.juusimaa.revontulet -uiTestStubs -uiTestStrongActivity -uiTestAlertsStub \
+//     -uiTestResetCache -uiTestOutlook storm -uiTestTime 2026-11-09T20:00:00Z -uiTestLocation 65.01,25.47 \
+//     -AppleLanguages "($lang)" -AppleLocale $locale
+//   xcrun simctl io <device> screenshot <output directory>/screenshots/main-$lang.png
 import AppKit
 import CoreImage
 
@@ -16,6 +27,14 @@ let cs = CGColorSpace(name: CGColorSpace.displayP3)!
 let ci = CIContext(options: [.workingColorSpace: cs])
 
 let title = "Revontulet"
+
+/// One short line per language for the search results image: it adds to the picture rather than
+/// describing it.
+let lines: [(String, String)] = [
+    ("fi", "Tiedä, milloin katsoa taivaalle"),
+    ("sv", "Vet när du ska titta upp"),
+    ("en", "Know when to look up"),
+]
 
 func rgb(_ r: CGFloat, _ g: CGFloat, _ b: CGFloat, _ a: CGFloat = 1) -> CGColor {
     CGColor(colorSpace: cs, components: [r, g, b, a])!
@@ -188,6 +207,55 @@ func withTitle(_ art: CGImage, _ text: String) -> CGImage {
     }
 }
 
+func loadImage(_ path: String) -> CGImage? {
+    guard let source = CGImageSourceCreateWithURL(URL(fileURLWithPath: path) as CFURL, nil) else { return nil }
+    return CGImageSourceCreateImageAtIndex(source, 0, nil)
+}
+
+/// The screenshot in a simple phone frame on the right, and the line on the left, both centred
+/// vertically. The frame is a plain rounded rim, not a drawing of a particular device.
+func withScreenshot(_ art: CGImage, _ shot: CGImage, _ line: String) -> CGImage {
+    canvas { ctx in
+        ctx.draw(art, in: CGRect(x: 0, y: 0, width: W, height: H))
+
+        let screenH = H * 0.84, screenW = screenH * CGFloat(shot.width) / CGFloat(shot.height)
+        let rim = screenW * 0.035
+        let screen = CGRect(x: W * 0.70 - screenW / 2, y: (H - screenH) / 2, width: screenW, height: screenH)
+        let body = screen.insetBy(dx: -rim, dy: -rim)
+        let radius = screenW * 0.135
+        let bodyPath = CGPath(roundedRect: body, cornerWidth: radius + rim, cornerHeight: radius + rim, transform: nil)
+        ctx.saveGState()
+        ctx.setShadow(offset: CGSize(width: 0, height: -30 * k), blur: 140 * k, color: rgb(0, 0, 0, 0.75))
+        ctx.setFillColor(rgb(0.07, 0.09, 0.13))
+        ctx.addPath(bodyPath)
+        ctx.fillPath()
+        ctx.restoreGState()
+        ctx.saveGState()
+        ctx.addPath(CGPath(roundedRect: screen, cornerWidth: radius, cornerHeight: radius, transform: nil))
+        ctx.clip()
+        ctx.draw(shot, in: screen)
+        ctx.restoreGState()
+        ctx.setStrokeColor(rgb(1, 1, 1, 0.22))
+        ctx.setLineWidth(5 * k)
+        ctx.addPath(bodyPath)
+        ctx.strokePath()
+
+        let style = NSMutableParagraphStyle()
+        style.lineHeightMultiple = 0.95
+        let attributed = NSAttributedString(string: line, attributes: [
+            .font: NSFont.systemFont(ofSize: 132 * k, weight: .bold),
+            .foregroundColor: NSColor(cgColor: rgb(0.96, 0.98, 1))!, .kern: -2 * k, .paragraphStyle: style,
+        ])
+        let setter = CTFramesetterCreateWithAttributedString(attributed)
+        let box = CGSize(width: W * 0.40, height: H)
+        let fit = CTFramesetterSuggestFrameSizeWithConstraints(setter, CFRange(), nil, box, nil)
+        let frameRect = CGRect(x: W * 0.08, y: (H - fit.height) / 2, width: box.width, height: ceil(fit.height))
+        let frame = CTFramesetterCreateFrame(setter, CFRange(), CGPath(rect: frameRect, transform: nil), nil)
+        ctx.setShadow(offset: .zero, blur: 60 * k, color: rgb(0.01, 0.03, 0.07, 0.9))
+        CTFrameDraw(frame, ctx)
+    }
+}
+
 /// Writes an opaque PNG; the App Store rejects artwork with an alpha channel.
 func save(_ image: CGImage, _ name: String) {
     let ctx = CGContext(data: nil, width: image.width, height: image.height, bitsPerComponent: 8, bytesPerRow: 0,
@@ -198,10 +266,19 @@ func save(_ image: CGImage, _ name: String) {
     try! rep.representation(using: .png, properties: [:])!.write(to: URL(fileURLWithPath: "\(outDir)/\(name).png"))
 }
 
-for (name, width, height) in [("store-header", 3840, 1646), ("search-result", 3840, 2560)] as [(String, CGFloat, CGFloat)] {
-    W = width
-    H = height
-    let art = artwork()
-    save(art, "\(name)-textless")
-    save(withTitle(art, title), name)
+(W, H) = (3840, 1646)
+let header = artwork()
+save(header, "store-header-textless")
+save(withTitle(header, title), "store-header")
+
+(W, H) = (3840, 2560)
+let search = artwork()
+save(search, "search-result-textless")
+for (language, line) in lines {
+    let path = "\(outDir)/screenshots/main-\(language).png"
+    guard let shot = loadImage(path) else {
+        print("Skipping search-result-\(language): no screenshot at \(path)")
+        continue
+    }
+    save(withScreenshot(search, shot, line), "search-result-\(language)")
 }
