@@ -21,7 +21,12 @@ extension Notification.Name {
 
 /// Receives the APNs token and notification taps. Requests the token on each launch while alerts
 /// are on, as Apple recommends; a changed token replaces the registration (research R13).
-final class PushRegistration: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate {
+///
+/// The notification delegate methods are main-actor completion-handler versions on purpose: with the
+/// `async` versions Swift calls UIKit's completion handler off the main thread, and UIKit then
+/// aborts, so tapping an alert crashed the app instead of opening it. UIKit calls the delegate on
+/// the main thread; the `@preconcurrency` conformance checks that at run time.
+final class PushRegistration: NSObject, UIApplicationDelegate, @preconcurrency UNUserNotificationCenterDelegate {
     func application(
         _ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
     ) -> Bool {
@@ -40,15 +45,20 @@ final class PushRegistration: NSObject, UIApplicationDelegate, UNUserNotificatio
     }
 
     /// An alert arriving while the app is open is shown as a banner too.
-    nonisolated func userNotificationCenter(
-        _ center: UNUserNotificationCenter, willPresent notification: UNNotification
-    ) async -> UNNotificationPresentationOptions {
-        [.banner, .list, .sound]
+    func userNotificationCenter(
+        _ center: UNUserNotificationCenter, willPresent notification: UNNotification,
+        withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
+    ) {
+        completionHandler([.banner, .list, .sound])
     }
 
     /// Opening an alert shows the main screen, which refreshes as usual (no deep link).
-    nonisolated func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
-        await MainActor.run { NotificationCenter.default.post(name: .auroraAlertOpened, object: nil) }
+    func userNotificationCenter(
+        _ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse,
+        withCompletionHandler completionHandler: @escaping () -> Void
+    ) {
+        NotificationCenter.default.post(name: .auroraAlertOpened, object: nil)
+        completionHandler()
     }
 
     /// Lowercase hex, as the alert service expects.
