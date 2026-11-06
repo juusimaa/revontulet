@@ -66,6 +66,7 @@ enum AppDependencies {
             cache.clear()
             outlookCache.clear()
             placeStore.clear()
+            UserDefaults.standard.removeObject(forKey: MainScreenView.pageKey)
         }
         // The bundled station table is part of the app; failing to load it is a build error.
         let service = try! AuroraService(http: http, cache: cache)

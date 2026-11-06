@@ -50,6 +50,10 @@ final class MainScreenModel {
     private(set) var placeResolver: PlaceResolver?
     /// The last outlook snapshot for the current place, cached or fresh.
     private(set) var outlookSnapshot: OutlookSnapshot?
+    /// The latest reading of every station, for the map page (issue #2); nil until first fetched.
+    private(set) var stationReadings: [StationReading]?
+    /// true when the last station refresh could not fetch data from FMI.
+    private(set) var isStationMapOffline = false
 
     private let service: AuroraService
     private let outlookService: OutlookService?
@@ -69,6 +73,8 @@ final class MainScreenModel {
     private var refreshCount = 0
     /// Whether the running refresh forces new fetches.
     private var isRefreshForced = false
+    /// Whether the running refresh has asked the service for a headline, which fetches FMI data.
+    private var didRefreshHeadline = false
 
     init(
         service: AuroraService,
@@ -209,7 +215,11 @@ final class MainScreenModel {
         isRefreshing = true
         // The task clears its own state, so whoever waits on it sees it gone once it ends.
         let task = Task {
+            didRefreshHeadline = false
             await refreshOnce(force: force)
+            // After the headline, so both share one magnetometer fetch. A refresh that never got to
+            // the headline (no location, say) still updates the map, forcing a fetch if asked to.
+            if !Task.isCancelled { await refreshStations(force: force && !didRefreshHeadline) }
             // A place change may have replaced this refresh with a new one.
             if refreshCount == id {
                 refreshTask = nil
@@ -267,6 +277,7 @@ final class MainScreenModel {
         refreshOutlook(for: place, force: force)
 
         if !hasResult { state = .loading }
+        didRefreshHeadline = true
         do {
             let result = try await service.refresh(for: place, at: now(), force: force)
             guard !isStale else { return }
@@ -281,6 +292,19 @@ final class MainScreenModel {
             guard !isStale else { return }
             isOffline = false
             if !hasResult { state = .noData }
+        }
+    }
+
+    /// Updates the map's readings; fetches only when the headline did not just do so.
+    private func refreshStations(force: Bool) async {
+        do {
+            stationReadings = try await service.stationReadings(at: now(), force: force)
+            isStationMapOffline = false
+        } catch AuroraServiceError.offline {
+            isStationMapOffline = true
+        } catch {
+            // No station has a valid R: the last readings stay, and the map says how old they are.
+            isStationMapOffline = false
         }
     }
 

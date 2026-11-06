@@ -107,4 +107,34 @@ struct MainScreenRefreshTests {
         #expect(model.hasResult)
         #expect(!model.isRefreshing)
     }
+
+    // MARK: - Map page (issue #2)
+
+    @Test func refreshFillsTheMapWithoutAnotherFetch() async throws {
+        let http = GatedHTTPClient()
+        let model = try model(http)
+
+        await model.refresh()
+
+        let readings = try #require(model.stationReadings)
+        #expect(readings.count == (try ReferenceData.loadStations()).count)
+        #expect(http.magnetometerRequests == 1)
+        #expect(!model.isStationMapOffline)
+    }
+
+    /// The map needs no place, so it fills even when the headline cannot be computed.
+    @Test func mapFillsWithoutAPlace() async throws {
+        let http = GatedHTTPClient()
+        let defaults = try #require(UserDefaults(suiteName: "MainScreenRefreshTests.noPlace"))
+        defaults.removePersistentDomain(forName: "MainScreenRefreshTests.noPlace")
+        let model = MainScreenModel(
+            service: try AuroraService(http: http, cache: InMemoryResultCache()),
+            location: NoLocation(), placeStore: PlaceSelectionStore(defaults: defaults))
+
+        await model.refresh()
+
+        #expect(!model.hasResult)
+        #expect(model.stationReadings != nil)
+        #expect(http.magnetometerRequests == 1)
+    }
 }

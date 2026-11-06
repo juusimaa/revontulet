@@ -116,6 +116,29 @@
         }
       }
     },
+    "%@, R %lld": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@, R %2$lld"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@, R %2$lld"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@, R %2$lld"
+          }
+        }
+      }
+    },
     "%@. %@": {
       "extractionState": "manual",
       "localizations": {
@@ -664,6 +687,29 @@
           "stringUnit": {
             "state": "translated",
             "value": "Norrskensdata från Meteorologiska institutet behövs för att visa en chans. Anslut till internet och försök igen."
+          }
+        }
+      }
+    },
+    "Auroras in Finland now": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Auroras in Finland now"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Revontulet Suomessa nyt"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Norrsken i Finland nu"
           }
         }
       }
@@ -1542,6 +1588,29 @@
         }
       }
     },
+    "Geomagnetic activity only": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geomagnetic activity only"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vain geomagneettinen aktiivisuus"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Endast geomagnetisk aktivitet"
+          }
+        }
+      }
+    },
     "Get a notification when the chance to see the aurora in your area reaches the level you choose.": {
       "extractionState": "manual",
       "localizations": {
@@ -1703,6 +1772,29 @@
         }
       }
     },
+    "Map of Finland": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Map of Finland"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Suomen kartta"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Karta över Finland"
+          }
+        }
+      }
+    },
     "Measured %@": {
       "extractionState": "manual",
       "localizations": {
@@ -1722,6 +1814,29 @@
           "stringUnit": {
             "state": "translated",
             "value": "Uppmätt %@"
+          }
+        }
+      }
+    },
+    "Measured %@ · geomagnetic activity only": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Measured %@ · geomagnetic activity only"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mitattu %@ · vain geomagneettinen aktiivisuus"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uppmätt %@ · endast geomagnetisk aktivitet"
           }
         }
       }
@@ -1906,6 +2021,52 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ingen ljus måne"
+          }
+        }
+      }
+    },
+    "No recent data": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No recent data"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ei tuoreita tietoja"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inga färska data"
+          }
+        }
+      }
+    },
+    "No recent data from this station": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No recent data from this station"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Asemalta ei ole tuoreita tietoja"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inga färska data från stationen"
           }
         }
       }
@@ -2255,6 +2416,52 @@
         }
       }
     },
+    "Possible": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Possible"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mahdollisia"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Möjligt"
+          }
+        }
+      }
+    },
+    "Possible from R %lld": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Possible from R %lld"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mahdollisia R %lld alkaen"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Möjligt från R %lld"
+          }
+        }
+      }
+    },
     "Privacy policy": {
       "extractionState": "manual",
       "localizations": {
@@ -2274,6 +2481,75 @@
           "stringUnit": {
             "state": "translated",
             "value": "Integritetspolicy"
+          }
+        }
+      }
+    },
+    "Probable": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Probable"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Todennäköisiä"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sannolikt"
+          }
+        }
+      }
+    },
+    "Probable from R %lld": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Probable from R %lld"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Todennäköisiä R %lld alkaen"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sannolikt från R %lld"
+          }
+        }
+      }
+    },
+    "R %lld": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "R %lld"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "R %lld"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "R %lld"
           }
         }
       }
@@ -2987,6 +3263,29 @@
           "stringUnit": {
             "state": "translated",
             "value": "Okänd"
+          }
+        }
+      }
+    },
+    "Unlikely": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unlikely"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Epätodennäköisiä"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Osannolikt"
           }
         }
       }
