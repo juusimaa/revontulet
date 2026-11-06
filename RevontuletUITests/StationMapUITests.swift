@@ -42,6 +42,18 @@ final class StationMapUITests: XCTestCase {
         XCTAssertTrue(pello.isSelected)
     }
 
+    /// Contrast is left out, as on the main screen: the audit samples the stars and aurora glow
+    /// inside text frames.
+    @MainActor
+    func testMapPagePassesAccessibilityAudit() throws {
+        let app = launch(reset: true)
+        XCTAssertTrue(app.element("chanceHeadline").firstMatch.waitForExistence(timeout: 10))
+        app.swipeLeft()
+        XCTAssertTrue(app.buttons["Kevo"].waitForExistence(timeout: 10))
+
+        try app.performAccessibilityAudit(for: XCUIAccessibilityAuditType.all.subtracting(.contrast))
+    }
+
     @MainActor
     func testTheMapPageIsRememberedAcrossLaunches() {
         var app = launch(reset: true)

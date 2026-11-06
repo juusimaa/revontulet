@@ -10,32 +10,58 @@ struct StationMapPage: View {
 
     @State private var selectedID: Station.ID?
 
+    /// Below this the stations crowd together and their labels overlap.
+    private static let minimumMapHeight: CGFloat = 380
+
     var body: some View {
+        Group {
+            if let readings {
+                // One screen when it fits; with large text the page scrolls instead, so the map
+                // keeps a usable size.
+                ViewThatFits(in: .vertical) {
+                    page(readings, mapHeight: nil)
+                    ScrollView {
+                        page(readings, mapHeight: 460)
+                    }
+                    .scrollBounceBehavior(.basedOnSize)
+                }
+            } else {
+                VStack(alignment: .leading, spacing: 0) {
+                    header
+                        .padding(.top, 20)
+                    Spacer()
+                    ProgressView()
+                        .frame(maxWidth: .infinity)
+                    Spacer()
+                }
+                .padding(.horizontal, 24)
+                .padding(.bottom, 44)
+            }
+        }
+        .animation(.smooth(duration: 0.2), value: selectedID)
+        .sensoryFeedback(.selection, trigger: selectedID)
+    }
+
+    /// - Parameter mapHeight: a fixed map height for the scrolling layout; nil lets the map take
+    ///   the space left over.
+    private func page(_ readings: [StationReading], mapHeight: CGFloat?) -> some View {
         VStack(alignment: .leading, spacing: 0) {
             header
                 .padding(.top, 20)
-            if let readings {
-                MapLegend()
-                    .padding(.top, 14)
-                StationMap(readings: readings, selectedID: selected(in: readings)?.station.id) { selectedID = $0 }
-                    .padding(.vertical, 12)
-                if let reading = selected(in: readings) {
-                    StationCard(reading: reading)
-                        .id(reading.station.id)
-                        .transition(.opacity)
-                }
-            } else {
-                Spacer()
-                ProgressView()
-                    .frame(maxWidth: .infinity)
-                Spacer()
+            MapLegend()
+                .padding(.top, 14)
+            StationMap(readings: readings, selectedID: selected(in: readings)?.station.id) { selectedID = $0 }
+                .frame(minHeight: mapHeight ?? Self.minimumMapHeight, maxHeight: mapHeight ?? .infinity)
+                .padding(.vertical, 12)
+            if let reading = selected(in: readings) {
+                StationCard(reading: reading)
+                    .id(reading.station.id)
+                    .transition(.opacity)
             }
         }
         .padding(.horizontal, 24)
         // Room for the page dots.
         .padding(.bottom, 44)
-        .animation(.smooth(duration: 0.2), value: selectedID)
-        .sensoryFeedback(.selection, trigger: selectedID)
     }
 
     private var header: some View {
@@ -54,7 +80,6 @@ struct StationMapPage: View {
                 }
             }
         }
-        .dynamicTypeSize(...DynamicTypeSize.accessibility2)
     }
 
     private var subtitle: LocalizedStringResource {
@@ -249,7 +274,6 @@ private struct MapLegend: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .font(.caption)
         .foregroundStyle(.white.opacity(0.8))
-        .dynamicTypeSize(...DynamicTypeSize.accessibility1)
         .accessibilityElement(children: .ignore)
         .accessibilityHidden(true)
     }
@@ -292,10 +316,11 @@ private struct StationCard: View {
                 ThresholdBar(reading: reading)
                 ViewThatFits(in: .horizontal) {
                     HStack {
-                        possibleFrom
+                        possibleFrom.fixedSize()
                         Spacer(minLength: 12)
-                        probableFrom
+                        probableFrom.fixedSize()
                     }
+                    // Stacked, the lines wrap rather than widening the page.
                     VStack(alignment: .leading, spacing: 2) {
                         possibleFrom
                         probableFrom
@@ -312,19 +337,18 @@ private struct StationCard: View {
         .padding(16)
         .background(.white.opacity(0.07), in: .rect(cornerRadius: 22))
         .overlay(RoundedRectangle(cornerRadius: 22).strokeBorder(.white.opacity(0.12), lineWidth: 0.5))
-        .dynamicTypeSize(...DynamicTypeSize.accessibility1)
         .accessibilityElement(children: .combine)
         .accessibilityIdentifier("stationCard")
     }
 }
 
 extension StationCard {
-    fileprivate var possibleFrom: some View {
-        Text("Possible from R \(Int(reading.station.yellowThreshold))").fixedSize()
+    fileprivate var possibleFrom: Text {
+        Text("Possible from R \(Int(reading.station.yellowThreshold))")
     }
 
-    fileprivate var probableFrom: some View {
-        Text("Probable from R \(Int(reading.station.redThreshold))").fixedSize()
+    fileprivate var probableFrom: Text {
+        Text("Probable from R \(Int(reading.station.redThreshold))")
     }
 }
 
