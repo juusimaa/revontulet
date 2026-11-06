@@ -170,6 +170,7 @@ private struct ResultView: View {
                 let freshness = model.freshness(of: result, at: now)
                 VStack(alignment: .leading, spacing: 0) {
                     PlaceHeader(name: placeName, source: result.place.source)
+                        .padding(.top, 20)
                     if freshness == .offline {
                         OfflineNotice { Task { await model.userRefresh() } }
                             .padding(.top, 24)
@@ -198,8 +199,22 @@ private struct ResultView: View {
             .padding(.bottom, 32)
         }
         .scrollBounceBehavior(.always)
-        // The soft default is invisible on the night sky; without it the header collides with the toolbar.
-        .scrollEdgeEffectStyle(.hard, for: .top)
+        // No bar behind the toolbar: the buttons float on the sky, and content scrolling under
+        // them fades out instead, so it never collides with them (issue #11).
+        .scrollEdgeEffectHidden(true, for: .top)
+        .mask {
+            // Clear under the status bar, fading in over the toolbar.
+            GeometryReader { proxy in
+                VStack(spacing: 0) {
+                    LinearGradient(
+                        stops: [.init(color: .clear, location: 0.4), .init(color: .black, location: 1)],
+                        startPoint: .top, endPoint: .bottom)
+                        .frame(height: proxy.safeAreaInsets.top)
+                    Color.black
+                }
+                .ignoresSafeArea()
+            }
+        }
         .refreshable { await model.userRefresh() }
         // Only refreshes the user asked for; the 5-minute background refresh stays silent.
         .sensoryFeedback(.success, trigger: model.userRefreshesCompleted)
