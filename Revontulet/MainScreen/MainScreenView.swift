@@ -45,9 +45,9 @@ struct MainScreenView: View {
         }
         .sensoryFeedback(.warning, trigger: model.isOffline) { _, offline in offline }
         .sensoryFeedback(.selection, trigger: model.selection)
-        // Opening an aurora alert shows this screen with a fresh result (no deep link).
+        // Opening an aurora alert shows this screen with newly fetched data (no deep link).
         .onReceive(NotificationCenter.default.publisher(for: .auroraAlertOpened)) { _ in
-            Task { await model.refresh() }
+            Task { await model.alertOpened() }
         }
         .sheet(isPresented: $isShowingAlerts) {
             AlertSettingsView(model: alerts) {
