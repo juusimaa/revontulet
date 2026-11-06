@@ -50,13 +50,7 @@ public actor AuroraService {
         let cloudsDue = force || clouds.map { date.timeIntervalSince($0.fetchedAt) >= Self.cloudsInterval } ?? true
 
         async let cloudsFetch: [CloudObservation]? = cloudsDue ? try? client.cloudObservations(now: date) : nil
-        if magnetometerDue {
-            do {
-                magnetometer = (date, try await client.magnetometerSamples(now: date))
-            } catch {
-                throw AuroraServiceError.offline
-            }
-        }
+        if magnetometerDue { try await fetchMagnetometer(at: date) }
         if cloudsDue {
             // A failed cloud fetch is retried on the next refresh; until then clouds are unknown.
             clouds = await cloudsFetch.map { (date, $0) }
@@ -86,6 +80,28 @@ public actor AuroraService {
             computedAt: date)
         await cache.save(result)
         return result
+    }
+
+    /// The latest reading of every station, for the map of Finland (issue #2). Activity comes from R
+    /// alone: no place, clouds, darkness or moon. Fetches magnetometer data when due, sharing the
+    /// fetch with `refresh(for:at:force:)`, and never touches the stored result.
+    ///
+    /// Throws `AuroraServiceError.offline` when the fetch fails and `AuroraServiceError.noData` when
+    /// no station has a valid R.
+    public func stationReadings(at date: Date, force: Bool) async throws -> [StationReading] {
+        let due = force || magnetometer.map { date.timeIntervalSince($0.fetchedAt) >= Self.magnetometerInterval } ?? true
+        if due { try await fetchMagnetometer(at: date) }
+        let readings = Self.readings(stations: stations, samples: magnetometer?.samples ?? [], now: date)
+        guard readings.contains(where: { $0.activity != nil }) else { throw AuroraServiceError.noData }
+        return readings
+    }
+
+    private func fetchMagnetometer(at date: Date) async throws {
+        do {
+            magnetometer = (date, try await client.magnetometerSamples(now: date))
+        } catch {
+            throw AuroraServiceError.offline
+        }
     }
 
     /// One reading per station. R ends at each station's latest complete sample; stations without

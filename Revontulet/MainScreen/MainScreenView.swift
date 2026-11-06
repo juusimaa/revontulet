@@ -8,34 +8,51 @@ struct MainScreenView: View {
 
     @State private var isChoosingPlace = false
     @State private var isShowingAlerts = false
+    /// The chance for one place, or the map of Finland; remembered across launches (issue #2).
+    @AppStorage(Self.pageKey) private var page = Page.chance
+    static let pageKey = "mainScreenPage"
+
+    enum Page: String {
+        case chance
+        case map
+    }
 
     @Environment(\.colorScheme) private var systemColorScheme
     @Environment(\.scenePhase) private var scenePhase
 
     var body: some View {
         NavigationStack {
-            content
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background { SkyBackground(level: level).environment(\.colorScheme, systemColorScheme) }
-                .toolbar {
-                    ToolbarItem(placement: .topBarLeading) {
-                        Button("Change place", systemImage: "mappin.and.ellipse") { isChoosingPlace = true }
-                            .accessibilityIdentifier("changePlaceButton")
-                    }
-                    ToolbarItem(placement: .topBarTrailing) {
-                        AlertsButton(isOn: alerts.isOn) { isShowingAlerts = true }
-                    }
-                    ToolbarItem(placement: .topBarTrailing) {
-                        Button {
-                            Task { await model.userRefresh() }
-                        } label: {
-                            Label("Refresh", systemImage: "arrow.clockwise")
-                                .symbolEffect(.rotate, options: .repeat(.continuous), isActive: model.isRefreshing)
-                        }
-                        .disabled(model.isRefreshing)
-                        .accessibilityIdentifier("refreshButton")
-                    }
+            TabView(selection: $page) {
+                content
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .tag(Page.chance)
+                StationMapPage(readings: model.stationReadings, isOffline: model.isStationMapOffline)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .tag(Page.map)
+                    .accessibilityIdentifier("stationMapPage")
+            }
+            .tabViewStyle(.page(indexDisplayMode: .always))
+            .indexViewStyle(.page(backgroundDisplayMode: .interactive))
+            .background { SkyBackground(level: level).environment(\.colorScheme, systemColorScheme) }
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button("Change place", systemImage: "mappin.and.ellipse") { isChoosingPlace = true }
+                        .accessibilityIdentifier("changePlaceButton")
                 }
+                ToolbarItem(placement: .topBarTrailing) {
+                    AlertsButton(isOn: alerts.isOn) { isShowingAlerts = true }
+                }
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        Task { await model.userRefresh() }
+                    } label: {
+                        Label("Refresh", systemImage: "arrow.clockwise")
+                            .symbolEffect(.rotate, options: .repeat(.continuous), isActive: model.isRefreshing)
+                    }
+                    .disabled(model.isRefreshing)
+                    .accessibilityIdentifier("refreshButton")
+                }
+            }
         }
         // Text sits on a night sky in both appearances.
         .environment(\.colorScheme, .dark)
@@ -45,6 +62,7 @@ struct MainScreenView: View {
         }
         .sensoryFeedback(.warning, trigger: model.isOffline) { _, offline in offline }
         .sensoryFeedback(.selection, trigger: model.selection)
+        .sensoryFeedback(.selection, trigger: page)
         // Opening an aurora alert shows this screen with newly fetched data (no deep link).
         .onReceive(NotificationCenter.default.publisher(for: .auroraAlertOpened)) { _ in
             Task { await model.alertOpened() }
