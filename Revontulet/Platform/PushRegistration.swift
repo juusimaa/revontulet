@@ -52,7 +52,7 @@ final class PushRegistration: NSObject, UIApplicationDelegate, @preconcurrency U
         completionHandler([.banner, .list, .sound])
     }
 
-    /// Opening an alert shows the main screen, which refreshes as usual (no deep link).
+    /// Opening an alert shows the main screen, which fetches new data (no deep link).
     func userNotificationCenter(
         _ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse,
         withCompletionHandler completionHandler: @escaping () -> Void

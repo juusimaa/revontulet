@@ -65,6 +65,10 @@ final class MainScreenModel {
     private let onPlaceResolved: @MainActor (Place) -> Void
     private var lastForcedRefresh: Date?
     private var refreshTask: Task<Void, Never>?
+    /// Numbers refreshes, so a refresh replaced by a place change leaves the new one's state alone.
+    private var refreshCount = 0
+    /// Whether the running refresh forces new fetches.
+    private var isRefreshForced = false
 
     init(
         service: AuroraService,
@@ -181,23 +185,39 @@ final class MainScreenModel {
         if hasResult, !isOffline { userRefreshesCompleted += 1 }
     }
 
+    /// Opening an aurora alert forces new fetches: data fetched a few minutes ago can predate the
+    /// alert, and the screen must not show a lower chance than the alert did (issue #10).
+    func alertOpened() async {
+        await refresh(force: true)
+    }
+
     /// Locates the user (or takes the chosen municipality) and computes a fresh result. A valid
     /// result is never replaced by an empty state when a later step fails.
     /// A refresh asked for while one is running waits for that one instead of starting another.
+    /// A forced refresh asked for while an unforced one runs starts after it, since the running
+    /// one may reuse data fetched minutes ago.
     func refresh(force: Bool = false) async {
         if let running = refreshTask {
+            let isCovered = !force || isRefreshForced
             await running.value
-            return
+            if isCovered { return }
+            return await refresh(force: true)
         }
-        let task = Task { await refreshOnce(force: force) }
-        refreshTask = task
+        refreshCount += 1
+        let id = refreshCount
+        isRefreshForced = force
         isRefreshing = true
-        await task.value
-        // A place change may have replaced this refresh with a new one.
-        if refreshTask == task {
-            refreshTask = nil
-            isRefreshing = false
+        // The task clears its own state, so whoever waits on it sees it gone once it ends.
+        let task = Task {
+            await refreshOnce(force: force)
+            // A place change may have replaced this refresh with a new one.
+            if refreshCount == id {
+                refreshTask = nil
+                isRefreshing = false
+            }
         }
+        refreshTask = task
+        await task.value
     }
 
     private func refreshOnce(force: Bool) async {
