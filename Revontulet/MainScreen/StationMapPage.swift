@@ -295,9 +295,21 @@ private struct MapDot: View {
 
 private struct MapLegend: View {
     var body: some View {
-        // Finnish and Swedish words are long: the legend stacks rather than widening the page.
+        // Finnish words are long: the legend wraps into two rows, and stacks only at large text sizes,
+        // rather than widening the page or pushing the station card off the screen.
         ViewThatFits(in: .horizontal) {
             HStack(spacing: 18) { items }
+            Grid(alignment: .leading, horizontalSpacing: 18, verticalSpacing: 6) {
+                GridRow {
+                    item(.probable)
+                    item(.possible)
+                }
+                GridRow {
+                    item(.unlikely)
+                    item(nil)
+                }
+            }
+            .fixedSize(horizontal: true, vertical: false)
             VStack(alignment: .leading, spacing: 6) { items }
         }
         .frame(maxWidth: .infinity, alignment: .leading)

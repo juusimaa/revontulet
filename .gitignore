@@ -24,3 +24,6 @@ tools/.cache/
 
 # Reference R values from FMI's chart endpoint (not open data): kept local only
 Packages/AuroraCore/Tests/AuroraCoreTests/Fixtures/reference-r.json
+
+# graphify knowledge graph (local, regenerated with /graphify . --update)
+graphify-out/
