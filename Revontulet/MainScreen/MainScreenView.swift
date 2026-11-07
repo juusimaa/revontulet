@@ -8,6 +8,8 @@ struct MainScreenView: View {
 
     @State private var isChoosingPlace = false
     @State private var isShowingAlerts = false
+    /// The status bar and toolbar height, which the pages under them lay out below.
+    @State private var topInset: CGFloat = 0
     /// The chance for one place, or the map of Finland; remembered across launches (issue #2).
     @AppStorage(Self.pageKey) private var page = Page.chance
     static let pageKey = "mainScreenPage"
@@ -25,14 +27,35 @@ struct MainScreenView: View {
             TabView(selection: $page) {
                 content
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .safeAreaPadding(.top, topInset)
                     .tag(Page.chance)
                 StationMapPage(readings: model.stationReadings, status: model.stationMapStatus)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .safeAreaPadding(.top, topInset)
                     .tag(Page.map)
                     .accessibilityIdentifier("stationMapPage")
             }
             .tabViewStyle(.page(indexDisplayMode: .always))
             .indexViewStyle(.page(backgroundDisplayMode: .interactive))
+            // The pages reach under the toolbar, so content scrolls under the floating buttons
+            // instead of being cut at the safe area, and fades out there (issue #11). The fade sits
+            // here, not on the pages: inside the pager they see no top safe area, so they get it
+            // back as padding.
+            .ignoresSafeArea(.container, edges: .top)
+            .onGeometryChange(for: CGFloat.self) { $0.safeAreaInsets.top } action: { topInset = $0 }
+            .mask {
+                // Clear under the status bar, fading in over the toolbar.
+                GeometryReader { proxy in
+                    VStack(spacing: 0) {
+                        LinearGradient(
+                            stops: [.init(color: .clear, location: 0.4), .init(color: .black, location: 1)],
+                            startPoint: .top, endPoint: .bottom)
+                            .frame(height: proxy.safeAreaInsets.top)
+                        Color.black
+                    }
+                    .ignoresSafeArea()
+                }
+            }
             .background { SkyBackground(level: level, animated: skyIsVisible).environment(\.colorScheme, systemColorScheme) }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
@@ -221,21 +244,8 @@ private struct ResultView: View {
         }
         .scrollBounceBehavior(.always)
         // No bar behind the toolbar: the buttons float on the sky, and content scrolling under
-        // them fades out instead, so it never collides with them (issue #11).
+        // them fades out instead (the mask on the pager), so it never collides with them (issue #11).
         .scrollEdgeEffectHidden(true, for: .top)
-        .mask {
-            // Clear under the status bar, fading in over the toolbar.
-            GeometryReader { proxy in
-                VStack(spacing: 0) {
-                    LinearGradient(
-                        stops: [.init(color: .clear, location: 0.4), .init(color: .black, location: 1)],
-                        startPoint: .top, endPoint: .bottom)
-                        .frame(height: proxy.safeAreaInsets.top)
-                    Color.black
-                }
-                .ignoresSafeArea()
-            }
-        }
         .refreshable { await model.userRefresh() }
         // Only refreshes the user asked for; the 5-minute background refresh stays silent.
         .sensoryFeedback(.success, trigger: model.userRefreshesCompleted)
