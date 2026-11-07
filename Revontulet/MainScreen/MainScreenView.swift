@@ -8,8 +8,9 @@ struct MainScreenView: View {
 
     @State private var isChoosingPlace = false
     @State private var isShowingAlerts = false
-    /// The status bar and toolbar height, which the pages under them lay out below.
-    @State private var topInset: CGFloat = 0
+    /// The status bar and toolbar height above the pages, and the home indicator height below
+    /// them; the pages lay out within these while drawing under them.
+    @State private var insets = EdgeInsets()
     /// The chance for one place, or the map of Finland; remembered across launches (issue #2).
     @AppStorage(Self.pageKey) private var page = Page.chance
     static let pageKey = "mainScreenPage"
@@ -27,22 +28,24 @@ struct MainScreenView: View {
             TabView(selection: $page) {
                 content
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .safeAreaPadding(.top, topInset)
+                    .safeAreaPadding(.top, insets.top)
+                    .safeAreaPadding(.bottom, insets.bottom)
                     .tag(Page.chance)
                 StationMapPage(readings: model.stationReadings, status: model.stationMapStatus)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .safeAreaPadding(.top, topInset)
+                    .safeAreaPadding(.top, insets.top)
+                    .safeAreaPadding(.bottom, insets.bottom)
                     .tag(Page.map)
                     .accessibilityIdentifier("stationMapPage")
             }
-            .tabViewStyle(.page(indexDisplayMode: .always))
-            .indexViewStyle(.page(backgroundDisplayMode: .interactive))
-            // The pages reach under the toolbar, so content scrolls under the floating buttons
-            // instead of being cut at the safe area, and fades out there (issue #11). The fade sits
-            // here, not on the pages: inside the pager they see no top safe area, so they get it
-            // back as padding.
-            .ignoresSafeArea(.container, edges: .top)
-            .onGeometryChange(for: CGFloat.self) { $0.safeAreaInsets.top } action: { topInset = $0 }
+            // The system dots would sit on the home indicator once the pager reaches under it.
+            .tabViewStyle(.page(indexDisplayMode: .never))
+            // The pages reach under the toolbar and the home indicator, so content scrolls under
+            // the floating buttons and off the bottom edge instead of being cut at the safe area,
+            // and fades out under the buttons (issue #11). The fade sits here, not on the pages:
+            // inside the pager they see no safe area, so they get it back as padding.
+            .ignoresSafeArea(.container)
+            .onGeometryChange(for: EdgeInsets.self) { $0.safeAreaInsets } action: { insets = $0 }
             .mask {
                 // Clear under the status bar, fading in over the toolbar.
                 GeometryReader { proxy in
@@ -55,6 +58,10 @@ struct MainScreenView: View {
                     }
                     .ignoresSafeArea()
                 }
+            }
+            .overlay(alignment: .bottom) {
+                PageDots(page: $page)
+                    .padding(.bottom, 12)
             }
             .background { SkyBackground(level: level, animated: skyIsVisible).environment(\.colorScheme, systemColorScheme) }
             .toolbar {
@@ -194,6 +201,46 @@ private struct AlertsButton: View {
         }
         .accessibilityLabel(Text(isOn ? "Aurora alerts, on" : "Aurora alerts, off"))
         .accessibilityIdentifier("alertsButton")
+    }
+}
+
+/// The page dots under the pager, drawn here instead of by the pager so they stay above the home
+/// indicator while the pages reach under it. A tap goes to the other page, like the system dots.
+private struct PageDots: View {
+    @Binding var page: MainScreenView.Page
+
+    private static let pages: [MainScreenView.Page] = [.chance, .map]
+    private var index: Int { Self.pages.firstIndex(of: page) ?? 0 }
+
+    var body: some View {
+        HStack(spacing: 9) {
+            ForEach(Self.pages, id: \.self) { item in
+                Circle()
+                    .fill(.white.opacity(item == page ? 1 : 0.35))
+                    .frame(width: 7, height: 7)
+            }
+        }
+        .padding(.horizontal, 12)
+        .frame(minHeight: 26)
+        .contentShape(.rect)
+        .onTapGesture { show(index == 0 ? 1 : 0) }
+        .animation(.smooth(duration: 0.2), value: page)
+        .accessibilityElement()
+        .accessibilityLabel(Text("Page"))
+        .accessibilityValue(Text("Page \(index + 1) of \(Self.pages.count)"))
+        .accessibilityAdjustableAction { direction in
+            switch direction {
+            case .increment: show(index + 1)
+            case .decrement: show(index - 1)
+            @unknown default: break
+            }
+        }
+        .accessibilityIdentifier("pageDots")
+    }
+
+    private func show(_ newIndex: Int) {
+        guard Self.pages.indices.contains(newIndex) else { return }
+        withAnimation { page = Self.pages[newIndex] }
     }
 }
 
