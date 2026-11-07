@@ -1,5 +1,5 @@
 Revontulet 4.0: App Store texts
-(Limits: What's New 4000 chars, Description 4000 chars, Promotional Text 170 chars.)
+(Limits: What's New 4000 chars, Description 4000 chars, Keywords 100 chars, Promotional Text 170 chars.)
 
 Screenshots (iPhone 17 Pro, 1206x2622, in app-store-header/screenshots/4.0, ignored by git):
 1 main, 2 map, 3 forecast, 4 details, 5 alerts; for fi, sv and en.
@@ -135,6 +135,28 @@ Space weather: NOAA Space Weather Prediction Center
 Municipality boundaries: Statistics Finland, CC BY 4.0
 
 Revontulet covers Finland and is available in Finnish, Swedish and English.
+
+
+======================================================================
+KEYWORDS  (limit 100 chars; comma-separated, no spaces after commas)
+======================================================================
+
+Words in the app name are already searchable, so they don't need a
+keyword slot. Each set adds the map word in place of a weaker one.
+
+--- Finnish (fi) ---  96 chars; "aurora" (in the name) -> "kartta"
+revontuli,kartta,ennuste,hälytys,avaruussää,aurinkotuuli,magneettimyrsky,kp,Lappi,Suomi,yötaivas
+
+--- Swedish (sv) ---  100 chars; "karta" added
+norrsken,aurora,prognos,avisering,rymdväder,solvind,geomagnetisk storm,kp,Finland,Lappland,FMI,karta
+
+--- English (en) ---  98 chars; "storm" -> "map"
+northern lights,aurora,borealis,forecast,alert,map,space weather,solar wind,Finland,Lapland,FMI,kp
+
+3.0.2 keywords, for reference:
+fi: revontuli,aurora,ennuste,hälytys,avaruussää,aurinkotuuli,magneettimyrsky,kp,Lappi,Suomi,yötaivas
+sv: norrsken,aurora,prognos,avisering,rymdväder,solvind,geomagnetisk storm,kp,Finland,Lappland,FMI
+en: northern lights,aurora,borealis,forecast,alert,kp,space weather,solar wind,Finland,Lapland,FMI,storm
 
 
 ======================================================================
