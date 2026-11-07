@@ -91,10 +91,17 @@ struct ChanceDetailsView: View {
                     .foregroundStyle(.secondary)
             }
         }
-        .accessibilityLabel(moon.altitude > 0
-            ? Text("Moon, \(Text(FactorEffect.of(moonBright: moon.isBright).title)): \(moon.percentLit) percent lit, \(Text(moon.phase.title)), up")
-            : Text("Moon, \(Text(FactorEffect.of(moonBright: moon.isBright).title)): \(moon.percentLit) percent lit, \(Text(moon.phase.title)), below the horizon"))
+        .accessibilityLabel(moonLabel)
         .accessibilityIdentifier("moonDetail")
+    }
+
+    private var moonLabel: Text {
+        let moon = result.moon
+        let effect = Text(FactorEffect.of(moonBright: moon.isBright).title)
+        let base = moon.altitude > 0
+            ? Text("Moon, \(effect): \(moon.percentLit) percent lit, \(Text(moon.phase.title)), up")
+            : Text("Moon, \(effect): \(moon.percentLit) percent lit, \(Text(moon.phase.title)), below the horizon")
+        return moon.isBright ? Text("\(base). \(Text("Bright enough to hide faint aurora"))") : base
     }
 
     private var clouds: some View {
@@ -123,6 +130,7 @@ struct ChanceDetailsView: View {
             if soon.state != .unknown, let sample = soon.latest {
                 Text("Bz \(Self.number(sample.bz)) nT, speed \(Self.number(sample.speed)) km/s, density \(Self.number(sample.density)) /cm³")
                     .foregroundStyle(.secondary)
+                    .accessibilityLabel(Text("Bz \(Self.number(sample.bz)) nanoteslas, speed \(Self.number(sample.speed)) kilometers per second, density \(Self.number(sample.density)) per cubic centimeter"))
             }
             if let time = soon.dataTime {
                 Group {

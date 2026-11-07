@@ -53,19 +53,19 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Your location is used only on this device to find the nearest measurement station and your municipality. It is never sent anywhere."
+            "value" : "Your location is used on this device to find the nearest measurement station and your municipality. Your position is never sent anywhere; aurora alerts, if you turn them on, share only a coarse area of Finland."
           }
         },
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sijaintiasi käytetään vain tällä laitteella lähimmän mittausaseman ja kuntasi selvittämiseen. Sitä ei lähetetä minnekään."
+            "value" : "Sijaintiasi käytetään tällä laitteella lähimmän mittausaseman ja kuntasi selvittämiseen. Sijaintiasi ei lähetetä minnekään; revontulihälytykset, jos otat ne käyttöön, jakavat vain karkean alueen Suomesta."
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Din plats används endast på den här enheten för att hitta närmaste mätstation och din kommun. Den skickas aldrig någonstans."
+            "value" : "Din plats används på den här enheten för att hitta närmaste mätstation och din kommun. Din position skickas aldrig någonstans; norrskensaviseringar, om du slår på dem, delar bara ett grovt område i Finland."
           }
         }
       }

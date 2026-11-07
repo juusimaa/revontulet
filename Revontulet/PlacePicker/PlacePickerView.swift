@@ -11,12 +11,12 @@ struct PlacePickerView: View {
     let onChoose: (PlaceSelection) -> Void
 
     @State private var query = ""
+    /// Searched and sorted when the query or the resolver changes, not on every render.
+    @State private var results: [Municipality] = []
     @Environment(\.dismiss) private var dismiss
     @Environment(\.colorScheme) private var systemColorScheme
 
     var body: some View {
-        // Searched and sorted once per update, not once per use.
-        let results = municipalities
         NavigationStack {
             List {
                 if query.trimmingCharacters(in: .whitespaces).isEmpty {
@@ -61,6 +61,8 @@ struct PlacePickerView: View {
             }
         }
         .environment(\.colorScheme, .dark)
+        .onChange(of: query, initial: true) { results = municipalities }
+        .onChange(of: resolver == nil) { results = municipalities }
     }
 
     private var municipalities: [Municipality] {
@@ -85,13 +87,15 @@ private struct CurrentLocationRow: View {
     let isSelected: Bool
     let action: () -> Void
 
+    @ScaledMetric(relativeTo: .body) private var iconSize = 36.0
+
     var body: some View {
         Button(action: action) {
             HStack(spacing: 14) {
                 Image(systemName: "location.fill")
                     .font(.body.weight(.semibold))
                     .foregroundStyle(PlacePickerStyle.glow)
-                    .frame(width: 36, height: 36)
+                    .frame(width: iconSize, height: iconSize)
                     .background(PlacePickerStyle.green.opacity(0.14), in: .circle)
                 VStack(alignment: .leading, spacing: 2) {
                     Text("Use current location")

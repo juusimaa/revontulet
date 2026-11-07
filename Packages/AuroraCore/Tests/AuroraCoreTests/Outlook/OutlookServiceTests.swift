@@ -278,4 +278,105 @@ struct OutlookServiceTests {
         let decoded = try JSONDecoder().decode(OutlookSnapshot.self, from: JSONEncoder().encode(snapshot))
         #expect(decoded == snapshot)
     }
+
+    // MARK: Cache load and cancellation
+
+    /// Concurrent refreshes while the cache read is slow: the old snapshot must not overwrite the fetched inputs.
+    @Test func slowCacheLoadDoesNotOverwriteFetchedInputs() async throws {
+        let old = await OutlookService(http: Self.recorded(), cache: InMemoryOutlookCache())
+            .refresh(for: Self.oulu, zoneID: "OUJ", at: Self.quietNow, force: false)
+        let cache = GatedOutlookCache(old)
+        let service = OutlookService(http: Self.recorded(), cache: cache)
+        let later = Self.quietNow + 2 * 60 * 60
+
+        let first = Task { await service.refresh(for: Self.oulu, zoneID: "OUJ", at: later, force: true) }
+        await cache.loadStarted()
+        let second = Task { await service.refresh(for: Self.oulu, zoneID: "OUJ", at: later, force: true) }
+        await cache.openLoad()
+        let results = await [first.value, second.value]
+
+        for result in results {
+            #expect(result.samples?.fetchedAt == later)
+            #expect(result.forecast != nil)
+        }
+        let cached = try #require(await service.cachedSnapshot())
+        #expect(cached.samples?.fetchedAt == later)
+        #expect(await cache.loadCount == 1)
+    }
+
+    @Test func cancelledRefreshDoesNotSave() async {
+        let http = GatedHTTPClient()
+        let cache = GatedOutlookCache(nil)
+        await cache.openLoad()
+        let service = OutlookService(http: http, cache: cache)
+
+        let task = Task { await service.refresh(for: Self.oulu, zoneID: "OUJ", at: Self.now, force: true) }
+        await http.requestStarted()
+        task.cancel()
+        await http.open()
+        let snapshot = await task.value
+
+        #expect(snapshot.place == Self.oulu)
+        #expect(await cache.saveCount == 0)
+        #expect(await service.cachedSnapshot() == nil)
+    }
+}
+
+/// A one-shot gate: `wait` suspends until `open`.
+actor Gate {
+    private var isOpen = false
+    private var waiters: [CheckedContinuation<Void, Never>] = []
+
+    func wait() async {
+        if isOpen { return }
+        await withCheckedContinuation { waiters.append($0) }
+    }
+
+    func open() {
+        isOpen = true
+        waiters.forEach { $0.resume() }
+        waiters = []
+    }
+}
+
+/// A cache whose `load` waits for `openLoad`, and which counts loads and saves.
+actor GatedOutlookCache: OutlookCache {
+    private let snapshot: OutlookSnapshot?
+    private let started = Gate()
+    private let gate = Gate()
+    private(set) var loadCount = 0
+    private(set) var saveCount = 0
+
+    init(_ snapshot: OutlookSnapshot?) {
+        self.snapshot = snapshot
+    }
+
+    func load() async -> OutlookSnapshot? {
+        loadCount += 1
+        await started.open()
+        await gate.wait()
+        return snapshot
+    }
+
+    func save(_ snapshot: OutlookSnapshot) {
+        saveCount += 1
+    }
+
+    func loadStarted() async { await started.wait() }
+    func openLoad() async { await gate.open() }
+}
+
+/// Answers every request with a quiet solar wind, but only after `open`.
+final class GatedHTTPClient: HTTPClient {
+    private let started = Gate()
+    private let gate = Gate()
+
+    func get(_ url: URL) async throws -> (Data, Int) {
+        await started.open()
+        await gate.wait()
+        return (try Fixtures.data("outlook/solar-wind-quiet.json"), 200)
+    }
+
+    func requestStarted() async { await started.wait() }
+    func open() async { await gate.open() }
 }

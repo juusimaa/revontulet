@@ -24,9 +24,10 @@ struct RegistrationRoutesTests {
     }
 
     private func put(_ client: any TestClientProtocol, _ json: String, forwardedFor: String = "203.0.113.7") async throws -> TestResponse {
-        try await client.execute(
+        let forwardedForName = try #require(HTTPField.Name("X-Forwarded-For"))
+        return try await client.execute(
             uri: "/v1/registration", method: .put,
-            headers: [.contentType: "application/json", HTTPField.Name("X-Forwarded-For")!: forwardedFor],
+            headers: [.contentType: "application/json", forwardedForName: forwardedFor],
             body: ByteBuffer(string: json))
     }
 

@@ -41,7 +41,7 @@ struct SoonLine: View {
                 Spacer(minLength: 0)
             }
             .accessibilityElement(children: .ignore)
-            .accessibilityLabel(Text("Forecast: \(line)"))
+            .accessibilityLabel(isOvercastNow ? Text("Forecast: \(line). Overcast now") : Text("Forecast: \(line)"))
             .accessibilityIdentifier("soonLine")
             .transition(.opacity.combined(with: .move(edge: .top)))
         }
@@ -63,6 +63,9 @@ struct OutlookSectionView: View {
 
     @State private var isShowingDetails = false
     @State private var detailsNight: NightKind = .tonight
+    /// When it is next dark enough at this place, for the summer row. Recomputed when the place or
+    /// the minute changes, not on every render.
+    @State private var darkAgain: Date?
 
     var body: some View {
         if let outlook = snapshot.outlook {
@@ -96,6 +99,13 @@ struct OutlookSectionView: View {
                 }
                 .accessibilityElement(children: .contain)
                 .accessibilityIdentifier("outlookSection")
+                .onChange(of: darkAgainKey(outlook), initial: true) {
+                    let coordinate = snapshot.place.coordinate
+                    darkAgain = Self.bothNights(of: outlook, are: .tooLight)
+                        ? SolarPosition.nextDarkNight(
+                            latitude: coordinate.latitude, longitude: coordinate.longitude, after: now)
+                        : nil
+                }
                 .sensoryFeedback(.selection, trigger: isShowingDetails) { _, showing in showing }
                 .sheet(isPresented: $isShowingDetails) {
                     OutlookDetailsSheet(outlook: outlook, now: now, initialNight: detailsNight)
@@ -134,10 +144,14 @@ struct OutlookSectionView: View {
         outlook.tonight.availability == availability && outlook.tomorrow.availability == availability
     }
 
-    /// When it is next dark enough at this place, for the summer row.
-    private var darkAgain: Date? {
-        let coordinate = snapshot.place.coordinate
-        return SolarPosition.nextDarkNight(latitude: coordinate.latitude, longitude: coordinate.longitude, after: now)
+    private struct DarkAgainKey: Equatable {
+        let latitude: Double, longitude: Double, minute: Int, needed: Bool
+    }
+
+    private func darkAgainKey(_ outlook: Outlook) -> DarkAgainKey {
+        DarkAgainKey(
+            latitude: snapshot.place.coordinate.latitude, longitude: snapshot.place.coordinate.longitude,
+            minute: Int(now.timeIntervalSince1970 / 60), needed: Self.bothNights(of: outlook, are: .tooLight))
     }
 }
 

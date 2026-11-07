@@ -41,7 +41,8 @@ final class PushRegistration: NSObject, UIApplicationDelegate, @preconcurrency U
     }
 
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: any Error) {
-        // Retried on the next launch; the settings keep showing "Waiting to confirm".
+        // The settings show a failure line; retried when the app next becomes active.
+        Task { @MainActor in AppDependencies.alertSettings.pushRegistrationFailed() }
     }
 
     /// An alert arriving while the app is open is shown as a banner too.

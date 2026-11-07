@@ -39,6 +39,9 @@ final class AlertSettingsModel {
     private(set) var permission: NotificationPermissionStatus = .notDetermined
     private(set) var isAskingPermission = false
     private(set) var testStatus: TestStatus = .idle
+    /// APNs refused to give a token, or the permission request failed without an answer.
+    /// Cleared when a token arrives or the user tries again.
+    private(set) var setupFailed = false
     /// The threshold shown in the picker; while on, changing it updates the registration.
     var threshold: AlertThreshold = .default
 
@@ -66,6 +69,15 @@ final class AlertSettingsModel {
     }
 
     var isOn: Bool { syncState.isOn }
+
+    /// The service rejected the registration (400); shown instead of "Waiting to confirm".
+    var isRejected: Bool { syncState.rejection != nil }
+
+    /// Alerts are on but no APNs token has arrived, and registering failed.
+    var hasPushFailure: Bool { setupFailed && syncState.isOn && syncState.token == nil }
+
+    /// Alerts are off and turning them on failed before the permission was answered.
+    var hasPermissionRequestFailure: Bool { setupFailed && !syncState.isOn && permission == .notDetermined }
 
     /// Alerts have never been on: explain what is sent before the first time (FR-002).
     var isFirstTime: Bool { !syncState.hasEverEnabled }
@@ -98,6 +110,8 @@ final class AlertSettingsModel {
     /// (re-confirming once a day) and retries with backoff until cancelled.
     func runWhileActive() async {
         await checkPermission()
+        // A failed APNs registration is retried each time the app becomes active.
+        if setupFailed, syncState.isOn { push.register() }
         await sync.sync(now: now())
         await refresh()
         while !Task.isCancelled {
@@ -122,11 +136,16 @@ final class AlertSettingsModel {
 
     func turnOn() async {
         guard let zone = syncState.zone else { return }
+        setupFailed = false
         isAskingPermission = true
         let allowed = await permissionProvider.request()
         permission = await permissionProvider.status()
         isAskingPermission = false
-        guard allowed else { return }
+        guard allowed else {
+            // No answer from the system (the request threw): not the same as "Don't Allow".
+            setupFailed = permission == .notDetermined
+            return
+        }
         push.register()
         await sync.setDesired(.enabled(zone: zone, threshold: threshold))
         await refresh()
@@ -134,6 +153,7 @@ final class AlertSettingsModel {
 
     func turnOff() async {
         testStatus = .idle
+        setupFailed = false
         await sync.setDesired(.disabled)
         await refresh()
     }
@@ -164,7 +184,18 @@ final class AlertSettingsModel {
         await refresh()
     }
 
+    /// The settings screen went away: an old test result should not greet the next visit.
+    func clearTestStatus() {
+        if testStatus != .sending { testStatus = .idle }
+    }
+
+    /// APNs could not register; retried when the app next becomes active.
+    func pushRegistrationFailed() {
+        setupFailed = true
+    }
+
     func tokenReceived(_ token: String) async {
+        setupFailed = false
         await sync.tokenChanged(token)
         await refresh()
     }

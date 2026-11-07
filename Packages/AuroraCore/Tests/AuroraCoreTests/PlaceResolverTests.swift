@@ -3,7 +3,11 @@ import Testing
 
 @Suite("Place resolution")
 struct PlaceResolverTests {
-    private static let resolver = try! PlaceResolver()
+    private let resolver: PlaceResolver
+
+    init() throws {
+        resolver = try PlaceResolver()
+    }
 
     @Test(arguments: [
         ("Helsinki centre", 60.1699, 24.9384, "Helsinki"),
@@ -15,7 +19,7 @@ struct PlaceResolverTests {
         ("Rovaniemi", 66.50, 25.73, "Rovaniemi"),
     ])
     func resolvesInsideFinland(name: String, latitude: Double, longitude: Double, expected: String) throws {
-        guard case .inside(let municipality) = Self.resolver.resolve(latitude: latitude, longitude: longitude) else {
+        guard case .inside(let municipality) = resolver.resolve(latitude: latitude, longitude: longitude) else {
             Issue.record("\(name) resolved outside coverage")
             return
         }
@@ -29,12 +33,12 @@ struct PlaceResolverTests {
         ("Gulf of Finland, 16 km off Espoo", 59.95, 24.9),
     ])
     func outsideCoverage(name: String, latitude: Double, longitude: Double) {
-        #expect(Self.resolver.resolve(latitude: latitude, longitude: longitude) == .outsideCoverage, "\(name)")
+        #expect(resolver.resolve(latitude: latitude, longitude: longitude) == .outsideCoverage, "\(name)")
     }
 
     @Test func nearestBoundaryWithinFifteenKilometres() throws {
         // At sea about 6.5 km south of Helsinki's boundary.
-        guard case .inside(let municipality) = Self.resolver.resolve(latitude: 60.05, longitude: 24.95) else {
+        guard case .inside(let municipality) = resolver.resolve(latitude: 60.05, longitude: 24.95) else {
             Issue.record("expected Helsinki")
             return
         }
@@ -42,7 +46,7 @@ struct PlaceResolverTests {
     }
 
     @Test func municipalityByCode() {
-        #expect(Self.resolver.municipality(code: "091")?.nameFi == "Helsinki")
-        #expect(Self.resolver.municipality(code: "999") == nil)
+        #expect(resolver.municipality(code: "091")?.nameFi == "Helsinki")
+        #expect(resolver.municipality(code: "999") == nil)
     }
 }

@@ -438,6 +438,28 @@
         }
       }
     },
+    "Alerts could not be set up. Try turning them off and on again.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alerts could not be set up. Try turning them off and on again."
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hälytyksiä ei voitu ottaa käyttöön. Kokeile laittaa ne pois ja takaisin päälle."
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aviseringarna kunde inte ställas in. Prova att stänga av och slå på dem igen."
+          }
+        }
+      }
+    },
     "Alerts resume when nights get dark again.": {
       "extractionState": "manual",
       "localizations": {
@@ -806,6 +828,28 @@
         }
       }
     },
+    "Bz %@ nanoteslas, speed %@ kilometers per second, density %@ per cubic centimeter": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bz %1$@ nanoteslas, speed %2$@ kilometers per second, density %3$@ per cubic centimeter"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bz %1$@ nanoteslaa, nopeus %2$@ kilometriä sekunnissa, tiheys %3$@ kuutiosenttimetrissä"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bz %1$@ nanotesla, hastighet %2$@ kilometer per sekund, densitet %3$@ per kubikcentimeter"
+          }
+        }
+      }
+    },
     "Can't fetch new data": {
       "extractionState": "manual",
       "localizations": {
@@ -825,6 +869,28 @@
           "stringUnit": {
             "state": "translated",
             "value": "Kan inte hämta nya data"
+          }
+        }
+      }
+    },
+    "Can't reach FMI right now. The map updates when the connection is back.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Can't reach FMI right now. The map updates when the connection is back."
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ilmatieteen laitokseen ei saada yhteyttä juuri nyt. Kartta päivittyy, kun yhteys palaa."
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Meteorologiska institutet går inte att nå just nu. Kartan uppdateras när anslutningen är tillbaka."
           }
         }
       }
@@ -1124,6 +1190,28 @@
           "stringUnit": {
             "state": "translated",
             "value": "Bekräftad %@"
+          }
+        }
+      }
+    },
+    "Couldn't get a notification address from Apple. Trying again when you next open the app.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Couldn't get a notification address from Apple. Trying again when you next open the app."
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ilmoitusosoitetta ei saatu Applelta. Yritetään uudelleen, kun avaat sovelluksen seuraavan kerran."
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Det gick inte att få en aviseringsadress från Apple. Vi försöker igen nästa gång du öppnar appen."
           }
         }
       }
@@ -1561,6 +1649,28 @@
           "stringUnit": {
             "state": "translated",
             "value": "Prognos: %@"
+          }
+        }
+      }
+    },
+    "Forecast: %@. Overcast now": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Forecast: %@. Overcast now"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ennuste: %@. Nyt pilvistä"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prognos: %@. Mulet just nu"
           }
         }
       }
@@ -2025,6 +2135,28 @@
         }
       }
     },
+    "No data": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No data"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ei tietoja"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inga data"
+          }
+        }
+      }
+    },
     "No recent data": {
       "extractionState": "manual",
       "localizations": {
@@ -2117,6 +2249,28 @@
         }
       }
     },
+    "No station readings right now.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No station readings right now."
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Asemilta ei ole mittauksia juuri nyt."
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inga mätningar från stationerna just nu."
+          }
+        }
+      }
+    },
     "None in effect": {
       "extractionState": "manual",
       "localizations": {
@@ -2182,6 +2336,28 @@
           "stringUnit": {
             "state": "translated",
             "value": "Aviseringar är avstängda för Revontulet"
+          }
+        }
+      }
+    },
+    "Notifications could not be set up. Try again.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Notifications could not be set up. Try again."
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ilmoituksia ei voitu ottaa käyttöön. Yritä uudelleen."
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aviseringar kunde inte ställas in. Försök igen."
           }
         }
       }
@@ -2757,6 +2933,28 @@
           "stringUnit": {
             "state": "translated",
             "value": "Visar det senast kända resultatet. Kontrollera anslutningen."
+          }
+        }
+      }
+    },
+    "Shows details below": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Shows details below"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Näyttää tiedot alla"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Visar detaljer nedan"
           }
         }
       }

@@ -74,7 +74,7 @@ struct AlertMessageTests {
     @Test func stationNameIsTheOnlyArgument() {
         let condition = ZoneCondition(
             zoneID: "OUJ", chance: Chance(level: .high, limitingFactor: nil, cloudsIncluded: true),
-            reason: .goodConditions, activityStationID: "RAN", dataTime: .now)
+            reason: .goodConditions, activityStationID: "RAN", dataTime: utc("2026-11-03T20:00:00Z"))
         let message = AlertMessage.make(for: AlertDecision(zoneID: "TAR", level: .high, condition: condition), moonKeys: true)
 
         // Named after the zone's own station, even when another station's reading was used.

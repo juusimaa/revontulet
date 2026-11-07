@@ -1,4 +1,9 @@
 import Foundation
+#if canImport(Glibc)
+import Glibc
+#elseif canImport(Darwin)
+import Darwin
+#endif
 import HTTPTypes
 import Hummingbird
 
@@ -72,10 +77,22 @@ public struct RateLimitMiddleware<Context: RequestContext>: RouterMiddleware {
     static var forwardedFor: HTTPField.Name { HTTPField.Name("X-Forwarded-For")! }
 
     /// The first `X-Forwarded-For` entry; the proxy is the only client, so requests without the
-    /// header share one bucket.
+    /// header share one bucket. An IPv6 address is limited by its /64 prefix: one host usually
+    /// has a whole /64, so per-address limits would not limit it.
     static func clientAddress(forwardedFor: String?) -> String {
         guard let forwardedFor else { return "" }
-        return forwardedFor.split(separator: ",", maxSplits: 1, omittingEmptySubsequences: false).first
+        let address = forwardedFor.split(separator: ",", maxSplits: 1, omittingEmptySubsequences: false).first
             .map { $0.trimmingCharacters(in: .whitespaces) } ?? ""
+        return ipv6Prefix(address) ?? address
+    }
+
+    /// `2001:db8:1:2::/64` for any address in that /64; nil when `address` is not IPv6.
+    static func ipv6Prefix(_ address: String) -> String? {
+        var bytes = in6_addr()
+        guard address.contains(":"), inet_pton(AF_INET6, address, &bytes) == 1 else { return nil }
+        let groups = withUnsafeBytes(of: &bytes) { raw in
+            (0..<4).map { String(UInt16(raw[$0 * 2]) << 8 | UInt16(raw[$0 * 2 + 1]), radix: 16) }
+        }
+        return groups.joined(separator: ":") + "::/64"
     }
 }

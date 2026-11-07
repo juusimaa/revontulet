@@ -485,4 +485,99 @@ struct AlertSyncTests {
         #expect(await sync.sendTest() == .failed)
         #expect(api.calls.isEmpty)
     }
+
+    // MARK: Changes while a request is out
+
+    @Test func turningOffWhileUpsertIsOutDeletesAfterIt() async throws {
+        let gated = GatedAlertAPI()
+        let sync = AlertSync(api: gated, store: store, now: { [clock] in clock.now })
+        await sync.tokenChanged(Self.token)
+        await sync.zoneChanged(to: "OUJ")
+
+        let enabling = Task { await sync.setDesired(.enabled(zone: "OUJ", threshold: .high)) }
+        await gated.waitForRequest()
+        let disabling = Task { await sync.setDesired(.disabled) }
+        // The turn-off is recorded at once, while the upsert is still out.
+        while await sync.state.desired != .disabled { await Task.yield() }
+        gated.release()
+        await enabling.value
+        await disabling.value
+
+        #expect(gated.calls == [.upsert(RegistrationUpsert(token: Self.token, zone: "OUJ", threshold: .high)),
+                                .delete(Self.token)])
+        let state = await sync.state
+        #expect(state.desired == .disabled)
+        #expect(state.confirmed == .disabled)
+        #expect(!state.isPending)
+        #expect(await store.saved?.desired == .disabled)
+    }
+
+    @Test func newTokenWhileUpsertIsOutIsKept() async throws {
+        let gated = GatedAlertAPI()
+        let sync = AlertSync(api: gated, store: store, now: { [clock] in clock.now })
+        await sync.tokenChanged(Self.token)
+        await sync.zoneChanged(to: "OUJ")
+
+        let enabling = Task { await sync.setDesired(.enabled(zone: "OUJ", threshold: .high)) }
+        await gated.waitForRequest()
+        let newToken = Task { await sync.tokenChanged(Self.newToken) }
+        while await sync.state.token != Self.newToken { await Task.yield() }
+        gated.release()
+        await enabling.value
+        await newToken.value
+
+        let state = await sync.state
+        #expect(state.token == Self.newToken)
+        #expect(state.confirmedToken == Self.newToken)
+        #expect(!state.isPending)
+        #expect(gated.calls.last == .delete(Self.token))
+    }
+}
+
+/// Holds the first request until `release()`; later requests go straight through.
+final class GatedAlertAPI: AlertAPI {
+    private let state = Mutex<(calls: [FakeAlertAPI.Call], released: Bool,
+                               waiting: CheckedContinuation<Void, Never>?, watcher: CheckedContinuation<Void, Never>?)>(
+        ([], false, nil, nil))
+
+    var calls: [FakeAlertAPI.Call] { state.withLock { $0.calls } }
+
+    /// Returns once the first request is being held.
+    func waitForRequest() async {
+        await withCheckedContinuation { continuation in
+            let ready = state.withLock { state -> Bool in
+                if state.waiting != nil { return true }
+                state.watcher = continuation
+                return false
+            }
+            if ready { continuation.resume() }
+        }
+    }
+
+    func release() {
+        let waiting = state.withLock { state in
+            state.released = true
+            defer { state.waiting = nil }
+            return state.waiting
+        }
+        waiting?.resume()
+    }
+
+    private func record(_ call: FakeAlertAPI.Call) async {
+        await withCheckedContinuation { continuation in
+            let (hold, watcher) = state.withLock { state -> (Bool, CheckedContinuation<Void, Never>?) in
+                state.calls.append(call)
+                guard !state.released, state.waiting == nil, state.calls.count == 1 else { return (false, nil) }
+                state.waiting = continuation
+                defer { state.watcher = nil }
+                return (true, state.watcher)
+            }
+            watcher?.resume()
+            if !hold { continuation.resume() }
+        }
+    }
+
+    func upsert(_ registration: RegistrationUpsert) async throws(AlertAPIFailure) { await record(.upsert(registration)) }
+    func delete(_ token: RegistrationToken) async throws(AlertAPIFailure) { await record(.delete(token.token)) }
+    func sendTest(_ token: RegistrationToken) async throws(AlertAPIFailure) { await record(.test(token.token)) }
 }

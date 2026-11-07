@@ -52,8 +52,22 @@ final class MainScreenModel {
     private(set) var outlookSnapshot: OutlookSnapshot?
     /// The latest reading of every station, for the map page (issue #2); nil until first fetched.
     private(set) var stationReadings: [StationReading]?
+    /// How the last station refresh went, for the map page.
+    enum StationMapStatus: Equatable {
+        /// Nothing has finished yet.
+        case loading
+        /// The last refresh gave readings.
+        case current
+        /// The last refresh could not fetch data from FMI.
+        case offline
+        /// The last refresh fetched data, but no station had a valid reading.
+        case noData
+    }
+
+    /// How the last station refresh went; the map page shows the readings with this.
+    private(set) var stationMapStatus: StationMapStatus = .loading
     /// true when the last station refresh could not fetch data from FMI.
-    private(set) var isStationMapOffline = false
+    var isStationMapOffline: Bool { stationMapStatus == .offline }
 
     private let service: AuroraService
     private let outlookService: OutlookService?
@@ -299,12 +313,12 @@ final class MainScreenModel {
     private func refreshStations(force: Bool) async {
         do {
             stationReadings = try await service.stationReadings(at: now(), force: force)
-            isStationMapOffline = false
+            stationMapStatus = .current
         } catch AuroraServiceError.offline {
-            isStationMapOffline = true
+            stationMapStatus = .offline
         } catch {
             // No station has a valid R: the last readings stay, and the map says how old they are.
-            isStationMapOffline = false
+            stationMapStatus = .noData
         }
     }
 

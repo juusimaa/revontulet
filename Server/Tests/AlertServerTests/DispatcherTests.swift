@@ -180,11 +180,29 @@ struct DispatcherTests {
 
             let report = try await dispatcher(store, sender).dispatch([decision(.high)], now: now)
 
-            // Stops at the 11th bad token and deletes nothing.
-            #expect(sender.sent.count == 11)
+            // Nothing delivered: every recipient is tried, and nothing is deleted.
+            #expect(sender.sent.count == 30)
             #expect(try await store.registrations(inZone: "OUJ").count == 30)
             #expect(report.failure == .badDeviceTokens)
             #expect(report.deleted == 0)
+        }
+    }
+
+    @Test func fakeRegistrationsDoNotBlockOtherRecipients() async throws {
+        try await withTemporaryStore { store, _ in
+            // Made-up tokens in KEV, sent first, and real ones in OUJ.
+            for n in 1...30 { try await register(store, n, zone: "KEV", threshold: .high) }
+            for n in 31...35 { try await register(store, n, threshold: .high) }
+            let sender = FakePushSender()
+            for n in 1...30 { sender.respond(testToken(n), with: .badDeviceToken) }
+
+            let report = try await dispatcher(store, sender).dispatch([decision(.high, zone: "KEV"), decision(.high)], now: now)
+
+            #expect(report.sent == 5)
+            #expect(report.failure == nil)
+            #expect(report.deleted == 30)
+            #expect(try await store.registrations(inZone: "KEV").isEmpty)
+            #expect(try await store.registrations(inZone: "OUJ").count == 5)
         }
     }
 

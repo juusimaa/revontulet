@@ -99,7 +99,7 @@ struct BsWfsParserTests {
             + element(ouj.latitude + 0.05, ouj.longitude, "2026-11-09T18:00:00Z", "80")
             + "</wfs:FeatureCollection>"
 
-        let forecasts = try BsWfsParser.cloudForecasts(Data(xml.utf8), zones: zones, fetchedAt: .now)
+        let forecasts = try BsWfsParser.cloudForecasts(Data(xml.utf8), zones: zones, fetchedAt: utc("2026-11-09T17:00:00Z"))
 
         #expect(forecasts.count == 1)
         #expect(forecasts.first?.zoneID == "OUJ")

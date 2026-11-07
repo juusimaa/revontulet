@@ -4,20 +4,24 @@ import Testing
 
 @Suite("Station selection")
 struct StationSelectionTests {
-    private let stations = Dictionary(uniqueKeysWithValues: try! ReferenceData.loadStations().map { ($0.id, $0) })
+    private let stations: [String: Station]
     private let measuredAt = utc("2026-10-22T16:35:00Z")
     // Rovaniemi: Ranua (~74 km) is nearest, Pello (~85 km) next.
     private let rovaniemi = Place(coordinate: Coordinate(latitude: 66.50, longitude: 25.73),
                                   municipalityCode: "698", source: .currentLocation)
 
-    private func reading(_ id: String, r: Double?) -> StationReading {
-        let station = stations[id]!
+    init() throws {
+        stations = Dictionary(uniqueKeysWithValues: try ReferenceData.loadStations().map { ($0.id, $0) })
+    }
+
+    private func reading(_ id: String, r: Double?) throws -> StationReading {
+        let station = try #require(stations[id])
         return StationReading(station: station, r: r, measuredAt: measuredAt,
                               activity: r.map { ActivityClassifier.level(r: $0, station: station) })
     }
 
     @Test func nearestStationWithValidR() throws {
-        let readings = ["KEV", "PEL", "RAN", "HAN"].map { reading($0, r: 10) }
+        let readings = try ["KEV", "PEL", "RAN", "HAN"].map { try reading($0, r: 10) }
 
         let selection = try #require(StationSelector.select(for: rovaniemi, readings: readings, previous: nil))
 
@@ -27,7 +31,7 @@ struct StationSelectionTests {
     }
 
     @Test func fallsBackWhenNearestHasNoValue() throws {
-        let readings = [reading("RAN", r: nil), reading("PEL", r: 20), reading("HAN", r: 30)]
+        let readings = try [reading("RAN", r: nil), reading("PEL", r: 20), reading("HAN", r: 30)]
 
         let selection = try #require(StationSelector.select(for: rovaniemi, readings: readings, previous: nil))
 
@@ -35,21 +39,23 @@ struct StationSelectionTests {
         #expect(selection.usedMoreDistantStation)
     }
 
-    @Test func noValidStationGivesNothing() {
-        let readings = [reading("RAN", r: nil), reading("PEL", r: nil)]
+    @Test func noValidStationGivesNothing() throws {
+        let readings = try [reading("RAN", r: nil), reading("PEL", r: nil)]
 
         #expect(StationSelector.select(for: rovaniemi, readings: readings, previous: nil) == nil)
     }
 
     @Test func hysteresisKeepsPreviousStationUnlessAnotherIsFiveKmCloser() throws {
         // A point almost halfway between Ranua and Pello.
-        let readings = [reading("RAN", r: 10), reading("PEL", r: 10)]
+        let readings = try [reading("RAN", r: 10), reading("PEL", r: 10)]
         func place(_ lat: Double, _ lon: Double) -> Place {
             Place(coordinate: Coordinate(latitude: lat, longitude: lon), municipalityCode: "698", source: .currentLocation)
         }
         let between = place(66.40, 25.245)
-        let toRanua = Geo.distanceKm(between.coordinate, stations["RAN"]!.coordinate)
-        let toPello = Geo.distanceKm(between.coordinate, stations["PEL"]!.coordinate)
+        let ran = try #require(stations["RAN"])
+        let pel = try #require(stations["PEL"])
+        let toRanua = Geo.distanceKm(between.coordinate, ran.coordinate)
+        let toPello = Geo.distanceKm(between.coordinate, pel.coordinate)
         #expect(abs(toRanua - toPello) < 5, "test point must be within the hysteresis band")
 
         let nearest = toRanua < toPello ? "RAN" : "PEL"
@@ -62,7 +68,7 @@ struct StationSelectionTests {
     }
 
     @Test func previousStationWithoutValueIsNotKept() throws {
-        let readings = [reading("RAN", r: 10), reading("PEL", r: nil)]
+        let readings = try [reading("RAN", r: 10), reading("PEL", r: nil)]
 
         let selection = try #require(StationSelector.select(for: rovaniemi, readings: readings, previous: "PEL"))
 
