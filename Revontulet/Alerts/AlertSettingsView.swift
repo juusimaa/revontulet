@@ -10,6 +10,7 @@ struct AlertSettingsView: View {
 
     @Environment(\.dismiss) private var dismiss
     @Environment(\.colorScheme) private var systemColorScheme
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     var body: some View {
         NavigationStack {
@@ -21,9 +22,9 @@ struct AlertSettingsView: View {
                 }
                 .padding(.horizontal, 24)
                 .padding(.bottom, 32)
-                .animation(.bouncy, value: model.phase)
-                .animation(.bouncy, value: model.isRemoving)
-                .animation(.bouncy, value: model.testStatus)
+                .animation(reduceMotion ? nil : .bouncy, value: model.phase)
+                .animation(reduceMotion ? nil : .bouncy, value: model.isRemoving)
+                .animation(reduceMotion ? nil : .bouncy, value: model.testStatus)
             }
             .scrollBounceBehavior(.basedOnSize)
             .background { SkyBackground(level: model.isOn ? .moderate : nil).environment(\.colorScheme, systemColorScheme) }
@@ -44,6 +45,7 @@ struct AlertSettingsView: View {
             case .idle, .sending: nil
             }
         }
+        .onDisappear { model.clearTestStatus() }
         .onChange(of: model.threshold) {
             Task { await model.thresholdChanged() }
         }
@@ -58,6 +60,10 @@ struct AlertSettingsView: View {
             VStack(alignment: .leading, spacing: 28) {
                 if model.isRemoving {
                     RemovingNote()
+                        .transition(.blurReplace)
+                }
+                if model.hasPermissionRequestFailure {
+                    FailureLine(text: "Notifications could not be set up. Try again.")
                         .transition(.blurReplace)
                 }
                 Text("Get a notification when the chance to see the aurora in your area reaches the level you choose.")
@@ -82,8 +88,12 @@ struct AlertSettingsView: View {
             PermissionDeniedCard()
         case .on(let confirming):
             VStack(alignment: .leading, spacing: 28) {
-                StatusCard(zoneName: model.zoneName ?? "", confirming: confirming, confirmedAt: model.confirmedAt,
-                           hasDarkNights: model.hasDarkNights, now: model.now)
+                StatusCard(zoneName: model.zoneName ?? "", confirming: confirming, isRejected: model.isRejected,
+                           confirmedAt: model.confirmedAt, hasDarkNights: model.hasDarkNights, now: model.now)
+                if model.hasPushFailure {
+                    FailureLine(text: "Couldn't get a notification address from Apple. Trying again when you next open the app.")
+                        .transition(.blurReplace)
+                }
                 ThresholdPicker(threshold: $model.threshold)
                 if !confirming {
                     SendTestSection(status: model.testStatus) {
@@ -131,6 +141,7 @@ private struct AlertHero: View {
             VStack(alignment: .leading, spacing: 6) {
                 Text("Aurora alerts")
                     .font(.largeTitle.weight(.semibold))
+                    .accessibilityAddTraits(.isHeader)
                 Text(isOn ? "On" : "Off")
                     .font(.footnote.weight(.semibold))
                     .textCase(.uppercase)
@@ -150,6 +161,8 @@ private struct AlertHero: View {
 private struct ThresholdPicker: View {
     @Binding var threshold: AlertThreshold
 
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("Notify me at")
@@ -159,7 +172,7 @@ private struct ThresholdPicker: View {
                 .foregroundStyle(.secondary)
             ForEach(AlertThreshold.allCases, id: \.self) { option in
                 ThresholdOption(option: option, isSelected: threshold == option) {
-                    withAnimation(.bouncy) { threshold = option }
+                    withAnimation(reduceMotion ? nil : .bouncy) { threshold = option }
                 }
             }
         }
@@ -274,6 +287,7 @@ private struct TurnOnButton: View {
 private struct StatusCard: View {
     let zoneName: String
     let confirming: Bool
+    let isRejected: Bool
     let confirmedAt: Date?
     let hasDarkNights: Bool
     let now: @Sendable () -> Date
@@ -294,7 +308,10 @@ private struct StatusCard: View {
             .accessibilityElement(children: .combine)
             .accessibilityIdentifier("alertArea")
             Label {
-                if confirming {
+                if isRejected {
+                    Text("Alerts could not be set up. Try turning them off and on again.")
+                        .fixedSize(horizontal: false, vertical: true)
+                } else if confirming {
                     Text("Waiting to confirm")
                 } else if let confirmedAt {
                     // Re-rendered every minute so "now" becomes "1 minute ago".
@@ -306,9 +323,10 @@ private struct StatusCard: View {
                     Text("Confirmed")
                 }
             } icon: {
-                Image(systemName: confirming ? "arrow.triangle.2.circlepath" : "checkmark.seal.fill")
-                    .foregroundStyle(confirming ? AnyShapeStyle(.secondary) : AnyShapeStyle(AuroraPalette.green))
-                    .symbolEffect(.rotate, options: .repeat(.continuous), isActive: confirming && !reduceMotion)
+                Image(systemName: isRejected ? "exclamationmark.circle" : confirming ? "arrow.triangle.2.circlepath" : "checkmark.seal.fill")
+                    .foregroundStyle(isRejected ? AnyShapeStyle(AuroraPalette.dusk)
+                        : confirming ? AnyShapeStyle(.secondary) : AnyShapeStyle(AuroraPalette.green))
+                    .symbolEffect(.rotate, options: .repeat(.continuous), isActive: confirming && !isRejected && !reduceMotion)
             }
             .accessibilityIdentifier("alertConfirmation")
             Label("The area follows the place on the main screen.", systemImage: "location")
@@ -458,6 +476,24 @@ private struct PrivacyPolicyLink: View {
         .tint(AuroraPalette.green)
         .frame(maxWidth: .infinity)
         .accessibilityIdentifier("privacyPolicyLink")
+    }
+}
+
+/// A short error line for setup problems that are not the service's answer.
+private struct FailureLine: View {
+    let text: LocalizedStringKey
+
+    var body: some View {
+        Label {
+            Text(text)
+                .fixedSize(horizontal: false, vertical: true)
+        } icon: {
+            Image(systemName: "exclamationmark.circle").foregroundStyle(AuroraPalette.dusk)
+        }
+        .font(.footnote.weight(.medium))
+        .foregroundStyle(.white.opacity(0.9))
+        .labelStyle(DataLabelStyle())
+        .accessibilityIdentifier("alertsSetupFailure")
     }
 }
 

@@ -30,7 +30,7 @@ public enum DispatchFailure: Sendable, Equatable {
 /// (contracts/push-notification.md).
 public struct Dispatcher: Sendable {
     /// More bad-token answers than this, or than 10 % of the cycle's recipients if that is more,
-    /// trip the circuit breaker.
+    /// with nothing delivered, trip the circuit breaker.
     static let badTokenLimit = 10
     static let badTokenShare = 0.1
     /// How long an alert stays deliverable after its data time (FR-009).
@@ -67,6 +67,8 @@ public struct Dispatcher: Sendable {
         var unregistered: [String] = []
         var badTokens: [String] = []
 
+        // Every recipient is tried, even after many bad tokens: anyone can register a made-up
+        // token, so stopping early would let a few fake registrations block everyone's alerts.
         for (request, registration) in pushes {
             var result = await sender.send(request)
             if result == .retryable { result = await sender.send(request) }
@@ -80,16 +82,20 @@ public struct Dispatcher: Sendable {
                 if Int(registration.confirmedAt.timeIntervalSince1970) < day { unregistered.append(request.token) }
             case .badDeviceToken:
                 badTokens.append(request.token)
-                if badTokens.count > badTokenLimit {
-                    report.failure = .badDeviceTokens
-                    return report
-                }
             case .providerTokenRejected:
+                // Every other request would be rejected the same way.
                 report.failure = .providerToken
             case .retryable, .rejected:
                 report.dropped += 1
             }
             if report.failure != nil { break }
+        }
+
+        // Many bad tokens and nothing delivered: almost certainly the instance's APNs environment
+        // or topic is wrong, so the registrations are kept. Next to delivered alerts, bad tokens
+        // are bad registrations and are deleted.
+        if report.failure == nil, report.sent == 0, badTokens.count > badTokenLimit {
+            report.failure = .badDeviceTokens
         }
 
         for token in unregistered + (report.failure == nil ? badTokens : []) {

@@ -100,7 +100,7 @@ struct NOAAParserTests {
             [{"time_tag":"2026-11-01T03:00:00","kp":4.33,"observed":"modelled","noaa_scale":null},
              {"time_tag":"2026-11-01T00:00:00Z","kp":"3.67","observed":"estimated","noaa_scale":"G1"}]
             """
-        let blocks = try NOAAParser.kpForecast(Data(json.utf8), fetchedAt: .now).blocks
+        let blocks = try NOAAParser.kpForecast(Data(json.utf8), fetchedAt: utc("2026-10-30T10:30:00Z")).blocks
 
         #expect(blocks == [
             KpBlock(start: utc("2026-11-01T00:00:00Z"), kp: 3.67, kind: .estimated),
@@ -111,7 +111,7 @@ struct NOAAParserTests {
     @Test(arguments: ["outlook/noaa-404.txt", "outlook/noaa-malformed.json", "outlook/alerts.json"])
     func brokenKpForecastThrows(fixture: String) throws {
         let data = try Fixtures.data(fixture)
-        #expect(throws: NOAAError.malformedResponse) { try NOAAParser.kpForecast(data, fetchedAt: .now) }
+        #expect(throws: NOAAError.malformedResponse) { try NOAAParser.kpForecast(data, fetchedAt: utc("2026-10-30T10:30:00Z")) }
     }
 
     // MARK: Storm watches
@@ -145,13 +145,13 @@ struct NOAAParserTests {
         #expect(try watches(at: "2026-10-11T18:00:00Z").isEmpty)
     }
 
-    private static func alerts(_ messages: [(issued: String, message: String)]) -> Data {
+    private static func alerts(_ messages: [(issued: String, message: String)]) throws -> Data {
         let objects = messages.map { ["product_id": "A20F", "issue_datetime": $0.issued, "message": $0.message] }
-        return try! JSONSerialization.data(withJSONObject: objects)
+        return try JSONSerialization.data(withJSONObject: objects)
     }
 
     @Test func issueTimeFallsBackToIssueDatetime() throws {
-        let data = Self.alerts([("2026-11-02 08:15:30.100", """
+        let data = try Self.alerts([("2026-11-02 08:15:30.100", """
             Space Weather Message Code: WATA30\r\nSerial Number: 300\r\n\r\nWATCH: Geomagnetic Storm Category G2 Predicted
             Highest Storm Level Predicted by Day:
             Nov 03:  G2 (Moderate)   Nov 04:  G1 (Minor)   Nov 05:  None (Below G1)
@@ -164,7 +164,7 @@ struct NOAAParserTests {
     }
 
     @Test func yearRollsOverFromDecemberToJanuary() throws {
-        let data = Self.alerts([("2026-12-30 20:05:00.000", """
+        let data = try Self.alerts([("2026-12-30 20:05:00.000", """
             Space Weather Message Code: WATA20
             Issue Time: 2026 Dec 30 2005 UTC
 
@@ -179,7 +179,7 @@ struct NOAAParserTests {
     }
 
     @Test func unrecognisedWatchMessageIsSkipped() throws {
-        let data = Self.alerts([
+        let data = try Self.alerts([
             ("2026-11-02 08:00:00.000", "Space Weather Message Code: WATA50\nSomething else entirely"),
             ("2026-11-01 08:00:00.000", """
                 Space Weather Message Code: WATA20
@@ -198,6 +198,6 @@ struct NOAAParserTests {
     @Test(arguments: ["outlook/noaa-404.txt", "outlook/noaa-malformed.json"])
     func brokenAlertsThrow(fixture: String) throws {
         let data = try Fixtures.data(fixture)
-        #expect(throws: NOAAError.malformedResponse) { try NOAAParser.stormWatches(data, now: .now) }
+        #expect(throws: NOAAError.malformedResponse) { try NOAAParser.stormWatches(data, now: utc("2026-10-30T10:30:00Z")) }
     }
 }

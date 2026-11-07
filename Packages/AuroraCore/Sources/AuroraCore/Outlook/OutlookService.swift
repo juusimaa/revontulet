@@ -41,7 +41,8 @@ public actor OutlookService {
     private let zones: [AlertZone]
     /// The last snapshot, for hysteresis; loaded from the cache on first use.
     private var previous: OutlookSnapshot?
-    private var loadedCache = false
+    /// The one cache read, shared by every caller so none works with an empty cache.
+    private var cacheLoad: Task<Void, Never>?
     private var solarWind = DueInput<[SolarWindSample]>(interval: OutlookService.solarWindInterval)
     private var kp = DueInput<KpForecast>(interval: OutlookService.kpInterval)
     private var watches = DueInput<[StormWatch]>(interval: OutlookService.alertsInterval)
@@ -77,10 +78,15 @@ public actor OutlookService {
         async let cloudsFetch = clouds.isDue(at: date, force: force) && !zones.isEmpty
             ? fetch(FMIRequests.cloudForecast(zones: zones)) { try BsWfsParser.cloudForecasts($0, zones: zones, fetchedAt: date) }
             : nil
-        solarWind.update(await solarWindFetch, at: date)
-        kp.update(await kpFetch, at: date)
-        watches.update(await watchesFetch, at: date)
-        clouds.update(await cloudsFetch, at: date)
+        let fetched = (await solarWindFetch, await kpFetch, await watchesFetch, await cloudsFetch)
+        // A cancelled fetch fails as nil; it must not count as an answer or be stored as one.
+        let cancelled = Task.isCancelled
+        if !cancelled {
+            solarWind.update(fetched.0, at: date)
+            kp.update(fetched.1, at: date)
+            watches.update(fetched.2, at: date)
+            clouds.update(fetched.3, at: date)
+        }
 
         // Recomputed on every refresh from the newest inputs, so "tonight" moves on at the end
         // of a dark period even when nothing new was fetched.
@@ -93,6 +99,8 @@ public actor OutlookService {
             place: place, zoneID: zoneID, computedAt: date,
             soon: soon(for: place, zoneID: zoneID, at: date), outlook: outlook,
             samples: solarWind.fetched, forecast: kp.value, watches: watches.fetched, clouds: clouds.fetched)
+        // A cancelled refresh only answers its caller; it leaves the stored snapshot alone.
+        guard !cancelled else { return snapshot }
         previous = snapshot
         await cache.save(snapshot)
         return snapshot
@@ -107,9 +115,16 @@ public actor OutlookService {
         return signal
     }
 
+    /// Every caller awaits the same task, and the cached values are applied inside it, so they
+    /// land once and before any caller can fetch; a late disk read never overwrites fetched inputs.
     private func loadCacheOnce() async {
-        guard !loadedCache else { return }
-        loadedCache = true
+        if cacheLoad == nil {
+            cacheLoad = Task { await applyCache() }
+        }
+        await cacheLoad?.value
+    }
+
+    private func applyCache() async {
         guard let cached = await cache.load() else { return }
         previous = cached
         if let samples = cached.samples { solarWind = DueInput(interval: Self.solarWindInterval, samples) }

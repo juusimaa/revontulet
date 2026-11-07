@@ -3,10 +3,14 @@ import Testing
 
 @Suite("Municipality search")
 struct MunicipalitySearchTests {
-    private static let resolver = try! PlaceResolver()
+    private let resolver: PlaceResolver
+
+    init() throws {
+        resolver = try PlaceResolver()
+    }
 
     private func names(_ query: String, limit: Int = 10) -> [String] {
-        Self.resolver.search(query, limit: limit).map(\.nameFi)
+        resolver.search(query, limit: limit).map(\.nameFi)
     }
 
     @Test(arguments: [
@@ -42,21 +46,21 @@ struct MunicipalitySearchTests {
     }
 
     @Test func limitIsRespected() {
-        #expect(Self.resolver.search("a", limit: 5).count == 5)
-        #expect(Self.resolver.search("", limit: 3).count == 3)
+        #expect(resolver.search("a", limit: 5).count == 5)
+        #expect(resolver.search("", limit: 3).count == 3)
     }
 
     @Test func emptyQueryListsAlphabetically() {
-        let all = Self.resolver.search("", limit: 1000)
+        let all = resolver.search("", limit: 1000)
         #expect(all.count == 308)
         #expect(all.first?.nameFi == "Akaa")
         // Finnish collation: Å, Ä and Ö sort after Z.
         #expect(all.last?.nameFi == "Äänekoski")
-        let whitespace = Self.resolver.search("   ", limit: 1000)
+        let whitespace = resolver.search("   ", limit: 1000)
         #expect(whitespace.map(\.code) == all.map(\.code))
     }
 
     @Test func noMatchReturnsEmpty() {
-        #expect(Self.resolver.search("Stockholm", limit: 10).isEmpty)
+        #expect(resolver.search("Stockholm", limit: 10).isEmpty)
     }
 }

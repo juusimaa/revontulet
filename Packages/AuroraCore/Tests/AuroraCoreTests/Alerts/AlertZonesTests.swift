@@ -3,10 +3,14 @@ import Testing
 
 @Suite("Alert zones")
 struct AlertZonesTests {
-    private let zones = try! AlertZones.all()
+    private let zones: [AlertZone]
 
-    private func zone(_ id: String) -> AlertZone {
-        zones.first { $0.id == id }!
+    init() throws {
+        zones = try AlertZones.all()
+    }
+
+    private func zone(_ id: String) throws -> AlertZone {
+        try #require(zones.first { $0.id == id })
     }
 
     @Test func oneZonePerStation() throws {
@@ -35,18 +39,18 @@ struct AlertZonesTests {
         }
     }
 
-    @Test func previousZoneKeptWithinHysteresis() {
+    @Test func previousZoneKeptWithinHysteresis() throws {
         // Midway between Pello and Ranua, nudged 2 km towards Ranua: Ranua is nearer, but by
         // less than 5 km, so a previous Pello zone is kept.
-        let pello = zone("PEL").station.coordinate, ranua = zone("RAN").station.coordinate
+        let pello = try zone("PEL").station.coordinate, ranua = try zone("RAN").station.coordinate
         let point = Self.point(between: pello, ranua, closerToSecondByKm: 2)
 
         #expect(AlertZones.zone(for: point, previous: nil, in: zones).id == "RAN")
         #expect(AlertZones.zone(for: point, previous: "PEL", in: zones).id == "PEL")
     }
 
-    @Test func previousZoneReplacedWhenAnotherIsFiveKmCloser() {
-        let pello = zone("PEL").station.coordinate, ranua = zone("RAN").station.coordinate
+    @Test func previousZoneReplacedWhenAnotherIsFiveKmCloser() throws {
+        let pello = try zone("PEL").station.coordinate, ranua = try zone("RAN").station.coordinate
         let point = Self.point(between: pello, ranua, closerToSecondByKm: 6)
 
         #expect(AlertZones.zone(for: point, previous: "PEL", in: zones).id == "RAN")

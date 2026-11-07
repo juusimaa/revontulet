@@ -50,23 +50,29 @@ struct RecordedNight: Sendable {
         }
         self.magnetometer = magnetometer
 
-        clouds = String(decoding: try Fixtures.data(folder + "clouds.csv"), as: UTF8.self)
+        clouds = try String(decoding: Fixtures.data(folder + "clouds.csv"), as: UTF8.self)
             .split(whereSeparator: \.isNewline)
             .filter { !$0.hasPrefix("#") && !$0.hasPrefix("time") }
             .map { line in
                 let fields = line.split(separator: ",", omittingEmptySubsequences: false).map(String.init)
-                return (UTCTime.parse(fields[0])!, Coordinate(latitude: Double(fields[1])!, longitude: Double(fields[2])!), Double(fields[3]))
+                guard let time = UTCTime.parse(fields[0]), let latitude = Double(fields[1]), let longitude = Double(fields[2]) else {
+                    throw Fixtures.FixtureError.missing("malformed cloud row in \(folder)clouds.csv: \(line)")
+                }
+                return (time, Coordinate(latitude: latitude, longitude: longitude), Double(fields[3]))
             }
     }
 
     /// Like `MagnetometerFixtures.samples`, with the core's fast fixed-format time parser.
-    private static func samples(csv data: Data, stationID: String) -> [MagnetometerSample] {
-        String(decoding: data, as: UTF8.self)
+    private static func samples(csv data: Data, stationID: String) throws -> [MagnetometerSample] {
+        try String(decoding: data, as: UTF8.self)
             .split(whereSeparator: \.isNewline)
             .filter { !$0.hasPrefix("#") && !$0.hasPrefix("time") }
             .map { line in
                 let fields = line.split(separator: ",", omittingEmptySubsequences: false)
-                return MagnetometerSample(stationID: stationID, time: UTCTime.parse(fields[0].utf8)!,
+                guard let time = UTCTime.parse(fields[0].utf8) else {
+                    throw Fixtures.FixtureError.missing("malformed magnetometer row for \(stationID): \(line)")
+                }
+                return MagnetometerSample(stationID: stationID, time: time,
                                           x: Double(fields[1]), y: Double(fields[2]), z: Double(fields[3]))
             }
     }

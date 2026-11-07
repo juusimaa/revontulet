@@ -4,9 +4,13 @@ import Testing
 
 @Suite("Alert API models")
 struct AlertAPIModelsTests {
-    private let zones = try! AlertZones.all()
+    private let zones: [AlertZone]
     /// 32 bytes, the usual APNs token length.
     private let token = String(repeating: "a1", count: 32)
+
+    init() throws {
+        zones = try AlertZones.all()
+    }
 
     private func upsert(token: String? = nil, zone: String = "OUJ", threshold: AlertThreshold = .high) -> RegistrationUpsert {
         RegistrationUpsert(token: token ?? self.token, zone: zone, threshold: threshold)

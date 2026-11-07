@@ -34,7 +34,9 @@ final class OutlookUITests: XCTestCase {
         let moon = app.element("moonDetail")
         XCTAssertTrue(moon.waitForExistence(timeout: 5))
         XCTAssertTrue(moon.label.contains("full moon"), moon.label)
-        XCTAssertTrue(moon.label.hasSuffix("up"), moon.label)
+        XCTAssertTrue(moon.label.contains(", up"), moon.label)
+        // The bright-moon line is part of the label too, so VoiceOver reads all that is shown.
+        XCTAssertTrue(moon.label.hasSuffix("Bright enough to hide faint aurora"), moon.label)
         XCTAssertTrue(moon.label.contains("Limits"), moon.label)
     }
 
@@ -144,10 +146,12 @@ final class OutlookUITests: XCTestCase {
         XCTAssertTrue(title.waitForExistence(timeout: 5))
         // The sheet scrolls to it once it has appeared: just under the navigation bar.
         let bar = app.navigationBars["Outlook details"].firstMatch
-        let deadline = Date().addingTimeInterval(5)
-        while title.frame.minY - bar.frame.maxY > 100, Date() < deadline {
-            RunLoop.current.run(until: Date().addingTimeInterval(0.2))
+        let scrolledIntoPlace = NSPredicate { element, _ in
+            guard let title = element as? XCUIElement else { return false }
+            return title.frame.minY - bar.frame.maxY <= 100
         }
+        let expectation = XCTNSPredicateExpectation(predicate: scrolledIntoPlace, object: title)
+        _ = XCTWaiter().wait(for: [expectation], timeout: 5)
         XCTAssertLessThan(title.frame.minY - bar.frame.maxY, 100, "\(title.frame) \(bar.frame)")
     }
 

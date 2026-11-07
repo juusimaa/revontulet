@@ -4,10 +4,15 @@ import Testing
 
 @Suite("Zone evaluator")
 struct ZoneEvaluatorTests {
-    private let strong = try! RecordedNight.named("20261014")
-    private let stations = try! ReferenceData.loadStations()
+    private let strong: RecordedNight
+    private let stations: [Station]
     /// 2026-10-14 22:00 UTC: strong activity in the north.
     private let midnight = utc("2026-10-14T22:00:00Z")
+
+    init() throws {
+        strong = try RecordedNight.named("20261014")
+        stations = try ReferenceData.loadStations()
+    }
 
     @Test func oneConditionPerZoneWithData() async throws {
         let evaluator = try ZoneEvaluator(http: NightReplayHTTPClient(strong))
@@ -29,8 +34,8 @@ struct ZoneEvaluatorTests {
         let conditions = try await evaluator.evaluate(at: midnight)
 
         let oujPosition = try #require(stations.first { $0.id == "OUJ" }).coordinate
-        let nextNearest = stations.filter { $0.id != "OUJ" }
-            .min { Geo.distanceKm(oujPosition, $0.coordinate) < Geo.distanceKm(oujPosition, $1.coordinate) }!
+        let nextNearest = try #require(stations.filter { $0.id != "OUJ" }
+            .min { Geo.distanceKm(oujPosition, $0.coordinate) < Geo.distanceKm(oujPosition, $1.coordinate) })
         let ouj = try #require(conditions.first { $0.zoneID == "OUJ" })
         #expect(ouj.activityStationID == nextNearest.id)
         #expect(conditions.count == 10)

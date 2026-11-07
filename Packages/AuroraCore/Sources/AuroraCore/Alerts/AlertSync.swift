@@ -116,6 +116,11 @@ public actor AlertSync {
     private var failures = 0
     private var retryNotBefore: Date?
     private var rateLimitedUntil: Date?
+    private var loading: Task<AlertSyncState, Never>?
+    /// The send in progress, if any.
+    private var sending: Task<Void, Never>?
+    /// A send asked for while one ran: the latest time it was asked for.
+    private var rerunAt: Date?
 
     public init(api: any AlertAPI, store: any AlertSyncStore, now: @escaping @Sendable () -> Date = Date.init) {
         self.api = api
@@ -191,7 +196,7 @@ public actor AlertSync {
     /// Asks the service for a test notification to the current token (FR-012). A missing
     /// registration is re-sent at once.
     public func sendTest() async -> AlertTestResult {
-        var state = await current()
+        let state = await current()
         guard state.isOn, let token = state.token else { return .failed }
         do {
             try await api.sendTest(RegistrationToken(token: token))
@@ -201,6 +206,8 @@ public actor AlertSync {
             case .rateLimited(let retryAfter):
                 return .rateLimited(until: now().addingTimeInterval(retryAfter))
             case .notRegistered:
+                // Re-read: other changes may have arrived while the request was out.
+                var state = await current()
                 state.confirmed = nil
                 state.confirmedAt = nil
                 await update(state)
@@ -215,50 +222,90 @@ public actor AlertSync {
 
     // MARK: Sending
 
+    /// Runs one send at a time, so requests reach the service in the order of the changes.
+    /// A send asked for while one runs is folded into a rerun once it ends.
     private func send(now: Date) async {
+        if let running = sending {
+            rerunAt = max(rerunAt ?? now, now)
+            await running.value
+            return
+        }
+        let task = Task { await sendUntilSettled(from: now) }
+        sending = task
+        await task.value
+    }
+
+    private func sendUntilSettled(from now: Date) async {
+        var date = now
+        while true {
+            rerunAt = nil
+            await sendOnce(now: date)
+            guard let next = rerunAt else { break }
+            date = next
+        }
+        // No await between the last check of `rerunAt` and this, so no request is missed.
+        sending = nil
+    }
+
+    /// Other calls change the state while a request is out (the actor is reentrant), so every
+    /// write after a request re-reads the current state and records only what the service
+    /// confirmed; a change made meanwhile is sent by the rerun.
+    private func sendOnce(now: Date) async {
         if let rateLimitedUntil, now < rateLimitedUntil { return }
-        var state = await current()
+        let snapshot = await current()
 
         do {
-            switch state.desired {
+            switch snapshot.desired {
             case .enabled(let zone, let threshold):
-                guard let token = state.token, state.rejection == nil else { break }
-                let stale = state.confirmed != state.desired || state.confirmedToken != token
-                let due = state.confirmedAt.map { now.timeIntervalSince($0) >= Self.reconfirmAfter } ?? true
+                guard let token = snapshot.token, snapshot.rejection == nil else { break }
+                let stale = snapshot.confirmed != snapshot.desired || snapshot.confirmedToken != token
+                let due = snapshot.confirmedAt.map { now.timeIntervalSince($0) >= Self.reconfirmAfter } ?? true
                 if stale || due {
                     try await api.upsert(RegistrationUpsert(token: token, zone: zone, threshold: threshold))
-                    state.confirmed = state.desired
+                    var state = await current()
+                    if let replaced = state.confirmedToken, replaced != token, !state.staleTokens.contains(replaced) {
+                        state.staleTokens.append(replaced)
+                    }
+                    state.confirmed = snapshot.desired
                     state.confirmedToken = token
                     state.confirmedAt = now
+                    // A new token arrived meanwhile: the one just registered is now stale.
+                    if state.token != token, !state.staleTokens.contains(token) {
+                        state.staleTokens.append(token)
+                    }
                     await update(state)
                 }
             case .disabled:
-                if let token = state.confirmedToken ?? state.token, state.rejection == nil, state.isPending {
+                if let token = snapshot.confirmedToken ?? snapshot.token, snapshot.rejection == nil, snapshot.isPending {
                     try await api.delete(RegistrationToken(token: token))
+                    var state = await current()
                     state.confirmed = .disabled
                     state.confirmedToken = nil
                     await update(state)
                 }
             }
-            for token in state.staleTokens {
+            for token in snapshot.staleTokens {
                 try await api.delete(RegistrationToken(token: token))
+                var state = await current()
                 state.staleTokens.removeAll { $0 == token }
                 await update(state)
             }
             failures = 0
             retryNotBefore = nil
         } catch {
-            await handle(error, state: state, now: now)
+            await handle(error, sent: snapshot, now: now)
         }
     }
 
-    private func handle(_ failure: AlertAPIFailure, state: AlertSyncState, now: Date) async {
+    private func handle(_ failure: AlertAPIFailure, sent snapshot: AlertSyncState, now: Date) async {
         switch failure {
         case .unreachable, .notRegistered:
             retryNotBefore = now.addingTimeInterval(Self.backoff[min(failures, Self.backoff.count - 1)])
             failures += 1
         case .rejected(let error):
-            var state = state
+            // The rejection belongs to the change that was sent; a newer change gets its own try.
+            var state = await current()
+            guard state.desired == snapshot.desired, state.token == snapshot.token else { return }
             state.rejection = error
             await update(state)
         case .rateLimited(let retryAfter):
@@ -269,11 +316,20 @@ public actor AlertSync {
 
     // MARK: State
 
+    /// The state, loaded from the store once; concurrent first callers share the one load.
     private func current() async -> AlertSyncState {
         if let loaded { return loaded }
-        let state = await store.load()
-        loaded = state
-        return state
+        if let loading {
+            let state = await loading.value
+            return loaded ?? state
+        }
+        let store = self.store
+        let task = Task { await store.load() }
+        loading = task
+        let state = await task.value
+        if loaded == nil { loaded = state }
+        loading = nil
+        return loaded ?? state
     }
 
     private func update(_ state: AlertSyncState) async {

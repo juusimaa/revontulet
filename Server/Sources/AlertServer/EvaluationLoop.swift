@@ -88,10 +88,12 @@ public actor EvaluationLoop: Service {
                 return .dispatchFailed
             }
 
+            // The alerts are out: remember that before writing, so a database error cannot make
+            // the next cycle send them again.
+            self.states = states
             for condition in conditions {
                 if let state = states[condition.zoneID] { try await store.saveZoneState(state, zone: condition.zoneID) }
             }
-            self.states = states
             if !decisions.isEmpty {
                 logger.info("Alerts sent", metadata: [
                     "alerts": "\(decisions.map { "\($0.zoneID)-\($0.level.name)" })",

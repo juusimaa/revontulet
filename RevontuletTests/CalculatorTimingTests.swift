@@ -11,7 +11,7 @@ struct CalculatorTimingTests {
     static let oulu = Coordinate(latitude: 65.01, longitude: 25.47)
     /// 19:00 in Finland on a full-moon night: tonight is under way and the moon is up, so every
     /// sky and moon sample is computed.
-    static let now = try! Date("2026-11-24T17:00:00Z", strategy: .iso8601)
+    static let now = Date(timeIntervalSince1970: 1_795_539_600)  // 2026-11-24T17:00:00Z
     static let hour: TimeInterval = 3_600
 
     /// Sized like the live products: 81 Kp blocks (6.5 days back, 2.5 ahead), 66 hours of one
@@ -33,7 +33,7 @@ struct CalculatorTimingTests {
                                density: 5)
     }
 
-    @Test func outlookAndSoonTakeUnder50ms() {
+    @Test func outlookAndSoonTakeUnder50ms() throws {
         let clock = ContinuousClock()
         // The first run counts too: after a cold launch it is the one the user waits for.
         let runs = (0..<5).map { _ in
@@ -48,6 +48,7 @@ struct CalculatorTimingTests {
         }
         let milliseconds = runs.map { Double($0.components.attoseconds) / 1e15 + Double($0.components.seconds) * 1e3 }
         print("Calculator timing (ms):", milliseconds.map { String(format: "%.2f", $0) }.joined(separator: ", "))
-        #expect(runs.max()! < .milliseconds(50), "slowest run \(runs.max()!)")
+        let slowest = try #require(runs.max())
+        #expect(slowest < .milliseconds(50), "slowest run \(slowest)")
     }
 }

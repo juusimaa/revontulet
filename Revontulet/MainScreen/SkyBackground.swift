@@ -10,6 +10,10 @@ struct SkyBackground: View {
 
     @Environment(\.colorScheme) private var colorScheme
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    /// Time spent paused so far, taken out of the phase so the curtains resume where they stopped.
+    @State private var pausedTotal: TimeInterval = 0
+    /// When the sky was paused (hidden behind the map page or a sheet); nil while it moves.
+    @State private var pausedAt: Date?
 
     var body: some View {
         ZStack {
@@ -19,12 +23,20 @@ struct SkyBackground: View {
             // The curtains drift slowly, so 15 frames a second looks as smooth as 30 at half the cost.
             TimelineView(.animation(minimumInterval: 1 / 15, paused: isStill)) { context in
                 Aurora(intensity: intensity, magenta: level == .high,
-                       phase: isStill ? 0 : context.date.timeIntervalSinceReferenceDate)
+                       phase: reduceMotion ? 0 : (pausedAt ?? context.date).timeIntervalSinceReferenceDate - pausedTotal)
             }
             .animation(.smooth(duration: 1.2), value: level)
         }
         .ignoresSafeArea()
         .accessibilityHidden(true)
+        .onChange(of: animated, initial: true) { _, animated in
+            if !animated {
+                if pausedAt == nil { pausedAt = .now }
+            } else if let pausedAt {
+                pausedTotal += Date.now.timeIntervalSince(pausedAt)
+                self.pausedAt = nil
+            }
+        }
     }
 
     private var isStill: Bool { reduceMotion || !animated }

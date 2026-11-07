@@ -6,7 +6,11 @@ import SwiftUI
 /// are left out, so the page answers "are there auroras anywhere in Finland right now?".
 struct StationMapPage: View {
     let readings: [StationReading]?
-    let isOffline: Bool
+    let status: MainScreenModel.StationMapStatus
+    /// The warning shows when the readings are not being refreshed.
+    private var isNotUpdating: Bool { status == .offline || status == .noData }
+    /// When the newest valid reading was taken; derived once per input change.
+    private var latestMeasurement: Date? { readings?.lazy.filter { $0.r != nil }.map(\.measuredAt).max() }
 
     @State private var selectedID: Station.ID?
 
@@ -30,7 +34,7 @@ struct StationMapPage: View {
                     header
                         .padding(.top, 20)
                     Spacer()
-                    ProgressView()
+                    emptyState
                         .frame(maxWidth: .infinity)
                     Spacer()
                 }
@@ -45,15 +49,16 @@ struct StationMapPage: View {
     /// - Parameter mapHeight: a fixed map height for the scrolling layout; nil lets the map take
     ///   the space left over.
     private func page(_ readings: [StationReading], mapHeight: CGFloat?) -> some View {
-        VStack(alignment: .leading, spacing: 0) {
+        let current = selected(in: readings)
+        return VStack(alignment: .leading, spacing: 0) {
             header
                 .padding(.top, 20)
             MapLegend()
                 .padding(.top, 14)
-            StationMap(readings: readings, selectedID: selected(in: readings)?.station.id) { selectedID = $0 }
+            StationMap(readings: readings, selectedID: current?.station.id) { selectedID = $0 }
                 .frame(minHeight: mapHeight ?? Self.minimumMapHeight, maxHeight: mapHeight ?? .infinity)
                 .padding(.vertical, 12)
-            if let reading = selected(in: readings) {
+            if let reading = current {
                 StationCard(reading: reading)
                     .id(reading.station.id)
                     .transition(.opacity)
@@ -62,6 +67,24 @@ struct StationMapPage: View {
         .padding(.horizontal, 24)
         // Room for the page dots.
         .padding(.bottom, 44)
+    }
+
+    /// Nothing to draw yet: a spinner while loading, otherwise a calm explanation.
+    @ViewBuilder private var emptyState: some View {
+        switch status {
+        case .loading, .current:
+            ProgressView()
+        case .offline:
+            Text("Can't reach FMI right now. The map updates when the connection is back.")
+                .font(.subheadline)
+                .foregroundStyle(.white.opacity(0.75))
+                .multilineTextAlignment(.center)
+        case .noData:
+            Text("No station readings right now.")
+                .font(.subheadline)
+                .foregroundStyle(.white.opacity(0.75))
+                .multilineTextAlignment(.center)
+        }
     }
 
     private var header: some View {
@@ -73,7 +96,7 @@ struct StationMapPage: View {
                 Text(subtitle)
                     .font(.subheadline)
                     .foregroundStyle(.white.opacity(0.75))
-                if isOffline {
+                if isNotUpdating {
                     Label("Not updating", systemImage: "wifi.slash")
                         .font(.caption.weight(.semibold))
                         .foregroundStyle(Color(red: 1.0, green: 0.78, blue: 0.36))
@@ -83,10 +106,14 @@ struct StationMapPage: View {
     }
 
     private var subtitle: LocalizedStringResource {
-        guard let measuredAt = readings?.filter({ $0.r != nil }).map(\.measuredAt).max() else {
+        guard let measuredAt = latestMeasurement else {
             return "Geomagnetic activity only"
         }
-        return "Measured \(measuredAt.formatted(date: .omitted, time: .shortened)) · geomagnetic activity only"
+        // Readings from an earlier day carry their date, so old data does not pass for current.
+        let when = Calendar.current.isDateInToday(measuredAt)
+            ? measuredAt.formatted(date: .omitted, time: .shortened)
+            : measuredAt.formatted(.dateTime.day().month(.abbreviated).hour().minute())
+        return "Measured \(when) · geomagnetic activity only"
     }
 
     /// The tapped station, else the most active one (the northernmost among equals).
@@ -235,6 +262,8 @@ private struct StationMarker: View {
         .buttonStyle(.plain)
         .accessibilityLabel(Text(reading.station.name))
         .accessibilityValue(reading.accessibilityValue)
+        .accessibilityHint(Text("Shows details below"))
+        .accessibilitySortPriority(Double(reading.rank))
         .accessibilityAddTraits(isSelected ? .isSelected : [])
     }
 }
@@ -258,7 +287,7 @@ private struct MapDot: View {
             Circle().strokeBorder(.white.opacity(0.6), lineWidth: 2)
                 .frame(width: 10, height: 10)
         case nil:
-            Circle().strokeBorder(.white.opacity(0.4), style: StrokeStyle(lineWidth: 1.5, dash: [2, 2]))
+            Circle().strokeBorder(.white.opacity(0.65), style: StrokeStyle(lineWidth: 1.5, dash: [2, 2]))
                 .frame(width: 10, height: 10)
         }
     }
@@ -282,13 +311,18 @@ private struct MapLegend: View {
         item(.probable)
         item(.possible)
         item(.unlikely)
+        item(nil)
     }
 
-    private func item(_ level: ActivityLevel) -> some View {
+    private func item(_ level: ActivityLevel?) -> some View {
         HStack(spacing: 6) {
-            MapDot(activity: level, hasData: true)
+            MapDot(activity: level, hasData: level != nil)
                 .frame(width: 16)
-            Text(level.shortTitle)
+            if let level {
+                Text(level.shortTitle)
+            } else {
+                Text("No data")
+            }
         }
     }
 }
@@ -451,15 +485,42 @@ enum FinlandOutline {
     }
 }
 
-#Preview {
+private func previewReadings(measuredAt: Date = .now) -> [StationReading] {
     let stations = (try? ReferenceData.loadStations()) ?? []
     let r: [String: Double] = ["KEV": 182, "KIL": 228, "IVA": 210, "MUO": 160, "PEL": 96, "RAN": 74,
-                               "OUJ": 52, "MEK": 41, "HAN": 33, "TAR": 18]
-    let readings = stations.map { station in
-        StationReading(station: station, r: r[station.id], measuredAt: .now,
+                               "OUJ": 52, "MEK": 41, "HAN": 33]
+    return stations.map { station in
+        StationReading(station: station, r: r[station.id], measuredAt: measuredAt,
                        activity: r[station.id].map { ActivityClassifier.level(r: $0, station: station) })
     }
-    StationMapPage(readings: readings, isOffline: false)
+}
+
+#Preview("Current") {
+    StationMapPage(readings: previewReadings(), status: .current)
+        .background { SkyBackground(level: .high) }
+        .environment(\.colorScheme, .dark)
+}
+
+#Preview("Offline, old readings") {
+    StationMapPage(readings: previewReadings(measuredAt: .now.addingTimeInterval(-3 * 86_400)), status: .offline)
+        .background { SkyBackground(level: .high) }
+        .environment(\.colorScheme, .dark)
+}
+
+#Preview("Loading") {
+    StationMapPage(readings: nil, status: .loading)
+        .background { SkyBackground(level: .high) }
+        .environment(\.colorScheme, .dark)
+}
+
+#Preview("Offline, no readings") {
+    StationMapPage(readings: nil, status: .offline)
+        .background { SkyBackground(level: .high) }
+        .environment(\.colorScheme, .dark)
+}
+
+#Preview("No data") {
+    StationMapPage(readings: nil, status: .noData)
         .background { SkyBackground(level: .high) }
         .environment(\.colorScheme, .dark)
 }

@@ -26,14 +26,14 @@ struct MainScreenView: View {
                 content
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .tag(Page.chance)
-                StationMapPage(readings: model.stationReadings, isOffline: model.isStationMapOffline)
+                StationMapPage(readings: model.stationReadings, status: model.stationMapStatus)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .tag(Page.map)
                     .accessibilityIdentifier("stationMapPage")
             }
             .tabViewStyle(.page(indexDisplayMode: .always))
             .indexViewStyle(.page(backgroundDisplayMode: .interactive))
-            .background { SkyBackground(level: level).environment(\.colorScheme, systemColorScheme) }
+            .background { SkyBackground(level: level, animated: skyIsVisible).environment(\.colorScheme, systemColorScheme) }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Button("Change place", systemImage: "mappin.and.ellipse") { isChoosingPlace = true }
@@ -97,6 +97,9 @@ struct MainScreenView: View {
                 .multilineTextAlignment(.leading)
         }
     }
+
+    /// The sky is hidden by the opaque map page and by the full-height sheets, so it stands still then.
+    private var skyIsVisible: Bool { page == .chance && !isShowingAlerts && !isChoosingPlace }
 
     private var level: ChanceLevel? {
         if case .result(let result, _) = model.state { result.chance.level } else { nil }
@@ -335,6 +338,10 @@ private struct MeasurementLine: View {
     let freshness: MainScreenModel.Freshness
     let now: Date
 
+    /// When the sky next stops being too light at this place; nil when it stays light all day.
+    /// Recomputed when the place or the minute changes, not on every render.
+    @State private var nextDarkness: Date?
+
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack(alignment: .firstTextBaseline, spacing: 10) {
@@ -372,12 +379,23 @@ private struct MeasurementLine: View {
         .font(.subheadline)
         .foregroundStyle(.white.opacity(0.8))
         .labelStyle(DataLabelStyle())
+        .onChange(of: darknessKey, initial: true) {
+            nextDarkness = darknessKey.needed
+                ? SolarPosition.nextDarkness(
+                    latitude: result.place.coordinate.latitude, longitude: result.place.coordinate.longitude,
+                    after: now)
+                : nil
+        }
     }
 
-    /// When the sky next stops being too light at this place; nil when it stays light all day.
-    private var nextDarkness: Date? {
-        SolarPosition.nextDarkness(
-            latitude: result.place.coordinate.latitude, longitude: result.place.coordinate.longitude, after: now)
+    private struct DarknessKey: Equatable {
+        let latitude: Double, longitude: Double, minute: Int, needed: Bool
+    }
+
+    private var darknessKey: DarknessKey {
+        DarknessKey(
+            latitude: result.place.coordinate.latitude, longitude: result.place.coordinate.longitude,
+            minute: Int(now.timeIntervalSince1970 / 60), needed: result.darkness == .tooLight)
     }
 }
 
@@ -445,6 +463,7 @@ struct DataLabelStyle: LabelStyle {
                 .foregroundStyle(.secondary)
             configuration.title
         }
+        .accessibilityElement(children: .combine)
     }
 }
 
@@ -474,6 +493,7 @@ private struct StatusView<Actions: View>: View {
                 .font(.system(size: 52, weight: .light))
                 .foregroundStyle(.white.opacity(0.85))
                 .symbolEffect(.pulse, options: .repeat(.continuous), isActive: showsProgress)
+                .accessibilityHidden(true)
             Text(title)
                 .font(.title2.weight(.semibold))
                 .multilineTextAlignment(.center)

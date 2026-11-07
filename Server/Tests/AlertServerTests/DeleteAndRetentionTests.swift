@@ -23,9 +23,10 @@ struct DeleteAndRetentionTests {
     }
 
     private func delete(_ client: any TestClientProtocol, _ json: String) async throws -> TestResponse {
-        try await client.execute(
+        let forwardedFor = try #require(HTTPField.Name("X-Forwarded-For"))
+        return try await client.execute(
             uri: "/v1/registration/delete", method: .post,
-            headers: [.contentType: "application/json", HTTPField.Name("X-Forwarded-For")!: "203.0.113.7"],
+            headers: [.contentType: "application/json", forwardedFor: "203.0.113.7"],
             body: ByteBuffer(string: json))
     }
 

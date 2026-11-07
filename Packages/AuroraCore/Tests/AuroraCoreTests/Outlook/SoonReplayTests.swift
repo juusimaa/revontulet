@@ -32,12 +32,15 @@ struct SoonReplayTests {
     }()
 
     static func samples(_ night: RecordedNight) throws -> [SolarWindSample] {
-        String(decoding: try Fixtures.data("outlook/soon-nights/\(night.night).csv"), as: UTF8.self)
+        try String(decoding: Fixtures.data("outlook/soon-nights/\(night.night).csv"), as: UTF8.self)
             .split(whereSeparator: \.isNewline)
             .dropFirst()
             .map { line in
                 let f = line.split(separator: ",", omittingEmptySubsequences: false).map(String.init)
-                return SolarWindSample(time: UTCTime.parse(f[0])!, arrival: UTCTime.parse(f[1]),
+                guard let time = UTCTime.parse(f[0]) else {
+                    throw Fixtures.FixtureError.missing("malformed soon-night row in \(night.night).csv: \(line)")
+                }
+                return SolarWindSample(time: time, arrival: UTCTime.parse(f[1]),
                                        bz: Double(f[2]), speed: Double(f[3]), density: Double(f[4]))
             }
     }

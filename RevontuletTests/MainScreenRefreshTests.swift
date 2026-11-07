@@ -56,8 +56,9 @@ struct MainScreenRefreshTests {
     }
 
     private func model(_ http: GatedHTTPClient) throws -> MainScreenModel {
-        let defaults = try #require(UserDefaults(suiteName: "MainScreenRefreshTests"))
-        defaults.removePersistentDomain(forName: "MainScreenRefreshTests")
+        let suite = "MainScreenRefreshTests.\(UUID().uuidString)"
+        let defaults = try #require(UserDefaults(suiteName: suite))
+        defaults.removePersistentDomain(forName: suite)
         let store = PlaceSelectionStore(defaults: defaults)
         // Rovaniemi, chosen by hand, so no location fix is needed.
         store.selection = .municipality(code: "698")

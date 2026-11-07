@@ -91,4 +91,15 @@ struct RateLimiterTests {
             }
         }
     }
+
+    @Test(arguments: [
+        ("2001:db8:1:2::1", "2001:db8:1:2::/64"),
+        ("2001:0db8:0001:0002:ffff:ffff:ffff:ffff", "2001:db8:1:2::/64"),
+        ("2001:db8::5, 10.0.0.1", "2001:db8:0:0::/64"),
+        ("192.0.2.7", "192.0.2.7"),
+        ("not an address", "not an address"),
+    ])
+    func ipv6AddressesShareTheirSlash64(forwardedFor: String, key: String) {
+        #expect(RateLimitMiddleware<BasicRequestContext>.clientAddress(forwardedFor: forwardedFor) == key)
+    }
 }
