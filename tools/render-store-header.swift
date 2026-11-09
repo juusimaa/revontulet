@@ -4,10 +4,12 @@
 //   The name is the same in every language, so one image serves all localizations.
 // - search-result-{fi,sv,en}.png (3:2, 3840 × 2560): the search results image, with a main screen
 //   screenshot in a phone frame and a localized one-liner.
-// - launch-background.png (portrait, 1290 × 2796): the launch screen, shown full-bleed (aspect fill) by
-//   Revontulet/Resources/LaunchScreen.storyboard. Copy it to
-//   Revontulet/Resources/Assets.xcassets/LaunchBackground.imageset/launch-background.png.
-// Each format also gets a text-free variant. All are opaque PNGs in Display P3.
+// - launch-background.png (portrait, 1290 × 2796, sRGB): the launch screen, shown full-bleed (aspect
+//   fill) by Revontulet/Resources/LaunchScreen.storyboard. The app ships it downscaled, as a plain file
+//   and not in the asset catalog (the launch screen drew a catalog image as solid black on a device):
+//     sips -z 1864 860 <output directory>/launch-background.png --out Revontulet/Resources/launch-art@2x.png
+// Each format also gets a text-free variant. All are opaque PNGs in Display P3, except the launch
+// image, which is sRGB.
 // Development tool only. Usage: swift tools/render-store-header.swift [output directory]
 //
 // The search results image needs main screen screenshots at <output directory>/screenshots/main-<lang>.png
@@ -264,10 +266,11 @@ func withScreenshot(_ art: CGImage, _ shot: CGImage, _ line: String) -> CGImage 
     }
 }
 
-/// Writes an opaque PNG; the App Store rejects artwork with an alpha channel.
-func save(_ image: CGImage, _ name: String) {
+/// Writes an opaque PNG; the App Store rejects artwork with an alpha channel. `space` converts the
+/// colours: the launch image is sRGB, a plain 8-bit image the launch screen certainly draws.
+func save(_ image: CGImage, _ name: String, space: CGColorSpace? = nil) {
     let ctx = CGContext(data: nil, width: image.width, height: image.height, bitsPerComponent: 8, bytesPerRow: 0,
-                        space: cs, bitmapInfo: CGImageAlphaInfo.noneSkipLast.rawValue)!
+                        space: space ?? cs, bitmapInfo: CGImageAlphaInfo.noneSkipLast.rawValue)!
     ctx.draw(image, in: CGRect(x: 0, y: 0, width: image.width, height: image.height))
     let rep = NSBitmapImageRep(cgImage: ctx.makeImage()!)
     try! FileManager.default.createDirectory(atPath: outDir, withIntermediateDirectories: true)
@@ -293,5 +296,6 @@ for (language, line) in lines {
 
 (W, H) = (1290, 2796)
 let launch = artwork()
-save(launch, "launch-background-textless")
-save(withTitle(launch, title, width: W * 0.74), "launch-background")
+let srgb = CGColorSpace(name: CGColorSpace.sRGB)!
+save(launch, "launch-background-textless", space: srgb)
+save(withTitle(launch, title, width: W * 0.74), "launch-background", space: srgb)
