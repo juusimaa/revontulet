@@ -5,9 +5,10 @@
 // - search-result-{fi,sv,en}.png (3:2, 3840 × 2560): the search results image, with a main screen
 //   screenshot in a phone frame and a localized one-liner.
 // - launch-background.png (portrait, 1290 × 2796, sRGB): the launch screen, shown full-bleed (aspect
-//   fill) by Revontulet/Resources/LaunchScreen.storyboard. The app ships it downscaled, as a plain file
+//   fill) by Revontulet/Resources/LaunchScreen.storyboard. The app ships it as plain files
 //   and not in the asset catalog (the launch screen drew a catalog image as solid black on a device):
-//     sips -z 1864 860 <output directory>/launch-background.png --out Revontulet/Resources/launch-art@2x.png
+//     cp <output directory>/launch-background.png Revontulet/Resources/launch-background@3x.png
+//     sips -z 1864 860 <output directory>/launch-background.png --out Revontulet/Resources/launch-background@2x.png
 // Each format also gets a text-free variant. All are opaque PNGs in Display P3, except the launch
 // image, which is sRGB.
 // Development tool only. Usage: swift tools/render-store-header.swift [output directory]
@@ -195,8 +196,9 @@ func artwork() -> CGImage {
 }
 
 /// The name, centred under the brightest fold, with a soft shadow so it reads over the sky on any device.
-/// `width` sizes the name to that many pixels instead of the header's size, for narrow canvases.
-func withTitle(_ art: CGImage, _ text: String, width: CGFloat? = nil) -> CGImage {
+/// `width` sizes the name to that many pixels instead of the header's size, for narrow canvases; `height`
+/// is the name's centre as a fraction of the canvas height, from the bottom.
+func withTitle(_ art: CGImage, _ text: String, width: CGFloat? = nil, at height: CGFloat = 0.42) -> CGImage {
     canvas { ctx in
         ctx.draw(art, in: CGRect(x: 0, y: 0, width: W, height: H))
         func titleLine(_ size: CGFloat) -> CTLine {
@@ -210,7 +212,7 @@ func withTitle(_ art: CGImage, _ text: String, width: CGFloat? = nil) -> CGImage
         let line = titleLine(size)
         let bounds = CTLineGetBoundsWithOptions(line, .useOpticalBounds)
         let x = (W - bounds.width) / 2 - bounds.minX
-        let y = H * 0.42 - bounds.height / 2 - bounds.minY
+        let y = H * height - bounds.height / 2 - bounds.minY
         ctx.setShadow(offset: .zero, blur: 60, color: rgb(0.01, 0.03, 0.07, 0.9))
         ctx.textPosition = CGPoint(x: x, y: y)
         CTLineDraw(line, ctx)
@@ -298,4 +300,4 @@ for (language, line) in lines {
 let launch = artwork()
 let srgb = CGColorSpace(name: CGColorSpace.sRGB)!
 save(launch, "launch-background-textless", space: srgb)
-save(withTitle(launch, title, width: W * 0.74), "launch-background", space: srgb)
+save(withTitle(launch, title, width: W * 0.74, at: 0.5), "launch-background", space: srgb)
