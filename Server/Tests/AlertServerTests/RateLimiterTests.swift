@@ -62,6 +62,51 @@ struct RateLimiterTests {
         #expect(await limiter.trackedClients == 1)
     }
 
+    @Test func keysBeyondTheCapShareOneOverflowBucket() async {
+        let limiter = RateLimiter(limit: 2, window: 600, maxKeys: 3)
+
+        for key in ["a", "b", "c"] {
+            #expect(await limiter.check(key, now: start) == .allowed)
+        }
+        #expect(await limiter.check("d", now: start) == .allowed)
+        #expect(await limiter.check("e", now: start) == .allowed)
+        #expect(await limiter.check("f", now: start) == .limited(retryAfter: 600))
+        #expect(await limiter.trackedClients == 4)
+    }
+
+    @Test func trackedClientsStayBounded() async {
+        let limiter = RateLimiter(limit: 2, window: 600, maxKeys: 3)
+
+        for i in 0..<50 {
+            _ = await limiter.check("client\(i)", now: start.addingTimeInterval(Double(i)))
+            #expect(await limiter.trackedClients <= 4)
+        }
+    }
+
+    @Test func trackedKeysKeepTheirOwnAllowanceAtTheCap() async {
+        let limiter = RateLimiter(limit: 2, window: 600, maxKeys: 3)
+
+        for key in ["a", "b", "c"] { _ = await limiter.check(key, now: start) }
+        for key in ["d", "e", "f"] { _ = await limiter.check(key, now: start) }
+
+        #expect(await limiter.check("a", now: start) == .allowed)
+        #expect(await limiter.check("a", now: start) == .limited(retryAfter: 600))
+        #expect(await limiter.check("b", now: start) == .allowed)
+    }
+
+    @Test func newKeysGetOwnBucketsAgainAfterTheWindow() async {
+        let limiter = RateLimiter(limit: 1, window: 600, maxKeys: 2)
+
+        for key in ["a", "b", "c"] { _ = await limiter.check(key, now: start) }
+        #expect(await limiter.check("d", now: start) == .limited(retryAfter: 600))
+
+        let later = start.addingTimeInterval(601)
+        #expect(await limiter.check("d", now: later) == .allowed)
+        #expect(await limiter.check("e", now: later) == .allowed)
+        #expect(await limiter.check("d", now: later) == .limited(retryAfter: 600))
+        #expect(await limiter.trackedClients == 2)
+    }
+
     @Test func clientAddressIsFirstForwardedEntry() {
         #expect(RateLimitMiddleware<BasicRequestContext>.clientAddress(forwardedFor: "203.0.113.7, 10.0.0.2") == "203.0.113.7")
         #expect(RateLimitMiddleware<BasicRequestContext>.clientAddress(forwardedFor: " 198.51.100.1 ") == "198.51.100.1")

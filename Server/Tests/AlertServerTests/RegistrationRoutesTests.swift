@@ -12,11 +12,15 @@ struct RegistrationRoutesTests {
     private let token = testToken(1)
 
     private func withApp(rateLimiter: RateLimiter = RateLimiter(),
+                         newRegistrationLimiter: RateLimiter = RateLimiter(limit: 60, window: 60),
+                         maxRegistrations: Int = 50_000,
                          _ test: @escaping @Sendable (any TestClientProtocol, RegistrationStore) async throws -> Void) async throws {
         try await withTemporaryStore { store, _ in
             let dependencies = try AppDependencies(
                 store: store, health: HealthStatus(), rateLimiter: rateLimiter, zones: AlertZones.all(),
-                pushSender: FakePushSender(), apnsTopic: "fi.juusimaa.revontulet", now: { [now] in now })
+                pushSender: FakePushSender(), apnsTopic: "fi.juusimaa.revontulet",
+                newRegistrationLimiter: newRegistrationLimiter, maxRegistrations: maxRegistrations,
+                now: { [now] in now })
             try await buildApplication(dependencies: dependencies, port: 0).test(.router) { client in
                 try await test(client, store)
             }
@@ -87,7 +91,43 @@ struct RegistrationRoutesTests {
         }
     }
 
-    @Test func healthIsNotRateLimited() async throws {
+    @Test func fullStoreRejectsNewTokenButAcceptsUpdate() async throws {
+        try await withApp(maxRegistrations: 1) { client, store in
+            let first = try await put(client, #"{"token":"\#(token)","zone":"OUJ","threshold":"high"}"#)
+            #expect(first.status == .noContent)
+
+            let rejected = try await put(client, #"{"token":"\#(testToken(2))","zone":"OUJ","threshold":"high"}"#)
+            #expect(rejected.status == .serviceUnavailable)
+            #expect(rejected.headers[.retryAfter] == "3600")
+            #expect(rejected.body.readableBytes == 0)
+            #expect(try await store.registration(token: testToken(2)) == nil)
+
+            let update = try await put(client, #"{"token":"\#(token)","zone":"KEV","threshold":"high"}"#)
+            #expect(update.status == .noContent)
+            #expect(try await store.registration(token: token)?.zone == "KEV")
+        }
+    }
+
+    @Test func newRegistrationsAreLimitedGloballyButUpdatesAreNot() async throws {
+        try await withApp(newRegistrationLimiter: RateLimiter(limit: 2, window: 600)) { client, store in
+            for n in 1...2 {
+                let response = try await put(client, #"{"token":"\#(testToken(n))","zone":"OUJ","threshold":"high"}"#)
+                #expect(response.status == .noContent)
+            }
+            let limited = try await put(client, #"{"token":"\#(testToken(3))","zone":"OUJ","threshold":"high"}"#,
+                                        forwardedFor: "198.51.100.1")
+            #expect(limited.status == .tooManyRequests)
+            #expect(limited.headers[.retryAfter] == "600")
+            #expect(try await store.registration(token: testToken(3)) == nil)
+
+            for _ in 0..<5 {
+                let update = try await put(client, #"{"token":"\#(testToken(1))","zone":"KEV","threshold":"high"}"#)
+                #expect(update.status == .noContent)
+            }
+        }
+    }
+
+    @Test func healthIsNotRateLimited()async throws {
         try await withApp(rateLimiter: RateLimiter(limit: 1, window: 600)) { client, _ in
             for _ in 0..<3 {
                 let response = try await client.execute(uri: "/v1/health", method: .get)
