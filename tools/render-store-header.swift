@@ -4,7 +4,13 @@
 //   The name is the same in every language, so one image serves all localizations.
 // - search-result-{fi,sv,en}.png (3:2, 3840 × 2560): the search results image, with a main screen
 //   screenshot in a phone frame and a localized one-liner.
-// Each format also gets a text-free variant. All are opaque PNGs in Display P3.
+// - launch-background.png (portrait, 1290 × 2796, sRGB): the launch screen, shown full-bleed (aspect
+//   fill) by Revontulet/Resources/LaunchScreen.storyboard. The app ships it as plain files
+//   and not in the asset catalog (the launch screen drew a catalog image as solid black on a device):
+//     cp <output directory>/launch-background.png Revontulet/Resources/launch-background@3x.png
+//     sips -z 1864 860 <output directory>/launch-background.png --out Revontulet/Resources/launch-background@2x.png
+// Each format also gets a text-free variant. All are opaque PNGs in Display P3, except the launch
+// image, which is sRGB.
 // Development tool only. Usage: swift tools/render-store-header.swift [output directory]
 //
 // The search results image needs main screen screenshots at <output directory>/screenshots/main-<lang>.png
@@ -190,17 +196,23 @@ func artwork() -> CGImage {
 }
 
 /// The name, centred under the brightest fold, with a soft shadow so it reads over the sky on any device.
-func withTitle(_ art: CGImage, _ text: String) -> CGImage {
+/// `width` sizes the name to that many pixels instead of the header's size, for narrow canvases; `height`
+/// is the name's centre as a fraction of the canvas height, from the bottom.
+func withTitle(_ art: CGImage, _ text: String, width: CGFloat? = nil, at height: CGFloat = 0.42) -> CGImage {
     canvas { ctx in
         ctx.draw(art, in: CGRect(x: 0, y: 0, width: W, height: H))
-        let font = NSFont.systemFont(ofSize: 230 * k, weight: .bold)
-        let attributed = NSAttributedString(string: text, attributes: [
-            .font: font, .foregroundColor: NSColor(cgColor: rgb(0.96, 0.98, 1))!, .kern: -3 * k,
-        ])
-        let line = CTLineCreateWithAttributedString(attributed)
+        func titleLine(_ size: CGFloat) -> CTLine {
+            CTLineCreateWithAttributedString(NSAttributedString(string: text, attributes: [
+                .font: NSFont.systemFont(ofSize: size, weight: .bold),
+                .foregroundColor: NSColor(cgColor: rgb(0.96, 0.98, 1))!, .kern: -3 * size / 230,
+            ]))
+        }
+        var size = 230 * k
+        if let width { size *= width / CTLineGetBoundsWithOptions(titleLine(size), .useOpticalBounds).width }
+        let line = titleLine(size)
         let bounds = CTLineGetBoundsWithOptions(line, .useOpticalBounds)
         let x = (W - bounds.width) / 2 - bounds.minX
-        let y = H * 0.42 - bounds.height / 2 - bounds.minY
+        let y = H * height - bounds.height / 2 - bounds.minY
         ctx.setShadow(offset: .zero, blur: 60, color: rgb(0.01, 0.03, 0.07, 0.9))
         ctx.textPosition = CGPoint(x: x, y: y)
         CTLineDraw(line, ctx)
@@ -256,10 +268,11 @@ func withScreenshot(_ art: CGImage, _ shot: CGImage, _ line: String) -> CGImage 
     }
 }
 
-/// Writes an opaque PNG; the App Store rejects artwork with an alpha channel.
-func save(_ image: CGImage, _ name: String) {
+/// Writes an opaque PNG; the App Store rejects artwork with an alpha channel. `space` converts the
+/// colours: the launch image is sRGB, a plain 8-bit image the launch screen certainly draws.
+func save(_ image: CGImage, _ name: String, space: CGColorSpace? = nil) {
     let ctx = CGContext(data: nil, width: image.width, height: image.height, bitsPerComponent: 8, bytesPerRow: 0,
-                        space: cs, bitmapInfo: CGImageAlphaInfo.noneSkipLast.rawValue)!
+                        space: space ?? cs, bitmapInfo: CGImageAlphaInfo.noneSkipLast.rawValue)!
     ctx.draw(image, in: CGRect(x: 0, y: 0, width: image.width, height: image.height))
     let rep = NSBitmapImageRep(cgImage: ctx.makeImage()!)
     try! FileManager.default.createDirectory(atPath: outDir, withIntermediateDirectories: true)
@@ -282,3 +295,9 @@ for (language, line) in lines {
     }
     save(withScreenshot(search, shot, line), "search-result-\(language)")
 }
+
+(W, H) = (1290, 2796)
+let launch = artwork()
+let srgb = CGColorSpace(name: CGColorSpace.sRGB)!
+save(launch, "launch-background-textless", space: srgb)
+save(withTitle(launch, title, width: W * 0.74, at: 0.5), "launch-background", space: srgb)
