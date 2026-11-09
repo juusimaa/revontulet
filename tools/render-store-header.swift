@@ -4,6 +4,9 @@
 //   The name is the same in every language, so one image serves all localizations.
 // - search-result-{fi,sv,en}.png (3:2, 3840 × 2560): the search results image, with a main screen
 //   screenshot in a phone frame and a localized one-liner.
+// - launch-background.png (portrait, 1290 × 2796): the launch screen, shown full-bleed (aspect fill) by
+//   Revontulet/Resources/LaunchScreen.storyboard. Copy it to
+//   Revontulet/Resources/Assets.xcassets/LaunchBackground.imageset/launch-background.png.
 // Each format also gets a text-free variant. All are opaque PNGs in Display P3.
 // Development tool only. Usage: swift tools/render-store-header.swift [output directory]
 //
@@ -190,14 +193,19 @@ func artwork() -> CGImage {
 }
 
 /// The name, centred under the brightest fold, with a soft shadow so it reads over the sky on any device.
-func withTitle(_ art: CGImage, _ text: String) -> CGImage {
+/// `width` sizes the name to that many pixels instead of the header's size, for narrow canvases.
+func withTitle(_ art: CGImage, _ text: String, width: CGFloat? = nil) -> CGImage {
     canvas { ctx in
         ctx.draw(art, in: CGRect(x: 0, y: 0, width: W, height: H))
-        let font = NSFont.systemFont(ofSize: 230 * k, weight: .bold)
-        let attributed = NSAttributedString(string: text, attributes: [
-            .font: font, .foregroundColor: NSColor(cgColor: rgb(0.96, 0.98, 1))!, .kern: -3 * k,
-        ])
-        let line = CTLineCreateWithAttributedString(attributed)
+        func titleLine(_ size: CGFloat) -> CTLine {
+            CTLineCreateWithAttributedString(NSAttributedString(string: text, attributes: [
+                .font: NSFont.systemFont(ofSize: size, weight: .bold),
+                .foregroundColor: NSColor(cgColor: rgb(0.96, 0.98, 1))!, .kern: -3 * size / 230,
+            ]))
+        }
+        var size = 230 * k
+        if let width { size *= width / CTLineGetBoundsWithOptions(titleLine(size), .useOpticalBounds).width }
+        let line = titleLine(size)
         let bounds = CTLineGetBoundsWithOptions(line, .useOpticalBounds)
         let x = (W - bounds.width) / 2 - bounds.minX
         let y = H * 0.42 - bounds.height / 2 - bounds.minY
@@ -282,3 +290,8 @@ for (language, line) in lines {
     }
     save(withScreenshot(search, shot, line), "search-result-\(language)")
 }
+
+(W, H) = (1290, 2796)
+let launch = artwork()
+save(launch, "launch-background-textless")
+save(withTitle(launch, title, width: W * 0.74), "launch-background")

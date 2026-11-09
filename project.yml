@@ -48,7 +48,7 @@ targets:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: fi.juusimaa.revontulet
         PRODUCT_NAME: Revontulet
-        MARKETING_VERSION: "4.0.1"
+        MARKETING_VERSION: "4.1"
         # Xcode Cloud replaces this with its build number (ci_scripts/ci_post_clone.sh).
         CURRENT_PROJECT_VERSION: "1"
         TARGETED_DEVICE_FAMILY: "1"
@@ -62,7 +62,7 @@ targets:
           Your location is used on this device to find the nearest measurement station and your
           municipality. Your position is never sent anywhere; aurora alerts, if you turn them on,
           share only a coarse area of Finland.
-        INFOPLIST_KEY_UILaunchScreen_Generation: YES
+        INFOPLIST_KEY_UILaunchStoryboardName: LaunchScreen
         INFOPLIST_KEY_UISupportedInterfaceOrientations: UIInterfaceOrientationPortrait
         # Only HTTPS via URLSession, which is exempt; skips the export compliance prompt in App Store Connect.
         INFOPLIST_KEY_ITSAppUsesNonExemptEncryption: NO
