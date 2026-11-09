@@ -21,15 +21,24 @@ public actor RateLimiter {
     private var requests: [String: [Date]] = [:]
     private var lastSweep: Date?
 
+    private let maxKeys: Int
+    /// Shared bucket for keys beyond `maxKeys`. Contains a NUL, which an HTTP header value
+    /// cannot, so it never collides with a real client key.
+    private static let overflowKey = "\u{0}overflow"
+
     /// Defaults to 30 requests per 10 minutes, the per-address limit of contracts/alert-api.md.
-    public init(limit: Int = 30, window: TimeInterval = 600) {
+    /// At most `maxKeys` distinct keys are tracked; further new keys share one overflow bucket
+    /// with the same limit, so memory stays bounded under a flood from many addresses.
+    public init(limit: Int = 30, window: TimeInterval = 600, maxKeys: Int = 100_000) {
         self.limit = limit
         self.window = window
+        self.maxKeys = maxKeys
     }
 
     /// Counts a request for `key` at `now` if it is within the limit.
-    public func check(_ key: String, now: Date) -> Decision {
+    public func check(_ requestKey: String, now: Date) -> Decision {
         sweepIfDue(now: now)
+        let key = requests[requestKey] == nil && requests.count >= maxKeys ? Self.overflowKey : requestKey
         var times = requests[key, default: []]
         times.removeAll { now.timeIntervalSince($0) >= window }
         guard times.count < limit else {

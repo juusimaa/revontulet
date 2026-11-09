@@ -87,6 +87,11 @@ public actor RegistrationStore {
         ).first.map(Self.registration(from:))
     }
 
+    /// Number of stored registrations.
+    public func registrationCount() async throws -> Int {
+        try await connection.query("SELECT COUNT(*) AS n FROM registrations").first?.column("n")?.integer ?? 0
+    }
+
     public func registrations(inZone zone: String) async throws -> [Registration] {
         try await connection.query(
             "SELECT token, zone, threshold, confirmed_at FROM registrations WHERE zone = ?", [.text(zone)]

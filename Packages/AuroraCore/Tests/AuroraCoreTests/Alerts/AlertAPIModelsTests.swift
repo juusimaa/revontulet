@@ -76,12 +76,13 @@ struct AlertAPIModelsTests {
 
     @Test func validRegistrationPasses() {
         #expect(RegistrationValidation.validate(upsert(), zones: zones) == nil)
-        #expect(RegistrationValidation.validate(upsert(token: String(repeating: "0f", count: 200)), zones: zones) == nil)
-        #expect(RegistrationValidation.validate(upsert(token: String(repeating: "9e", count: 100)), zones: zones) == nil)
     }
 
     @Test(arguments: [
         String(repeating: "ab", count: 31),   // 31 bytes: too short
+        String(repeating: "ab", count: 33),   // 33 bytes: too long
+        String(repeating: "9e", count: 100),  // 100 bytes: too long
+        String(repeating: "0f", count: 200),  // 200 bytes: too long
         String(repeating: "ab", count: 201),  // 201 bytes: too long
         String(repeating: "ab", count: 32) + "a",  // odd length
         String(repeating: "AB", count: 32),   // uppercase

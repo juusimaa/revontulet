@@ -4,11 +4,23 @@ import Hummingbird
 
 /// `/v1/registration` (contracts/alert-api.md). Bodies are never logged.
 func addRegistrationRoutes(to group: RouterGroup<BasicRequestContext>, dependencies: AppDependencies) {
+    // Only new tokens count towards the registration cap and the global new-registration limit;
+    // updating a stored token always succeeds.
     group.put { request, _ -> Response in
         guard let body = try? await request.body.collect(upTo: maxBodySize) else { return .apiError(.invalidBody) }
         switch RegistrationValidation.decodeUpsert(Data(body.readableBytesView), zones: dependencies.zones) {
         case .success(let upsert):
-            try await dependencies.store.upsert(upsert, now: dependencies.now())
+            let now = dependencies.now()
+            if try await dependencies.store.registration(token: upsert.token) == nil {
+                if try await dependencies.store.registrationCount() >= dependencies.maxRegistrations {
+                    return Response(status: .serviceUnavailable, headers: [.retryAfter: "3600"])
+                }
+                if case .limited(let retryAfter) = await dependencies.newRegistrationLimiter
+                    .check(AppDependencies.newRegistrationKey, now: now) {
+                    return Response(status: .tooManyRequests, headers: [.retryAfter: String(retryAfter)])
+                }
+            }
+            try await dependencies.store.upsert(upsert, now: now)
             return Response(status: .noContent)
         case .failure(let error):
             return .apiError(error)

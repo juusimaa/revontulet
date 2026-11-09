@@ -25,7 +25,7 @@ The request and response types are defined once in `AuroraCore` (`RegistrationUp
 ### `PUT /v1/registration`
 
 Create or update the registration for a token (turn on, change threshold, zone change, daily
-re-confirmation).
+re-confirmation). The token is exactly 64 lowercase hex characters (32 bytes).
 
 ```json
 { "token": "a1b2…", "zone": "OUJ", "threshold": "high" }
@@ -35,7 +35,8 @@ re-confirmation).
 |---|---|
 | `204` | Stored. `confirmed_at` set to today. |
 | `400` | Invalid body; response `{ "error": "invalidToken" \| "invalidZone" \| "invalidThreshold" \| "invalidBody" }`. The app does not retry 400. |
-| `429` | Rate limited; `Retry-After` header in seconds. |
+| `429` | Rate limited; `Retry-After` header in seconds. Also returned for a new token when the service-wide limit on new registrations is reached; updating an existing token never counts towards it. |
+| `503` | The service holds its maximum number of registrations; `Retry-After: 3600`, no body. New tokens only: updating an existing token still succeeds. |
 | `5xx` / no response | The app retries (see Retry policy). |
 
 ### `POST /v1/registration/delete`

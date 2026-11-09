@@ -11,20 +11,32 @@ public struct AppDependencies: Sendable {
     public var rateLimiter: RateLimiter
     /// Test notifications per token (contracts/alert-api.md).
     public var testRateLimiter: RateLimiter
+    /// New registrations across all clients, so many addresses together cannot flood the store.
+    /// Checked with the single key `newRegistrationKey`.
+    public var newRegistrationLimiter: RateLimiter
+    /// No new token is accepted while the store holds this many registrations.
+    public var maxRegistrations: Int
     public var zones: [AlertZone]
     /// For test notifications.
     public var pushSender: any PushSender
     public var apnsTopic: String
     public var now: @Sendable () -> Date
 
+    /// The one key of `newRegistrationLimiter`.
+    public static let newRegistrationKey = "new-registrations"
+
     public init(store: RegistrationStore, health: HealthStatus, rateLimiter: RateLimiter, zones: [AlertZone],
                 pushSender: any PushSender, apnsTopic: String,
                 testRateLimiter: RateLimiter = RateLimiter(limit: 3, window: 3_600),
+                newRegistrationLimiter: RateLimiter = RateLimiter(limit: 60, window: 60),
+                maxRegistrations: Int = 50_000,
                 now: @escaping @Sendable () -> Date = Date.init) {
         self.store = store
         self.health = health
         self.rateLimiter = rateLimiter
         self.testRateLimiter = testRateLimiter
+        self.newRegistrationLimiter = newRegistrationLimiter
+        self.maxRegistrations = maxRegistrations
         self.zones = zones
         self.pushSender = pushSender
         self.apnsTopic = apnsTopic
