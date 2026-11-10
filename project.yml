@@ -20,7 +20,7 @@ settings:
     STRING_CATALOG_GENERATE_SYMBOLS: NO
     ENABLE_USER_SCRIPT_SANDBOXING: YES
     # Shared by the app and the widget extension, which must carry the same versions.
-    MARKETING_VERSION: "4.1"
+    MARKETING_VERSION: "5.0"
     # Xcode Cloud replaces this with its build number (ci_scripts/ci_post_clone.sh).
     CURRENT_PROJECT_VERSION: "1"
 
