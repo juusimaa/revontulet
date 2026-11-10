@@ -19,6 +19,10 @@ settings:
     # Strings are looked up by key, not generated symbols; a key like "%@, %@" has no symbol name.
     STRING_CATALOG_GENERATE_SYMBOLS: NO
     ENABLE_USER_SCRIPT_SANDBOXING: YES
+    # Shared by the app and the widget extension, which must carry the same versions.
+    MARKETING_VERSION: "4.1"
+    # Xcode Cloud replaces this with its build number (ci_scripts/ci_post_clone.sh).
+    CURRENT_PROJECT_VERSION: "1"
 
 packages:
   AuroraCore:
@@ -36,6 +40,7 @@ targets:
       - path: Shared
     dependencies:
       - package: AuroraCore
+      - target: RevontuletWidgets
     settings:
       configs:
         # The alert service (contracts/alert-api.md): Release builds use the production instance,
@@ -50,13 +55,10 @@ targets:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: fi.juusimaa.revontulet
         PRODUCT_NAME: Revontulet
-        MARKETING_VERSION: "4.1"
-        # Xcode Cloud replaces this with its build number (ci_scripts/ci_post_clone.sh).
-        CURRENT_PROJECT_VERSION: "1"
         TARGETED_DEVICE_FAMILY: "1"
         GENERATE_INFOPLIST_FILE: YES
-        # Push for aurora alerts. Automatic signing switches aps-environment to production for
-        # TestFlight and App Store exports.
+        # Push for aurora alerts, and the App Group shared with the widgets. Automatic signing
+        # switches aps-environment to production for TestFlight and App Store exports.
         CODE_SIGN_ENTITLEMENTS: Revontulet/Revontulet.entitlements
         INFOPLIST_KEY_CFBundleDisplayName: Revontulet
         INFOPLIST_KEY_LSApplicationCategoryType: public.app-category.weather
@@ -70,6 +72,36 @@ targets:
         INFOPLIST_KEY_ITSAppUsesNonExemptEncryption: NO
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+
+  RevontuletWidgets:
+    type: app-extension
+    platform: iOS
+    sources:
+      - path: RevontuletWidgets
+        excludes:
+          - "Info.plist"
+      - path: Shared
+      - path: Revontulet/Resources/Localizable.xcstrings
+    dependencies:
+      - package: AuroraCore
+    info:
+      path: RevontuletWidgets/Info.plist
+      properties:
+        # XcodeGen writes 1.0 and 1 otherwise; the extension must match the app.
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.widgetkit-extension
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: fi.juusimaa.revontulet.widgets
+        PRODUCT_NAME: RevontuletWidgets
+        TARGETED_DEVICE_FAMILY: "1"
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_KEY_CFBundleDisplayName: Revontulet
+        # The App Group only (contracts/shared-storage.md).
+        CODE_SIGN_ENTITLEMENTS: RevontuletWidgets/RevontuletWidgets.entitlements
+        SKIP_INSTALL: YES
 
   RevontuletTests:
     type: bundle.unit-test
@@ -103,6 +135,7 @@ schemes:
     build:
       targets:
         Revontulet: all
+        RevontuletWidgets: all
         RevontuletTests: [test]
         RevontuletUITests: [test]
     run:

@@ -22,10 +22,10 @@
 
 - [x] T001 Enable the App Group `group.fi.juusimaa.revontulet` by hand in the developer portal on App ID `fi.juusimaa.revontulet` and create App ID `fi.juusimaa.revontulet.widgets` with the same App Group (otherwise the Xcode Cloud export fails with exit 70); note done in specs/004-ios-widgets/quickstart.md prerequisites
 - [x] T002 Create the `Shared/` group and move `Revontulet/Platform/FileResultCache.swift`, `Revontulet/Platform/FileOutlookCache.swift` and `Revontulet/MainScreen/CoreLabels.swift` into it with `git mv`, changing no behaviour yet
-- [ ] T003 Add the `RevontuletWidgets` app-extension target to `project.yml` (bundle id `fi.juusimaa.revontulet.widgets`, iOS 26, Swift 6 strict concurrency, depends on AuroraCore, sources `RevontuletWidgets/`, `Shared/` and `Revontulet/Resources/Localizable.xcstrings`), embed it in the `Revontulet` target, add `Shared/` to the app sources, and add `RevontuletWidgets` to the scheme build
-- [ ] T004 [P] Add the App Group entitlement to `Revontulet/Revontulet.entitlements` (keep `aps-environment`) and create `RevontuletWidgets/RevontuletWidgets.entitlements` with the App Group only, and point `CODE_SIGN_ENTITLEMENTS` at it in `project.yml`
-- [ ] T005 [P] Create `RevontuletWidgets/Resources/PrivacyInfo.xcprivacy` (no tracking, no collected data types, UserDefaults reason `CA92.1`; add file-timestamp or App Group reasons only if the build reports them)
-- [ ] T006 Add a minimal `@main` `WidgetBundle` in `RevontuletWidgets/RevontuletWidgetsBundle.swift` with one placeholder widget in `RevontuletWidgets/AuroraWidget.swift`; run `xcodegen generate` and confirm both targets build
+- [x] T003 Add the `RevontuletWidgets` app-extension target to `project.yml` (bundle id `fi.juusimaa.revontulet.widgets`, iOS 26, Swift 6 strict concurrency, depends on AuroraCore, sources `RevontuletWidgets/`, `Shared/` and `Revontulet/Resources/Localizable.xcstrings`), embed it in the `Revontulet` target, add `Shared/` to the app sources, and add `RevontuletWidgets` to the scheme build
+- [x] T004 [P] Add the App Group entitlement to `Revontulet/Revontulet.entitlements` (keep `aps-environment`) and create `RevontuletWidgets/RevontuletWidgets.entitlements` with the App Group only, and point `CODE_SIGN_ENTITLEMENTS` at it in `project.yml`
+- [x] T005 [P] Create `RevontuletWidgets/Resources/PrivacyInfo.xcprivacy` (no tracking, no collected data types, UserDefaults reason `CA92.1`; add file-timestamp or App Group reasons only if the build reports them)
+- [x] T006 Add a minimal `@main` `WidgetBundle` in `RevontuletWidgets/RevontuletWidgetsBundle.swift` with one placeholder widget in `RevontuletWidgets/AuroraWidget.swift`; run `xcodegen generate` and confirm both targets build
 
 ---
 
