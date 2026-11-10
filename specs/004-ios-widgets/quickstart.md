@@ -7,7 +7,8 @@ notes). Details of the contracts are in [contracts/](contracts/).
 ## 0. Prerequisites
 
 - App Group `group.fi.juusimaa.revontulet` enabled on both App IDs
-  ([contracts/shared-storage.md](contracts/shared-storage.md)).
+  ([contracts/shared-storage.md](contracts/shared-storage.md)). Done 2026-11-10: group registered,
+  added to `fi.juusimaa.revontulet`, App ID `fi.juusimaa.revontulet.widgets` created with it.
 - `xcodegen generate` after the `project.yml` change; open the generated project.
 
 ## 1. Core tests (no device)

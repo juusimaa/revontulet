@@ -32,6 +32,8 @@ targets:
       - path: Revontulet
         excludes:
           - "Config/*.plist"
+      # Compiled into the app and the widget extension.
+      - path: Shared
     dependencies:
       - package: AuroraCore
     settings:
