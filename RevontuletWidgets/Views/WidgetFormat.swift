@@ -17,6 +17,19 @@ enum WidgetFormat {
         String(localized: age(of: measuredAt, at: now)).replacingOccurrences(of: " ", with: "\u{00A0}")
     }
 
+    /// "<lead> · <age>" on one line. The lead truncates, never the age: it says how fresh the level is.
+    struct LeadAndAge: View {
+        let lead: String
+        let age: String
+
+        var body: some View {
+            HStack(spacing: 0) {
+                Text(verbatim: lead).lineLimit(1)
+                Text(verbatim: " · \(age)").lineLimit(1).layoutPriority(1)
+            }
+        }
+    }
+
     /// One VoiceOver sentence per state (contracts/widget-refresh.md, Accessibility):
     /// "<Level>, <reason>, <place>, <age>", or when stale "Old data, <age>, last level <Level>, <reason>, <place>".
     static func accessibilityLabel(for entry: AuroraEntry) -> String {

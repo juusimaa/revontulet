@@ -68,7 +68,7 @@ struct SmallView: View {
         .accessibilityLabel(WidgetFormat.accessibilityLabel(for: entry))
     }
 
-    /// Level word, then the reason (or "Old data · <age>" when stale), then place and age.
+    /// Level word, then the reason (or "Old data" when stale), then place and age.
     @ViewBuilder private func level(_ snapshot: WidgetSnapshot, stale: Bool) -> some View {
         let age = WidgetFormat.ageText(of: snapshot.measuredAt, at: entry.date)
         Text(snapshot.level.title)
@@ -78,16 +78,15 @@ struct SmallView: View {
             .lineLimit(1)
             .minimumScaleFactor(0.4)
             .fixedSize(horizontal: false, vertical: true)
-        Text(stale ? String(localized: "Old data · \(age)") : String(localized: snapshot.reason.title))
+        Text(stale ? String(localized: "Old data") : String(localized: snapshot.reason.title))
             .font(.subheadline.weight(.medium))
             .foregroundStyle(.white.opacity(0.88))
             .lineLimit(2)
             .padding(.top, 2)
-        Text(stale ? entry.placeName : "\(entry.placeName) · \(age)")
+        WidgetFormat.LeadAndAge(lead: entry.placeName, age: age)
             .font(.caption)
             .foregroundStyle(.white.opacity(0.7))
             .lineLimit(1)
-            .minimumScaleFactor(0.8)
             .padding(.top, 6)
     }
 

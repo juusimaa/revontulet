@@ -48,3 +48,17 @@
   - Privacy (T048): the extension contacts only opendata.fmi.fi and services.swpc.noaa.gov, has
     no location Info.plist keys and no CoreLocation symbols; both privacy manifests now give
     reason 1C8F.1 for the App Group UserDefaults. Archive privacy report not yet checked.
+- Simulator pass 2026-11-11 (T042, T050), iPhone 17 Pro, iOS 27:
+  - Every state (High, Moderate, Low, None, old data, no place, no data, gallery sample) in all five
+    families, in fi, sv and en, at the default size and at xxxLarge, rendered offscreen with an
+    18-letter place name. WidgetKit caps widget text near xxxLarge even at the largest
+    accessibility setting (checked against the real medium widget), so xxxLarge is the worst case.
+  - Fixed: the small and rectangular widgets lost the data age to truncation with a long place
+    name or reason. The place or reason now truncates and the age always shows; the small widget's
+    old-data line reads "Old data" with the age on the place line.
+  - Fixed: the inline widget drew no symbol. The custom `aurora` symbol had only Regular-M; it now
+    also has the Ultralight-S, Regular-S and Black-S interpolation sources and shows on the Lock
+    Screen.
+  - Lock Screen on the simulator: rectangular, circular and inline read well in vibrant mode.
+  - Still open: tinted Home Screen and always-on (phone), fresh-install network log and airplane
+    mode from quickstart section 4, and SC-001/003/006/008 (T052).

@@ -37,7 +37,6 @@ struct RectangularView: View {
                     bottomLine(snapshot)
                         .font(.caption)
                         .lineLimit(1)
-                        .minimumScaleFactor(0.7)
                 } else {
                     Text("No aurora data right now")
                         .font(.caption)
@@ -61,10 +60,10 @@ struct RectangularView: View {
         .opacity(0.75)
     }
 
-    private func bottomLine(_ snapshot: WidgetSnapshot) -> Text {
-        let age = WidgetFormat.ageText(of: snapshot.measuredAt, at: entry.date)
-        if snapshot.isStale { return Text("Old data · \(age)") }
-        return Text(verbatim: "\(String(localized: snapshot.reason.title)) · \(age)")
+    private func bottomLine(_ snapshot: WidgetSnapshot) -> some View {
+        WidgetFormat.LeadAndAge(
+            lead: snapshot.isStale ? String(localized: "Old data") : String(localized: snapshot.reason.title),
+            age: WidgetFormat.ageText(of: snapshot.measuredAt, at: entry.date))
     }
 }
 
