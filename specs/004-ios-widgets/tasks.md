@@ -123,10 +123,10 @@
 
 **Independent Test**: With five widgets reloading together there is one magnetometer request; fresh cache means none; app closed for an evening and the data time advances (quickstart section 5).
 
-- [ ] T043 [P] [US4] Extend `RevontuletTests/WidgetProviderTests.swift` with failing tests: stale cache triggers exactly one `AuroraService.refresh` for several concurrent loads; fresh cache triggers none; a failed or offline fetch leaves the stored result unchanged and still returns an entry from it; `force` is never set; the outlook is fetched only for `systemMedium`
-- [ ] T044 [US4] Create the `WidgetDataLoader` actor in `Shared/Widgets/WidgetDataLoader.swift` that owns the `AuroraService` and `OutlookService` (shared stores from `Shared/`), coalesces concurrent loads and applies `WidgetRefreshPolicy.resultNeedsFetch` / `outlookNeedsFetch` (research R1, R7)
-- [ ] T045 [US4] Wire `WidgetDataLoader` into `AuroraProvider`: fetch when due, never when no place is chosen (FR-021), return the cached entry if the time allowance runs short and cancel the fetch so nothing is written (contracts/widget-refresh.md); make T043 pass
-- [ ] T046 [US4] Set the timeline policy to `.after(WidgetRefreshPolicy.nextReload(after:at:))`, and `.after(now + 60 min)` when there is no place
+- [x] T043 [P] [US4] Extend `RevontuletTests/WidgetProviderTests.swift` with failing tests: stale cache triggers exactly one `AuroraService.refresh` for several concurrent loads; fresh cache triggers none; a failed or offline fetch leaves the stored result unchanged and still returns an entry from it; `force` is never set; the outlook is fetched only for `systemMedium`
+- [x] T044 [US4] Create the `WidgetDataLoader` actor in `Shared/Widgets/WidgetDataLoader.swift` that owns the `AuroraService` and `OutlookService` (shared stores from `Shared/`), coalesces concurrent loads and applies `WidgetRefreshPolicy.resultNeedsFetch` / `outlookNeedsFetch` (research R1, R7)
+- [x] T045 [US4] Wire `WidgetDataLoader` into `AuroraProvider`: fetch when due, never when no place is chosen (FR-021), return the cached entry if the time allowance runs short and cancel the fetch so nothing is written (contracts/widget-refresh.md); make T043 pass
+- [x] T046 [US4] Set the timeline policy to `.after(WidgetRefreshPolicy.nextReload(after:at:))`, and `.after(now + 60 min)` when there is no place
 - [ ] T047 [US4] Verify on the simulator and the phone (quickstart section 5): one request for several widgets, none when fresh, new place within 5 seconds of returning to the Home Screen, data time advancing over an evening with the app closed, stale look under Low Power Mode
 
 **Checkpoint**: widgets stay current without the app.
