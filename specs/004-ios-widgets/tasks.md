@@ -93,7 +93,7 @@
 - [x] T032 [P] [US2] Build `RevontuletWidgets/Views/RectangularView.swift`: gauge or glyph, level, reason and data age in at most three short lines, system vibrancy, accentable text
 - [x] T033 [P] [US2] Build `RevontuletWidgets/Views/InlineView.swift`: one line "Aurora: <Level>" (and the place if it fits); in the stale state the wording itself says "Old data" because the inline widget shows no age (FR-007)
 - [x] T034 [US2] Register `accessoryCircular`, `accessoryRectangular` and `accessoryInline` in `RevontuletWidgets/AuroraWidget.swift`, add the VoiceOver sentences, and check reduced-luminance and tinted looks plus the largest text sizes in fi, sv, en
-- [ ] T035 [US2] Run the Lock Screen part of quickstart section 3 on the simulator and the phone; save screenshots to specs/004-ios-widgets/ui-draft/screenshots/
+- [x] T035 [US2] Run the Lock Screen part of quickstart section 3 on the simulator and the phone; save screenshots to specs/004-ios-widgets/ui-draft/screenshots/
 
 **Checkpoint**: all five layouts render for current data.
 

@@ -18,17 +18,15 @@ struct RectangularView: View {
             }
             .opacity(0.75)
             if let snapshot = entry.snapshot {
-                let dim = snapshot.isStale ? 0.55 : 1.0
                 Text(snapshot.level.title)
                     .font(.headline.weight(.heavy))
                     .widgetAccentable()
                     .lineLimit(1)
                     .minimumScaleFactor(0.7)
-                    .opacity(dim)
                 HStack(spacing: 2) {
                     ForEach(1...4, id: \.self) { step in
                         if step <= snapshot.level.rawValue + 1 {
-                            Capsule().widgetAccentable().opacity(dim)
+                            Capsule().widgetAccentable()
                         } else {
                             Capsule().opacity(0.28)
                         }
@@ -38,6 +36,7 @@ struct RectangularView: View {
                 bottomLine(snapshot)
                     .font(.caption)
                     .lineLimit(1)
+                    .minimumScaleFactor(0.7)
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)

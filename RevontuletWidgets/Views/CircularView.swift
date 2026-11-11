@@ -15,7 +15,7 @@ struct CircularView: View {
                 let line = side * 5 / 72
                 ZStack {
                     RingArc(sweep: 0.75, line: line).opacity(0.3)
-                    RingArc(sweep: fill * 0.75, line: line).widgetAccentable().opacity(opacity)
+                    RingArc(sweep: fill * 0.75, line: line).widgetAccentable()
                     AuroraGlyph()
                         .frame(width: side * 0.4, height: side * 0.4)
                         .widgetAccentable()
@@ -36,7 +36,8 @@ struct CircularView: View {
         return Double(snapshot.level.rawValue + 1) / 4
     }
 
-    private var opacity: Double { entry.snapshot?.isStale == true ? 0.5 : 1 }
+    /// Old data dims only the glyph; the fill stays readable (the ring has no room for "Old data").
+    private var opacity: Double { entry.snapshot?.isStale == true ? 0.4 : 1 }
 }
 
 /// An arc starting at 135° (bottom left) sweeping clockwise by `sweep` of a full circle.
