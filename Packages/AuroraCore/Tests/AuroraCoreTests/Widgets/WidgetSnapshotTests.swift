@@ -60,6 +60,7 @@ struct WidgetSnapshotTests {
         #expect(s.cloudsIncluded == r.chance.cloudsIncluded)
         #expect(s.municipalityCode == "890")
         #expect(s.stationName == "Kevo")
+        #expect(s.activity == r.reading.activity)
         #expect(s.rValue == r.reading.r)
         #expect(s.measuredAt == Self.measuredAt)
     }

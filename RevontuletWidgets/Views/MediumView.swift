@@ -123,7 +123,7 @@ private struct MediumFacts: View {
     /// The same wording as the app's Soon line; nothing for Quiet and Unknown or when the app hides it.
     static func soonValue(_ snapshot: WidgetSnapshot) -> Text? {
         guard let soon = snapshot.soon, soon.showsOnMainScreen else { return nil }
-        return soon.line(headlineActivity: nil)
+        return soon.line(headlineActivity: snapshot.activity)
     }
 
     /// Tonight's level and reason, as in the app's outlook row.
@@ -142,7 +142,7 @@ private struct MediumFacts: View {
                     .foregroundStyle(.white)
             }
             if let soon = Self.soonValue(snapshot) {
-                MediumRow(label: Text("Soon"), value: soon)
+                MediumRow(label: Text("Soon"), value: soon, lines: 3)
             }
             if let tonight = Self.tonightValue(snapshot) {
                 MediumRow(label: Text("Tonight"), value: tonight)
@@ -160,6 +160,8 @@ private struct MediumFacts: View {
 private struct MediumRow: View {
     let label: Text
     let value: Text
+    /// The Soon sentence is the longest and must not be cut mid-word in Finnish.
+    var lines = 2
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -169,7 +171,7 @@ private struct MediumRow: View {
             value
                 .font(.caption.weight(.semibold))
                 .foregroundStyle(.white)
-                .lineLimit(2)
+                .lineLimit(lines)
                 .minimumScaleFactor(0.85)
         }
     }

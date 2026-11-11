@@ -77,7 +77,7 @@
 - [x] T027 [US1] Register `systemSmall` and `systemMedium` in `RevontuletWidgets/AuroraWidget.swift` with the gallery name and description, no `widgetURL` (a tap opens the app, FR-010)
 - [x] T028 [US1] Add the one-sentence VoiceOver label and hide the artwork and glyph from VoiceOver in both views (contracts/widget-refresh.md, Accessibility); check Dynamic Type up to the largest accessibility size and fi, sv, en (level word never truncated, place truncates first)
 - [x] T029 [US1] In `Revontulet/MainScreen/MainScreenModel.swift` call `WidgetCenter.shared.reloadAllTimelines()` after a result is stored and after the selection changes, skipping it when the new result equals the previous one in level, reason, municipality and `measuredAt` (research R11)
-- [ ] T030 [US1] Run quickstart section 3 on the simulator for the four levels and fix any layout or legibility finding; save screenshots to specs/004-ios-widgets/ui-draft/screenshots/
+- [x] T030 [US1] Run quickstart section 3 on the simulator for the four levels and fix any layout or legibility finding; save screenshots to specs/004-ios-widgets/ui-draft/screenshots/
 
 **Checkpoint**: small and medium widgets work from the cache and agree with the main screen.
 

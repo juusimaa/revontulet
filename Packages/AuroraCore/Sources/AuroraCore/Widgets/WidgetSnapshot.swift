@@ -9,14 +9,16 @@ public struct WidgetSnapshot: Sendable, Hashable {
     public var stationName: String
     public var rValue: Double?
     public var measuredAt: Date
+    /// FMI's activity wording for the reading; the Soon line words itself differently when it is probable.
+    public var activity: ActivityLevel?
     public var isStale: Bool
     public var soon: SoonSignal?
     public var tonight: NightOutlook?
 
     public init(
         level: ChanceLevel, reason: ChanceReason, cloudsIncluded: Bool, municipalityCode: String,
-        stationName: String, rValue: Double?, measuredAt: Date, isStale: Bool, soon: SoonSignal? = nil,
-        tonight: NightOutlook? = nil
+        stationName: String, rValue: Double?, measuredAt: Date, activity: ActivityLevel? = nil, isStale: Bool,
+        soon: SoonSignal? = nil, tonight: NightOutlook? = nil
     ) {
         self.level = level
         self.reason = reason
@@ -25,6 +27,7 @@ public struct WidgetSnapshot: Sendable, Hashable {
         self.stationName = stationName
         self.rValue = rValue
         self.measuredAt = measuredAt
+        self.activity = activity
         self.isStale = isStale
         self.soon = soon
         self.tonight = tonight
@@ -38,7 +41,7 @@ public struct WidgetSnapshot: Sendable, Hashable {
         return WidgetSnapshot(
             level: result.chance.level, reason: result.reason, cloudsIncluded: result.chance.cloudsIncluded,
             municipalityCode: code, stationName: result.reading.station.name, rValue: result.reading.r,
-            measuredAt: result.reading.measuredAt, isStale: result.isOutdated(now: now),
+            measuredAt: result.reading.measuredAt, activity: result.reading.activity, isStale: result.isOutdated(now: now),
             soon: matching?.soon, tonight: tonight)
     }
 }
