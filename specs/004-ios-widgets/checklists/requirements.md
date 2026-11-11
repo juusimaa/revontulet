@@ -47,7 +47,9 @@
     the device run of quickstart.md (T052).
   - Privacy (T048): the extension contacts only opendata.fmi.fi and services.swpc.noaa.gov, has
     no location Info.plist keys and no CoreLocation symbols; both privacy manifests now give
-    reason 1C8F.1 for the App Group UserDefaults. Archive privacy report not yet checked.
+    reason 1C8F.1 for the App Group UserDefaults. Archive privacy report (2026-11-11) lists only the
+    app's coarse location for alerts; the widget manifest is in the appex and declares no collected
+    data, so it adds no row (SC-007).
 - Simulator pass 2026-11-11 (T042, T050), iPhone 17 Pro, iOS 27:
   - Every state (High, Moderate, Low, None, old data, no place, no data, gallery sample) in all five
     families, in fi, sv and en, at the default size and at xxxLarge, rendered offscreen with an
