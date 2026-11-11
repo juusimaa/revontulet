@@ -15,7 +15,7 @@ struct WidgetSky: View {
                            startPoint: .top, endPoint: .bottom)
             Stars().opacity(0.8)
             AuroraCurtains(intensity: intensity, magenta: level == .high, phase: 0, framing: .widget)
-            LinearGradient(stops: [.init(color: .clear, location: 0.45), .init(color: Color(red: 0.004, green: 0.03, blue: 0.06).opacity(0.55), location: 1)],
+            LinearGradient(stops: [.init(color: .clear, location: 0.3), .init(color: Color(red: 0.004, green: 0.03, blue: 0.06).opacity(0.7), location: 1)],
                            startPoint: .top, endPoint: .bottom)
         }
         .accessibilityHidden(true)

@@ -2,15 +2,16 @@ import AuroraCore
 import SwiftUI
 import WidgetKit
 
-/// The inline Lock Screen widget: one line above the clock. It shows no age, so old data says so
+/// The inline Lock Screen widget: one line above the clock, with the aurora glyph as a custom symbol
+/// (inline widgets draw only text and symbols). It shows no age, so old data says so
 /// in the wording itself (FR-007).
 struct InlineView: View {
     let entry: AuroraEntry
 
     var body: some View {
         ViewThatFits {
-            Label { Text(full) } icon: { Image(systemName: "sparkles") }
-            Label { Text(short) } icon: { Image(systemName: "sparkles") }
+            Label { Text(full) } icon: { Image("aurora") }
+            Label { Text(short) } icon: { Image("aurora") }
         }
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(WidgetFormat.accessibilityLabel(for: entry))

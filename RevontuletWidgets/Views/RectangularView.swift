@@ -20,7 +20,7 @@ struct RectangularView: View {
                 header
                 if let snapshot = entry.snapshot {
                     Text(snapshot.level.title)
-                        .font(.headline.weight(.heavy))
+                        .font(.system(.headline, design: .rounded, weight: .heavy))
                         .widgetAccentable()
                         .lineLimit(1)
                         .minimumScaleFactor(0.7)
@@ -52,7 +52,7 @@ struct RectangularView: View {
 
     private var header: some View {
         HStack(spacing: 4) {
-            AuroraGlyph(level: entry.snapshot?.level)
+            AuroraGlyph()
                 .frame(width: 12, height: 12)
             Text(verbatim: entry.isSample ? "\(entry.placeName) · \(String(localized: "Sample"))" : entry.placeName)
                 .font(.caption2.weight(.semibold))
@@ -62,7 +62,7 @@ struct RectangularView: View {
     }
 
     private func bottomLine(_ snapshot: WidgetSnapshot) -> Text {
-        let age = String(localized: WidgetFormat.age(of: snapshot.measuredAt, at: entry.date))
+        let age = WidgetFormat.ageText(of: snapshot.measuredAt, at: entry.date)
         if snapshot.isStale { return Text("Old data · \(age)") }
         return Text(verbatim: "\(String(localized: snapshot.reason.title)) · \(age)")
     }

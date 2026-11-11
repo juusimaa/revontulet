@@ -1,13 +1,9 @@
 import SwiftUI
-import AuroraCore
 
 /// Vector aurora glyph (curtain with rays), translated from the `#aurora`
 /// symbol in the widget UI draft (16x16 viewBox, 1.5 stroke, round caps).
 /// Template style: draws with the current foreground style, so callers tint it.
 struct AuroraGlyph: View {
-    /// Kept for callers; the draft glyph does not vary with the level.
-    var level: ChanceLevel? = nil
-
     var body: some View {
         GeometryReader { proxy in
             let side = min(proxy.size.width, proxy.size.height)

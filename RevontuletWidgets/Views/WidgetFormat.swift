@@ -12,6 +12,11 @@ enum WidgetFormat {
         return "\(minutes / (60 * 24)) d ago"
     }
 
+    /// The age for display: spaces made non-breaking so "10 t sitten" never splits across lines.
+    static func ageText(of measuredAt: Date, at now: Date) -> String {
+        String(localized: age(of: measuredAt, at: now)).replacingOccurrences(of: " ", with: "\u{00A0}")
+    }
+
     /// One VoiceOver sentence per state (contracts/widget-refresh.md, Accessibility):
     /// "<Level>, <reason>, <place>, <age>", or when stale "Old data, <age>, last level <Level>, <reason>, <place>".
     static func accessibilityLabel(for entry: AuroraEntry) -> String {

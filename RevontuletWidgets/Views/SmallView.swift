@@ -1,5 +1,6 @@
 import AuroraCore
 import SwiftUI
+import WidgetKit
 
 /// The level colours of the widget draft (L-high / L-mod / L-low / L-none). The app has no shared
 /// level tint (its main screen draws the level in white over the sky), so they live here; the
@@ -29,9 +30,10 @@ struct SmallView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             HStack(alignment: .top) {
-                AuroraGlyph(level: entry.snapshot?.level)
+                AuroraGlyph()
                     .frame(width: 16, height: 16)
                     .foregroundStyle(tint)
+                    .widgetAccentable()
                 if entry.isSample {
                     Spacer(minLength: 4)
                     WidgetSampleBadge()
@@ -68,10 +70,11 @@ struct SmallView: View {
 
     /// Level word, then the reason (or "Old data · <age>" when stale), then place and age.
     @ViewBuilder private func level(_ snapshot: WidgetSnapshot, stale: Bool) -> some View {
-        let age = String(localized: WidgetFormat.age(of: snapshot.measuredAt, at: entry.date))
+        let age = WidgetFormat.ageText(of: snapshot.measuredAt, at: entry.date)
         Text(snapshot.level.title)
             .font(.system(.title, design: .rounded, weight: .heavy))
             .foregroundStyle(tint)
+            .widgetAccentable()
             .lineLimit(1)
             .minimumScaleFactor(0.4)
             .fixedSize(horizontal: false, vertical: true)

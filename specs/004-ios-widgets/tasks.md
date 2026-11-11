@@ -138,7 +138,7 @@
 - [ ] T048 [P] Verify the privacy gates in quickstart section 6: the extension links no CoreLocation, makes only the app's FMI and NOAA requests, an archive build's privacy report shows no new collected data; update `docs/privacy.md` to mention the widgets read the stored place on the device only
 - [x] T049 [P] Update the App Store texts and screenshots plan for widgets in `docs/` (what the widgets show, nothing collected)
 - [ ] T050 Review all five layouts once more against the checks in spec.md SC-001 to SC-008 (largest text, fi, sv, en, tinted, always-on) and record the result in specs/004-ios-widgets/checklists/requirements.md notes
-- [ ] T051 Bump `MARKETING_VERSION` in `project.yml` to `5.0` on the branch before the first TestFlight checkpoint (release flow), run a full `xcodebuild test` and confirm the Xcode Cloud export succeeds with the new App ID and App Group
+- [x] T051 Bump `MARKETING_VERSION` in `project.yml` to `5.0` on the branch before the first TestFlight checkpoint (release flow), run a full `xcodebuild test` and confirm the Xcode Cloud export succeeds with the new App ID and App Group
 - [ ] T052 Run the whole quickstart.md end to end on the phone with `DEVELOPMENT_TEAM=ET83UX2UD2` and tick the scenarios off
 
 ---

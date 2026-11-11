@@ -1,5 +1,6 @@
 import AuroraCore
 import SwiftUI
+import WidgetKit
 
 /// The medium Home Screen widget (specs/004-ios-widgets, FR-004): the headline on the left, the R value
 /// with its station and the Soon and Tonight outlook on the right. The sky is drawn by the caller in
@@ -10,7 +11,7 @@ struct MediumView: View {
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     var body: some View {
-        HStack(spacing: 14) {
+        HStack(alignment: .bottom, spacing: 14) {
             MediumHeadline(entry: entry)
                 .frame(maxWidth: .infinity, alignment: .leading)
             // At accessibility sizes the headline needs the whole width; no facts without a reading.
@@ -21,6 +22,8 @@ struct MediumView: View {
                     .padding(.vertical, 2)
                 MediumFacts(snapshot: snapshot, now: entry.date)
                     .frame(maxWidth: .infinity, alignment: .leading)
+                    // Old facts must not read as current: dimmed like the labels.
+                    .opacity(snapshot.isStale ? 0.62 : 1)
             }
         }
         .accessibilityElement(children: .ignore)
@@ -53,9 +56,10 @@ private struct MediumHeadline: View {
         let tint = (entry.snapshot?.level ?? .none).widgetTint
         VStack(alignment: .leading, spacing: 0) {
             HStack(alignment: .top) {
-                AuroraGlyph(level: entry.snapshot?.level)
+                AuroraGlyph()
                     .frame(width: 16, height: 16)
                     .foregroundStyle(tint)
+                    .widgetAccentable()
                 if entry.isSample {
                     Spacer(minLength: 4)
                     WidgetSampleBadge()
@@ -86,10 +90,11 @@ private struct MediumHeadline: View {
     }
 
     @ViewBuilder private func level(_ snapshot: WidgetSnapshot, tint: Color) -> some View {
-        let age = String(localized: WidgetFormat.age(of: snapshot.measuredAt, at: entry.date))
+        let age = WidgetFormat.ageText(of: snapshot.measuredAt, at: entry.date)
         Text(snapshot.level.title)
-            .font(.title.weight(.heavy))
+            .font(.system(.title, design: .rounded, weight: .heavy))
             .foregroundStyle(tint)
+            .widgetAccentable()
             .lineLimit(1)
             .minimumScaleFactor(0.5)
         Text(entry.isStale ? String(localized: "Old data · \(age)") : String(localized: snapshot.reason.title))

@@ -19,8 +19,8 @@ struct AuroraCurtains: View {
 
         /// The full-screen sky: curtains in the upper half.
         static let screen = Framing(baselines: [0.36, 0.27], heightScale: 1, blur: 10)
-        /// Widgets are short, so the curtains hang lower with longer rays (from the widget draft).
-        static let widget = Framing(baselines: [0.62, 0.52], heightScale: 1.3, blur: 5)
+        /// Widgets are short, so the rays are longer; the curtains end above the level word so it keeps its contrast.
+        static let widget = Framing(baselines: [0.44, 0.36], heightScale: 1.3, blur: 5)
     }
 
     private struct Curtain {
