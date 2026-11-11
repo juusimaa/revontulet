@@ -7,15 +7,15 @@ enum PlaceSelection: Sendable, Hashable {
     case municipality(code: String)
 }
 
-/// Remembers the place selection across launches (FR-010). Stays on the device.
-@MainActor
+/// Remembers the place selection across launches (FR-010) in the App Group suite, so the widgets
+/// read the same value. Stays on the device. Only the app writes it; the extension only reads.
 final class PlaceSelectionStore {
-    private static let key = "placeSelection"
-    private static let currentLocationValue = "currentLocation"
+    static let key = "placeSelection"
+    static let currentLocationValue = "currentLocation"
 
     private let defaults: UserDefaults
 
-    init(defaults: UserDefaults = .standard) {
+    init(defaults: UserDefaults = AppGroup.defaults) {
         self.defaults = defaults
     }
 

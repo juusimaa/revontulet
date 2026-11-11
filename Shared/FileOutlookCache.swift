@@ -1,7 +1,7 @@
 import AuroraCore
 import Foundation
 
-/// Keeps the last outlook snapshot as a JSON file in Application Support, separate from the
+/// Keeps the last outlook snapshot as a JSON file in the App Group container, separate from the
 /// headline's cache, so an unreadable snapshot never affects the headline. Written atomically,
 /// stays on the device and is excluded from backups.
 struct FileOutlookCache: OutlookCache {
@@ -12,7 +12,7 @@ struct FileOutlookCache: OutlookCache {
     }
 
     static var defaultURL: URL {
-        URL.applicationSupportDirectory.appending(path: "last-outlook.json")
+        AppGroup.containerURL.appending(path: "last-outlook.json")
     }
 
     func load() async -> OutlookSnapshot? {
