@@ -1928,6 +1928,29 @@
         }
       }
     },
+    "How likely you are to see aurora from your place": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "How likely you are to see aurora from your place"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kuinka todennäköisesti näet revontulia paikassasi"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hur sannolikt det är att du ser norrsken där du är"
+          }
+        }
+      }
+    },
     "Just now": {
       "extractionState": "manual",
       "localizations": {
