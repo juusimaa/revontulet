@@ -27,7 +27,7 @@ struct AuroraProvider: TimelineProvider {
         loadOutlook: @escaping @Sendable () async -> OutlookSnapshot? = { await FileOutlookCache().load() },
         fetchResult: @escaping @Sendable (Place, Date) async -> AuroraResult? = { await WidgetDataLoader.shared.result(for: $0, at: $1) },
         fetchOutlook: @escaping @Sendable (Place, Date) async -> OutlookSnapshot? = { await WidgetDataLoader.shared.outlook(for: $0, at: $1) },
-        cancelFetch: @escaping @Sendable () async -> Void = { await WidgetDataLoader.shared.cancel() },
+        cancelFetch: @escaping @Sendable () async -> Void = AuroraProvider.cancelSharedFetch,
         fetchBudget: TimeInterval = AuroraProvider.fetchBudget,
         readSelection: @escaping @Sendable () -> PlaceSelection = { PlaceSelectionStore().selection },
         now: @escaping @Sendable () -> Date = { Date() },
@@ -43,6 +43,10 @@ struct AuroraProvider: TimelineProvider {
         self.now = now
         self.prefersSwedish = prefersSwedish
     }
+
+    /// Not an inline default-argument closure: Swift 6.4 skips actor-isolation checks there and wrongly warns
+    /// that the needed `await` is unnecessary.
+    private static func cancelSharedFetch() async { await WidgetDataLoader.shared.cancel() }
 
     /// The redacted loading layout: the sample, which WidgetKit draws redacted.
     func placeholder(in context: Context) -> AuroraEntry {
