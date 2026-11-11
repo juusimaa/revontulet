@@ -874,6 +874,29 @@
         }
       }
     },
+    "Aurora: %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aurora: %@"
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Revontulet: %@"
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Norrsken: %@"
+          }
+        }
+      }
+    },
     "Auroras in Finland now": {
       "extractionState": "manual",
       "localizations": {
