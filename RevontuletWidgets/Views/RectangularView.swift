@@ -9,39 +9,56 @@ struct RectangularView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 2) {
-            HStack(spacing: 4) {
-                AuroraGlyph(level: entry.snapshot?.level)
-                    .frame(width: 12, height: 12)
-                Text(entry.placeName)
-                    .font(.caption2.weight(.semibold))
-                    .lineLimit(1)
-            }
-            .opacity(0.75)
-            if let snapshot = entry.snapshot {
-                Text(snapshot.level.title)
-                    .font(.headline.weight(.heavy))
-                    .widgetAccentable()
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.7)
-                HStack(spacing: 2) {
-                    ForEach(1...4, id: \.self) { step in
-                        if step <= snapshot.level.rawValue + 1 {
-                            Capsule().widgetAccentable()
-                        } else {
-                            Capsule().opacity(0.28)
+            if entry.state == .noPlace {
+                HStack(alignment: .top, spacing: 4) {
+                    AuroraGlyph().frame(width: 12, height: 12).padding(.top, 2)
+                    Text("Open Revontulet to choose a place")
+                        .font(.caption.weight(.semibold))
+                        .lineLimit(3)
+                }
+            } else {
+                header
+                if let snapshot = entry.snapshot {
+                    Text(snapshot.level.title)
+                        .font(.headline.weight(.heavy))
+                        .widgetAccentable()
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.7)
+                    HStack(spacing: 2) {
+                        ForEach(1...4, id: \.self) { step in
+                            if step <= snapshot.level.rawValue + 1 {
+                                Capsule().widgetAccentable()
+                            } else {
+                                Capsule().opacity(0.28)
+                            }
                         }
                     }
+                    .frame(height: 4)
+                    bottomLine(snapshot)
+                        .font(.caption)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.7)
+                } else {
+                    Text("No aurora data right now")
+                        .font(.caption)
+                        .lineLimit(2)
                 }
-                .frame(height: 4)
-                bottomLine(snapshot)
-                    .font(.caption)
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.7)
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(WidgetFormat.accessibilityLabel(for: entry))
+    }
+
+    private var header: some View {
+        HStack(spacing: 4) {
+            AuroraGlyph(level: entry.snapshot?.level)
+                .frame(width: 12, height: 12)
+            Text(verbatim: entry.isSample ? "\(entry.placeName) · \(String(localized: "Sample"))" : entry.placeName)
+                .font(.caption2.weight(.semibold))
+                .lineLimit(1)
+        }
+        .opacity(0.75)
     }
 
     private func bottomLine(_ snapshot: WidgetSnapshot) -> Text {
@@ -52,18 +69,25 @@ struct RectangularView: View {
 }
 
 #if DEBUG
-private func rectanglePreview(stale: Bool) -> some View {
-    let now = Date(timeIntervalSince1970: 1_800_000_000)
-    let snapshot = WidgetSnapshot(
-        level: .moderate, reason: .goodConditions, cloudsIncluded: true, municipalityCode: "000",
-        stationName: "Sample station", rValue: 100, measuredAt: now.addingTimeInterval(stale ? -7200 : -720),
-        isStale: stale)
-    return RectangularView(entry: AuroraEntry(date: now, snapshot: snapshot, placeName: "Sampletown"))
+private func rectanglePreview(_ state: WidgetState, place: String = "Sampletown") -> some View {
+    RectangularView(entry: AuroraEntry(date: previewNow, state: state, placeName: place))
         .frame(width: 160, height: 72)
         .background(.black)
         .foregroundStyle(.white)
 }
 
-#Preview("Moderate") { rectanglePreview(stale: false) }
-#Preview("Moderate stale") { rectanglePreview(stale: true) }
+private let previewNow = Date(timeIntervalSince1970: 1_800_000_000)
+
+private func previewSnapshot(stale: Bool) -> WidgetSnapshot {
+    WidgetSnapshot(
+        level: .moderate, reason: .goodConditions, cloudsIncluded: true, municipalityCode: "000",
+        stationName: "Sample station", rValue: 100, measuredAt: previewNow.addingTimeInterval(stale ? -7200 : -720),
+        isStale: stale)
+}
+
+#Preview("Current") { rectanglePreview(.current(previewSnapshot(stale: false))) }
+#Preview("Stale") { rectanglePreview(.stale(previewSnapshot(stale: true))) }
+#Preview("No place") { rectanglePreview(.noPlace, place: "") }
+#Preview("No data") { rectanglePreview(.noData) }
+#Preview("Sample") { rectanglePreview(.sample, place: "Rovaniemi") }
 #endif

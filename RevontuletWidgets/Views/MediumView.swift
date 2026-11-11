@@ -10,25 +10,11 @@ struct MediumView: View {
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     var body: some View {
-        Group {
-            if let snapshot = entry.snapshot {
-                content(snapshot)
-            } else {
-                fallback
-            }
-        }
-        .accessibilityElement(children: .ignore)
-        .accessibilityLabel(accessibilityText)
-    }
-
-    // MARK: Layout
-
-    private func content(_ snapshot: WidgetSnapshot) -> some View {
         HStack(spacing: 14) {
-            MediumHeadline(entry: entry, snapshot: snapshot)
+            MediumHeadline(entry: entry)
                 .frame(maxWidth: .infinity, alignment: .leading)
-            // At accessibility sizes the headline needs the whole width.
-            if !dynamicTypeSize.isAccessibilitySize {
+            // At accessibility sizes the headline needs the whole width; no facts without a reading.
+            if let snapshot = entry.snapshot, !dynamicTypeSize.isAccessibilitySize {
                 Rectangle()
                     .fill(.white.opacity(0.14))
                     .frame(width: 1)
@@ -37,19 +23,8 @@ struct MediumView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
         }
-    }
-
-    /// No snapshot yet: glyph and place only. The real no-data designs come with US3.
-    private var fallback: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            AuroraGlyph().frame(width: 18, height: 18)
-                .foregroundStyle(MediumPalette.color(for: nil))
-            Text(entry.placeName)
-                .font(.headline)
-                .lineLimit(2)
-                .foregroundStyle(.white)
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(accessibilityText)
     }
 
     // MARK: VoiceOver
@@ -69,42 +44,73 @@ struct MediumView: View {
 
 // MARK: Headline
 
-/// Glyph, level word, reason and "place · age". The level word comes first and largest and never
-/// truncates; the place truncates before the reason.
+/// Glyph, level word, reason and "place · age", or the message of the no-place and no-data states.
+/// The level word comes first and largest and never truncates; the place truncates before the reason.
 private struct MediumHeadline: View {
     let entry: AuroraEntry
-    let snapshot: WidgetSnapshot
 
     var body: some View {
-        let tint = MediumPalette.color(for: snapshot.level)
+        let tint = (entry.snapshot?.level ?? .none).widgetTint
         VStack(alignment: .leading, spacing: 0) {
-            AuroraGlyph(level: snapshot.level)
-                .frame(width: 16, height: 16)
-                .foregroundStyle(tint)
+            HStack(alignment: .top) {
+                AuroraGlyph(level: entry.snapshot?.level)
+                    .frame(width: 16, height: 16)
+                    .foregroundStyle(tint)
+                if entry.isSample {
+                    Spacer(minLength: 4)
+                    WidgetSampleBadge()
+                }
+            }
             Spacer(minLength: 2)
-            Text(snapshot.level.title)
-                .font(.title.weight(.heavy))
-                .foregroundStyle(tint)
-                .lineLimit(1)
-                .minimumScaleFactor(0.5)
-            Text(snapshot.reason.title)
-                .font(.footnote.weight(.medium))
-                .foregroundStyle(.white.opacity(0.88))
-                .lineLimit(2)
-                .padding(.top, 1)
-            HStack(spacing: 0) {
+            switch entry.state {
+            case .current, .stale, .sample:
+                if let snapshot = entry.snapshot { level(snapshot, tint: tint) }
+            case .noPlace:
+                Text("Open Revontulet to choose a place")
+                    .font(.headline)
+                    .foregroundStyle(.white.opacity(0.88))
+                    .lineLimit(3)
+                    .minimumScaleFactor(0.8)
+            case .noData:
                 Text(entry.placeName)
+                    .font(.headline)
+                    .foregroundStyle(.white)
                     .lineLimit(1)
-                    .truncationMode(.tail)
+                Text("No aurora data right now")
+                    .font(.footnote.weight(.medium))
+                    .foregroundStyle(.white.opacity(0.88))
+                    .lineLimit(3)
+                    .padding(.top, 1)
+            }
+        }
+    }
+
+    @ViewBuilder private func level(_ snapshot: WidgetSnapshot, tint: Color) -> some View {
+        let age = String(localized: WidgetFormat.age(of: snapshot.measuredAt, at: entry.date))
+        Text(snapshot.level.title)
+            .font(.title.weight(.heavy))
+            .foregroundStyle(tint)
+            .lineLimit(1)
+            .minimumScaleFactor(0.5)
+        Text(entry.isStale ? String(localized: "Old data · \(age)") : String(localized: snapshot.reason.title))
+            .font(.footnote.weight(.medium))
+            .foregroundStyle(.white.opacity(0.88))
+            .lineLimit(2)
+            .padding(.top, 1)
+        HStack(spacing: 0) {
+            Text(entry.placeName)
+                .lineLimit(1)
+                .truncationMode(.tail)
+            if !entry.isStale {
                 Text(" · ").fixedSize()
-                Text(WidgetFormat.age(of: snapshot.measuredAt, at: entry.date))
+                Text(age)
                     .lineLimit(1)
                     .layoutPriority(1)
             }
-            .font(.caption2)
-            .foregroundStyle(.white.opacity(0.7))
-            .padding(.top, 5)
         }
+        .font(.caption2)
+        .foregroundStyle(.white.opacity(0.7))
+        .padding(.top, 5)
     }
 }
 
@@ -122,7 +128,8 @@ private struct MediumFacts: View {
 
     /// The same wording as the app's Soon line; nothing for Quiet and Unknown or when the app hides it.
     static func soonValue(_ snapshot: WidgetSnapshot) -> Text? {
-        guard let soon = snapshot.soon, soon.showsOnMainScreen else { return nil }
+        // An old "Soon" is a claim about a moment already past, so old data never shows it.
+        guard !snapshot.isStale, let soon = snapshot.soon, soon.showsOnMainScreen else { return nil }
         return soon.line(headlineActivity: snapshot.activity)
     }
 
@@ -177,21 +184,6 @@ private struct MediumRow: View {
     }
 }
 
-// MARK: Colours
-
-/// The four level colours from the widget UI draft (the app has no shared level tint). The level is
-/// always also written as a word.
-private enum MediumPalette {
-    static func color(for level: ChanceLevel?) -> Color {
-        switch level {
-        case .high: Color(red: 1.0, green: 0.435, blue: 0.847)      // #ff6fd8
-        case .moderate: Color(red: 0.365, green: 1.0, blue: 0.69)   // #5dffb0
-        case .low: Color(red: 1.0, green: 0.827, blue: 0.42)        // #ffd36b
-        case ChanceLevel.none?, nil: Color(red: 0.725, green: 0.776, blue: 0.8) // #b9c6cc
-        }
-    }
-}
-
 // MARK: Previews
 
 #if DEBUG
@@ -206,7 +198,7 @@ private func mediumSample(_ level: ChanceLevel, reason: ChanceReason, r: Double?
         rValue: r, measuredAt: now.addingTimeInterval(-12 * 60), isStale: false,
         soon: outlook ? SoonSignal(state: .likely, arrivalMinutes: 30, showsOnMainScreen: true) : nil,
         tonight: outlook ? tonight : nil)
-    return AuroraEntry(date: now, snapshot: snapshot, placeName: "Faketown")
+    return AuroraEntry(date: now, state: .current(snapshot), placeName: "Faketown")
 }
 
 private struct MediumPreviewFrame: View {
@@ -215,7 +207,7 @@ private struct MediumPreviewFrame: View {
         MediumView(entry: entry)
             .padding(.horizontal, 16).padding(.vertical, 14)
             .frame(width: 338, height: 158)
-            .background { WidgetSky(level: entry.snapshot?.level) }
+            .background { SmallView.background(for: entry) }
             .clipShape(.rect(cornerRadius: 26))
     }
 }
@@ -224,4 +216,11 @@ private struct MediumPreviewFrame: View {
 #Preview("Moderate") { MediumPreviewFrame(entry: mediumSample(.moderate, reason: .goodConditions)) }
 #Preview("Low, no clouds") { MediumPreviewFrame(entry: mediumSample(.low, reason: .lowActivity, clouds: false)) }
 #Preview("None, no outlook") { MediumPreviewFrame(entry: mediumSample(.none, reason: .tooLight, r: nil, outlook: false)) }
+#Preview("Stale") {
+    let entry = mediumSample(.moderate, reason: .goodConditions)
+    MediumPreviewFrame(entry: AuroraEntry(date: entry.date, state: .stale(entry.snapshot!), placeName: entry.placeName))
+}
+#Preview("No place") { MediumPreviewFrame(entry: AuroraEntry(date: .now, state: .noPlace, placeName: "")) }
+#Preview("No data") { MediumPreviewFrame(entry: AuroraEntry(date: .now, state: .noData, placeName: "Faketown")) }
+#Preview("Sample") { MediumPreviewFrame(entry: .sample(at: .now)) }
 #endif

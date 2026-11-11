@@ -12,12 +12,24 @@ enum WidgetFormat {
         return "\(minutes / (60 * 24)) d ago"
     }
 
-    /// "<Level>, <reason>, <place>, <age>" (contracts/widget-refresh.md, Accessibility).
+    /// One VoiceOver sentence per state (contracts/widget-refresh.md, Accessibility):
+    /// "<Level>, <reason>, <place>, <age>", or when stale "Old data, <age>, last level <Level>, <reason>, <place>".
     static func accessibilityLabel(for entry: AuroraEntry) -> String {
-        guard let snapshot = entry.snapshot else { return entry.placeName }
-        let level = String(localized: snapshot.level.title)
-        let reason = String(localized: snapshot.reason.title)
-        let age = String(localized: age(of: snapshot.measuredAt, at: entry.date))
-        return String(localized: "\(level), \(reason), \(entry.placeName), \(age)")
+        switch entry.state {
+        case .noPlace:
+            return String(localized: "Open Revontulet to choose a place")
+        case .noData:
+            return [entry.placeName, String(localized: "No aurora data right now")]
+                .filter { !$0.isEmpty }.joined(separator: ", ")
+        case .current, .stale, .sample:
+            guard let snapshot = entry.snapshot else { return entry.placeName }
+            let level = String(localized: snapshot.level.title)
+            let reason = String(localized: snapshot.reason.title)
+            let age = String(localized: age(of: snapshot.measuredAt, at: entry.date))
+            let sentence = snapshot.isStale
+                ? String(localized: "Old data, \(age), last level \(level), \(reason), \(entry.placeName)")
+                : String(localized: "\(level), \(reason), \(entry.placeName), \(age)")
+            return entry.isSample ? "\(String(localized: "Sample")), \(sentence)" : sentence
+        }
     }
 }

@@ -33,6 +33,27 @@ struct WidgetSky: View {
     }
 }
 
+extension AuroraEntry {
+    /// Old data: the sky is dimmed and the views say so in words.
+    var isStale: Bool {
+        if case .stale = state { true } else { false }
+    }
+}
+
+/// The small "Sample" marker the gallery and placeholder entries carry, so they never pass as real data.
+struct WidgetSampleBadge: View {
+    var body: some View {
+        Text("Sample")
+            .font(.caption2.weight(.semibold))
+            .foregroundStyle(.white)
+            .padding(.horizontal, 6)
+            .padding(.vertical, 2)
+            .background(.white.opacity(0.22), in: .capsule)
+            .lineLimit(1)
+            .fixedSize()
+    }
+}
+
 /// A fixed, deterministic star field, densest at the top.
 private struct Stars: View {
     var body: some View {

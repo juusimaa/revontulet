@@ -71,7 +71,7 @@
 
 - [x] T022 [US1] Spike (do first): render `AuroraCurtains` with 5 px blur and `screen` blend inside a `containerBackground(for: .widget)` in `RevontuletWidgets/Views/WidgetSky.swift`, check on the simulator that `Canvas` plus blur renders and stays within memory; if not, switch to an `ImageRenderer` still image carried in the entry (research R3) and record the outcome in specs/004-ios-widgets/research.md R3
 - [x] T023 [P] [US1] Create the vector aurora glyph (curtain with rays, option A) in `RevontuletWidgets/Views/AuroraGlyph.swift`, tintable by level, matching specs/004-ios-widgets/ui-draft/widgets.html
-- [x] T024 [P] [US1] Create the shell entry and a cache-only `AuroraProvider` in `RevontuletWidgets/AuroraProvider.swift`: read the shared selection and result cache, build the place per contracts/widget-refresh.md (municipality via `MunicipalityNames`, current location via the cached result's place), build `WidgetSnapshot.make` and one entry; the "same municipality" rule applies to the outlook
+- [x] T024 [P] [US1] Create the shell entry and a cache-only `AuroraProvider` in `Shared/Widgets/AuroraProvider.swift`: read the shared selection and result cache, build the place per contracts/widget-refresh.md (municipality via `MunicipalityNames`, current location via the cached result's place), build `WidgetSnapshot.make` and one entry; the "same municipality" rule applies to the outlook
 - [x] T025 [US1] Build `RevontuletWidgets/Views/SmallView.swift`: glyph in the top line tinted by level, level word first and largest, reason second, place and data age last; sky from `WidgetSky` with the bottom fade; `ios-ui-craft` screenshot loop in light, dark, tinted and clear icon styles; level never by colour alone
 - [x] T026 [US1] Build `RevontuletWidgets/Views/MediumView.swift`: the small widget's headline on the left, R value with station, Soon and Tonight on the right, "clouds not included" note when `cloudsIncluded` is false; omit the outlook rows when `soon` and `tonight` are nil
 - [x] T027 [US1] Register `systemSmall` and `systemMedium` in `RevontuletWidgets/AuroraWidget.swift` with the gallery name and description, no `widgetURL` (a tap opens the app, FR-010)
@@ -105,12 +105,12 @@
 
 **Independent Test**: Fresh install shows "Open Revontulet to choose a place"; ageing past 30 min shows the dimmed "Old data"; airplane mode keeps the last result marked; gallery shows a clearly labelled sample (quickstart section 4).
 
-- [ ] T036 [P] [US3] Write failing provider tests in `RevontuletTests/WidgetProviderTests.swift` (stub `HTTPClient`, injected clock, temporary stores): no selection and no cache gives `noPlace` and no network request; a result older than "older than 30 min" gives `stale`; a no-data result gives `noData`; a result for an out-of-coverage place gives `noPlace`
-- [ ] T037 [US3] Add the `WidgetState` enum (`current`, `stale`, `noPlace`, `noData`, `placeholder`/`sample`) to `RevontuletWidgets/AuroraProvider.swift` and make the provider choose it per data-model.md; make T036 pass
-- [ ] T038 [P] [US3] Add the stale look to `WidgetSky` and the views: artwork dimmed to 20% of its level strength, text at full contrast, "Old data" and age, in all five layouts
-- [ ] T039 [P] [US3] Design the `noPlace` and `noData` layouts in all five families (the app's no-data and out-of-coverage wording, no level, glyph kept so the widget stays recognisable); `ios-ui-craft` screenshot loop
-- [ ] T040 [US3] Implement `getSnapshot` and `placeholder`: in the gallery (`context.isPreview`) show a plausible sample marked as a sample; placeholder uses a redacted layout
-- [ ] T041 [US3] Add a second timeline entry at `WidgetRefreshPolicy.staleMoment(measuredAt:)` when it is in the future so the stale look appears without a reload; extend T036 to check the entries
+- [x] T036 [P] [US3] Write failing provider tests in `RevontuletTests/WidgetProviderTests.swift` (stub `HTTPClient`, injected clock, temporary stores): no selection and no cache gives `noPlace` and no network request; a result older than "older than 30 min" gives `stale`; a no-data result gives `noData`; a result for an out-of-coverage place gives `noPlace`
+- [x] T037 [US3] Add the `WidgetState` enum (`current`, `stale`, `noPlace`, `noData`, `placeholder`/`sample`) to `Shared/Widgets/AuroraProvider.swift` and make the provider choose it per data-model.md; make T036 pass
+- [x] T038 [P] [US3] Add the stale look to `WidgetSky` and the views: artwork dimmed to 20% of its level strength, text at full contrast, "Old data" and age, in all five layouts
+- [x] T039 [P] [US3] Design the `noPlace` and `noData` layouts in all five families (the app's no-data and out-of-coverage wording, no level, glyph kept so the widget stays recognisable); `ios-ui-craft` screenshot loop
+- [x] T040 [US3] Implement `getSnapshot` and `placeholder`: in the gallery (`context.isPreview`) show a plausible sample marked as a sample; placeholder uses a redacted layout
+- [x] T041 [US3] Add a second timeline entry at `WidgetRefreshPolicy.staleMoment(measuredAt:)` when it is in the future so the stale look appears without a reload; extend T036 to check the entries
 - [ ] T042 [US3] Run quickstart section 4 (all states, all families, three languages, largest text size) and fix findings
 
 **Checkpoint**: no state leaves a blank or misleading tile.
@@ -124,7 +124,7 @@
 **Independent Test**: With five widgets reloading together there is one magnetometer request; fresh cache means none; app closed for an evening and the data time advances (quickstart section 5).
 
 - [ ] T043 [P] [US4] Extend `RevontuletTests/WidgetProviderTests.swift` with failing tests: stale cache triggers exactly one `AuroraService.refresh` for several concurrent loads; fresh cache triggers none; a failed or offline fetch leaves the stored result unchanged and still returns an entry from it; `force` is never set; the outlook is fetched only for `systemMedium`
-- [ ] T044 [US4] Create the `WidgetDataLoader` actor in `RevontuletWidgets/WidgetDataLoader.swift` that owns the `AuroraService` and `OutlookService` (shared stores from `Shared/`), coalesces concurrent loads and applies `WidgetRefreshPolicy.resultNeedsFetch` / `outlookNeedsFetch` (research R1, R7)
+- [ ] T044 [US4] Create the `WidgetDataLoader` actor in `Shared/Widgets/WidgetDataLoader.swift` that owns the `AuroraService` and `OutlookService` (shared stores from `Shared/`), coalesces concurrent loads and applies `WidgetRefreshPolicy.resultNeedsFetch` / `outlookNeedsFetch` (research R1, R7)
 - [ ] T045 [US4] Wire `WidgetDataLoader` into `AuroraProvider`: fetch when due, never when no place is chosen (FR-021), return the cached entry if the time allowance runs short and cancel the fetch so nothing is written (contracts/widget-refresh.md); make T043 pass
 - [ ] T046 [US4] Set the timeline policy to `.after(WidgetRefreshPolicy.nextReload(after:at:))`, and `.after(now + 60 min)` when there is no place
 - [ ] T047 [US4] Verify on the simulator and the phone (quickstart section 5): one request for several widgets, none when fresh, new place within 5 seconds of returning to the Home Screen, data time advancing over an evening with the app closed, stale look under Low Power Mode

@@ -3,7 +3,7 @@ import Foundation
 import WidgetKit
 
 /// Builds the widget entries from what the app cached in the App Group. Cache only for now: it never
-/// fetches (contracts/widget-refresh.md, steps 1-2 and 5-7).
+/// fetches. Lives in `Shared/` so the app's unit tests can reach it.
 struct AuroraProvider: TimelineProvider {
     typealias Entry = AuroraEntry
 
@@ -30,23 +30,30 @@ struct AuroraProvider: TimelineProvider {
         self.prefersSwedish = prefersSwedish
     }
 
+    /// The redacted loading layout: the sample, which WidgetKit draws redacted.
     func placeholder(in context: Context) -> AuroraEntry {
-        AuroraEntry(date: now(), snapshot: nil, placeName: "")
+        .sample(at: now())
     }
 
+    /// The gallery shows the marked sample; otherwise the current entry.
     func getSnapshot(in context: Context, completion: @escaping @Sendable (AuroraEntry) -> Void) {
-        Task { completion(await build().entry) }
+        if context.isPreview {
+            completion(.sample(at: now()))
+            return
+        }
+        Task { completion(await build().entries[0]) }
     }
 
     func getTimeline(in context: Context, completion: @escaping @Sendable (Timeline<AuroraEntry>) -> Void) {
         Task {
             let built = await build()
-            completion(Timeline(entries: [built.entry], policy: .after(built.nextReload)))
+            completion(Timeline(entries: built.entries, policy: .after(built.nextReload)))
         }
     }
 
-    /// The entry for the current moment and when to reload next.
-    func build() async -> (entry: AuroraEntry, nextReload: Date) {
+    /// The entries from now on (the current one, then the moment it turns stale if that is still ahead)
+    /// and when to reload next (contracts/widget-refresh.md, steps 1-2 and 5-7).
+    func build() async -> (entries: [AuroraEntry], nextReload: Date) {
         let now = now()
         let selection = readSelection()
         let cached = await loadResult()
@@ -61,6 +68,7 @@ struct AuroraProvider: TimelineProvider {
             code = name.code
             coordinate = name.representativePoint
         case .currentLocation:
+            // Outside coverage the app never stores a result, so this is also the out-of-coverage case.
             guard let cached else { return noPlace(now) }
             code = cached.place.municipalityCode
             coordinate = cached.place.coordinate
@@ -70,16 +78,25 @@ struct AuroraProvider: TimelineProvider {
             .displayName(preferSwedish: prefersSwedish) ?? ""
         let nextReload = WidgetRefreshPolicy.nextReload(after: now, at: coordinate)
 
-        // The widget never shows another place's result.
-        guard let cached, cached.place.municipalityCode == code else {
-            return (AuroraEntry(date: now, snapshot: nil, placeName: placeName), nextReload)
+        // The widget never shows another place's result, nor a level without a valid R value.
+        guard let cached, cached.place.municipalityCode == code, cached.reading.r != nil else {
+            return ([AuroraEntry(date: now, state: .noData, placeName: placeName)], nextReload)
         }
         let outlook = await loadOutlook()
         let snapshot = WidgetSnapshot.make(result: cached, outlook: outlook, now: now)
-        return (AuroraEntry(date: now, snapshot: snapshot, placeName: placeName), nextReload)
+        var entries = [AuroraEntry(date: now, state: snapshot.isStale ? .stale(snapshot) : .current(snapshot),
+                                   placeName: placeName)]
+        // A second entry turns the widget stale without a reload (data-model.md, transitions).
+        let staleAt = WidgetRefreshPolicy.staleMoment(measuredAt: cached.reading.measuredAt)
+        if staleAt > now {
+            var stale = WidgetSnapshot.make(result: cached, outlook: outlook, now: staleAt)
+            stale.isStale = true // isOutdated is strict, so it is still false at exactly this moment
+            entries.append(AuroraEntry(date: staleAt, state: .stale(stale), placeName: placeName))
+        }
+        return (entries, nextReload)
     }
 
-    private func noPlace(_ now: Date) -> (entry: AuroraEntry, nextReload: Date) {
-        (AuroraEntry(date: now, snapshot: nil, placeName: ""), now.addingTimeInterval(Self.noPlaceDelay))
+    private func noPlace(_ now: Date) -> (entries: [AuroraEntry], nextReload: Date) {
+        ([AuroraEntry(date: now, state: .noPlace, placeName: "")], now.addingTimeInterval(Self.noPlaceDelay))
     }
 }

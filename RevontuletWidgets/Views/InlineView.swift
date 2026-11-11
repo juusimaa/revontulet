@@ -16,19 +16,41 @@ struct InlineView: View {
         .accessibilityLabel(WidgetFormat.accessibilityLabel(for: entry))
     }
 
-    private var level: String? { entry.snapshot.map { String(localized: $0.level.title) } }
-
-    /// "Aurora: Moderate · Oulu", or "Old data · Moderate" when stale.
+    /// "Aurora: Moderate · Oulu", "Old data · Moderate" when stale, or the no-place / no-data wording.
     private var full: String {
-        guard let snapshot = entry.snapshot, let level else { return entry.placeName }
-        if snapshot.isStale { return String(localized: "Old data · \(level)") }
-        return String(localized: "Aurora: \(level) · \(entry.placeName)")
+        switch entry.state {
+        case .noPlace: String(localized: "Open Revontulet to choose a place")
+        case .noData: String(localized: "Aurora: \(String(localized: "No data"))")
+        case .stale: String(localized: "Old data · \(level)")
+        case .current, .sample: String(localized: "Aurora: \(level) · \(entry.placeName)")
+        }
     }
 
-    /// Without the place: "Aurora: Moderate", or "Old data · Moderate".
+    /// Without the place: "Aurora: Moderate", "Old data · Moderate", or just "Aurora" with no place.
     private var short: String {
-        guard let snapshot = entry.snapshot, let level else { return String(localized: "Aurora") }
-        if snapshot.isStale { return full }
-        return String(localized: "Aurora: \(level)")
+        switch entry.state {
+        case .noPlace: String(localized: "Aurora")
+        case .current, .sample: String(localized: "Aurora: \(level)")
+        case .stale, .noData: full
+        }
     }
+
+    private var level: String { entry.snapshot.map { String(localized: $0.level.title) } ?? "" }
 }
+
+#if DEBUG
+private func inlinePreview(_ state: WidgetState, place: String = "Sampletown") -> some View {
+    let now = Date(timeIntervalSince1970: 1_800_000_000)
+    return InlineView(entry: AuroraEntry(date: now, state: state, placeName: place)).background(.black)
+}
+
+private let previewSnapshot = WidgetSnapshot(
+    level: .moderate, reason: .goodConditions, cloudsIncluded: true, municipalityCode: "000",
+    stationName: "Sample station", rValue: 100, measuredAt: Date(timeIntervalSince1970: 1_800_000_000 - 600), isStale: false)
+
+#Preview("Current") { inlinePreview(.current(previewSnapshot)) }
+#Preview("Stale") { inlinePreview(.stale(previewSnapshot)) }
+#Preview("No place") { inlinePreview(.noPlace, place: "") }
+#Preview("No data") { inlinePreview(.noData) }
+#Preview("Sample") { inlinePreview(.sample, place: "Rovaniemi") }
+#endif

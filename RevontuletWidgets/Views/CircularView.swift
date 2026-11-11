@@ -15,7 +15,9 @@ struct CircularView: View {
                 let line = side * 5 / 72
                 ZStack {
                     RingArc(sweep: 0.75, line: line).opacity(0.3)
-                    RingArc(sweep: fill * 0.75, line: line).widgetAccentable()
+                    if let snapshot = entry.snapshot {
+                        RingArc(sweep: Double(snapshot.level.rawValue + 1) / 4 * 0.75, line: line).widgetAccentable()
+                    }
                     AuroraGlyph()
                         .frame(width: side * 0.4, height: side * 0.4)
                         .widgetAccentable()
@@ -30,14 +32,9 @@ struct CircularView: View {
         .accessibilityLabel(WidgetFormat.accessibilityLabel(for: entry))
     }
 
-    /// Share of the sweep that is filled: step / 4, where step = level + 1 (Moderate fills 3 of 4).
-    private var fill: Double {
-        guard let snapshot = entry.snapshot else { return 0 }
-        return Double(snapshot.level.rawValue + 1) / 4
-    }
-
-    /// Old data dims only the glyph; the fill stays readable (the ring has no room for "Old data").
-    private var opacity: Double { entry.snapshot?.isStale == true ? 0.4 : 1 }
+    /// Old data and nothing-to-show dim only the glyph; the ring stays readable (or empty, which is
+    /// not level None: None fills 1 of 4 steps).
+    private var opacity: Double { entry.snapshot == nil || entry.snapshot?.isStale == true ? 0.4 : 1 }
 }
 
 /// An arc starting at 135° (bottom left) sweeping clockwise by `sweep` of a full circle.
@@ -54,28 +51,27 @@ private struct RingArc: View {
 }
 
 #if DEBUG
-private struct CircularPreviewFrame: View {
-    let level: ChanceLevel?
-    var stale = false
+private let previewNow = Date(timeIntervalSince1970: 1_800_000_000)
 
-    var body: some View {
-        let now = Date(timeIntervalSince1970: 1_800_000_000)
-        let snapshot = level.map {
-            WidgetSnapshot(
-                level: $0, reason: .goodConditions, cloudsIncluded: true, municipalityCode: "000",
-                stationName: "Sample station", rValue: 100, measuredAt: now.addingTimeInterval(-600), isStale: stale)
-        }
-        CircularView(entry: AuroraEntry(date: now, snapshot: snapshot, placeName: "Sampletown"))
-            .frame(width: 72, height: 72)
-            .padding()
-            .background(.black)
-    }
+private func circularPreview(_ state: WidgetState) -> some View {
+    CircularView(entry: AuroraEntry(date: previewNow, state: state, placeName: "Sampletown"))
+        .frame(width: 72, height: 72)
+        .padding()
+        .background(.black)
 }
 
-#Preview("None") { CircularPreviewFrame(level: ChanceLevel.none) }
-#Preview("Low") { CircularPreviewFrame(level: .low) }
-#Preview("Moderate") { CircularPreviewFrame(level: .moderate) }
-#Preview("High") { CircularPreviewFrame(level: .high) }
-#Preview("Stale") { CircularPreviewFrame(level: .moderate, stale: true) }
-#Preview("No data") { CircularPreviewFrame(level: nil) }
+private func previewSnapshot(_ level: ChanceLevel, stale: Bool = false) -> WidgetSnapshot {
+    WidgetSnapshot(
+        level: level, reason: .goodConditions, cloudsIncluded: true, municipalityCode: "000",
+        stationName: "Sample station", rValue: 100, measuredAt: previewNow.addingTimeInterval(-600), isStale: stale)
+}
+
+#Preview("None") { circularPreview(.current(previewSnapshot(.none))) }
+#Preview("Low") { circularPreview(.current(previewSnapshot(.low))) }
+#Preview("Moderate") { circularPreview(.current(previewSnapshot(.moderate))) }
+#Preview("High") { circularPreview(.current(previewSnapshot(.high))) }
+#Preview("Stale") { circularPreview(.stale(previewSnapshot(.moderate, stale: true))) }
+#Preview("No place") { circularPreview(.noPlace) }
+#Preview("No data") { circularPreview(.noData) }
+#Preview("Sample") { circularPreview(.sample) }
 #endif
