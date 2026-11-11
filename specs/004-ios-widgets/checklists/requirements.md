@@ -38,3 +38,13 @@
   direction's "soft glow" wording corrected to the app's curtains. All items pass.
 - Open choices were resolved with defaults recorded in Assumptions: widgets follow the app's
   place (no per-widget configuration), large/extra-large/StandBy are out of scope.
+- Phase 7 review 2026-11-11 (T050), simulator (iPhone 17 Pro, iOS 27):
+  - Medium widget at the largest accessibility text size in fi, sv and en: level word, reason,
+    place and age fit, no clipping or overlap (SC-005). The widget had fetched for itself
+    ("1 min ago"), and the stale look showed earlier that day (SC-004).
+  - Not checked here: small and the three Lock Screen layouts at the largest size, tinted and
+    always-on rendering, and SC-001/003/006/008, which need people or the phone. They stay with
+    the device run of quickstart.md (T052).
+  - Privacy (T048): the extension contacts only opendata.fmi.fi and services.swpc.noaa.gov, has
+    no location Info.plist keys and no CoreLocation symbols; both privacy manifests now give
+    reason 1C8F.1 for the App Group UserDefaults. Archive privacy report not yet checked.

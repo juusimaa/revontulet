@@ -1,6 +1,6 @@
 # Revontulet Privacy Policy
 
-*Last updated: 5 November 2026*
+*Last updated: 11 November 2026*
 
 Revontulet does not collect or share personal data. The only exception is the optional aurora
 alerts: if you turn them on, a minimum of data is stored on the developer's alert service so it
@@ -36,7 +36,22 @@ As with any internet request, FMI's and NOAA's servers see your IP address; thei
 notices cover how they handle them.
 
 If you turn on aurora alerts, the app also talks to the developer's alert service (see below).
-The app makes no other network requests. The alert service itself does not use NOAA data.
+The app and its widgets make no other network requests. The alert service itself does not use NOAA
+data.
+
+## Widgets
+
+The Home Screen and Lock Screen widgets show the same result as the app. They read the place you
+chose and the last result that the app stored on your device, in storage shared only between the
+app and its widgets on your iPhone. A widget has no location access of its own, never asks for
+location, and never sends your place anywhere.
+
+When the stored result is old, a widget may download fresh data itself, using exactly the same
+FMI and NOAA requests as the app, described above. They are fixed requests that carry nothing
+about you.
+
+Widgets collect nothing, send nothing to the developer or the alert service, and have no
+analytics.
 
 ## Aurora alerts (optional)
 

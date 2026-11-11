@@ -63,7 +63,9 @@ selection copied; app and a second store instance on the same suite see each oth
 
 ## 6. Privacy and review gates
 
-- The extension has no location usage: no location prompt, no `CoreLocation` link (FR-014).
+- The extension has no location usage: no location prompt, no location keys in its Info.plist and
+  no `CL*` symbols in its binary (FR-014). `libswiftCoreLocation` does appear in `otool -L`:
+  `import SwiftUI` autolinks it in the iOS 26 SDK, so every SwiftUI widget carries it.
 - Network log shows only the FMI/NOAA hosts the app already uses; no analytics.
 - Archive build: the privacy report lists no collected data beyond the alerts' coarse zone; the
   extension has its own `PrivacyInfo.xcprivacy` (SC-007).
