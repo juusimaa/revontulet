@@ -46,6 +46,12 @@ blend, and adds the dark bottom fade. If `Canvas` plus blur does not render reli
 renderer, the fallback is to render the still frame with `ImageRenderer` in the provider and store
 it in the entry as an `Image`.
 
+**Spike outcome (T022, 2026-11-11)**: `Canvas` with a 5 px blur and `screen` blend renders correctly in
+`containerBackground(for: .widget)` on the iOS 26 simulator (widget gallery, small family): stars,
+curtains and the bottom fade all draw, so the `ImageRenderer` fallback is not needed. The blur is a
+field of `AuroraCurtains.Framing` (10 for the screen, 5 for widgets). Memory on a device is still to
+be checked in T030.
+
 **Rationale**: FR-024 and the approved draft; one drawing means the widget and app cannot drift
 apart. Blur is fixed at 5 px because the user checked 5, 3, 1.5 and 0 px in the draft and 5 px kept
 the text clearest.

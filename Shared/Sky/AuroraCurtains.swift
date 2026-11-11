@@ -14,11 +14,13 @@ struct AuroraCurtains: View {
         var baselines: [Double]
         /// Multiplier for the ray lengths.
         var heightScale: Double
+        /// Blur radius in points: the full screen is soft, a small widget needs the text to stay clear.
+        var blur: Double
 
         /// The full-screen sky: curtains in the upper half.
-        static let screen = Framing(baselines: [0.36, 0.27], heightScale: 1)
+        static let screen = Framing(baselines: [0.36, 0.27], heightScale: 1, blur: 10)
         /// Widgets are short, so the curtains hang lower with longer rays (from the widget draft).
-        static let widget = Framing(baselines: [0.62, 0.52], heightScale: 1.3)
+        static let widget = Framing(baselines: [0.62, 0.52], heightScale: 1.3, blur: 5)
     }
 
     private struct Curtain {
@@ -69,7 +71,7 @@ struct AuroraCurtains: View {
                 }
             }
         }
-        .blur(radius: 10)
+        .blur(radius: framing.blur)
         .blendMode(.screen)
         .opacity(intensity)
     }
