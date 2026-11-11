@@ -1,7 +1,7 @@
 import AuroraCore
 import Foundation
 
-/// Keeps the last result as a JSON file in Application Support. The file is written atomically,
+/// Keeps the last result as a JSON file in the App Group container. The file is written atomically,
 /// stays on the device and is excluded from backups (it is cheap to recreate).
 struct FileResultCache: ResultCache {
     let fileURL: URL
@@ -11,7 +11,7 @@ struct FileResultCache: ResultCache {
     }
 
     static var defaultURL: URL {
-        URL.applicationSupportDirectory.appending(path: "last-result.json")
+        AppGroup.containerURL.appending(path: "last-result.json")
     }
 
     func load() async -> AuroraResult? {

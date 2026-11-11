@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Revontulet widgets draft</title>
+<style>
+  :root {
+    --page: #0b0f14; --ink: #e8f0f2; --muted: #8fa3ab;
+    --sky1: #01080f; --sky2: #08141f; --sky3: #0a1c25;
+    --green: #5dffb0; --green-deep: #1fd48a; --magenta: #ff6fd8;
+    --amber: #ffd36b; --none: #7d8f97;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 32px 16px 64px; background: var(--page); color: var(--ink);
+    font: 15px/1.4 -apple-system, "SF Pro Text", system-ui, sans-serif; }
+  h1 { font-size: 22px; margin: 0 0 4px; }
+  h2 { font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 40px 0 16px; }
+  p.note { color: var(--muted); max-width: 640px; margin: 0 0 8px; }
+  .row { display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start; }
+  figure { margin: 0; }
+  figcaption { color: var(--muted); font-size: 12px; margin-top: 8px; max-width: 320px; }
+
+  /* Home Screen widgets: 158pt small, 338x158 medium, 22pt-ish corners */
+  .w { position: relative; overflow: hidden; border-radius: 26px; color: #fff;
+    background: linear-gradient(180deg, var(--sky1), var(--sky2) 55%, var(--sky3)); }
+  .small { width: 158px; height: 158px; padding: 14px; }
+  .medium { width: 338px; height: 158px; padding: 14px 16px; }
+  .glow { position: absolute; inset: auto -20% -35% -20%; height: 75%; pointer-events: none;
+    background: radial-gradient(60% 80% at 50% 100%, var(--g, var(--green)) 0%, transparent 70%);
+    opacity: var(--o, .5); filter: blur(10px); }
+  .stars { position: absolute; inset: 0; opacity: .7; pointer-events: none;
+    background-image:
+      radial-gradient(1px 1px at 18% 22%, #fff, transparent),
+      radial-gradient(1px 1px at 70% 14%, #fff, transparent),
+      radial-gradient(1.2px 1.2px at 86% 40%, #fff, transparent),
+      radial-gradient(1px 1px at 38% 12%, #fff, transparent),
+      radial-gradient(1px 1px at 55% 34%, #fff, transparent); }
+  .in { position: relative; height: 100%; display: flex; flex-direction: column; }
+  .eyebrow { font-size: 11px; font-weight: 600; letter-spacing: .02em; color: rgba(255,255,255,.7);
+    display: flex; align-items: center; gap: 5px; }
+  .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--c, var(--green)); box-shadow: 0 0 8px var(--c, var(--green)); }
+  .level { font-size: 30px; font-weight: 800; letter-spacing: -.02em; line-height: 1.05; margin-top: auto; color: var(--c, var(--green)); }
+  .small .level { font-size: 28px; }
+  .reason { font-size: 13px; font-weight: 500; color: rgba(255,255,255,.88); margin-top: 2px; }
+  .meta { font-size: 11px; color: rgba(255,255,255,.6); margin-top: 6px; display: flex; justify-content: space-between; gap: 6px; }
+  .meta span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+  .L-high { --c: var(--magenta); --g: var(--magenta); --o: .7; }
+  .L-mod  { --c: var(--green); --g: var(--green); --o: .55; }
+  .L-low  { --c: var(--amber); --g: var(--green-deep); --o: .3; }
+  .L-none { --c: #b9c6cc; --g: var(--green-deep); --o: .12; }
+
+
+  /* Still frame of the app's aurora curtains (SkyBackground), drawn by the script below */
+  canvas.aur { position: absolute; inset: 0; width: 100%; height: 100%; filter: blur(5px); mix-blend-mode: screen; pointer-events: none; }
+  .w::after { content: ""; position: absolute; inset: 0; pointer-events: none;
+    background: linear-gradient(180deg, transparent 45%, rgba(1,8,15,.55) 100%); } /* keeps the text area dark and readable */
+  .stale .level { opacity: .55; }
+  .stale .glow { opacity: .1; }
+  .badge { font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 6px; background: rgba(255,255,255,.16); color: #fff; }
+
+  /* medium layout */
+  .cols { display: grid; grid-template-columns: 1fr 1px 1fr; gap: 14px; height: 100%; }
+  .sep { background: rgba(255,255,255,.14); margin: 2px 0; }
+  .left { display: flex; flex-direction: column; }
+  .right { display: flex; flex-direction: column; justify-content: center; gap: 9px; }
+  .kv { display: flex; justify-content: space-between; align-items: baseline; font-size: 12px; }
+  .kv b { font-weight: 700; font-variant-numeric: tabular-nums; font-size: 13px; }
+  .kv i { font-style: normal; color: rgba(255,255,255,.62); }
+  .pill { font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 6px; background: rgba(93,255,176,.18); color: var(--green); }
+  .pill.m { background: rgba(255,111,216,.18); color: var(--magenta); }
+
+  /* Lock Screen: monochrome on a wallpaper */
+  .lock { width: 380px; padding: 22px 18px; border-radius: 34px;
+    background: linear-gradient(160deg, #2a3b4a, #14202b 60%, #0c141b); color: #fff; }
+  .lock .clock { text-align: center; font-size: 76px; font-weight: 300; line-height: 1; letter-spacing: -.02em; margin: 6px 0 4px; }
+  .lock .date { text-align: center; font-size: 15px; font-weight: 600; opacity: .85; }
+  .inline { text-align: center; font-size: 14px; font-weight: 600; margin-bottom: 6px; display: flex; gap: 6px; justify-content: center; align-items: center; }
+  .lrow { display: flex; gap: 10px; justify-content: center; align-items: stretch; margin-top: 16px; }
+  .circ { width: 72px; height: 72px; border-radius: 50%; background: rgba(255,255,255,.16); display: grid; place-items: center; position: relative; }
+  .circ > svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .circ .lbl { font-size: 11px; font-weight: 700; text-align: center; line-height: 1.1; }
+  .rect { width: 160px; height: 72px; border-radius: 20px; background: rgba(255,255,255,.16); padding: 9px 12px; display: flex; flex-direction: column; justify-content: center; gap: 1px; }
+  .rect .t { font-size: 11px; font-weight: 600; opacity: .75; display: flex; align-items: center; gap: 4px; }
+  .rect .lv { font-size: 16px; font-weight: 800; }
+  .rect .rs { font-size: 12px; opacity: .88; }
+  .gauge { height: 4px; border-radius: 2px; background: rgba(255,255,255,.25); display: grid; grid-template-columns: repeat(4,1fr); gap: 2px; margin: 3px 0 2px; }
+  .gauge s { background: rgba(255,255,255,.28); border-radius: 2px; }
+  .gauge s.on { background: #fff; }
+  .lock.dim { filter: brightness(.55) saturate(.6); }
+
+  /* state shelf */
+  .empty { --c: #b9c6cc; }
+  .hint { font-size: 12px; color: rgba(255,255,255,.7); margin-top: 4px; }
+  .mark { color: var(--c, var(--green)); filter: drop-shadow(0 0 4px var(--c, var(--green))); width: 13px; height: 13px; }
+  .sym { width: 14px; height: 14px; display: inline-block; vertical-align: -2px; }
+  @media (prefers-reduced-motion: no-preference) { .glow { animation: breathe 9s ease-in-out infinite alternate; } }
+  @keyframes breathe { to { transform: translateY(-4px) scale(1.04); } }
+</style>
+</head>
+<body>
+<h1>Revontulet widgets — UI draft</h1>
+<p class="note">Spec 004. Direction: a window to the app's night sky: a still frame of the app's aurora curtains, stronger and taller as the level rises. The level is carried by colour <em>and</em> by word (never colour alone); Lock Screen variants are monochrome and use a gauge. Static draft; the real build is iterated in the simulator.</p>
+
+<svg width="0" height="0" style="position:absolute">
+  <symbol id="aurora" viewBox="0 0 16 16"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 5.5c2-2.2 4-2.2 6.5 0s4.500 2.200 6.500 0"/><path d="M3 6.6v6M6 7.400v4.200M8.800 7.800v6M11.600 7.300v4M14 6.200v3"/></g></symbol>
+  <symbol id="g-sparkle" viewBox="0 0 16 16"><path d="M7 1.500l1.400 4.100 4.100 1.400-4.100 1.400L7 12.500 5.600 8.400 1.500 7l4.100-1.400zM13 10.500l.6 1.700 1.700.6-1.700.6-.6 1.700-.6-1.700-1.700-.6 1.700-.6z" fill="currentColor"/></symbol>
+  <symbol id="g-waves" viewBox="0 0 16 16"><g fill="none" stroke="currentColor" stroke-width="1.500" stroke-linecap="round"><path d="M1.500 8c2-2.500 4-2.500 6.500 0s4.500 2.500 6.500 0"/><path d="M1.500 12c2-2.500 4-2.500 6.500 0s4.500 2.500 6.500 0"/></g><circle cx="12" cy="3.500" r="1.200" fill="currentColor"/></symbol>
+  <symbol id="g-moon" viewBox="0 0 16 16"><path d="M10.500 2a6 6 0 1 0 3.500 10.500A6.500 6.500 0 0 1 10.500 2z" fill="currentColor"/><circle cx="12.500" cy="4" r="1" fill="currentColor"/></symbol>
+</svg>
+
+<h2>Home Screen — small</h2>
+<div class="row">
+  <figure><div class="w small L-mod"><div class="stars"></div><div class="glow"></div><div class="in">
+    <div class="eyebrow"><svg class="sym mark"><use href="#aurora"/></svg>Oulu</div>
+    <div class="level">Moderate</div><div class="reason">Clear sky</div>
+    <div class="meta"><span>12 min ago</span></div></div></div><figcaption>Moderate · good conditions</figcaption></figure>
+
+  <figure><div class="w small L-high"><div class="stars"></div><div class="glow"></div><div class="in">
+    <div class="eyebrow"><svg class="sym mark"><use href="#aurora"/></svg>Rovaniemi</div>
+    <div class="level">High</div><div class="reason">Go outside now</div>
+    <div class="meta"><span>3 min ago</span></div></div></div><figcaption>High · magenta only here, as in the app</figcaption></figure>
+
+  <figure><div class="w small L-low"><div class="stars"></div><div class="glow"></div><div class="in">
+    <div class="eyebrow"><svg class="sym mark"><use href="#aurora"/></svg>Helsinki</div>
+    <div class="level">Low</div><div class="reason">Low activity</div>
+    <div class="meta"><span>8 min ago</span></div></div></div><figcaption>Low · limiting factor named</figcaption></figure>
+
+  <figure><div class="w small L-none"><div class="stars"></div><div class="glow"></div><div class="in">
+    <div class="eyebrow"><svg class="sym mark"><use href="#aurora"/></svg>Tampere</div>
+    <div class="level">None</div><div class="reason">Too light</div>
+    <div class="meta"><span>5 min ago</span></div></div></div><figcaption>None · calm daytime look</figcaption></figure>
+</div>
+
+<h2>Home Screen — medium (wide)</h2>
+<div class="row">
+  <figure><div class="w medium L-mod"><div class="stars"></div><div class="glow"></div><div class="in"><div class="cols">
+    <div class="left">
+      <div class="eyebrow"><svg class="sym mark"><use href="#aurora"/></svg>Oulu</div>
+      <div class="level">Moderate</div><div class="reason">Clear sky</div>
+      <div class="meta"><span>Updated 12 min ago</span></div>
+    </div>
+    <div class="sep"></div>
+    <div class="right">
+      <div class="kv"><i>R value</i><b>142 nT</b></div>
+      <div class="kv"><i>Station</i><b>Oulujärvi</b></div>
+      <div class="kv"><i>Soon</i><span class="pill">Rising</span></div>
+      <div class="kv"><i>Tonight</i><span class="pill">Kp 4</span></div>
+    </div></div></div></div><figcaption>Headline left, supporting numbers and outlook right</figcaption></figure>
+
+  <figure><div class="w medium L-high"><div class="stars"></div><div class="glow"></div><div class="in"><div class="cols">
+    <div class="left">
+      <div class="eyebrow"><svg class="sym mark"><use href="#aurora"/></svg>Rovaniemi</div>
+      <div class="level">High</div><div class="reason">Go outside now</div>
+      <div class="meta"><span>Updated 3 min ago</span></div>
+    </div>
+    <div class="sep"></div>
+    <div class="right">
+      <div class="kv"><i>R value</i><b>388 nT</b></div>
+      <div class="kv"><i>Station</i><b>Sodankylä</b></div>
+      <div class="kv"><i>Soon</i><span class="pill m">Strong</span></div>
+      <div class="kv"><i>Tonight</i><span class="pill m">Kp 6</span></div>
+    </div></div></div></div><figcaption>High with outlook</figcaption></figure>
+</div>
+
+<h2>Lock Screen</h2>
+<div class="row">
+  <figure><div class="lock">
+    <div class="inline"><svg class="sym"><use href="#aurora"/></svg>Aurora: Moderate · Oulu</div>
+    <div class="date">Mon 9 November</div>
+    <div class="clock">21:42</div>
+    <div class="lrow">
+      <div class="circ"><svg viewBox="0 0 72 72"><circle cx="36" cy="36" r="31" fill="none" stroke="rgba(255,255,255,.25)" stroke-width="5" stroke-dasharray="146 49" transform="rotate(135 36 36)" stroke-linecap="round"/><circle cx="36" cy="36" r="31" fill="none" stroke="#fff" stroke-width="5" stroke-dasharray="97 98" transform="rotate(135 36 36)" stroke-linecap="round"/></svg><div class="lbl"><svg class="sym" style="width:22px;height:22px"><use href="#aurora"/></svg></div></div>
+      <div class="rect"><div class="t"><svg class="sym"><use href="#aurora"/></svg>Revontulet · Oulu</div><div class="lv">Moderate</div><div class="gauge"><s class="on"></s><s class="on"></s><s class="on"></s><s></s></div><div class="rs">Clear sky · 12 min</div></div>
+    </div>
+  </div><figcaption>Inline above the date, circular: aurora glyph inside a four-step gauge, no word (VoiceOver says the level), rectangular with gauge. Level is word + fill, so it survives monochrome tinting.</figcaption></figure>
+
+  <figure><div class="lock dim">
+    <div class="inline"><svg class="sym"><use href="#aurora"/></svg>Old data · Moderate</div>
+    <div class="date">Mon 9 November</div>
+    <div class="clock">21:42</div>
+    <div class="lrow">
+      <div class="circ"><svg viewBox="0 0 72 72"><circle cx="36" cy="36" r="31" fill="none" stroke="rgba(255,255,255,.25)" stroke-width="5" stroke-dasharray="146 49" transform="rotate(135 36 36)" stroke-linecap="round"/><circle cx="36" cy="36" r="31" fill="none" stroke="#fff" stroke-width="5" stroke-dasharray="97 98" stroke-dashoffset="0" transform="rotate(135 36 36)" stroke-linecap="round" opacity=".5"/></svg><div class="lbl"><svg class="sym" style="width:22px;height:22px;opacity:.5"><use href="#aurora"/></svg></div></div>
+      <div class="rect"><div class="t"><svg class="sym"><use href="#aurora"/></svg>Revontulet · Oulu</div><div class="lv" style="opacity:.6">Moderate</div><div class="gauge"><s class="on" style="opacity:.5"></s><s class="on" style="opacity:.5"></s><s class="on" style="opacity:.5"></s><s></s></div><div class="rs">Old data · 3 h ago</div></div>
+    </div>
+  </div><figcaption>Stale: last level dimmed, "Old data" and the age replace the reason.</figcaption></figure>
+</div>
+
+<h2>Blur test (decided: 5px; app screen: 10px at full size)</h2>
+<div class="row"><figure><div class="w small L-mod" data-blur="5"><div class="stars"></div><div class="in"><div class="eyebrow"><svg class="sym mark"><use href="#aurora"/></svg>Oulu</div><div class="level">Moderate</div><div class="reason">Clear sky</div><div class="meta"><span>12 min ago</span></div></div></div><figcaption>blur 5px</figcaption></figure><figure><div class="w small L-mod" data-blur="3"><div class="stars"></div><div class="in"><div class="eyebrow"><svg class="sym mark"><use href="#aurora"/></svg>Oulu</div><div class="level">Moderate</div><div class="reason">Clear sky</div><div class="meta"><span>12 min ago</span></div></div></div><figcaption>blur 3px</figcaption></figure><figure><div class="w small L-mod" data-blur="1.5"><div class="stars"></div><div class="in"><div class="eyebrow"><svg class="sym mark"><use href="#aurora"/></svg>Oulu</div><div class="level">Moderate</div><div class="reason">Clear sky</div><div class="meta"><span>12 min ago</span></div></div></div><figcaption>blur 1.5px</figcaption></figure><figure><div class="w small L-mod" data-blur="0"><div class="stars"></div><div class="in"><div class="eyebrow"><svg class="sym mark"><use href="#aurora"/></svg>Oulu</div><div class="level">Moderate</div><div class="reason">Clear sky</div><div class="meta"><span>12 min ago</span></div></div></div><figcaption>blur 0px</figcaption></figure></div>
+<div class="row" style="margin-top:20px"><figure><div class="w small L-high" data-blur="5"><div class="stars"></div><div class="in"><div class="eyebrow"><svg class="sym mark"><use href="#aurora"/></svg>Rovaniemi</div><div class="level">High</div><div class="reason">Go outside now</div><div class="meta"><span>12 min ago</span></div></div></div><figcaption>blur 5px</figcaption></figure><figure><div class="w small L-high" data-blur="3"><div class="stars"></div><div class="in"><div class="eyebrow"><svg class="sym mark"><use href="#aurora"/></svg>Rovaniemi</div><div class="level">High</div><div class="reason">Go outside now</div><div class="meta"><span>12 min ago</span></div></div></div><figcaption>blur 3px</figcaption></figure><figure><div class="w small L-high" data-blur="1.5"><div class="stars"></div><div class="in"><div class="eyebrow"><svg class="sym mark"><use href="#aurora"/></svg>Rovaniemi</div><div class="level">High</div><div class="reason">Go outside now</div><div class="meta"><span>12 min ago</span></div></div></div><figcaption>blur 1.5px</figcaption></figure><figure><div class="w small L-high" data-blur="0"><div class="stars"></div><div class="in"><div class="eyebrow"><svg class="sym mark"><use href="#aurora"/></svg>Rovaniemi</div><div class="level">High</div><div class="reason">Go outside now</div><div class="meta"><span>12 min ago</span></div></div></div><figcaption>blur 0px</figcaption></figure></div>
+
+<h2>Glyph options (Lock Screen and top line)</h2>
+<p class="note">Option A (curtain with rays) is chosen and used above. B-D for comparison; each shown in the circular ring and at line size.</p>
+<div class="row" style="background:#1b2833;padding:20px;border-radius:24px;width:fit-content">
+<figure style="color:#fff;text-align:center"><div class="circ" style="margin:0 auto"><svg viewBox="0 0 72 72"><circle cx="36" cy="36" r="31" fill="none" stroke="rgba(255,255,255,.25)" stroke-width="5" stroke-dasharray="146 49" transform="rotate(135 36 36)" stroke-linecap="round"/><circle cx="36" cy="36" r="31" fill="none" stroke="#fff" stroke-width="5" stroke-dasharray="97 98" transform="rotate(135 36 36)" stroke-linecap="round"/></svg><div class="lbl"><svg class="sym" style="width:26px;height:26px"><use href="#aurora"/></svg></div></div><figcaption style="margin:8px auto 0"><svg class="sym"><use href="#aurora"/></svg> A curtain + rays</figcaption></figure><figure style="color:#fff;text-align:center"><div class="circ" style="margin:0 auto"><svg viewBox="0 0 72 72"><circle cx="36" cy="36" r="31" fill="none" stroke="rgba(255,255,255,.25)" stroke-width="5" stroke-dasharray="146 49" transform="rotate(135 36 36)" stroke-linecap="round"/><circle cx="36" cy="36" r="31" fill="none" stroke="#fff" stroke-width="5" stroke-dasharray="97 98" transform="rotate(135 36 36)" stroke-linecap="round"/></svg><div class="lbl"><svg class="sym" style="width:26px;height:26px"><use href="#g-sparkle"/></svg></div></div><figcaption style="margin:8px auto 0"><svg class="sym"><use href="#g-sparkle"/></svg> B sparkle</figcaption></figure><figure style="color:#fff;text-align:center"><div class="circ" style="margin:0 auto"><svg viewBox="0 0 72 72"><circle cx="36" cy="36" r="31" fill="none" stroke="rgba(255,255,255,.25)" stroke-width="5" stroke-dasharray="146 49" transform="rotate(135 36 36)" stroke-linecap="round"/><circle cx="36" cy="36" r="31" fill="none" stroke="#fff" stroke-width="5" stroke-dasharray="97 98" transform="rotate(135 36 36)" stroke-linecap="round"/></svg><div class="lbl"><svg class="sym" style="width:26px;height:26px"><use href="#g-waves"/></svg></div></div><figcaption style="margin:8px auto 0"><svg class="sym"><use href="#g-waves"/></svg> C waves + star</figcaption></figure><figure style="color:#fff;text-align:center"><div class="circ" style="margin:0 auto"><svg viewBox="0 0 72 72"><circle cx="36" cy="36" r="31" fill="none" stroke="rgba(255,255,255,.25)" stroke-width="5" stroke-dasharray="146 49" transform="rotate(135 36 36)" stroke-linecap="round"/><circle cx="36" cy="36" r="31" fill="none" stroke="#fff" stroke-width="5" stroke-dasharray="97 98" transform="rotate(135 36 36)" stroke-linecap="round"/></svg><div class="lbl"><svg class="sym" style="width:26px;height:26px"><use href="#g-moon"/></svg></div></div><figcaption style="margin:8px auto 0"><svg class="sym"><use href="#g-moon"/></svg> D moon + star</figcaption></figure></div>
+
+<h2>States</h2>
+<div class="row">
+  <figure><div class="w small stale L-mod"><div class="stars"></div><div class="glow"></div><div class="in">
+    <div class="eyebrow"><svg class="sym mark" style="opacity:.4"><use href="#aurora"/></svg>Oulu <span class="badge" style="margin-left:auto">Old data</span></div>
+    <div class="level">Moderate</div><div class="reason">Clear sky</div>
+    <div class="meta"><span>3 h ago</span></div></div></div><figcaption>Stale (offline with cache)</figcaption></figure>
+
+  <figure><div class="w small empty L-none"><div class="stars"></div><div class="glow"></div><div class="in">
+    <div class="eyebrow"><svg class="sym"><use href="#aurora"/></svg>Revontulet</div>
+    <div class="level" style="font-size:20px">Choose a place</div><div class="hint">Open the app to get started</div></div></div><figcaption>No place yet</figcaption></figure>
+
+  <figure><div class="w small L-none"><div class="stars"></div><div class="glow"></div><div class="in">
+    <div class="eyebrow"><svg class="sym mark"><use href="#aurora"/></svg>Utsjoki</div>
+    <div class="level" style="font-size:22px">No data</div><div class="reason">Station offline</div>
+    <div class="meta"><span>Checked 6 min ago</span></div></div></div><figcaption>No valid R / out of coverage</figcaption></figure>
+
+  <figure><div class="w small L-mod"><div class="stars"></div><div class="glow" style="--o:.35"></div><div class="in">
+    <div class="eyebrow"><svg class="sym mark"><use href="#aurora"/></svg>Sample</div>
+    <div class="level">Moderate</div><div class="reason">Clear sky</div>
+    <div class="meta"><span>Gallery preview</span></div></div></div><figcaption>Gallery sample, labelled as a sample</figcaption></figure>
+</div>
+
+<script>
+// Static version of the app's Aurora view: two curtains of vertical rays, phase fixed.
+const LEVELS = { 'L-high': [.85, true], 'L-mod': [.55, false], 'L-low': [.3, false], 'L-none': [.12, false] };
+const CURTAINS = [
+  { base: .62, h: .22, amp: .035, wl: 1.4, tilt: -.10, col: [61,245,158] },
+  { base: .52, h: .16, amp: .025, wl: .9, tilt: -.06, col: [41,214,194] },
+];
+document.querySelectorAll('.w').forEach(w => {
+  const key = Object.keys(LEVELS).find(k => w.classList.contains(k)); if (!key) return;
+  let [intensity, magenta] = LEVELS[key];
+  if (w.classList.contains('stale')) intensity *= .2;       // old data: sky dimmed
+  if (w.classList.contains('empty')) intensity = .12;
+  w.querySelectorAll('.glow').forEach(g => g.remove());
+  const r = w.getBoundingClientRect(), dpr = 2;
+  const c = document.createElement('canvas'); c.className = 'aur';
+  if (w.dataset.blur !== undefined) c.style.filter = `blur(${w.dataset.blur}px)`;
+  c.width = r.width * dpr; c.height = r.height * dpr; c.style.opacity = intensity;
+  const g = c.getContext('2d'); g.scale(dpr, dpr);
+  const W = r.width, H = r.height;
+  CURTAINS.forEach((cu, i) => {
+    for (let x = -10; x < W + 10; x += 3) {
+      const u = x / W, ang = u * 2 * Math.PI / cu.wl + i * 1.7;
+      const bottom = H * (cu.base + cu.tilt * u + cu.amp * Math.sin(ang));
+      const ray = .6 + .4 * Math.sin(u * 37 + i * 4);
+      const top = bottom - H * cu.h * ray * 1.3, [R,G,B] = cu.col;
+      const gr = g.createLinearGradient(0, top, 0, bottom + 6);
+      gr.addColorStop(0, magenta && i === 0 ? 'rgba(191,102,242,.5)' : `rgba(${R},${G},${B},0)`);
+      gr.addColorStop(.75, `rgba(${R},${G},${B},${.55*ray})`);
+      gr.addColorStop(.93, `rgba(${R},${G},${B},${.9*ray})`);
+      gr.addColorStop(1, `rgba(${R},${G},${B},0)`);
+      g.fillStyle = gr; g.fillRect(x, top, 4, bottom - top + 6);
+    }
+  });
+  w.insertBefore(c, w.querySelector('.in'));
+});
+</script>
+</body>
+</html>

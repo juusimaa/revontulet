@@ -59,6 +59,8 @@ enum AppDependencies {
                     outlook: UITestOutlookScenario(arguments: arguments), now: clock(arguments: arguments))
             }
             else { URLSessionHTTPClient() }
+        // A reset start must not resurrect the old locations, so it skips the migration.
+        if !arguments.contains("-uiTestResetCache") { StorageMigration.run() }
         let cache = FileResultCache()
         let outlookCache = FileOutlookCache()
         let placeStore = PlaceSelectionStore()

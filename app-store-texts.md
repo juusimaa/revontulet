@@ -1,41 +1,29 @@
-# Revontulet 4.1: App Store texts
+# Revontulet 5.0: App Store texts
 
 (Limits: What's New 4000 chars, Description 4000 chars, Keywords 100 chars, Promotional Text 170 chars.)
 
-Screenshots (iPhone 17 Pro, 1206x2622, in app-store-header/screenshots/4.0, ignored by git; unchanged since 4.0):
-1 main, 2 map, 3 forecast, 4 details, 5 alerts; for fi, sv and en.
+Screenshots (iPhone 17 Pro, 1206x2622, in app-store-header/screenshots/5.0, ignored by git; for fi, sv and en):
+1 main, 2 widgets, 3 map, 4 forecast, 5 details, 6 alerts. The existing 5 are unchanged since 4.0; the new one (2) shows the Home Screen with a small and a medium widget plus the Lock Screen widgets. It goes second because widgets are the headline of 5.0 and the first screens are the ones seen in search results. Reference: the simulator screenshots in specs/004-ios-widgets/ui-draft/screenshots/.
 
 ## WHAT'S NEW IN THIS VERSION
 
 ### Finnish (fi)
-Uusi karttasivu: pyyhkäise päänäkymästä vasemmalle ja näet, missä päin Suomea revontulet ovat mahdollisia juuri nyt. Kartalla ovat kaikki Ilmatieteen laitoksen magnetometriasemat, ja asemaa napauttamalla näet sen mittauksen tarkemmin. Kartta kertoo vain geomagneettisesta aktiivisuudesta: pilvet, pimeys ja kuu ovat mukana päänäkymässä.
-
-Uusi aloitusnäyttö: sovellus avautuu revontulitaivaaseen ja nimeen heti ensimmäisestä ruudusta alkaen.
-
-Hälytykset toimivat luotettavammin. Hälytysten poistaminen käytöstä ei enää voi kumoutua, jos jokin asetus tallentuu samalla hetkellä, ja virheet näkyvät nyt hälytysasetuksissa. Hälytyspalvelu on myös suojattu paremmin väärinkäytöltä.
+Uudet widgetit: lisää Koti-valikkoon tai lukitusnäyttöön widget, joka näyttää revontulten mahdollisuuden paikallesi yhdellä silmäyksellä. Widgetit seuraavat sovelluksen paikkaa ja päivittyvät itse. Jos tieto on vanhentunutta tai puuttuu, widget kertoo sen. Mitään uutta ei kerätä.
 
 Lisäksi pienempiä korjauksia ulkoasuun ja saavutettavuuteen.
 
 ### Swedish (sv)
-Ny kartsida: svep åt vänster från huvudvyn och se var i Finland det kan finnas norrsken just nu. Kartan visar alla Meteorologiska institutets magnetometerstationer, och när du trycker på en station ser du dess mätning närmare. Kartan visar bara den geomagnetiska aktiviteten: moln, mörker och månen finns med i huvudvyn.
-
-Ny startskärm: appen öppnas med norrskenshimlen och namnet redan från första bilden.
-
-Aviseringarna fungerar mer pålitligt. Att stänga av aviseringar kan inte längre ångras av en inställning som sparas i samma stund, och fel visas nu i aviseringsinställningarna. Aviseringstjänsten är också bättre skyddad mot missbruk.
+Nya widgets: lägg till en widget på hemskärmen eller låsskärmen som visar chansen att se norrsken på din plats med en blick. Widgetarna följer appens plats och uppdaterar sig själva. Om uppgifterna är gamla eller saknas säger widgeten det. Inget nytt samlas in.
 
 Dessutom mindre förbättringar av utseende och tillgänglighet.
 
 ### English (en)
-New map page: swipe left from the main screen to see where in Finland auroras are possible right now. The map shows every Finnish Meteorological Institute magnetometer station; tap one to see its reading in detail. The map shows geomagnetic activity only: clouds, darkness and the moon stay on the main screen.
-
-New launch screen: the app opens on the aurora sky and its name from the very first frame.
-
-Alerts are more reliable. Turning alerts off can no longer be undone by a setting saved at the same moment, and errors now show in the alert settings. The alert service is also better protected against abuse.
+New widgets: add a widget to your Home Screen or Lock Screen to see your aurora chance for your place at a glance. Widgets follow the app's place and update themselves. If the data is old or missing, the widget says so. Nothing new is collected.
 
 Plus smaller fixes to layout and accessibility.
 
 
-## DESCRIPTION  (3.0.2 text plus the map section; limit 4000 chars)
+## DESCRIPTION  (3.0.2 text plus the map and widgets sections; limit 4000 chars)
 
 ### Finnish (fi)
 Revontulet kertoo, millainen mahdollisuus sinulla on nähdä revontulet juuri nyt siellä, missä olet Suomessa, ja miltä kaksi seuraavaa yötä näyttävät.
@@ -47,6 +35,10 @@ Sovellus laskee lähimmän aseman magnetometrimittauksista saman aktiivisuusluvu
 **REVONTULIKARTTA**
 
 Pyyhkäise vasemmalle, niin näet kaikki Ilmatieteen laitoksen magnetometriasemat Suomen kartalla. Kartta kertoo, missä revontulet ovat juuri nyt todennäköisiä, mahdollisia tai epätodennäköisiä kunkin aseman omien rajojen mukaan. Napauta asemaa, niin näet sen aktiivisuusluvun.
+
+**WIDGETIT**
+
+Lisää Koti-valikkoon pieni tai keskikokoinen widget tai lukitusnäyttöön pyöreä, suorakulmainen tai tekstirivin kokoinen widget, niin näet mahdollisuutesi yhdellä silmäyksellä. Widget seuraa sovelluksen paikkaa ja päivittyy itse säästeliäästi. Jos tieto on vanhentunutta, paikkaa ei ole valittu tai dataa ei ole saatavilla, widget kertoo sen suoraan.
 
 **ENNAKKOVAROITUS**
 
@@ -69,6 +61,7 @@ Lisätiedoista näet lähimmän aseman aktiivisuuden, pimeyden, kuun vaiheen, pi
 - Sijaintisi pysyy iPhonessasi. Mittausdatan pyynnöt kattavat koko Suomen eivätkä sisällä mitään sinusta.
 - Ei tilejä, ei mainoksia, ei analytiikkaa, ei seurantaa.
 - Hälytykset ovat vapaaehtoisia ja käyttävät vain karkeaa aluetta Suomessa, eivät koskaan sijaintiasi.
+- Widgetit eivät kerää mitään uutta.
 - Etkö halua jakaa sijaintiasi? Valitse kunta itse.
 
 **AVOIN DATA**
@@ -89,6 +82,10 @@ Appen räknar ut samma aktivitetsvärde (R) som Meteorologiska institutet (FMI) 
 **NORRSKENSKARTA**
 
 Svep åt vänster för att se alla Meteorologiska institutets magnetometerstationer på en karta över Finland. Kartan visar var norrsken är sannolikt, möjligt eller osannolikt just nu, enligt varje stations egna gränser. Tryck på en station för att se dess aktivitetsvärde.
+
+**WIDGETS**
+
+Lägg till en liten eller medelstor widget på hemskärmen, eller en rund, rektangulär eller radformad widget på låsskärmen, så ser du din chans med en blick. Widgeten följer appens plats och uppdaterar sig själv sparsamt. Om uppgifterna är gamla, ingen plats är vald eller data saknas säger widgeten det rakt ut.
 
 **FÖRVARNING**
 
@@ -111,6 +108,7 @@ Under Detaljer ser du aktiviteten vid närmaste station, mörkret, månens fas, 
 - Din position stannar i din iPhone. Förfrågningarna om mätdata täcker hela Finland och innehåller inget om dig.
 - Inga konton, ingen reklam, ingen analys, ingen spårning.
 - Aviseringar är frivilliga och använder bara ett grovt område i Finland, aldrig din position.
+- Widgetarna samlar inte in något nytt.
 - Vill du inte dela din position? Välj kommun själv.
 
 **ÖPPNA DATA**
@@ -131,6 +129,10 @@ The app calculates the same activity value (R) that the Finnish Meteorological I
 **AURORA MAP**
 
 Swipe left to see every FMI magnetometer station on a map of Finland. The map shows where auroras are probable, possible or unlikely right now, against each station's own thresholds. Tap a station to see its activity value.
+
+**WIDGETS**
+
+Add a small or medium widget to your Home Screen, or a circular, rectangular or inline widget to your Lock Screen, to see your chance at a glance. The widget follows the app's place and updates itself sparingly. If the data is old, no place is chosen or no data is available, the widget says so plainly.
 
 **EARLY WARNING**
 
@@ -153,6 +155,7 @@ Open Details to see the activity at the nearest station, darkness, the moon's ph
 - Your location stays on your iPhone. Requests for measurement data cover all of Finland and contain nothing about you.
 - No accounts, no ads, no analytics, no tracking.
 - Alerts are optional and use only a coarse area of Finland, never your position.
+- Widgets collect nothing new.
 - Don't want to share your location? Choose your municipality by hand.
 
 **OPEN DATA**
@@ -166,22 +169,22 @@ Revontulet covers Finland and is available in Finnish, Swedish and English.
 
 ## KEYWORDS  (limit 100 chars; comma-separated, no spaces after commas)
 
-Words in the app name are already searchable, so they don't need a keyword slot. Each set adds the map word in place of a weaker one.
+Words in the app name are already searchable, so they don't need a keyword slot. Each set adds the map and widget words in place of weaker ones.
 
 ### Finnish (fi)
 
-96 chars; "aurora" (in the name) -> "kartta"
-`revontuli,kartta,ennuste,hälytys,avaruussää,aurinkotuuli,magneettimyrsky,kp,Lappi,Suomi,yötaivas`
+94 chars; "aurora" (in the name) -> "kartta"; "yötaivas" -> "widget"
+`revontuli,kartta,ennuste,hälytys,avaruussää,aurinkotuuli,magneettimyrsky,kp,Lappi,Suomi,widget`
 
 ### Swedish (sv)
 
-100 chars; "karta" added
-`norrsken,aurora,prognos,avisering,rymdväder,solvind,geomagnetisk storm,kp,Finland,Lappland,FMI,karta`
+88 chars; "karta" added; "geomagnetisk storm" -> "widget"
+`norrsken,aurora,prognos,avisering,rymdväder,solvind,kp,Finland,Lappland,FMI,karta,widget`
 
 ### English (en)
 
-98 chars; "storm" -> "map"
-`northern lights,aurora,borealis,forecast,alert,map,space weather,solar wind,Finland,Lapland,FMI,kp`
+96 chars; "storm" -> "map"; "borealis" -> "widget"
+`northern lights,aurora,forecast,alert,map,space weather,solar wind,Finland,Lapland,FMI,kp,widget`
 
 3.0.2 keywords, for reference:
 - fi: `revontuli,aurora,ennuste,hälytys,avaruussää,aurinkotuuli,magneettimyrsky,kp,Lappi,Suomi,yötaivas`
@@ -192,10 +195,10 @@ Words in the app name are already searchable, so they don't need a keyword slot.
 ## PROMOTIONAL TEXT
 
 ### Finnish (fi)
-Uusi kartta näyttää, missä päin Suomea revontulet ovat mahdollisia juuri nyt. Näet myös oman mahdollisuutesi tänä ja huomisyönä, kuun, pilvet ja halutessasi hälytykset.
+Widgetit Koti-valikkoon ja lukitusnäyttöön näyttävät revontulten mahdollisuuden yhdellä silmäyksellä. Lisäksi kartta, kahden yön ennuste ja halutessasi hälytykset.
 
 ### Swedish (sv)
-Den nya kartan visar var i Finland norrsken är möjligt just nu. Du ser också din egen chans i natt och i morgon natt, med månen, molnen och aviseringar om du vill.
+Widgetar för hemskärmen och låsskärmen visar chansen att se norrsken med en blick. Dessutom karta, prognos för två nätter, månen, molnen och aviseringar om du vill.
 
 ### English (en)
-The new map shows where in Finland the northern lights are possible right now. See your own chance tonight and tomorrow night too, with moon, clouds and optional alerts.
+Home Screen and Lock Screen widgets show your aurora chance at a glance. Plus the map, a two-night forecast, moon, clouds and optional alerts.

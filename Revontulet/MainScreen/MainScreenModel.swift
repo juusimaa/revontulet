@@ -1,6 +1,7 @@
 import AuroraCore
 import Foundation
 import Observation
+import WidgetKit
 
 /// Drives the main screen (contracts/main-screen-states.md). Core work runs off the main actor:
 /// `AuroraService` and `OutlookService` are actors and place resolution runs in a detached task.
@@ -81,6 +82,9 @@ final class MainScreenModel {
     let now: @Sendable () -> Date
     /// Told about every place a result is computed for, so the alert zone follows it (FR-004).
     private let onPlaceResolved: @MainActor (Place) -> Void
+    /// Tells the widgets to reload; injected so tests can count the calls.
+    private let widgetReload: @MainActor () -> Void
+    private var widgetReloadCount = 0
     private var lastForcedRefresh: Date?
     private var refreshTask: Task<Void, Never>?
     /// Numbers refreshes, so a refresh replaced by a place change leaves the new one's state alone.
@@ -97,8 +101,10 @@ final class MainScreenModel {
         placeStore: PlaceSelectionStore = PlaceSelectionStore(),
         loadResolver: @escaping @Sendable () throws -> PlaceResolver = { try PlaceResolver() },
         now: @escaping @Sendable () -> Date = { Date() },
-        onPlaceResolved: @escaping @MainActor (Place) -> Void = { _ in }
+        onPlaceResolved: @escaping @MainActor (Place) -> Void = { _ in },
+        widgetReload: @escaping @MainActor () -> Void = { WidgetCenter.shared.reloadAllTimelines() }
     ) {
+        self.widgetReload = widgetReload
         self.service = service
         self.outlookService = outlookService
         self.onPlaceResolved = onPlaceResolved
@@ -185,7 +191,23 @@ final class MainScreenModel {
         // A refresh for the previous place, e.g. one waiting for a location fix, is abandoned.
         refreshTask?.cancel()
         refreshTask = nil
+        let reloadsBefore = widgetReloadCount
         await refresh()
+        // A new result has told the widgets already; otherwise the place change still has to.
+        if widgetReloadCount == reloadsBefore { reloadWidgets() }
+    }
+
+    private func reloadWidgets() {
+        widgetReloadCount += 1
+        widgetReload()
+    }
+
+    /// Widgets redraw only when the result differs in level, reason, municipality or measured time
+    /// (research R11).
+    static func isSameForWidgets(_ a: AuroraResult, _ b: AuroraResult) -> Bool {
+        a.chance.level == b.chance.level && a.chance.limitingFactor == b.chance.limitingFactor
+            && a.place.municipalityCode == b.place.municipalityCode
+            && a.reading.measuredAt == b.reading.measuredAt
     }
 
     private func matchesSelection(_ place: Place) -> Bool {
@@ -296,7 +318,10 @@ final class MainScreenModel {
             let result = try await service.refresh(for: place, at: now(), force: force)
             guard !isStale else { return }
             isOffline = false
+            var previous: AuroraResult?
+            if case .result(let shown, _) = state { previous = shown }
             state = .result(result, placeName: municipality.displayName(preferSwedish: Self.prefersSwedish))
+            if previous.map({ !Self.isSameForWidgets($0, result) }) ?? true { reloadWidgets() }
             onPlaceResolved(place)
         } catch AuroraServiceError.offline {
             guard !isStale else { return }
