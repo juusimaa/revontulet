@@ -24,6 +24,14 @@ Two forecasts sit under the measurement and are marked as forecasts:
 - **Tonight and tomorrow night**: an outlook from NOAA's Kp forecast and geomagnetic storm
   watches, combined with each night's darkness, moon and FMI's cloud forecast.
 
+A map page, a swipe left from the main screen, shows every FMI magnetometer station in Finland
+with whether the aurora is likely, possible or unlikely there right now, by each station's own
+thresholds.
+
+Home Screen widgets (small and medium) and Lock Screen widgets (circular, rectangular and
+inline) show the chance for the app's place at a glance. They refresh themselves sparingly and
+say so when the data is old, no place is chosen or no data is available.
+
 Optional aurora alerts send a notification when the chance in your area of Finland reaches the
 level you choose, even when the app is closed. See [Aurora alerts](#aurora-alerts).
 
@@ -34,13 +42,14 @@ level you choose, even when the app is closed. See [Aurora alerts](#aurora-alert
 <p align="center"><sub>The main screen in Oulu during strong geomagnetic activity. The data in this
 screenshot is synthetic.</sub></p>
 
-> **Status:** version 3.0, with the aurora main screen, aurora alerts, the moon, the "soon" line
-> and the two-night outlook, is [on the App Store](https://apps.apple.com/app/id6826496434).
+> **Status:** version 5.0, with the aurora main screen, aurora alerts, the moon, the "soon" line,
+> the two-night outlook, the station map and widgets, is [on the App Store](https://apps.apple.com/app/id6826496434).
 > Support: [juusimaa.github.io/revontulet/support](https://juusimaa.github.io/revontulet/support).
 > See
 > [specs/001-aurora-main-screen](specs/001-aurora-main-screen/),
-> [specs/002-aurora-alerts](specs/002-aurora-alerts/) and
-> [specs/003-aurora-outlook](specs/003-aurora-outlook/).
+> [specs/002-aurora-alerts](specs/002-aurora-alerts/),
+> [specs/003-aurora-outlook](specs/003-aurora-outlook/) and
+> [specs/004-ios-widgets](specs/004-ios-widgets/).
 
 ## Principles
 
@@ -64,6 +73,8 @@ The full set of rules is in the [project constitution](.specify/memory/constitut
 |---|---|
 | `Packages/AuroraCore` | Swift package with fetching, parsing, R calculation, chance rules, sun and moon position, station selection, place resolution, the "soon" signal, the outlook and caching |
 | `Revontulet` | SwiftUI iOS app |
+| `RevontuletWidgets` | WidgetKit extension with the Home Screen and Lock Screen widgets |
+| `Shared` | Code shared by the app and the widgets through the App Group: stored place, caches and widget state |
 | `RevontuletTests` | App unit tests, such as the check that every notification text exists in fi, sv and en |
 | `RevontuletUITests` | UI tests that run against a stubbed HTTP client and a stubbed alert service |
 | `Server` | The alert service: a Swift package (Hummingbird, APNs, SQLite) that runs in Docker on Linux |
