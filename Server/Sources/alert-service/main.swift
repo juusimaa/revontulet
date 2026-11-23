@@ -21,7 +21,7 @@ let evaluationLoop = EvaluationLoop(
     source: try ZoneEvaluator(http: AsyncHTTPClientFMI(client: httpClient)),
     store: store,
     dispatcher: Dispatcher(
-        store: store, sender: pushSender, topic: configuration.apnsTopic, moonKeys: configuration.moonKeys),
+        store: store, sender: pushSender, moonKeys: configuration.moonKeys),
     health: health,
     heartbeat: HealthcheckPinger(url: configuration.healthcheckPingURL, client: httpClient, logger: logger),
     logger: logger
@@ -32,8 +32,7 @@ let dependencies = try AppDependencies(
     health: health,
     rateLimiter: RateLimiter(),
     zones: AlertZones.all(),
-    pushSender: pushSender,
-    apnsTopic: configuration.apnsTopic
+    pushSender: pushSender
 )
 
 logger.info("alert-service \(AlertServer.version) starting (APNs \(configuration.apnsEnvironment.rawValue))")

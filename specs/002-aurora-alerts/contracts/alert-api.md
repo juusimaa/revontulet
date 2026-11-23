@@ -25,7 +25,8 @@ The request and response types are defined once in `AuroraCore` (`RegistrationUp
 ### `PUT /v1/registration`
 
 Create or update the registration for a token (turn on, change threshold, zone change, daily
-re-confirmation). The token is exactly 64 lowercase hex characters (32 bytes).
+re-confirmation). The token is lowercase hex with an even number of characters, 32 to 100 bytes
+(Apple says token length varies; today's tokens are 32 bytes).
 
 ```json
 { "token": "a1b2…", "zone": "OUJ", "threshold": "high" }

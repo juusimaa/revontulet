@@ -15,7 +15,7 @@ struct DeleteAndRetentionTests {
         try await withTemporaryStore { store, _ in
             let dependencies = try AppDependencies(
                 store: store, health: HealthStatus(), rateLimiter: RateLimiter(), zones: AlertZones.all(),
-                pushSender: FakePushSender(), apnsTopic: "fi.juusimaa.revontulet", now: { [now] in now })
+                pushSender: FakePushSender(), now: { [now] in now })
             try await buildApplication(dependencies: dependencies, port: 0).test(.router) { client in
                 try await test(client, store)
             }

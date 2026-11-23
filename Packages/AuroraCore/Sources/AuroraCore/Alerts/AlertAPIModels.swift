@@ -40,16 +40,10 @@ public enum AlertAPIError: String, Sendable, Codable, CaseIterable, Error {
     case invalidToken, invalidZone, invalidThreshold, invalidBody
 }
 
-/// Validation of registration requests, shared so the app never sends what the service rejects.
+/// Validation of registration requests on the service.
 public enum RegistrationValidation {
-    /// Decoded token length in bytes.
-    static let tokenBytes = 32
-
-    public static func validate(_ upsert: RegistrationUpsert, zones: [AlertZone]) -> AlertAPIError? {
-        if !isValidToken(upsert.token) { return .invalidToken }
-        if !zones.contains(where: { $0.id == upsert.zone }) { return .invalidZone }
-        return nil
-    }
+    /// Decoded token length in bytes. Apple says tokens vary in length; today's are 32 bytes.
+    static let tokenBytes = 32...100
 
     public static func validate(_ token: RegistrationToken) -> AlertAPIError? {
         isValidToken(token.token) ? nil : .invalidToken
@@ -72,11 +66,11 @@ public enum RegistrationValidation {
         return .success(token)
     }
 
-    /// Lowercase hex, exactly 64 characters (32 bytes).
+    /// Lowercase hex, an even number of characters, 32 to 100 bytes.
     static func isValidToken(_ token: String) -> Bool {
         let utf8 = token.utf8
         return utf8.count.isMultiple(of: 2)
-            && utf8.count / 2 == tokenBytes
+            && tokenBytes.contains(utf8.count / 2)
             && utf8.allSatisfy { (UInt8(ascii: "0")...UInt8(ascii: "9")).contains($0) || (UInt8(ascii: "a")...UInt8(ascii: "f")).contains($0) }
     }
 

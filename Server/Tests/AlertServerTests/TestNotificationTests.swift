@@ -18,7 +18,7 @@ struct TestNotificationTests {
         try await withTemporaryStore { store, _ in
             let dependencies = try AppDependencies(
                 store: store, health: HealthStatus(), rateLimiter: RateLimiter(), zones: AlertZones.all(),
-                pushSender: sender, apnsTopic: "fi.juusimaa.revontulet", now: { [now] in now })
+                pushSender: sender, now: { [now] in now })
             try await buildApplication(dependencies: dependencies, port: 0).test(.router) { client in
                 try await test(client, store)
             }

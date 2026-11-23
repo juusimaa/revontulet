@@ -33,7 +33,7 @@ struct EvaluationLoopTests {
 
     private func makeLoop(source: any ZoneConditionSource, store: RegistrationStore, sender: FakePushSender,
                           heartbeat: FakeHeartbeat, health: HealthStatus = HealthStatus()) -> EvaluationLoop {
-        EvaluationLoop(source: source, store: store, dispatcher: Dispatcher(store: store, sender: sender, topic: "fi.juusimaa.revontulet"),
+        EvaluationLoop(source: source, store: store, dispatcher: Dispatcher(store: store, sender: sender),
                        health: health, heartbeat: heartbeat)
     }
 

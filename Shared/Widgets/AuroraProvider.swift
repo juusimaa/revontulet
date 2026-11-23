@@ -78,27 +78,26 @@ struct AuroraProvider: TimelineProvider {
         let selection = readSelection()
         let stored = await loadResult()
 
-        let code: String
-        let coordinate: Coordinate
+        // Each lookup decodes the whole municipality file, so it is done once.
         let place: Place
+        let municipality: MunicipalityName?
         switch selection {
         case .municipality(let selectedCode):
             guard let name = try? MunicipalityNames.lookup(code: selectedCode) else {
                 return noPlace(now)
             }
-            code = name.code
-            coordinate = name.representativePoint
-            place = Place(coordinate: coordinate, municipalityCode: code, source: .manual)
+            municipality = name
+            place = Place(coordinate: name.representativePoint, municipalityCode: name.code, source: .manual)
         case .currentLocation:
             // Outside coverage the app never stores a result, so this is also the out-of-coverage case.
             guard let cached = stored else { return noPlace(now) }
-            code = cached.place.municipalityCode
-            coordinate = cached.place.coordinate
             place = cached.place
+            municipality = try? MunicipalityNames.lookup(code: place.municipalityCode)
         }
+        let code = place.municipalityCode
+        let coordinate = place.coordinate
 
-        let placeName = (try? MunicipalityNames.lookup(code: code))?
-            .displayName(preferSwedish: prefersSwedish) ?? ""
+        let placeName = municipality?.displayName(preferSwedish: prefersSwedish) ?? ""
         let nextReload = WidgetRefreshPolicy.nextReload(after: now, at: coordinate)
 
         // Fetch if due; on timeout or failure the cache stands (contracts/widget-refresh.md). One budget for both fetches.

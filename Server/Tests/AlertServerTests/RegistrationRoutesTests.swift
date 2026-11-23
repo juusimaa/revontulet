@@ -18,7 +18,7 @@ struct RegistrationRoutesTests {
         try await withTemporaryStore { store, _ in
             let dependencies = try AppDependencies(
                 store: store, health: HealthStatus(), rateLimiter: rateLimiter, zones: AlertZones.all(),
-                pushSender: FakePushSender(), apnsTopic: "fi.juusimaa.revontulet",
+                pushSender: FakePushSender(),
                 newRegistrationLimiter: newRegistrationLimiter, maxRegistrations: maxRegistrations,
                 now: { [now] in now })
             try await buildApplication(dependencies: dependencies, port: 0).test(.router) { client in

@@ -74,14 +74,25 @@ struct AlertAPIModelsTests {
 
     // MARK: Validation
 
+    /// Encodes an upsert body for `decodeUpsert`.
+    private func body(_ upsert: RegistrationUpsert) -> Data {
+        try! JSONEncoder().encode(upsert)
+    }
+
     @Test func validRegistrationPasses() {
-        #expect(RegistrationValidation.validate(upsert(), zones: zones) == nil)
+        #expect(RegistrationValidation.decodeUpsert(body(upsert()), zones: zones) == .success(upsert()))
+    }
+
+    /// Apple says device tokens vary in length; longer ones must not be rejected.
+    @Test(arguments: [32, 33, 80, 100])
+    func validTokenLengthsPass(bytes: Int) {
+        let token = String(repeating: "ab", count: bytes)
+        #expect(RegistrationValidation.decodeUpsert(body(upsert(token: token)), zones: zones) == .success(upsert(token: token)))
     }
 
     @Test(arguments: [
         String(repeating: "ab", count: 31),   // 31 bytes: too short
-        String(repeating: "ab", count: 33),   // 33 bytes: too long
-        String(repeating: "9e", count: 100),  // 100 bytes: too long
+        String(repeating: "9e", count: 101),  // 101 bytes: too long
         String(repeating: "0f", count: 200),  // 200 bytes: too long
         String(repeating: "ab", count: 201),  // 201 bytes: too long
         String(repeating: "ab", count: 32) + "a",  // odd length
@@ -91,7 +102,7 @@ struct AlertAPIModelsTests {
         "",
     ])
     func invalidTokenRejected(token: String) {
-        #expect(RegistrationValidation.validate(upsert(token: token), zones: zones) == .invalidToken)
+        #expect(RegistrationValidation.decodeUpsert(body(upsert(token: token)), zones: zones) == .failure(.invalidToken))
         #expect(RegistrationValidation.validate(RegistrationToken(token: token)) == .invalidToken)
     }
 
@@ -101,12 +112,12 @@ struct AlertAPIModelsTests {
 
     @Test(arguments: ["", "ouj", "XXX", "Oulujärvi", "OUJ "])
     func unknownZoneRejected(zone: String) {
-        #expect(RegistrationValidation.validate(upsert(zone: zone), zones: zones) == .invalidZone)
+        #expect(RegistrationValidation.decodeUpsert(body(upsert(zone: zone)), zones: zones) == .failure(.invalidZone))
     }
 
     @Test func everyStationCodeIsAValidZone() {
         for zone in zones {
-            #expect(RegistrationValidation.validate(upsert(zone: zone.id), zones: zones) == nil)
+            #expect(RegistrationValidation.decodeUpsert(body(upsert(zone: zone.id)), zones: zones) == .success(upsert(zone: zone.id)))
         }
     }
 
