@@ -1,26 +1,22 @@
-# Revontulet 5.0: App Store texts
+# Revontulet 5.0.1: App Store texts
 
 (Limits: What's New 4000 chars, Description 4000 chars, Keywords 100 chars, Promotional Text 170 chars.)
 
-Screenshots (iPhone 17 Pro, 1206x2622, in app-store-header/screenshots/5.0, ignored by git; for fi, sv and en):
-1 main, 2 widgets, 3 map, 4 forecast, 5 details, 6 alerts. The existing 5 are unchanged since 4.0; the new one (2) shows the Home Screen with a small and a medium widget plus the Lock Screen widgets. It goes second because widgets are the headline of 5.0 and the first screens are the ones seen in search results. Reference: the simulator screenshots in specs/004-ios-widgets/ui-draft/screenshots/.
+Screenshots (iPhone 17 Pro, 1206x2622, in app-store-header/screenshots/5.0, ignored by git; unchanged since 5.0):
+1 main, 2 widgets, 3 map, 4 forecast, 5 details, 6 alerts; for fi, sv and en.
+
+Only What's New changes in 5.0.1; the description, keywords and promotional text are the same as in 5.0.
 
 ## WHAT'S NEW IN THIS VERSION
 
 ### Finnish (fi)
-Uudet widgetit: lisää Koti-valikkoon tai lukitusnäyttöön widget, joka näyttää revontulten mahdollisuuden paikallesi yhdellä silmäyksellä. Widgetit seuraavat sovelluksen paikkaa ja päivittyvät itse. Jos tieto on vanhentunutta tai puuttuu, widget kertoo sen. Mitään uutta ei kerätä.
-
-Lisäksi pienempiä korjauksia ulkoasuun ja saavutettavuuteen.
+Widgetit päivittyvät nyt kevyemmin ja käyttävät vähemmän muistia. Lisäksi pienempiä korjauksia ja parannuksia.
 
 ### Swedish (sv)
-Nya widgets: lägg till en widget på hemskärmen eller låsskärmen som visar chansen att se norrsken på din plats med en blick. Widgetarna följer appens plats och uppdaterar sig själva. Om uppgifterna är gamla eller saknas säger widgeten det. Inget nytt samlas in.
-
-Dessutom mindre förbättringar av utseende och tillgänglighet.
+Widgetarna uppdateras nu smidigare och använder mindre minne. Dessutom mindre korrigeringar och förbättringar.
 
 ### English (en)
-New widgets: add a widget to your Home Screen or Lock Screen to see your aurora chance for your place at a glance. Widgets follow the app's place and update themselves. If the data is old or missing, the widget says so. Nothing new is collected.
-
-Plus smaller fixes to layout and accessibility.
+Widgets now update more efficiently and use less memory. Plus smaller fixes and improvements.
 
 
 ## DESCRIPTION  (3.0.2 text plus the map and widgets sections; limit 4000 chars)
