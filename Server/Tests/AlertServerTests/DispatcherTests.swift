@@ -1,6 +1,7 @@
 import APNSCore
 import AuroraCore
 import Foundation
+import Synchronization
 import Testing
 @testable import AlertServer
 
@@ -22,7 +23,7 @@ struct DispatcherTests {
     }
 
     private func dispatcher(_ store: RegistrationStore, _ sender: FakePushSender, moonKeys: Bool = false) -> Dispatcher {
-        Dispatcher(store: store, sender: sender, topic: "fi.juusimaa.revontulet", moonKeys: moonKeys)
+        Dispatcher(store: store, sender: sender, moonKeys: moonKeys)
     }
 
     private func moonDecision(cloudsIncluded: Bool) -> AlertDecision {
@@ -252,6 +253,19 @@ struct DispatcherTests {
         }
     }
 
+    @Test func sendsSeveralAtOnceWithinTheLimit() async throws {
+        try await withTemporaryStore { store, _ in
+            for n in 1...50 { try await register(store, n, threshold: .high) }
+            let sender = SlowPushSender()
+
+            let report = try await Dispatcher(store: store, sender: sender).dispatch([decision(.high)], now: now)
+
+            #expect(report == DispatchReport(sent: 50))
+            #expect(sender.peak > 1)
+            #expect(sender.peak <= Dispatcher.maxConcurrentSends)
+        }
+    }
+
     @Test func noRegistrationsSendsNothing() async throws {
         try await withTemporaryStore { store, _ in
             let sender = FakePushSender()
@@ -261,5 +275,19 @@ struct DispatcherTests {
             #expect(sender.sent.isEmpty)
             #expect(report == DispatchReport())
         }
+    }
+}
+
+/// Delivers after a short wait and records how many sends were in flight at most.
+private final class SlowPushSender: PushSender {
+    private let state = Mutex<(running: Int, peak: Int)>((0, 0))
+
+    var peak: Int { state.withLock { $0.peak } }
+
+    func send(_ request: PushRequest) async -> PushResult {
+        state.withLock { $0.running += 1; $0.peak = max($0.peak, $0.running) }
+        try? await Task.sleep(for: .milliseconds(5))
+        state.withLock { $0.running -= 1 }
+        return .delivered
     }
 }

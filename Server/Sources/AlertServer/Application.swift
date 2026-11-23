@@ -19,14 +19,13 @@ public struct AppDependencies: Sendable {
     public var zones: [AlertZone]
     /// For test notifications.
     public var pushSender: any PushSender
-    public var apnsTopic: String
     public var now: @Sendable () -> Date
 
     /// The one key of `newRegistrationLimiter`.
     public static let newRegistrationKey = "new-registrations"
 
     public init(store: RegistrationStore, health: HealthStatus, rateLimiter: RateLimiter, zones: [AlertZone],
-                pushSender: any PushSender, apnsTopic: String,
+                pushSender: any PushSender,
                 testRateLimiter: RateLimiter = RateLimiter(limit: 3, window: 3_600),
                 newRegistrationLimiter: RateLimiter = RateLimiter(limit: 60, window: 60),
                 maxRegistrations: Int = 50_000,
@@ -39,7 +38,6 @@ public struct AppDependencies: Sendable {
         self.maxRegistrations = maxRegistrations
         self.zones = zones
         self.pushSender = pushSender
-        self.apnsTopic = apnsTopic
         self.now = now
     }
 }

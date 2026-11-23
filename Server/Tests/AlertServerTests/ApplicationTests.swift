@@ -14,7 +14,7 @@ struct ApplicationTests {
         let store = try await RegistrationStore.open(path: path)
         let app = try buildApplication(
             dependencies: AppDependencies(store: store, health: health, rateLimiter: RateLimiter(), zones: AlertZones.all(),
-                                          pushSender: FakePushSender(), apnsTopic: "fi.juusimaa.revontulet"),
+                                          pushSender: FakePushSender()),
             port: 0
         )
         do {
