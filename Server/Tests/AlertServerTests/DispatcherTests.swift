@@ -146,10 +146,23 @@ struct DispatcherTests {
         }
     }
 
-    @Test func unregisteredKeepsRegistrationConfirmedThatDay() async throws {
+    @Test func unregisteredDeletesRegistrationConfirmedThatDay() async throws {
         try await withTemporaryStore { store, _ in
-            // Re-registered on 2026-11-02, the UTC day of the 410's timestamp: kept.
-            try await register(store, 1, threshold: .high, at: utc("2026-11-02T23:00:00Z"))
+            // Confirmed on 2026-11-02, the UTC day of the 410's timestamp: deleted.
+            try await register(store, 1, threshold: .high, at: utc("2026-11-02T08:00:00Z"))
+            let sender = FakePushSender()
+            sender.respond(testToken(1), with: .unregistered(timestamp: utc("2026-11-02T09:00:00Z")))
+
+            _ = try await dispatcher(store, sender).dispatch([decision(.high)], now: now)
+
+            #expect(try await store.registration(token: testToken(1)) == nil)
+        }
+    }
+
+    @Test func unregisteredKeepsRegistrationConfirmedLaterDay() async throws {
+        try await withTemporaryStore { store, _ in
+            // Re-registered after the day of the 410: kept.
+            try await register(store, 1, threshold: .high, at: utc("2026-11-03T08:00:00Z"))
             let sender = FakePushSender()
             sender.respond(testToken(1), with: .unregistered(timestamp: utc("2026-11-02T09:00:00Z")))
 

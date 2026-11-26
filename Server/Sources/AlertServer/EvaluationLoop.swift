@@ -24,8 +24,8 @@ public actor EvaluationLoop: Service {
         case success(alerts: Int)
         /// Magnetometer data could not be fetched; the heartbeat's grace period covers it.
         case fmiUnavailable
-        /// A configuration error stopped sending; the state is not saved so the alerts are
-        /// tried again next cycle while the data is fresh.
+        /// A configuration error stopped sending. A rejected provider token is retried next
+        /// cycle (state not saved); bad device tokens are not (state saved).
         case dispatchFailed
         /// Reading or writing the database failed.
         case storageFailed
@@ -82,18 +82,23 @@ public actor EvaluationLoop: Service {
             }
 
             let report = try await dispatcher.dispatch(decisions, now: now)
+            // The alerts are out: remember that before writing, so a database error cannot make
+            // the next cycle send them again.
+            func saveStates() async throws {
+                self.states = states
+                for condition in conditions {
+                    if let state = states[condition.zoneID] { try await store.saveZoneState(state, zone: condition.zoneID) }
+                }
+            }
             if let failure = report.failure {
+                // A config error needs a redeploy anyway; fake tokens must not cause resends every cycle.
+                if failure == .badDeviceTokens { try await saveStates() }
                 logger.error("Sending stopped by a configuration error", metadata: ["failure": "\(failure)"])
                 await heartbeat.ping(success: false)
                 return .dispatchFailed
             }
 
-            // The alerts are out: remember that before writing, so a database error cannot make
-            // the next cycle send them again.
-            self.states = states
-            for condition in conditions {
-                if let state = states[condition.zoneID] { try await store.saveZoneState(state, zone: condition.zoneID) }
-            }
+            try await saveStates()
             if !decisions.isEmpty {
                 logger.info("Alerts sent", metadata: [
                     "alerts": "\(decisions.map { "\($0.zoneID)-\($0.level.name)" })",

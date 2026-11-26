@@ -74,9 +74,10 @@ public struct Dispatcher: Sendable {
             case .delivered:
                 report.sent += 1
             case .unregistered(let timestamp):
-                // A registration confirmed on or after the day of the answer is a re-registration.
+                // Only a registration confirmed after the day of the answer is a re-registration; one
+                // confirmed that same day is most likely an app removed that day, so it is deleted.
                 let day = RegistrationStore.startOfUTCDay(timestamp ?? now)
-                if Int(push.registration.confirmedAt.timeIntervalSince1970) < day { unregistered.append(push.request.token) }
+                if Int(push.registration.confirmedAt.timeIntervalSince1970) <= day { unregistered.append(push.request.token) }
             case .badDeviceToken:
                 badTokens.append(push.request.token)
             case .providerTokenRejected:
