@@ -5,8 +5,9 @@ import Logging
 /// FMI requests for `ZoneEvaluator` over AsyncHTTPClient, so the service does not depend on
 /// FoundationNetworking on Linux (research R3).
 public struct AsyncHTTPClientFMI: FMIHTTPClient {
-    /// FMI's all-of-Finland responses are a few MB.
-    static let maxResponseSize = 64 * 1024 * 1024
+    /// FMI's all-of-Finland responses are a few MB. Kept well under the container's 150 MB
+    /// memory limit, because the parser copies the body.
+    static let maxResponseSize = 16 * 1024 * 1024
 
     private let client: HTTPClient
 

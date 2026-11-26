@@ -43,19 +43,8 @@ public struct ZoneAlertState: Sendable, Hashable, Codable {
     /// The local date (Europe/Helsinki) of the evening a time belongs to: times before 12:00
     /// count as the previous date. Formatted `yyyy-MM-dd`.
     public static func nightKey(for date: Date) -> String {
-        let components = helsinkiCalendar.dateComponents([.year, .month, .day], from: date.addingTimeInterval(-12 * 3_600))
-        func pad(_ value: Int?, _ width: Int) -> String {
-            let text = String(value ?? 0)
-            return String(repeating: "0", count: max(0, width - text.count)) + text
-        }
-        return "\(pad(components.year, 4))-\(pad(components.month, 2))-\(pad(components.day, 2))"
+        Nights.localDate(date.addingTimeInterval(-12 * 3_600))
     }
-
-    private static let helsinkiCalendar: Calendar = {
-        var calendar = Calendar(identifier: .gregorian)
-        calendar.timeZone = TimeZone(identifier: "Europe/Helsinki")!
-        return calendar
-    }()
 }
 
 /// One alert to send this cycle.
