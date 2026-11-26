@@ -149,6 +149,32 @@ struct EvaluationLoopTests {
         }
     }
 
+    @Test func badDeviceTokensPingFailButSaveState() async throws {
+        try await withTemporaryStore { store, _ in
+            for n in 1...11 {
+                try await store.upsert(RegistrationUpsert(token: testToken(n), zone: "OUJ", threshold: .high), now: evening)
+            }
+            let source = StubConditionSource()
+            let sender = FakePushSender()
+            sender.respondToAll(with: .badDeviceToken)
+            let heartbeat = FakeHeartbeat()
+            let loop = makeLoop(source: source, store: store, sender: sender, heartbeat: heartbeat)
+
+            source.set([condition(.high, at: evening)])
+            #expect(await loop.runCycle(now: evening) == .dispatchFailed)
+            #expect(heartbeat.recorded == [false])
+            // Saved: made-up tokens must not get the alert again every cycle.
+            #expect(try await store.zoneStates(as: ZoneAlertState.self)["OUJ"] != nil)
+            #expect(try await store.registrationCount() == 11)
+            #expect(sender.sent.count == 11)
+
+            let next = evening.addingTimeInterval(300)
+            source.set([condition(.high, at: next)])
+            #expect(await loop.runCycle(now: next) == .success(alerts: 0))
+            #expect(sender.sent.count == 11)
+        }
+    }
+
     @Test func zonesWithoutConditionKeepTheirState() async throws {
         try await withTemporaryStore { store, _ in
             let source = StubConditionSource()
