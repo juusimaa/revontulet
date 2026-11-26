@@ -7,5 +7,5 @@ import AuroraCore
 
 /// Version of the alert service.
 public enum AlertServer {
-    public static let version = "0.1.0"
+    public static let version = "0.2.0"
 }
