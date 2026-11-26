@@ -2,10 +2,14 @@ import Foundation
 
 /// Computes every zone's chance with exactly the app's rules (contracts/alert-rules.md §1).
 ///
-/// Fetches what is due, as `AuroraService` does: magnetometer data at most every 5 minutes and
-/// cloud cover at most every 10 minutes, all of Finland in one request each, for all users
+/// Fetches what is due, as `AuroraService` does: magnetometer data about every 5 minutes and
+/// cloud cover about every 10 minutes (see `fetchSlack`), all of Finland in one request each, for all users
 /// together. Adds no calculation of its own, so an alert and the app's result always agree.
 public actor ZoneEvaluator {
+    /// The service loop runs every 5 minutes; a cycle a little early (clock adjustments) still
+    /// fetches, instead of reusing data from the previous cycle.
+    static let fetchSlack: TimeInterval = 30
+
     private let client: FMIClient
     private let stations: [Station]
     private var magnetometer: (fetchedAt: Date, samples: [MagnetometerSample])?
@@ -24,8 +28,12 @@ public actor ZoneEvaluator {
     /// `AuroraServiceError.offline` when magnetometer data cannot be fetched; a failed cloud
     /// fetch gives unknown clouds and is retried on the next evaluation.
     public func evaluate(at date: Date) async throws -> [ZoneCondition] {
-        let magnetometerDue = magnetometer.map { date.timeIntervalSince($0.fetchedAt) >= AuroraService.magnetometerInterval } ?? true
-        let cloudsDue = clouds.map { date.timeIntervalSince($0.fetchedAt) >= AuroraService.cloudsInterval } ?? true
+        let magnetometerDue = magnetometer.map {
+            date.timeIntervalSince($0.fetchedAt) >= AuroraService.magnetometerInterval - Self.fetchSlack
+        } ?? true
+        let cloudsDue = clouds.map {
+            date.timeIntervalSince($0.fetchedAt) >= AuroraService.cloudsInterval - Self.fetchSlack
+        } ?? true
 
         async let cloudsFetch: [CloudObservation]? = cloudsDue ? try? client.cloudObservations(now: date) : nil
         if magnetometerDue {

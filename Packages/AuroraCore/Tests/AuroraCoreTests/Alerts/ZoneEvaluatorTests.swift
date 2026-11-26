@@ -81,6 +81,19 @@ struct ZoneEvaluatorTests {
         #expect(http.requests(for: NightReplayHTTPClient.cloudsQuery).count == 3)
     }
 
+    @Test func aSlightlyEarlyCycleStillFetches() async throws {
+        let http = try NightReplayHTTPClient(strong)
+        let evaluator = try ZoneEvaluator(http: http)
+
+        // The loop's clock may run a little behind: 299.99 s and 599.98 s after the first cycle.
+        for seconds in [0.0, 299.99, 599.98] {
+            _ = try await evaluator.evaluate(at: midnight.addingTimeInterval(seconds))
+        }
+
+        #expect(http.requests(for: NightReplayHTTPClient.magnetometerQuery).count == 3)
+        #expect(http.requests(for: NightReplayHTTPClient.cloudsQuery).count == 2)
+    }
+
     @Test func requestsContainNothingAboutZonesOrUsers() async throws {
         let http = try NightReplayHTTPClient(strong)
         _ = try await ZoneEvaluator(http: http).evaluate(at: midnight)
